@@ -33,7 +33,6 @@
     "@typescript-eslint/camelcase": "off",
     "import/extensions": ["error", "ignorePackages"],
     "no-console": "error",
-
     "simple-import-sort/exports": "error",
     "simple-import-sort/imports": [
       "error",
