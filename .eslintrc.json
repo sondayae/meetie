@@ -35,7 +35,17 @@
     "react/require-default-props": "off",
     "import/no-extraneous-dependencies": "off",
     "import/prefer-default-export": "off",
-    "import/extensions": ["error", "ignorePackages"],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "": "never",
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "no-console": "error",
     "simple-import-sort/exports": "error",
     "simple-import-sort/imports": [
