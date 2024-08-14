@@ -1,22 +1,8 @@
-"use client";
+import { createClient } from "@/utils/supabase/server";
 
-import { useState } from "react";
+export default async function Notes() {
+  const supabase = createClient();
+  const { data: notes } = await supabase.from("notes").select();
 
-import { Button } from "@/stories/Button.tsx";
-
-export default function page() {
-  const [first, setfirst] = useState(false);
-
-  return (
-    <>
-      <h1 className="border border-slate-300">page</h1>
-      <Button
-        label="dd"
-        onClick={() => {
-          setfirst(!first);
-        }}
-        primary={first}
-      />
-    </>
-  );
+  return <pre>{JSON.stringify(notes, null, 2)}</pre>;
 }
