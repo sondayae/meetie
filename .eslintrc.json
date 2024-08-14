@@ -30,7 +30,11 @@
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
+    "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/camelcase": "off",
+    "react/require-default-props": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
     "import/extensions": ["error", "ignorePackages"],
     "no-console": "error",
     "simple-import-sort/exports": "error",
@@ -59,5 +63,5 @@
     },
     "project": "./tsconfig.json"
   },
-  "ignorePatterns": ["build", "dist", "public"]
+  "ignorePatterns": ["node_modules/", "next.config.mjs", "stories"]
 }
