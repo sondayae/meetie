@@ -9,7 +9,7 @@ export interface ButtonProps {
   /**
    * What background color to use
    */
-  backgroundColor?: string;
+  backgroundcolor?: string;
   /**
    * How large should the button be?
    */
@@ -33,7 +33,9 @@ export const Button = ({
   label,
   ...props
 }: ButtonProps) => {
-  const mode = primary ? "bg-black" : "storybook-button--secondary";
+  const mode = primary
+    ? "storybook-button--primary"
+    : "storybook-button--secondary";
   return (
     <button
       type="button"
@@ -45,7 +47,7 @@ export const Button = ({
       {label}
       {/* <style jsx>{`
         button {
-          background-color: ${backgroundColor};
+          background-color: ${backgroundcolor};
         }
       `}</style> */}
     </button>
