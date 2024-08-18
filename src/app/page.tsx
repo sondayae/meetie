@@ -1,9 +1,7 @@
 "use client";
-
-import { createClient } from "@/utils/supabase/client";
+import supabase from "@/utils/supabase/client";
 
 export default function Notes() {
-  const supabase = createClient();
 
   const addPosts = async () => {
     try {
