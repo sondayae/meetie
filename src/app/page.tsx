@@ -1,15 +1,13 @@
-"use client";
+'use client';
 
-import { createClient } from "@/utils/supabase/client";
+import supabase from '@/utils/supabase/client';
 
 export default function Notes() {
-  const supabase = createClient();
-
   const addPosts = async () => {
     try {
-      const { data, error } = await supabase
-        .from("user")
-        .insert({ name: "홍길동" });
+      const { data, error } = await supabase()
+        .from('user')
+        .insert({ name: '홍길동' });
 
       if (data) {
         console.log(data);
@@ -18,16 +16,16 @@ export default function Notes() {
       if (error) throw error;
       window.location.reload();
     } catch (error) {
-      alert("예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.");
+      alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
     }
   };
 
   const updatePosts = async () => {
     try {
       const { data, error } = await supabase
-        .from("user")
-        .update({ name: "황준용" })
-        .eq("id", 29);
+        .from('user')
+        .update({ name: '황준용' })
+        .eq('id', 29);
 
       if (data) {
         console.log(data);
@@ -36,16 +34,16 @@ export default function Notes() {
       if (error) throw error;
       window.location.reload();
     } catch (error) {
-      alert("예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.");
+      alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
     }
   };
 
   const deletePosts = async () => {
     try {
       const { data, error } = await supabase
-        .from("user")
-        .delete({ name: "황준용" })
-        .eq("id", 29);
+        .from('user')
+        .delete({ name: '황준용' })
+        .eq('id', 29);
 
       if (data) {
         console.log(data);
@@ -54,7 +52,7 @@ export default function Notes() {
       if (error) throw error;
       window.location.reload();
     } catch (error) {
-      alert("예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.");
+      alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
     }
   };
 
