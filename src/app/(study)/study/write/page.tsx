@@ -1,12 +1,11 @@
 'use client';
 import { Button } from '@/stories/Button';
 import { Input } from '@/stories/Input';
-import { createClient } from '@/utils/supabase/client';
+import supabase from '@/utils/supabase/client';
 
 export default function StudyWrite() {
-  const supabase = createClient();
   const addStudy = async () => {
-    const { data, error } = await supabase.from('study').insert({
+    const { data, error } = await supabase().from('study').insert({
       // name: "random name",
       role: '모집직군',
       topic: '제목?주제',
@@ -15,7 +14,7 @@ export default function StudyWrite() {
       curriculum: '진행방식과 커리큘럼',
       // startDate: new Date(),
       endDate: new Date(),
-      // 정기 일정?
+      // 정기 일정?¸
       tags: '관련 태그',
       recruitNum: '4',
     });
