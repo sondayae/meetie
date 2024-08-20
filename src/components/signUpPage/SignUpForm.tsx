@@ -105,7 +105,7 @@ export default function SignUpForm() {
           id="passwordCheck"
           name="passwordCheck"
           type="password"
-          placeholder="비밀번호"
+          placeholder="비밀번호 확인"
           label="비밀번호 확인"
           errors={errors}
           register={register}
@@ -126,7 +126,7 @@ export default function SignUpForm() {
           id="name"
           name="name"
           type="text"
-          placeholder="비밀번호"
+          placeholder="이름"
           label="이름"
           errors={errors}
           register={register}
