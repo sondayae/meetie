@@ -1,14 +1,20 @@
-import React from "react";
-import "./input.css";
+import React from 'react';
+import './input.css';
 
 export interface InputProps {
   id: string;
   name: string;
   primary?: boolean;
-  backgroundcolor?: string;
-  size?: "small" | "medium" | "large";
+  backgroundColor?: string;
+  size?: 'small' | 'medium' | 'large';
+  maxLength?: number;
   placeholder?: string;
   type?: string;
+  defaultValue?: number | string;
+  value?: any;
+  inputStyle?: boolean;
+  onChange?: (e: any) => void;
+  onKeyDown?: (e: any) => void;
 }
 
 /**
@@ -16,22 +22,27 @@ export interface InputProps {
  */
 export const Input = ({
   primary = false,
-  size = "medium",
+  size = 'medium',
   placeholder,
   ...props
 }: InputProps) => {
-  const mode = primary
-    ? "storybook-input--primary"
-    : "storybook-input--secondary";
+  let mode = primary
+    ? 'storybook-input--primary'
+    : 'storybook-input--secondary';
+  if (props.name === 'tags') mode = 'storybook-input--hashtag';
   return (
     <>
       <input
-        type={props.type ? props.type : "text"}
+        type={props.type ? props.type : 'text'}
         placeholder={placeholder}
-        className={["storybook-input", `storybook-input--${size}`, mode].join(
-          " ",
+        className={['storybook-input', `storybook-input--${size}`, mode].join(
+          ' ',
         )}
         {...props}
+        maxLength={props.maxLength}
+        defaultValue={props.defaultValue}
+        onChange={props.onChange}
+        onKeyDown={props.onKeyDown}
       />
     </>
   );
