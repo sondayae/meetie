@@ -44,7 +44,6 @@ export default function RootLayout({
     <html lang="ko">
       <body className={pretendard.className}>
         <div className="m-auto w-full max-w-[600px] px-4 py-2">
-          <Header />
           <main className="h-svh">{children}</main>
           <Footer />
         </div>

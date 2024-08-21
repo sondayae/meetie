@@ -1,3 +1,6 @@
+import Header from '@/components/common/Header';
+import NavLink from '@/components/study/NavLink';
+
 export default function StudyLayout({
   children,
 }: {
@@ -5,8 +8,8 @@ export default function StudyLayout({
 }) {
   return (
     <>
-      <div className="m-auto flex max-w-96 flex-col">
-        <header className="mx-4 mb-[35px] flex items-center justify-between py-2">
+      <div className="m-auto w-full max-w-[600px] py-2">
+        {/* <header className="mx-4 mb-[35px] flex items-center justify-between py-2">
           <div>
             <svg
               width="40"
@@ -25,8 +28,11 @@ export default function StudyLayout({
             </svg>
           </div>
           <h2 className="font-bold">스터디 만들기</h2>
-          <div className="text-[12px]">1 / 2</div>
-        </header>
+          <div className="text-[12px]">1 / 2</div> */}
+        {/* </header> */}
+
+        <NavLink />
+
         {children}
       </div>
     </>
