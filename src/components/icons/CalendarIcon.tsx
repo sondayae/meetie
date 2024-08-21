@@ -1,9 +1,6 @@
-
 'use client';
 
-type iconStyle = {
-  className: string
-};
+import iconStyle from './iconStyle';
 
 const CalendarIcon = (props: iconStyle) => {
   return (
