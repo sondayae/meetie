@@ -8,7 +8,7 @@ function WaitingRequestpage() {
   const modApply = async (id, status) => {
     console.log(id, status);
 
-    const { data, error } = await supabase
+    const { data, error } = await supabase()
       .from('study_apply')
       .update({ status: status }) // Update only the 'status' field
       .eq('id', id); // Match the row with the given 'id'
@@ -22,7 +22,7 @@ function WaitingRequestpage() {
 
   const getApply = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabase()
         .from('study_apply')
         .select(`*, user (id, name, email)`);
       // .select(`*, user (id,name,email)`);
