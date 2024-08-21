@@ -9,20 +9,22 @@ export default function Profile() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [selectedJob, setSelectedJob] = useState<string>('');
-  const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
-  const [selectedIntros, setSelectedIntros] = useState<string[]>([]);
+  const [selectedPurposes, setSelectedPurposes] = useState<string[]>([]);
+  const [selectedPersonalities, setSelectedPersonalities] = useState<string[]>(
+    [],
+  );
   const [selectedStudySpan, setSelectedStudySpan] = useState<string>('');
 
-  const steps = ['job', 'goal', 'introduction', 'studySpan'];
+  const steps = ['job', 'purpose', 'personality', 'studySpan'];
 
   const jobs = ['개발자', '디자이너', '기획자'];
-  const goals = [
+  const purposes = [
     '자기 개발',
     '툴 능력 향상',
     '해당 분야의 네트워킹 확장',
     '취미',
   ];
-  const introductions = [
+  const personalities = [
     '주도적인',
     '열정적인',
     '손이 빠른',
@@ -43,19 +45,19 @@ export default function Profile() {
     setSelectedJob((prev) => (prev === job ? '' : job));
   };
 
-  const handleGoalClick = (goal: string) => {
-    setSelectedGoals((prevGoals) =>
-      prevGoals.includes(goal)
-        ? prevGoals.filter((g) => g !== goal)
-        : [...prevGoals, goal],
+  const handlePurposeClick = (purpose: string) => {
+    setSelectedPurposes((prevPurposes) =>
+      prevPurposes.includes(purpose)
+        ? prevPurposes.filter((g) => g !== purpose)
+        : [...prevPurposes, purpose],
     );
   };
 
-  const handleIntroClick = (introduction: string) => {
-    setSelectedIntros((prevIntros) =>
-      prevIntros.includes(introduction)
-        ? prevIntros.filter((i) => i !== introduction)
-        : [...prevIntros, introduction],
+  const handlePersonalityClick = (personality: string) => {
+    setSelectedPersonalities((prevPersonalities) =>
+      prevPersonalities.includes(personality)
+        ? prevPersonalities.filter((i) => i !== personality)
+        : [...prevPersonalities, personality],
     );
   };
 
@@ -79,8 +81,8 @@ export default function Profile() {
     } else {
       await addProfile(
         selectedJob,
-        selectedGoals,
-        selectedIntros,
+        selectedPurposes,
+        selectedPersonalities,
         selectedStudySpan,
         router,
       );
@@ -100,8 +102,8 @@ export default function Profile() {
     if (searchParams.get('step') !== 'job') {
       await addProfile(
         selectedJob,
-        selectedGoals,
-        selectedIntros,
+        selectedPurposes,
+        selectedPersonalities,
         selectedStudySpan,
         router,
       );
@@ -137,29 +139,29 @@ export default function Profile() {
         </div>
       )}
 
-      {searchParams.get('step') === 'goal' && (
-        <div id="goals">
+      {searchParams.get('step') === 'purpose' && (
+        <div id="purposes">
           <h2>목표 선택</h2>
-          {goals.map((goal) => (
+          {purposes.map((purpose) => (
             <Chip
-              key={goal}
-              label={goal}
-              selected={selectedGoals.includes(goal)}
-              onClick={() => handleGoalClick(goal)}
+              key={purpose}
+              label={purpose}
+              selected={selectedPurposes.includes(purpose)}
+              onClick={() => handlePurposeClick(purpose)}
             />
           ))}
         </div>
       )}
 
-      {searchParams.get('step') === 'introduction' && (
-        <div id="introduction">
+      {searchParams.get('step') === 'personality' && (
+        <div id="personality">
           <h2>소개 선택</h2>
-          {introductions.map((introduction) => (
+          {personalities.map((personality) => (
             <Chip
-              key={introduction}
-              label={introduction}
-              selected={selectedIntros.includes(introduction)}
-              onClick={() => handleIntroClick(introduction)}
+              key={personality}
+              label={personality}
+              selected={selectedPersonalities.includes(personality)}
+              onClick={() => handlePersonalityClick(personality)}
             />
           ))}
         </div>
