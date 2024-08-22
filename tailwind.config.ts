@@ -24,9 +24,6 @@ const config: Config = {
         'middle-gray': '#DDDDDD',
         'light-gray': '#F5F5F5',
       },
-      fontFamily: {
-        pretendard: ['Pretendard', 'sans-serif'],
-      },
       fontWeight: {
         regular: '400',
         medium: '500',
