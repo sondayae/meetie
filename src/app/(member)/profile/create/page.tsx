@@ -4,6 +4,14 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { addProfile } from './actions';
 import Chip from '@/components/html/Chip';
+import ProgressBar from '@/components/html/ProgressBar';
+import {
+  steps,
+  jobs,
+  purposes,
+  personalities,
+  studySpans,
+} from '@/lib/profileConstants';
 
 export default function Profile() {
   const router = useRouter();
@@ -14,32 +22,6 @@ export default function Profile() {
     [],
   );
   const [selectedStudySpan, setSelectedStudySpan] = useState<string>('');
-
-  const steps = ['job', 'purpose', 'personality', 'studySpan'];
-
-  const jobs = ['개발자', '디자이너', '기획자'];
-  const purposes = [
-    '자기 개발',
-    '툴 능력 향상',
-    '해당 분야의 네트워킹 확장',
-    '취미',
-  ];
-  const personalities = [
-    '주도적인',
-    '열정적인',
-    '손이 빠른',
-    '시간을 지키는',
-    '꼼꼼한',
-    '모험적인',
-    '신중한',
-    '커뮤니케이션에 능숙한',
-    '논리적인',
-    '파워 J',
-    '분석적인',
-    '동기부여가 필요한',
-    '완벽주의',
-  ];
-  const studySpans = ['1개월 이내', '1개월~3개월', '3개월~6개월', '6개월 이상'];
 
   const handleJobClick = (job: string) => {
     setSelectedJob((prev) => (prev === job ? '' : job));
@@ -118,78 +100,137 @@ export default function Profile() {
     }
   }, [searchParams, router]);
 
+  const currentStepIndex = steps.indexOf(searchParams.get('step') as string);
+
   return (
     <>
-      <h1>Profile</h1>
-      {searchParams.get('step') !== 'job' && (
-        <button onClick={handleSkipClick}>skip</button>
-      )}
+      <div className="relative mb-20">
+        <ProgressBar
+          currentStepIndex={currentStepIndex}
+          totalSteps={steps.length}
+        />
+
+        {searchParams.get('step') !== 'job' && (
+          <button
+            onClick={handleSkipClick}
+            className="absolute right-0 top-0 mb-8 mr-4 mt-2 text-[#82829B]"
+          >
+            skip
+          </button>
+        )}
+      </div>
 
       {searchParams.get('step') === 'job' && (
-        <div id="jobs">
-          <h2>직업 선택</h2>
-          {jobs.map((job) => (
-            <Chip
-              key={job}
-              label={job}
-              selected={selectedJob === job}
-              onClick={() => handleJobClick(job)}
-            />
-          ))}
+        <div id="job" className="text-left">
+          <div>
+            <div className="mb-5 text-2xl font-semibold">
+              김서희님이 관심있는
+              <br /> 직무는 무엇인가요?
+            </div>
+            <div className="mb-[60px] text-[14px]">
+              선택한 직무를 바탕으로 스터디를 추천해줄게요!
+            </div>
+          </div>
+          <div className="mb-[138px] flex flex-col items-start gap-y-3">
+            {jobs.map((job) => (
+              <Chip
+                key={job}
+                label={job}
+                selected={selectedJob === job}
+                onClick={() => handleJobClick(job)}
+              />
+            ))}
+          </div>
         </div>
       )}
 
       {searchParams.get('step') === 'purpose' && (
-        <div id="purposes">
-          <h2>목표 선택</h2>
-          {purposes.map((purpose) => (
-            <Chip
-              key={purpose}
-              label={purpose}
-              selected={selectedPurposes.includes(purpose)}
-              onClick={() => handlePurposeClick(purpose)}
-            />
-          ))}
+        <div id="purposes" className="text-left">
+          <div>
+            <div className="mb-5 text-2xl font-semibold">
+              김서희님의
+              <br /> 스터디 목적은 무엇인가요?
+            </div>
+            <div className="mb-[60px] text-[14px]">중복선택도 가능해요</div>
+          </div>
+          <div className="mb-[138px] flex flex-col items-start gap-y-3">
+            {purposes.map((purpose) => (
+              <Chip
+                key={purpose}
+                label={purpose}
+                selected={selectedPurposes.includes(purpose)}
+                onClick={() => handlePurposeClick(purpose)}
+              />
+            ))}
+          </div>
         </div>
       )}
 
       {searchParams.get('step') === 'personality' && (
-        <div id="personality">
-          <h2>소개 선택</h2>
-          {personalities.map((personality) => (
-            <Chip
-              key={personality}
-              label={personality}
-              selected={selectedPersonalities.includes(personality)}
-              onClick={() => handlePersonalityClick(personality)}
-            />
-          ))}
+        <div id="personality" className="text-left">
+          <div>
+            <div className="mb-5 text-2xl font-semibold">
+              김서희님은
+              <br /> 어떤 스타일이신가요?
+            </div>
+            <div className="mb-[60px] text-[14px]">중복선택도 가능해요</div>
+          </div>
+          <div className="mb-[138px] flex flex-wrap items-start gap-x-2 gap-y-3">
+            {personalities.map((personality) => (
+              <Chip
+                key={personality}
+                label={personality}
+                selected={selectedPersonalities.includes(personality)}
+                onClick={() => handlePersonalityClick(personality)}
+              />
+            ))}
+          </div>
         </div>
       )}
 
       {searchParams.get('step') === 'studySpan' && (
-        <div id="studySpans">
-          <h2>스터디 기간 선택</h2>
-          {studySpans.map((studySpan) => (
-            <Chip
-              key={studySpan}
-              label={studySpan}
-              selected={selectedStudySpan === studySpan}
-              onClick={() => handleStudySpanClick(studySpan)}
-            />
-          ))}
+        <div id="studySpans" className="text-left">
+          <div>
+            <div className="mb-5 text-2xl font-semibold">
+              김서희님의
+              <br /> 예상 스터디 기간은 얼마인가요?
+            </div>
+            <div className="mb-[60px] text-[14px]">
+              나와 비슷한 유저들과 스터디할 수 있도록 도와드려요!
+            </div>
+          </div>
+          <div className="mb-[138px] flex flex-col items-start gap-y-3">
+            {studySpans.map((studySpan) => (
+              <Chip
+                key={studySpan}
+                label={studySpan}
+                selected={selectedStudySpan === studySpan}
+                onClick={() => handleStudySpanClick(studySpan)}
+              />
+            ))}
+          </div>
         </div>
       )}
 
-      <button
-        onClick={handlePreviousClick}
-        disabled={searchParams.get('step') === 'job'}
-      >
-        이전
-      </button>
-      <button onClick={handleNextClick}>
-        {searchParams.get('step') === 'studySpan' ? '프로필 추가' : '다음'}
-      </button>
+      <div className="flex flex-col gap-y-[13px]">
+        <div className="text-xs text-middle-gray">
+          내용은 다시 수정할 수 있어요!
+        </div>
+        <div className="flex w-full gap-x-5">
+          <button
+            onClick={handlePreviousClick}
+            className={`flex-[2] cursor-pointer rounded-[8px] border border-middle-gray bg-white ${searchParams.get('step') === 'job' ? 'opacity-50' : ''} h-[49px] w-[124px]`}
+          >
+            이전
+          </button>
+          <button
+            onClick={handleNextClick}
+            className="h-[49px] w-[206px] flex-[3] cursor-pointer rounded-[8px] bg-main-purple text-white"
+          >
+            {searchParams.get('step') === 'studySpan' ? '프로필 추가' : '다음'}
+          </button>
+        </div>
+      </div>
     </>
   );
 }
