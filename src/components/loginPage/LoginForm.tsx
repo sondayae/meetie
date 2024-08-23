@@ -56,7 +56,6 @@ export default function LoginForm() {
           name="email"
           type="email"
           placeholder="이메일"
-          label="이메일 주소"
           errors={errors}
           register={register}
           rules={{
@@ -73,7 +72,6 @@ export default function LoginForm() {
           name="password"
           type="password"
           placeholder="비밀번호"
-          label="비밀번호"
           errors={errors}
           register={register}
           rules={{
