@@ -8,7 +8,7 @@ function WaitingRequestpage() {
   const modApply = async (id, status) => {
     console.log(id, status);
 
-    const { data, error } = await supabase()
+    const { data, error } = await supabase
       .from('study_apply')
       .update({ status: status }) // Update only the 'status' field
       .eq('id', id); // Match the row with the given 'id'
@@ -22,7 +22,7 @@ function WaitingRequestpage() {
 
   const getApply = async () => {
     try {
-      const { data, error } = await supabase()
+      const { data, error } = await supabase
         .from('study_apply')
         .select(`*, user (id, name, email)`);
       // .select(`*, user (id,name,email)`);
@@ -68,7 +68,7 @@ function WaitingRequestpage() {
             {Object.entries(applydata).map(([date, items]) => (
               // date
               <div key={date}>
-                <div className="font mb-4 text-sm font-medium text-neutral-700">
+                <div className="font mb-4 text-sm font-medium text-dark-gray">
                   {date}
                 </div>
                 {/* list */}
@@ -76,8 +76,8 @@ function WaitingRequestpage() {
                   {items.map((apply) => (
                     <li key={apply.id}>
                       {apply.status === 'wating' && (
-                        <div className="flex h-48 w-96 flex-col items-center justify-center gap-2 rounded-lg border border-gray-200">
-                          <div className="flex items-start justify-start gap-4">
+                        <div className="flex w-full flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 p-5">
+                          <div className="flex w-full items-start justify-between gap-4 p-5">
                             <div className="flex items-start justify-start gap-2.5">
                               <div className="flex flex-col items-end justify-start">
                                 <img
@@ -114,45 +114,41 @@ function WaitingRequestpage() {
                               </div>
                             </div>
                             <div className="flex items-start justify-start gap-1.5">
-                              <div className="flex items-center justify-center gap-2 rounded-full bg-zinc-100 px-4 py-2">
-                                <button
-                                  type="button"
-                                  onClick={() => modApply(apply.id, 'refused')}
-                                  className="text-sm font-medium text-neutral-700"
-                                >
-                                  거절
-                                </button>
-                              </div>
-                              <div className="flex items-center justify-center gap-2 rounded-full bg-violet-500 px-4 py-2">
-                                <button
-                                  type="button"
-                                  onClick={() => modApply(apply.id, 'accepted')}
-                                  className="text-sm font-medium text-white"
-                                >
-                                  수락
-                                </button>
-                              </div>
+                              <button
+                                type="button"
+                                onClick={() => modApply(apply.id, 'refused')}
+                                className="flex items-center justify-center gap-2 rounded-full bg-light-gray px-4 py-2 text-sm font-medium text-dark-gray"
+                              >
+                                거절
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => modApply(apply.id, 'accepted')}
+                                className="bg- flex items-center justify-center gap-2 rounded-full bg-main-purple px-4 py-2 text-sm font-medium text-white"
+                              >
+                                수락
+                              </button>
                             </div>
                           </div>
                           <div className="flex flex-col items-start justify-start gap-4">
-                            <div className="h-10 w-full px-6 text-sm font-normal leading-tight text-neutral-700">
+                            <div className="h-10 w-full px-6 text-sm font-normal leading-tight text-dark-gray">
                               안녕하세요, 개발 관련 글을 꾸준히 쓰고 싶은데
                               의지가 부족해 스터디 버디들을 구하고 싶습니다
                               화이팅🔥
                             </div>
                             <div className="flex items-start justify-start gap-2.5 px-6">
-                              <div className="flex items-center justify-center gap-2.5 rounded-lg bg-violet-50 p-2.5">
-                                <div className="text-xs font-normal text-neutral-700">
+                              <div className="flex items-center justify-center gap-2.5 rounded-lg bg-light-purple p-2.5">
+                                <div className="text-xs font-normal text-dark-gray">
                                   손이 빠름
                                 </div>
                               </div>
-                              <div className="flex items-center justify-center gap-2.5 rounded-lg bg-violet-50 p-2.5">
-                                <div className="text-xs font-normal text-neutral-700">
+                              <div className="flex items-center justify-center gap-2.5 rounded-lg bg-light-purple p-2.5">
+                                <div className="text-xs font-normal text-dark-gray">
                                   열정적
                                 </div>
                               </div>
-                              <div className="flex items-center justify-center gap-2.5 rounded-lg bg-violet-50 p-2.5">
-                                <div className="text-xs font-normal text-neutral-700">
+                              <div className="flex items-center justify-center gap-2.5 rounded-lg bg-light-purple p-2.5">
+                                <div className="text-xs font-normal text-dark-gray">
                                   동기부여가 필요한
                                 </div>
                               </div>

@@ -21,16 +21,14 @@ export default function StudyDetailLayout({
 
   const postApply = async () => {
     try {
-      const { data, error } = await supabase()
-        .from('study_apply')
-        .insert([
-          // TODO: 유저 중복 요청 처리
-          {
-            studyId: 1,
-            uesrId: '10669baa-7476-4f40-8bbf-37ba8765de74',
-            status: 'wating',
-          },
-        ]);
+      const { data, error } = await supabase.from('study_apply').insert([
+        // TODO: 유저 중복 요청 처리
+        {
+          studyId: 1,
+          uesrId: '10669baa-7476-4f40-8bbf-37ba8765de74',
+          status: 'wating',
+        },
+      ]);
     } catch (error) {
       alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
     }
@@ -38,7 +36,6 @@ export default function StudyDetailLayout({
 
   return (
     <>
-      <NavLink />
       {children}
       {
         <div className="fixed bottom-0 mx-auto h-[#104px] w-full max-w-[375px] items-center justify-center px-4">
