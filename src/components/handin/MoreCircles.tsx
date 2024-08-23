@@ -7,6 +7,7 @@ const MoreCircles = () => {
     const [isClicked, setIsClicked] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [modalType, setModalType] = useState('');
+
     const handleClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.stopPropagation();
         setIsClicked(!isClicked);
@@ -24,6 +25,10 @@ const MoreCircles = () => {
     {isClicked ? (
         <button onClick={handleClick}>
             <MoreIcon className='h-7 w-7 fill-black stroke-black' />
+            <ul>
+              <li>수정</li>
+              <li>삭제</li>
+            </ul>
         </button>
     ) : (
       <button onClick={handleClick}>

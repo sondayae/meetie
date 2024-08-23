@@ -1,29 +1,31 @@
 'use client';
 import { MouseEventHandler, useEffect, useState } from 'react';
-import { useForm, SubmitHandler } from "react-hook-form";
+// import { useForm, SubmitHandler } from 'react-hook-form';
 import { v4 as uuid} from 'uuid';
 import supabase from '@/utils/supabase/client';
 
 const page = () => {
     const [previewImg, setPreviewImg] = useState<string>();
     const [imgUrl, setImgUrl] = useState<string>();
-    const { register, handleSubmit } = useForm<any>();
+    // const { register, handleSubmit } = useForm<any>();
 
-    const onSubmit: SubmitHandler<any> = async (data) => {
-        // 1. 이미지스토리지 업로드 -> 이미지 public url 가져오기
-        // 2. 이미지 테이블에 업로드 -> 이미지 테이블 id 가져오기
-        // 3. 과제인증 테이블에 업로드 -> 저장
+    // const onSubmit: SubmitHandler<any> = async (data) => {
+    //     // 1. 이미지스토리지 업로드 -> 이미지 public url 가져오기
+    //     // 2. 이미지 테이블에 업로드 -> image id
+    //     // 3. 과제 인증 테이블에 업로드 -> image_id
 
-        // undo 처리는 어떻게?
-        uploadImgStorage(data.image[0]);
-        if (imgUrl) {
-            const imgId = await uploadImg(imgUrl);
-            if (imgId) {
-                data.imgId = imgId;
-                uploadHandin(data);
-            }
-        }
-    }
+    //     // undo 처리는 어떻게?
+    //     uploadImgStorage(data.image[0]);
+    //     if (imgUrl) {
+    //         const imgId = await uploadImg(imgUrl);
+    //         if (imgId) {
+    //             data.imgId = imgId;
+    //             uploadHandin(data);
+    //         }
+    //     }
+    // }
+
+    // 가장 마지막에 핸드아웃 인서트를 하고 그 전에 캐치하여 에러 발생하면 지우는 방식으로 진행, 한 함수 내에서 여러 번 부르기
 
     const uploadImgStorage = async (file: File) => {
         const bucket = 'images';
@@ -99,17 +101,17 @@ const page = () => {
       </header>
       <section className='flex flex-col items-center'>
         <span className='px-5 py-2 border-border-purple border-2 bg-light-purple rounded-md'>우리는 이렇게 인증해요!</span>
-        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center'>
+        <form className='flex flex-col items-center'>
             <div>
                 <span>14일차 과제</span>
                 <span>진행중</span>
             </div>
             <label htmlFor="handinId">과제 아이디</label>
-            <input type='text' id='handinId' className='border-2' {...register('homeworkId')}/>
+            <input type='text' id='handinId' className='border-2'/>
             <label htmlFor="handinImg">과제 인증 사진</label>
-            <input type="file" accept='image/*' {...register('image')} onChange={handelChange}/>
+            <input type="file" accept='image/*' onChange={handelChange}/>
             <label htmlFor="handinText">과제 인증 기록</label>
-            <textarea className='border-2' {...register('text')}/>
+            <textarea className='border-2'/>
             <input type="submit" value='인증하기'/>
         </form>
         <div>

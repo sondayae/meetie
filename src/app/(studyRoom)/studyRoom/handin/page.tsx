@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import supabase from '@/utils/supabase/client';
 import Handin from '@/components/handin/Handin';
+import Button from '@/components/common/Button';
 
 const page = () => {
   const [handinList, setHandinList] = useState<any[]>([])
@@ -49,6 +50,9 @@ const page = () => {
               date={data.created_at}
             />
           ))}
+          <div className='text-center'>
+            <Button primary={false} label='과제 인증하기' size='large' borderStyle='border-dotted'/>
+          </div>
         </div>
       </div>
     </div>
