@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import { Button } from "./Button";
+=======
+import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
+import Button from '../components/common/Button';
+>>>>>>> 31b262f08b7d8951e2ff23ff73e160b832e9ef60
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
+<<<<<<< HEAD
   title: "Example/Button",
   component: Button,
   parameters: {
@@ -19,17 +25,24 @@ const meta = {
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   args: { onClick: fn() },
 } satisfies Meta<typeof Button>;
+=======
+	title: 'Component/Button',
+	component: Button,
+  tags: ['autodocs'],
+};
+>>>>>>> 31b262f08b7d8951e2ff23ff73e160b832e9ef60
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
+type Story = StoryObj<typeof Button>;
+
 export const Primary: Story = {
   args: {
     primary: true,
     label: "Button",
   },
 };
+<<<<<<< HEAD
 
 export const Secondary: Story = {
   args: {
@@ -50,3 +63,5 @@ export const Small: Story = {
     label: "Button",
   },
 };
+=======
+>>>>>>> 31b262f08b7d8951e2ff23ff73e160b832e9ef60

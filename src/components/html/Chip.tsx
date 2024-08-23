@@ -12,7 +12,7 @@ const Chip: React.FC<ChipProps> = ({ label, selected, onClick }) => {
       onClick={onClick}
       className={`cursor-pointer rounded-lg py-1.5 text-center transition duration-300 ${
         selected
-          ? 'border border-[#6224FD] bg-[#EFE9FF]'
+          ? 'border border-main-purple bg-[#EFE9FF]'
           : 'border border-[#D9D9D9] bg-[#FFFFFF]'
       } inline-flex items-center justify-center px-3`}
     >
