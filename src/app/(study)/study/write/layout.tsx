@@ -5,7 +5,7 @@ export default function StudyLayout({
 }) {
   return (
     <>
-      <div className="m-auto flex max-w-96 flex-col">
+      <div className="m-auto flex flex-col">
         <header className="mx-4 mb-[35px] flex items-center justify-between py-2">
           <div>
             <svg

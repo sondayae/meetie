@@ -12,7 +12,7 @@ export interface InputProps {
   type?: string;
   defaultValue?: number | string;
   value?: any;
-  inputStyle?: boolean;
+  className?: string;
   onChange?: (e: any) => void;
   onKeyDown?: (e: any) => void;
 }
@@ -24,23 +24,25 @@ export const Input = ({
   primary = false,
   size = 'medium',
   placeholder,
+  className,
   ...props
 }: InputProps) => {
   let mode = primary
     ? 'storybook-input--primary'
     : 'storybook-input--secondary';
-  if (props.name === 'tags') mode = 'storybook-input--hashtag';
   return (
     <>
       <input
         type={props.type ? props.type : 'text'}
         placeholder={placeholder}
-        className={['storybook-input', `storybook-input--${size}`, mode].join(
-          ' ',
-        )}
+        className={[
+          'storybook-input',
+          `storybook-input--${size}`,
+          mode,
+          className,
+        ].join(' ')}
         {...props}
         maxLength={props.maxLength}
-        defaultValue={props.defaultValue}
         onChange={props.onChange}
         onKeyDown={props.onKeyDown}
       />

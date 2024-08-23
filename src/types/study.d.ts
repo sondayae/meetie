@@ -14,7 +14,6 @@ export type Study = {
   topic: string;
   // 스터디 소개, 진행방식과 커리큘럼
   info: string;
-  // curriculum: string,
   // 시작일
   startDate: Date;
   // 종료일
