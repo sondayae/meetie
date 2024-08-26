@@ -1,34 +1,18 @@
 'use client';
-import { Button } from '@/stories/Button';
+import Button from '@/components/common/Button';
+// import { Button } from '@/stories/Button';
 import { Input } from '@/stories/Input';
 import { Study } from '@/types/study';
 import supabase from '@/utils/supabase/client';
 import { ko } from 'date-fns/locale';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { FormEventHandler, useCallback, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { addStudy } from '../[studyId]/studyAction';
+import { useRouter } from 'next/navigation';
 
 export default function StudyWrite() {
   const router = useRouter();
-
-  // 스터디 만들기
-  const addStudy = async () => {
-    const { data, error } = await supabase()
-      .from('study')
-      .insert(study)
-      .select('*');
-
-    if (error) console.log(error);
-
-    if (data) {
-      const { id } = data[0];
-      console.log(data);
-      alert('스터디 등록이 완료되었습니다!');
-      // 스터디 상세페이지로 이동
-      router.push(`/study/${id}`);
-    }
-  };
 
   const [study, setStudy] = useState<Study>({
     // 모집 직군
@@ -50,7 +34,7 @@ export default function StudyWrite() {
     // 종료일
     endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
     // 모집 인원
-    recruitNum: 0,
+    recruitNum: 1,
     // 관련 태그들
     tags: [],
   });
@@ -89,8 +73,6 @@ export default function StudyWrite() {
     }));
   };
 
-  const [recruitNum, setRecruitNum] = useState(1);
-
   // input, textarea, select 상태 값
   const handleInputChange = (
     e:
@@ -100,8 +82,20 @@ export default function StudyWrite() {
   ) => {
     const { value, name } = e.target;
     const target = e.target;
+
+    const numberValue = Number(value);
+
     if (name === 'recruitNum') {
-      setRecruitNum(Number(value));
+      if (numberValue <= 0) {
+        setRecruitNum(Number(1));
+        alert('최소 1명은 모집해야 해요!');
+      } else if (numberValue > 20) {
+        setRecruitNum(Number(20));
+
+        alert('최대 20명까지 모집할 수 있어요!');
+      } else {
+        setRecruitNum(Number(value));
+      }
     }
 
     // 한글 초과 입력 글자 수 제한
@@ -132,24 +126,50 @@ export default function StudyWrite() {
   };
 
   // 태그들 등록
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
+  const handleKeyDown = useCallback(
+    async (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
 
-      if (tagsInput.trim()) {
-        setTags([...tags, tagsInput.trim()]);
-        setStudy((prevStudy) => ({
-          ...prevStudy,
-          tags: tags,
-        }));
+        if (tagsInput.trim()) {
+          const newTags = [...tags, tagsInput.trim()];
+          setTags(newTags);
+
+          setStudy((prevStudy) => ({
+            ...prevStudy,
+            tags: newTags,
+          }));
+        }
+        setTagsInput('');
       }
-      setTagsInput('');
+    },
+    [tags, tagsInput],
+  );
+
+  const [recruitNum, setRecruitNum] = useState(1);
+
+  const handleDecrement = () =>
+    recruitNum > 1 ? setRecruitNum((prev) => prev - 1) : recruitNum;
+
+  const handleIncrement = () =>
+    recruitNum < 20 ? setRecruitNum((prev) => prev + 1) : recruitNum;
+
+  const handFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const newStudy = await addStudy(study);
+
+      if (newStudy) {
+        // 생성된 스터디 상세페이지로 이동
+        router.push(`/study/${newStudy.id}`);
+      }
+    } catch (error) {
+      console.error('스터디 생성 중 에러가 발생했습니다:', error);
     }
   };
-
   return (
     <>
-      <form action="" className="mx-4 flex flex-col">
+      <form action="" className="mx-4 flex flex-col" onSubmit={handFormSubmit}>
         <label className="font-bold" htmlFor="role">
           모집 직군
         </label>
@@ -270,16 +290,13 @@ export default function StudyWrite() {
         </label>
         {/* 넘버 인풋 */}
         <div className="mt-[10px] flex min-h-[50px] w-full gap-2 rounded-lg border border-[#c4c4c4]">
-          <button
-            type="button"
+          <Button
             id="decrement"
-            className="h-12 w-12"
-            onClick={() =>
-              setRecruitNum((prev) => (prev > 0 ? prev - 1 : prev))
-            }
-          >
-            -
-          </button>
+            borderStyle="h-12 w-12 border-none"
+            onClick={handleDecrement}
+            label="-"
+            primary={false}
+          />
           <Input
             id="recruitNum"
             name="recruitNum"
@@ -288,18 +305,15 @@ export default function StudyWrite() {
             // max={100}
             value={recruitNum}
             onChange={handleInputChange}
-            className="flex-grow text-center outline-sub-purple [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            className="flex-grow border-none text-center outline-sub-purple [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
-          <button
-            type="button"
+          <Button
             id="increment"
-            className="h-12 w-12"
-            onClick={() =>
-              setRecruitNum((prev) => (prev <= 19 ? prev + 1 : prev))
-            }
-          >
-            +
-          </button>
+            borderStyle="h-12 w-12 border-none"
+            onClick={handleIncrement}
+            label="+"
+            primary={false}
+          />
         </div>
         <p className="mb-[34px] mt-[10px] text-sm text-sub-purple">
           4~8명이 적당한 스터디 인원이에요
@@ -348,11 +362,12 @@ export default function StudyWrite() {
           </li>
         </ul>
         <div className="mb-10 flex gap-3">
-          {/* <Button primary={false} backgroundColor="" label="이전" /> */}
+          <Button primary={false} borderStyle="none" label="이전" />
           <Button
+            type="submit"
             primary={true}
             label="스터디 등록하기"
-            onClick={() => addStudy()}
+            borderStyle="none"
           />
         </div>
       </form>
