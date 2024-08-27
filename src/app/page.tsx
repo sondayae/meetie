@@ -1,74 +1,20 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
+import { useUser } from '@/stores/user';
 import supabase from '@/utils/supabase/client';
 
 export default function Notes() {
-  const addPosts = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('user')
-        .insert({ name: '홍길동' });
+  const user = useUser((s) => s.user);
 
-      if (data) {
-        console.log(data);
-      }
-
-      if (error) throw error;
-      window.location.reload();
-    } catch (error) {
-      alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
-    }
-  };
-
-  const updatePosts = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('user')
-        .update({ name: '황준용' })
-        .eq('id', 29);
-
-      if (data) {
-        console.log(data);
-      }
-
-      if (error) throw error;
-      window.location.reload();
-    } catch (error) {
-      alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
-    }
-  };
-
-  // const deletePosts = async () => {
-  //   try {
-  //     const { data, error } = await supabase
-  //       .from('user')
-  //       .delete({ name: '황준용' })
-  //       .eq('id', 29);
-
-  //     if (data) {
-  //       console.log(data);
-  //     }
-
-  //     if (error) throw error;
-  //     window.location.reload();
-  //   } catch (error) {
-  //     alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
-  //   }
-  // };
+  if (!user) return <div>로그인이 필요합니다.</div>;
 
   return (
-    <>
-      <button type="button" onClick={() => addPosts()}>
-        버튼
-      </button>
-      <br />
-      <button type="button" onClick={() => updatePosts()}>
-        업데이트
-      </button>
-      <br />
-      {/* <button type="button" onClick={() => deletePosts()}>
-        삭제
-      </button> */}
-    </>
+    <div>
+      <h1>환영합니다, {user.email}</h1>
+      <p>유저 ID: {user.id}</p>
+      <button onClick={() => supabase.auth.signOut()}>로그아웃</button>
+    </div>
   );
 }
