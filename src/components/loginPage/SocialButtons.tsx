@@ -13,14 +13,11 @@ function SocialButtons() {
     });
   };
 
-  const socialButtonClass =
-    'flex h-11 w-11 items-center justify-center rounded shadow';
-
   return (
     <div className="flex justify-center gap-6">
       {SOCIAL_ICONS.map((social) => (
         <button
-          className={`${socialButtonClass} ${social.bgColor}`}
+          className={`flex h-11 w-11 items-center justify-center rounded shadow ${social.bgColor}`}
           key={social.name}
           type="button"
           aria-label={social.name}
