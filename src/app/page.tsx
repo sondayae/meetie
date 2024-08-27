@@ -1,20 +1,31 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
+import ROUTE_PATH from '@/constants/route';
 import { useUser } from '@/stores/user';
 import supabase from '@/utils/supabase/client';
 
 export default function Notes() {
   const user = useUser((s) => s.user);
-
-  if (!user) return <div>로그인이 필요합니다.</div>;
-
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+  };
+  console.log(user);
+  if (!user)
+    return (
+      <>
+        <div>로그인이 필요합니다.</div>
+        <Link href={ROUTE_PATH.AUTH.LOGIN}>로그인하기</Link>
+      </>
+    );
   return (
     <div>
       <h1>환영합니다, {user.email}</h1>
       <p>유저 ID: {user.id}</p>
-      <button onClick={() => supabase.auth.signOut()}>로그아웃</button>
+      <button type="button" onClick={handleLogout}>
+        로그아웃
+      </button>
     </div>
   );
 }
