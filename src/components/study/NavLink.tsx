@@ -41,7 +41,7 @@ export default function NavLink({
             />
 
             {/* </Link> */}
-            <h2 className="font-bold">
+            <h2 className="text-lg font-bold">
               {path.endsWith('studyrequest') && <p>대기중인 요청</p>}
               {path.endsWith('write') && <p>스터디 만들기</p>}
             </h2>
