@@ -3,7 +3,7 @@
 import Link from 'next/link';
 
 import ROUTE_PATH from '@/constants/route';
-import { useUser } from '@/stores/user';
+import { useUser } from '@/stores/user/user';
 import supabase from '@/utils/supabase/client';
 
 export default function Notes() {

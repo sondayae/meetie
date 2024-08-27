@@ -9,7 +9,7 @@ import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
 import { EMAIL_REG } from '@/constants/regexPatterns';
-import { useUser } from '@/stores/user';
+import { useUser } from '@/stores/user/user';
 
 interface IFormInput {
   email: string;
