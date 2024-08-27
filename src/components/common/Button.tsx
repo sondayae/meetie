@@ -1,23 +1,47 @@
 interface ButtonProps {
-  label: string,
-  primary: boolean,
-  size?: 'small' | 'medium' | 'large',
-  borderStyle: string,
+  label: string;
+  type?: string;
+  size?: 'small' | 'medium' | 'large';
+  borderColor?: string;
+  borderStyle?: string;
+  onClick?: () => void;
 }
 
-const Button = ({primary, label, size, borderStyle}: ButtonProps) => {
+const Button = ({
+  type,
+  label,
+  size,
+  borderColor = 'border-middle-gray',
+  borderStyle = 'none',
+}: ButtonProps) => {
   const getSize = () => {
-    switch(size) {
-      case 'small': return 'w-[120px]';
-      case 'medium': return 'w-[200px]';
-      case 'large': return 'w-[350px]';
+    switch (size) {
+      case 'small':
+        return 'w-[120px]';
+      case 'medium':
+        return 'w-[200px]';
+      case 'large':
+        return 'min-w-[340px] w-full';
     }
-  }
+  };
 
-  const color = primary ? 'bg-main-purple border-main-purple text-white' : '';
+  const getColor = () => {
+    switch (type) {
+      case 'primary':
+        return 'bg-main-purple border-main-purple text-white';
+      case 'secondary':
+        return 'border-main-purple text-main-purple';
+      default:
+        return 'border-middle-gray text-gray-purple';
+    }
+  };
 
   return (
-    <button className={`border-2 border-middle-gray rounded-lg p-3 ${getSize()} ${color} ${borderStyle} text-gray-purple`}>{label}</button>
-  )
-}
+    <button
+      className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`}
+    >
+      {label}
+    </button>
+  );
+};
 export default Button;

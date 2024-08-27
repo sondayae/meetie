@@ -1,22 +1,35 @@
 'use client';
 import { useEffect, useState } from 'react';
 import supabase from '@/utils/supabase/client';
+import Footer from '@/components/study/Footer';
+import { useRouter } from 'next/navigation';
 
 function WaitingRequestpage() {
   const [applydata, setApplydata] = useState(null);
+  const fullmember = true;
+  const router = useRouter();
 
   const modApply = async (id, status) => {
     console.log(id, status);
 
     const { data, error } = await supabase
       .from('study_apply')
-      .update({ status: status }) // Update only the 'status' field
-      .eq('id', id); // Match the row with the given 'id'
+      .update({ status: status })
+      .eq('id', id);
 
     if (error) {
       console.error('Error updating apply status:', error);
     } else {
       console.log('Update successful:', data);
+      getApply();
+
+      if (fullmember) {
+        const { data, error } = await supabase
+          .from('studyroom')
+          .insert({ studyId: 83 });
+        alert('스터디룸이 생성되었습니다.');
+        router.push(`/studyRoom`);
+      }
     }
   };
 
@@ -25,8 +38,7 @@ function WaitingRequestpage() {
       const { data, error } = await supabase
         .from('study_apply')
         .select(`*, user (id, name, email)`);
-      // .select(`*, user (id,name,email)`);
-      // .from('user, study_apply(id)')
+
       if (error) {
         throw error;
       }
@@ -124,7 +136,7 @@ function WaitingRequestpage() {
                               <button
                                 type="button"
                                 onClick={() => modApply(apply.id, 'accepted')}
-                                className="bg- flex items-center justify-center gap-2 rounded-full bg-main-purple px-4 py-2 text-sm font-medium text-white"
+                                className="flex items-center justify-center gap-2 rounded-full bg-main-purple px-4 py-2 text-sm font-medium text-white"
                               >
                                 수락
                               </button>
@@ -174,6 +186,7 @@ function WaitingRequestpage() {
           <p>Loading data...</p>
         )}
       </div>
+      <Footer />
     </>
   );
 }
