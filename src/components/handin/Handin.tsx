@@ -1,7 +1,9 @@
-import MoreIcon from '../icons/MoreIcon';
+'use client';
+import { useRouter } from 'next/navigation';
 import MoreCircles from './MoreCircles';
+import ProfileImg from '../common/ProfileImg';
 
-type HandinType = {
+export type HandinType = {
   id: string;
   userName: string,
   text: string,
@@ -14,24 +16,23 @@ const dateFormatter = (timestamp: string) => {
     return date;
   }
 
-const handleClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-  console.log('show detail');
-}
-
 const Handin = ({id, userName, handinImg, text, date}: HandinType) => {
+  const router = useRouter();
+  const handleClick = (handinId: string) => {
+    router.push(`./studyRoom/handin/${handinId}`)
+  }
+
   return (
     <div
       key={id}
       className="border-b-2 border-b-middle-gray p-[15px] bg-light-purple"
-      onClick={handleClick}
+      onClick={() => handleClick(id)}
     >
-      <div className='flex flex-grow'>
-        <div className='pr-[8px]'>
-          <div className='w-20 h-20 border-light-gray border-2 rounded-full overflow-hidden'>
-            <img src={handinImg} className='w-full h-full object-cover'/>
-          </div>
+      <div className='grid grid-cols-[1fr_7fr_1fr] gap-2'>
+        <div>
+          <ProfileImg img={handinImg}/>
         </div>
-        <div className='pr-[8px]'>
+        <div className=''>
           <div className='pb-[16px]'>
             <span className='pr-[30px]'>{userName}</span>
             <span>14일차 과제</span>
@@ -41,6 +42,9 @@ const Handin = ({id, userName, handinImg, text, date}: HandinType) => {
           </div>
           <div className='overflow-hidden rounded-lg bg-black aspect-video'>
             <img src={handinImg} alt='과제 인증 사진' className='w-full h-full object-cover'/>
+          </div>
+          <div>
+            <span>{dateFormatter(date)}</span>
           </div>
         </div>
         <div>
