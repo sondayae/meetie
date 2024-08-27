@@ -2,22 +2,22 @@ import PlusIcon from '@/components/icons/PlusIcon';
 import UpdownArrowIcon from '@/components/icons/UpdownArrowIcon';
 import { ReactNode } from 'react';
 
-const Layout = (props: {children: ReactNode}) => {
+const Layout = (props: { children: ReactNode }) => {
   return (
     <section>
       <div className="bg-[#E3E3FA]">
-        <div className="flex justify-between pb-[17px] mx-[16px]">
+        <div className="mx-[16px] flex justify-between pb-[17px]">
           <span>스터디룸</span>
           <PlusIcon className="h-5 w-5 fill-black stroke-black" />
         </div>
-        <div className="flex justify-end mr-[16px]">
+        <div className="mr-[16px] flex justify-end">
           <div>
             <span className="bg-sub-purple p-2">진행중 3</span>
-            <span className="text-middle-gray bg-white p-2">진행완료</span>
+            <span className="bg-white p-2 text-middle-gray">진행완료</span>
           </div>
         </div>
         <div className="mx-[16px] pb-[20px] pt-[12px]">
-          <div className="flex items-center p-3 bg-white border-light-gray rounded-lg">
+          <div className="flex items-center rounded-lg border-light-gray bg-white p-3">
             <UpdownArrowIcon className="h-10 w-5 rounded-lg border-[#EBE9F5] bg-light-purple fill-black" />
             <div>
               <p>피그마 정복하기</p>
