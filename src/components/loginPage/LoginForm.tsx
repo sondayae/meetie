@@ -9,6 +9,7 @@ import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
 import { EMAIL_REG } from '@/constants/regexPatterns';
+import { useUser } from '@/stores/user';
 
 interface IFormInput {
   email: string;
@@ -38,15 +39,17 @@ export default function LoginForm() {
       },
       body: JSON.stringify(data),
     });
-    const data1 = await response.json();
+    const {
+      data: { user },
+    } = await response.json();
 
     if (!response.ok) {
-      console.error('Login failed:', data.error);
       return;
     }
 
-    console.log('Login successful:', data1);
+    console.log('Login successful:', user);
     router.replace('/');
+    useUser.setState({ user });
   };
 
   useEffect(() => {
