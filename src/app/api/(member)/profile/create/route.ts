@@ -1,17 +1,10 @@
 import supabase from '@/utils/supabase/client';
 
-// 하드코딩된 userId
-const userId = '957121e7-530a-4caa-b3ea-213edafdeeec';
+export async function POST(request: Request) {
+  const { job, purposes, personalities, studySpan } = await request.json();
+  const userId = '3c572fd8-c5d2-4e20-b65b-91f9c153adb6';
 
-export const addProfile = async (
-  job: string,
-  purposes: string[],
-  personalities: string[],
-  studySpan: string,
-  router: any,
-) => {
   try {
-    // 기존 프로필 확인 후
     const { data: existingProfile, error: fetchError } = await supabase
       .from('user')
       .select('id')
@@ -19,29 +12,36 @@ export const addProfile = async (
       .single();
 
     if (fetchError) throw fetchError;
-
     if (existingProfile) {
       // 기존 프로필이 있으면 업데이트하거나 삽입
       const { data, error } = await supabase
         .from('user')
         .upsert({
-          id: userId, // 하드코딩된 UUID
+          id: userId,
           job,
           purpose: purposes,
           personality: personalities,
           expected_study_span: studySpan,
         })
-        .select(); // 데이터 반환을 위해 select 추가
+        .select();
 
       if (error) throw error;
 
-      console.log('profile added or updated', data);
-      router.push('/profile/success');
+      return Response.json({
+        message: '프로필이 추가되거나 업데이트되었습니다.',
+        data,
+      });
     } else {
-      alert('해당 사용자 ID에 대한 프로필이 존재하지 않습니다.');
+      return Response.json(
+        { error: '해당 사용자 ID에 대한 프로필이 존재하지 않습니다.' },
+        { status: 404 },
+      );
     }
   } catch (error) {
     console.error('error adding or updating profile', error);
-    alert('프로필을 추가하거나 업데이트하는 중 오류가 발생했습니다.');
+    return Response.json(
+      { error: '프로필을 추가하거나 업데이트하는 중 오류가 발생했습니다.' },
+      { status: 500 },
+    );
   }
-};
+}
