@@ -5,10 +5,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useRouter } from 'next/navigation';
 
+import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
 import { EMAIL_REG } from '@/constants/regexPatterns';
-import supabase from '@/utils/supabase/client';
 
 interface IFormInput {
   email: string;
@@ -31,13 +31,21 @@ export default function LoginForm() {
   };
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    const { data: loginData, error } =
-      await supabase.auth.signInWithPassword(data);
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    const data1 = await response.json();
 
-    if (error) {
-      alert('정확한 로그인 정보를 입력해주세요.');
+    if (!response.ok) {
+      console.error('Login failed:', data.error);
       return;
     }
+
+    console.log('Login successful:', data1);
     router.replace('/');
   };
 
@@ -82,8 +90,9 @@ export default function LoginForm() {
           <ErrorMessage>{errors.password.message}</ErrorMessage>
         )}
       </div>
-
-      <button type="submit">로그인</button>
+      <div className="mt-5 flex justify-center">
+        <Button label="로그인" type="primary" size="large" />
+      </div>
     </form>
   );
 }
