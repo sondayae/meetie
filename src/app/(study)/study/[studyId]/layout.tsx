@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '@/stories/Button';
 import { useParams, usePathname } from 'next/navigation';
 import supabase from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import NavLink from '@/components/study/NavLink';
+import Button from '@/components/common/Button';
 
 export default function StudyDetailLayout({
   children,
@@ -55,12 +55,18 @@ export default function StudyDetailLayout({
                     primary
                     label="대기 중인 요청 확인"
                     size="large"
+                    borderStyle="none"
                   ></Button>
                 </Link>
               )}
               {isLeader && displayRequest && (
                 <Link href={`${params.studyId}/studyrequest`}>
-                  <Button primary label={'전체 수락'} size="large"></Button>
+                  <Button
+                    primary
+                    label={'전체 수락'}
+                    size="large"
+                    borderStyle="none"
+                  ></Button>
                 </Link>
               )}
               {/* TODO: 스터디원 => 요청(상태)*/}
@@ -69,6 +75,7 @@ export default function StudyDetailLayout({
                 <Button
                   primary
                   label="참가 요청"
+                  borderStyle="none"
                   onClick={() => postApply()}
                 ></Button>
               )}
