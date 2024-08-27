@@ -22,4 +22,8 @@ export type Study = {
   recruitNum: number;
   // 관련 태그들
   tags: string[];
+  //
+  created_at?: string;
+  //
+  viewCount?: Number;
 };

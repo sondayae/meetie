@@ -3,8 +3,8 @@ import { fn } from '@storybook/test';
 import Button from '../components/common/Button';
 
 const meta = {
-	title: 'Component/Button',
-	component: Button,
+  title: 'Component/Button',
+  component: Button,
   args: {
     primary: true,
     label: 'Button',
@@ -21,6 +21,6 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     primary: true,
-    label: "Button",
+    label: 'Button',
   },
 };
