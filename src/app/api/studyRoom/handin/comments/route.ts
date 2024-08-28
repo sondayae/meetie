@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import supabase from '@/utils/supabase/client';
 
 export async function GET (req: NextRequest) {
-    let query = supabase.from('comments').select('id, user_id, target_id, comment, created_at, user(name)').order('created_at', {ascending: false});
+    let query = supabase.from('comments').select('id, user_id, target_id, comment, created_at, user(name), reactions(reactions)').order('created_at', {ascending: false});
     const searchParams = req.nextUrl.searchParams;
     const targetId = searchParams.get('target_id');
     
