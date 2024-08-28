@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import MoreCircles from './MoreCircles';
 import ProfileImg from '../common/ProfileImg';
+import { useModal } from '@/hooks/hooks';
 
 export type HandinType = {
   id: string;
@@ -9,6 +10,8 @@ export type HandinType = {
   text: string,
   handinImg: string,
   date: string;
+  openModal: () => void;
+  closeModal: () => void;
 };
 
 const dateFormatter = (timestamp: string) => {
@@ -16,11 +19,11 @@ const dateFormatter = (timestamp: string) => {
     return date;
   }
 
-const Handin = ({id, userName, handinImg, text, date}: HandinType) => {
-  const router = useRouter();
-  const handleClick = (handinId: string) => {
-    router.push(`./studyRoom/handin/${handinId}`)
-  }
+const Handin = ({ id, userName, handinImg, text, date, openModal, closeModal }: HandinType) => {
+    const router = useRouter();
+    const handleClick = (handinId: string) => {
+        router.push(`./studyRoom/handin/${handinId}`)
+    }
 
   return (
     <div
@@ -48,7 +51,7 @@ const Handin = ({id, userName, handinImg, text, date}: HandinType) => {
           </div>
         </div>
         <div>
-          <MoreCircles />
+          <MoreCircles openModal={openModal} closeModal={closeModal}/>
         </div>
       </div>
     </div>
