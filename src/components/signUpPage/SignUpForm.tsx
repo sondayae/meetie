@@ -3,11 +3,14 @@
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
 import { EMAIL_REG, PASSWORD_REG } from '@/constants/regexPatterns';
+import ROUTE_PATH from '@/constants/route';
 import supabase from '@/utils/supabase/client';
 
 interface IFormInput {
@@ -16,6 +19,7 @@ interface IFormInput {
   passwordCheck: string;
   name: string;
 }
+// TODO 예외처리
 
 export default function SignUpForm() {
   const {
@@ -137,7 +141,15 @@ export default function SignUpForm() {
         {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
       </div>
 
-      <button type="submit">가입하기</button>
+      <div className="mt-6 flex flex-col items-center">
+        <Button label="계정 만들기" type="primary" size="large" />
+        <Link
+          className="after:contents-[''] relative mt-6 px-2 py-1 text-sm font-medium text-dark-gray after:absolute after:bottom-1 after:left-2 after:right-2 after:h-px after:bg-dark-gray"
+          href={ROUTE_PATH.AUTH.LOGIN}
+        >
+          이미 계정이 있으신가요? 로그인
+        </Link>
+      </div>
     </form>
   );
 }
