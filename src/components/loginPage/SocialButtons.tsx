@@ -13,11 +13,17 @@ function SocialButtons() {
     });
   };
 
+  const bgColor: Partial<Record<Provider, string>> = {
+    github: 'bg-[#3c4043]',
+    kakao: 'bg-[#fae500]',
+    google: 'bg-[#f8f8f8]',
+  };
+
   return (
     <div className="flex justify-center gap-6">
       {SOCIAL_ICONS.map((social) => (
         <button
-          className={`flex h-11 w-11 items-center justify-center rounded shadow ${social.bgColor}`}
+          className={`flex h-11 w-11 items-center justify-center rounded shadow ${bgColor[social.name]}`}
           key={social.name}
           type="button"
           aria-label={social.name}
