@@ -3,8 +3,8 @@ import { fn } from '@storybook/test';
 import Button from '../components/common/Button';
 
 const meta = {
-	title: 'Component/Button',
-	component: Button,
+  title: 'Component/Button',
+  component: Button,
   args: {
     label: 'Button',
     type: 'primary' || 'secondary' || 'disabled',

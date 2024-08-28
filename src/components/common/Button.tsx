@@ -3,9 +3,10 @@ interface ButtonProps {
   type?: 'primary' | 'secondary' | 'disabled',
   size?: 'small' | 'medium' | 'large',
   borderStyle?: string,
+  onClick?: () => void;
 }
 
-const Button = ({type, label, size, borderStyle='none'}: ButtonProps) => {
+const Button = ({type, label, size, borderStyle='none', onClick}: ButtonProps) => {
   const getSize = () => {
     switch(size) {
       case 'small': return 'min-w-[124px] w-full';
@@ -22,10 +23,12 @@ const Button = ({type, label, size, borderStyle='none'}: ButtonProps) => {
       case 'disabled': return 'bg-disabled border-disabled text-white';
       default: return 'border-middle-gray text-gray-purple';
     }
-  }
+  };
 
   return (
-    <button className={`border-2 rounded-lg p-3 ${getSize()} ${getColor()} ${borderStyle}`}>{label}</button>
-  )
-}
+    <button className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`}>
+      {label}
+    </button>
+  );
+};
 export default Button;
