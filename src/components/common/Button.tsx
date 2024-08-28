@@ -13,6 +13,7 @@ const Button = ({
   size,
   borderColor = 'border-middle-gray',
   borderStyle = 'none',
+  onClick,
 }: ButtonProps) => {
   const getSize = () => {
     switch (size) {
@@ -39,6 +40,7 @@ const Button = ({
   return (
     <button
       className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`}
+      onClick={onClick}
     >
       {label}
     </button>
