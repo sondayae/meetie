@@ -5,6 +5,7 @@ import ProfileImg from '@/components/common/ProfileImg';
 import MoreCircles from '@/components/handin/MoreCircles';
 import SendIcon from '@/components/icons/SendIcon';
 import CommentList from '@/components/handin/CommentList';
+import Header from '@/components/handin/Header';
 
 const page = ({ params }: { params: { id: string }}) => {
   const [handinInfo, setHandinInfo] = useState<any>();
@@ -51,6 +52,7 @@ const page = ({ params }: { params: { id: string }}) => {
     { handinInfo ?
         (
         <div className='h-full'>
+          <Header />
           <div className='grid grid-cols-[1fr_7fr_1fr] gap-[8px] border-b-2 border-middle-gray py-[30px]'>
             <div className=''>
               <ProfileImg img={handinInfo.image}/>
