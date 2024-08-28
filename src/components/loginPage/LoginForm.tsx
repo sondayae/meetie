@@ -5,24 +5,21 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useRouter } from 'next/navigation';
 
+import { postLogin } from '@/apis/auth';
 import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
 import { EMAIL_REG } from '@/constants/regexPatterns';
 import { useUser } from '@/stores/user/user';
+import { LoginFormData } from '@/types/auth';
 
-interface IFormInput {
-  email: string;
-  password: string;
-}
-// TODO 예외 처리
 export default function LoginForm() {
   const {
     register,
     setFocus,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInput>({ mode: 'onBlur' });
+  } = useForm<LoginFormData>({ mode: 'onBlur' });
 
   const router = useRouter();
 
@@ -31,25 +28,16 @@ export default function LoginForm() {
     message: '올바른 메일 형식으로 입력해주세요.',
   };
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-    const {
-      data: { user },
-    } = await response.json();
-
-    if (!response.ok) {
-      return;
+  const onSubmit: SubmitHandler<LoginFormData> = async (formData) => {
+    try {
+      const user = await postLogin(formData);
+      useUser.setState({ user });
+      router.replace('/');
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
     }
-
-    console.log('Login successful:', user);
-    router.replace('/');
-    useUser.setState({ user });
   };
 
   useEffect(() => {
@@ -62,7 +50,7 @@ export default function LoginForm() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div>
-        <Input<IFormInput>
+        <Input<LoginFormData>
           id="email"
           name="email"
           type="email"
@@ -78,7 +66,7 @@ export default function LoginForm() {
       </div>
 
       <div>
-        <Input<IFormInput>
+        <Input<LoginFormData>
           id="password"
           name="password"
           type="password"
