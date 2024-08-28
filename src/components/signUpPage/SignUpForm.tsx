@@ -6,20 +6,13 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { postSignUp } from '@/apis/auth';
 import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
 import { EMAIL_REG, PASSWORD_REG } from '@/constants/regexPatterns';
 import ROUTE_PATH from '@/constants/route';
-import supabase from '@/utils/supabase/client';
-
-interface IFormInput {
-  email: string;
-  password: string;
-  passwordCheck: string;
-  name: string;
-}
-// TODO 예외처리
+import { SignUpFormData } from '@/types/auth';
 
 export default function SignUpForm() {
   const {
@@ -28,7 +21,7 @@ export default function SignUpForm() {
     setFocus,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormInput>({ mode: 'onBlur' });
+  } = useForm<SignUpFormData>({ mode: 'onBlur' });
 
   const router = useRouter();
 
@@ -41,22 +34,15 @@ export default function SignUpForm() {
     message: '최소 8자의 영문, 숫자, 특수문자를 입력해주세요.',
   };
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    const { data: signUpData, error } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-      options: {
-        data: {
-          name: data.name,
-        },
-      },
-    });
-    if (error) {
-      alert('이미 등록된 계정입니다');
-      return;
+  const onSubmit: SubmitHandler<SignUpFormData> = async (formData) => {
+    try {
+      await postSignUp(formData);
+      router.replace('/login');
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
     }
-    router.replace('/login');
-    console.log(signUpData, error);
   };
 
   useEffect(() => {
@@ -69,7 +55,7 @@ export default function SignUpForm() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div>
-        <Input<IFormInput>
+        <Input<SignUpFormData>
           id="email"
           name="email"
           type="email"
@@ -86,7 +72,7 @@ export default function SignUpForm() {
       </div>
 
       <div>
-        <Input<IFormInput>
+        <Input<SignUpFormData>
           id="password"
           name="password"
           type="password"
@@ -105,7 +91,7 @@ export default function SignUpForm() {
       </div>
 
       <div>
-        <Input<IFormInput>
+        <Input<SignUpFormData>
           id="passwordCheck"
           name="passwordCheck"
           type="password"
@@ -126,7 +112,7 @@ export default function SignUpForm() {
       </div>
 
       <div>
-        <Input<IFormInput>
+        <Input<SignUpFormData>
           id="name"
           name="name"
           type="text"
