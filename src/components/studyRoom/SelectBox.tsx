@@ -3,7 +3,7 @@ import Mark from '../common/Mark'
 
 const SelectBox = () => {
   return (
-    <div className='h-[70px] bg-white border-2 border-light-gray rounded-md'>
+    <div className='h-[70px] bg-white border-2 border-light-gray rounded-md drop-shadow-md'>
     <div className='flex'>
         <div className='flex flex-col justify-center items-center w-[18px] h-[40px] bg-[#F7F3FF] border border-[#EBE9F5] rounded-lg m-[16px]'>
           <UpdownArrowIcon className='w-5 h-5'/>

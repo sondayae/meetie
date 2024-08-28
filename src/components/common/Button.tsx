@@ -3,7 +3,7 @@ interface ButtonProps {
   type?: 'primary' | 'secondary' | 'disabled',
   size?: 'small' | 'medium' | 'large',
   borderStyle?: string,
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 const Button = ({type, label, size, borderStyle='none', onClick}: ButtonProps) => {
@@ -26,7 +26,7 @@ const Button = ({type, label, size, borderStyle='none', onClick}: ButtonProps) =
   };
 
   return (
-    <button className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`}>
+    <button className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`} onClick={() => onClick()}>
       {label}
     </button>
   );
