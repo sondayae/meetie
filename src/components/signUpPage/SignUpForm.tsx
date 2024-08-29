@@ -10,8 +10,8 @@ import { postSignUp } from '@/apis/auth';
 import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
-import { EMAIL_REG, PASSWORD_REG } from '@/constants/regexPatterns';
 import ROUTE_PATH from '@/constants/route';
+import { emailPattern, passwordPattern } from '@/constants/validationPatterns';
 import { SignUpFormData } from '@/types/auth';
 
 export default function SignUpForm() {
@@ -24,15 +24,6 @@ export default function SignUpForm() {
   } = useForm<SignUpFormData>({ mode: 'onBlur' });
 
   const router = useRouter();
-
-  const emailPattern = {
-    value: EMAIL_REG,
-    message: '올바른 메일 형식으로 입력해주세요.',
-  };
-  const passwordPattern = {
-    value: PASSWORD_REG,
-    message: '최소 8자의 영문, 숫자, 특수문자를 입력해주세요.',
-  };
 
   const onSubmit: SubmitHandler<SignUpFormData> = async (formData) => {
     try {

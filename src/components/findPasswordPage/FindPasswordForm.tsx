@@ -9,7 +9,7 @@ import Button from '@/components/common/Button';
 import findPassword from '@/components/findPasswordPage/actions/findPassword';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
-import { EMAIL_REG } from '@/constants/regexPatterns';
+import { emailPattern } from '@/constants/validationPatterns';
 import { FindPasswordFormData } from '@/types/auth';
 
 export default function FindPasswordForm() {
@@ -22,11 +22,6 @@ export default function FindPasswordForm() {
   } = useForm<FindPasswordFormData>({ mode: 'onBlur' });
 
   const router = useRouter();
-
-  const emailPattern = {
-    value: EMAIL_REG,
-    message: '올바른 메일 형식으로 입력해주세요.',
-  };
 
   const onSubmit: SubmitHandler<FindPasswordFormData> = async (formData) => {
     try {

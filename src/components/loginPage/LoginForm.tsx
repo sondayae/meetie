@@ -9,7 +9,7 @@ import { postLogin } from '@/apis/auth';
 import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
-import { EMAIL_REG } from '@/constants/regexPatterns';
+import { emailPattern } from '@/constants/validationPatterns';
 import { useUser } from '@/stores/user/user';
 import { LoginFormData } from '@/types/auth';
 
@@ -22,11 +22,6 @@ export default function LoginForm() {
   } = useForm<LoginFormData>({ mode: 'onBlur' });
 
   const router = useRouter();
-
-  const emailPattern = {
-    value: EMAIL_REG,
-    message: '올바른 메일 형식으로 입력해주세요.',
-  };
 
   const onSubmit: SubmitHandler<LoginFormData> = async (formData) => {
     try {
