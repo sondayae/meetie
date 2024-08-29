@@ -9,3 +9,7 @@ export interface SignUpFormData {
   passwordCheck: string;
   name: string;
 }
+
+export interface FindPasswordFormData {
+  email: string;
+}
