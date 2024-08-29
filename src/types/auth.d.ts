@@ -13,3 +13,8 @@ export interface SignUpFormData {
 export interface FindPasswordFormData {
   email: string;
 }
+
+export interface UpdatePasswordFormData {
+  password: string;
+  passwordCheck: string;
+}
