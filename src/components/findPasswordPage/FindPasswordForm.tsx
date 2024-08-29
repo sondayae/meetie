@@ -67,7 +67,7 @@ export default function FindPasswordForm() {
       </div>
 
       <div className="mt-5 flex justify-center">
-        <Button label="로그인" type="primary" size="large" />
+        <Button label="변경 링크 전송하기" type="primary" size="large" />
       </div>
     </form>
   );
