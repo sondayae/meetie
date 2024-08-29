@@ -1,95 +1,17 @@
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import UpdatePasswordForm from '@/components/updatePasswordPage/UpdatePasswordForm';
 
-import { createClient } from '@/utils/supabase/server';
-// TODO 컴포넌트 퍼블리싱과 분리 및 예외처리
-export default async function ResetPassword({
+export default async function UpdatePassword({
   searchParams,
 }: {
-  searchParams: { message: string; code: string };
+  searchParams?: { [key: string]: string };
 }) {
-  const resetPassword = async (formData: FormData) => {
-    'use server';
-
-    const supabase = createClient();
-    const password = formData.get('password') as string;
-
-    if (searchParams.code) {
-      const { error } = await supabase.auth.exchangeCodeForSession(
-        searchParams.code,
-      );
-
-      if (error) {
-        return redirect(
-          `/login/update/password?message=Unable to reset Password. Link expired!`,
-        );
-      }
-    }
-
-    const { error } = await supabase.auth.updateUser({
-      password,
-    });
-
-    if (error) {
-      console.log(error);
-      return redirect(
-        `/login/update/password?message=Unable to reset Password. Try again!`,
-      );
-    }
-
-    redirect(
-      `/login?message=Your Password has been reset successfully. Sign in.`,
-    );
-  };
-
   return (
-    <div>
-      <Link
-        href="/"
-        className="text-foreground bg-btn-background hover:bg-btn-background-hover m-4 rounded-md px-4 py-2 text-sm no-underline"
-      >
-        Home
-      </Link>
-
-      <div className="mx-auto mt-4 w-full px-8 sm:max-w-md">
-        <form
-          className="animate-in text-foreground mb-4 flex w-full flex-1 flex-col justify-center gap-2"
-          action={resetPassword}
-        >
-          <label className="text-md" htmlFor="password">
-            New Password
-          </label>
-          <input
-            className="mb-6 rounded-md border bg-inherit px-4 py-2"
-            type="password"
-            name="password"
-            placeholder="••••••••"
-            required
-          />
-          <label className="text-md" htmlFor="password">
-            Confirm New Password
-          </label>
-          <input
-            className="mb-6 rounded-md border bg-inherit px-4 py-2"
-            type="password"
-            name="confirmPassword"
-            placeholder="••••••••"
-            required
-          />
-          <button
-            type="submit"
-            className="text-foreground mb-2 rounded-md bg-indigo-700 px-4 py-2"
-          >
-            Reset
-          </button>
-
-          {searchParams?.message && (
-            <p className="bg-foreground/10 text-foreground mt-4 p-4 text-center">
-              {searchParams.message}
-            </p>
-          )}
-        </form>
+    <div className="flex flex-col items-center py-20">
+      <div className="flex flex-col items-center justify-center gap-1">
+        <h2 className="text-2xl font-bold">비밀번호 변경</h2>
+        <p className="text-center">변경할 비밀번호를 입력해 주세요.</p>
       </div>
+      <UpdatePasswordForm searchParams={searchParams} />
     </div>
   );
 }
