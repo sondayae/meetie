@@ -3,11 +3,11 @@
 import { headers } from 'next/headers';
 
 import { FindPasswordFormData } from '@/types/auth';
-import { createClient } from '@/utils/supabase/server';
+import supabaseServer from '@/utils/supabase/server';
 
 const findPassword = async (formData: FindPasswordFormData) => {
   const origin = headers().get('origin');
-  const supabase = createClient();
+  const supabase = supabaseServer();
 
   const { error: matchError } = await supabase
     .from('user')

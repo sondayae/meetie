@@ -4,7 +4,7 @@ import '@/css/globals.css';
 import Footer from '@/components/common/Footer';
 import Header from '@/components/common/Header';
 import InitUser from '@/stores/user/InitUser';
-import { createClient } from '@/utils/supabase/server';
+import supabaseServer from '@/utils/supabase/server';
 
 const pretendard = localFont({
   src: [
@@ -42,7 +42,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createClient();
+  const supabase = supabaseServer();
   const { data } = await supabase.auth.getUser();
 
   return (

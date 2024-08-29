@@ -1,13 +1,13 @@
 'use server';
 
 import { UpdatePasswordFormData } from '@/types/auth';
-import { createClient } from '@/utils/supabase/server';
+import supabaseServer from '@/utils/supabase/server';
 
 const updatePassword = async (
   formData: UpdatePasswordFormData,
   searchParams?: { [key: string]: string },
 ) => {
-  const supabase = createClient();
+  const supabase = supabaseServer();
 
   if (searchParams?.code) {
     const { error: CodeExchangeError } =
