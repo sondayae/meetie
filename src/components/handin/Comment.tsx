@@ -62,7 +62,7 @@ const Comment = ({ comment, reactions, setModalType }: any) => {
     };
 
     const handleCommentChange = (e) => {
-      setCommentText(e.target.value);
+      // setCommentText(e.target.value);
     }
 
   return (
