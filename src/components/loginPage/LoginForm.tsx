@@ -5,13 +5,15 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useRouter } from 'next/navigation';
 
-import { postLogin } from '@/apis/auth';
-import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
-import { emailPattern } from '@/constants/validationPatterns';
-import { useUser } from '@/stores/user/user';
-import { LoginFormData } from '@/types/auth';
+import { EMAIL_REG } from '@/constants/regexPatterns';
+import supabase from '@/utils/supabase/client';
+
+interface IFormInput {
+  email: string;
+  password: string;
+}
 
 export default function LoginForm() {
   const {
@@ -19,20 +21,24 @@ export default function LoginForm() {
     setFocus,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormData>({ mode: 'onBlur' });
+  } = useForm<IFormInput>({ mode: 'onBlur' });
 
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<LoginFormData> = async (formData) => {
-    try {
-      const user = await postLogin(formData);
-      useUser.setState({ user });
-      router.replace('/');
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-      }
+  const emailPattern = {
+    value: EMAIL_REG,
+    message: '올바른 메일 형식으로 입력해주세요.',
+  };
+
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    const { data: loginData, error } =
+      await supabase.auth.signInWithPassword(data);
+
+    if (error) {
+      alert('정확한 로그인 정보를 입력해주세요.');
+      return;
     }
+    router.replace('/');
   };
 
   useEffect(() => {
@@ -45,7 +51,7 @@ export default function LoginForm() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div>
-        <Input<LoginFormData>
+        <Input<IFormInput>
           id="email"
           name="email"
           type="email"
@@ -61,7 +67,7 @@ export default function LoginForm() {
       </div>
 
       <div>
-        <Input<LoginFormData>
+        <Input<IFormInput>
           id="password"
           name="password"
           type="password"
@@ -76,9 +82,8 @@ export default function LoginForm() {
           <ErrorMessage>{errors.password.message}</ErrorMessage>
         )}
       </div>
-      <div className="mt-5 flex justify-center">
-        <Button label="로그인" type="primary" size="large" />
-      </div>
+
+      <button type="submit">로그인</button>
     </form>
   );
 }

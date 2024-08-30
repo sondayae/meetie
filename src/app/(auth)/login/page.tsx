@@ -6,8 +6,8 @@ import SocialButtons from '@/components/loginPage/SocialButtons';
 
 export default function Login() {
   return (
-    <div className="bg-gradient-to-bl from-[#e4e4ff] to-[#fff] to-45% pt-16">
-      <div className="mb-6 flex flex-col gap-4 px-4">
+    <>
+      <div className="gradation mb-6 flex flex-col gap-4 px-4">
         <Image
           src="/images/wavingHand.png"
           width={85}
@@ -28,6 +28,6 @@ export default function Login() {
       </div>
       <SocialButtons />
       <AccountRecoveryLinks />
-    </div>
+    </>
   );
 }

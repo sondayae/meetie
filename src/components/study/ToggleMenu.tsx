@@ -2,11 +2,7 @@ import { useParams, useRouter } from 'next/navigation';
 import CopyIcon from '../icons/CopyIcon';
 import DeleteIcon from '../icons/DeleteIcon';
 import EditIcon from '../icons/EditIcon';
-import {
-  deleteStudy,
-  editStudy,
-} from '@/app/(study)/study/[studyId]/studyAction';
-import { useStudyStore } from '@/app/stores/studyStore';
+import { deleteStudy } from '@/app/(study)/study/[studyId]/studyAction';
 
 type ToggleMenuProps = {
   toggleMenu: boolean;
@@ -17,10 +13,6 @@ export default function ToggleMenu({ toggleMenu, onClose }: ToggleMenuProps) {
   const router = useRouter();
   const params = useParams();
   const { studyId } = params;
-
-  const openEditPage = async () => {
-    router.push(`${studyId}/edit`);
-  };
 
   const handleDeleteStudy = async () => {
     if (confirm('스터디를 삭제하시겠습니까?')) {
@@ -36,22 +28,19 @@ export default function ToggleMenu({ toggleMenu, onClose }: ToggleMenuProps) {
     <>
       <div className="absolute right-0 mr-0 w-[114px] rounded-lg border border-[#eee] bg-white text-sm">
         <ul>
-          {/* <li
+          <li
             className="border-b-1 flex items-center border-b-[1px] border-[#eee]"
             onClick={onClose}
           >
             <button className="flex w-full items-center px-4 py-[10px] text-[#555]">
               <CopyIcon className="mr-[10px]" /> 공유하기
             </button>
-          </li> */}
+          </li>
           <li
             className="flex items-center border-b-[1px] border-[#eee]"
             onClick={onClose}
           >
-            <button
-              className="flex w-full items-center px-4 py-[10px] text-[#555]"
-              onClick={openEditPage}
-            >
+            <button className="flex w-full items-center px-4 py-[10px] text-[#555]">
               <EditIcon className="mr-[10px]" /> 수정하기
             </button>
           </li>
