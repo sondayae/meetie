@@ -57,8 +57,6 @@ export const newModal = () => {
             </div>
         )
     }
-  
-    // isOpen이 true라면 Modal 컴포넌트를 반환, false라면 null을 반환
     return {
       Modal,
       open,
