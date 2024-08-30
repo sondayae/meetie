@@ -3,32 +3,29 @@ import ThinkingFace from '@/assets/ThinkingFace.png';
 import Wavinghand from '@/assets/Wavinghand.png';
 import Link from 'next/link';
 import Image from 'next/image';
-import supabase from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default async function StudyPage() {
+export default function StudyPage() {
   const router = useRouter();
 
+  // 스터디룸 유무확인
+  // TODO: display 개선
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const { data, error } = await supabase
-          .from('user')
-          .select('*')
-          .eq('id', 'e61659b6-8b37-4c47-ade5-0bb2530845f2'); // 스터디룸 있는 유저
-        // .eq('id', 'daba5bf3-198f-4a2c-a7fc-aefbe921434f'); // 스터디룸 없는 유저
+        const res = await fetch('/api/studyRoom');
+        const data = await res.json();
 
-        if (error) {
-          console.error('Error fetching user:', error);
-          return;
+        if (!res.ok) {
+          throw new Error('Error fetching user data');
         }
 
         if (data && data.length > 0 && data[0]?.participating_study) {
           router.push(`/studyRoom/${data[0].participating_study}/handin`);
         }
       } catch (error) {
-        console.error('Unexpected error:', error);
+        console.error('error:', error);
       }
     };
 
@@ -72,7 +69,6 @@ export default async function StudyPage() {
               alt={'ThinkingFace'}
             />
           </div>
-          {/* </div> */}
         </div>
         <Link href={'/study/write'}>
           <div className="flex w-full rounded-lg bg-[#f5f1ff] p-6">
@@ -89,7 +85,7 @@ export default async function StudyPage() {
                 src={Wavinghand}
                 width={72}
                 height={72}
-                alt={'ThinkingFace'}
+                alt={'Wavinghand'}
               />
             </div>
           </div>

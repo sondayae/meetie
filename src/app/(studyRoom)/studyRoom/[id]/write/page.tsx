@@ -104,14 +104,14 @@ export default function Page() {
               <input
                 type="date"
                 {...register('endDate', { required: '종료일을 선택해주세요.' })}
-                className="mt-2 h-12 w-full rounded-lg border border-[#c4c4c4] px-4"
+                className="mt-2 h-12 w-full rounded-lg border border-[#c4 c4c4] px-4"
               />
               {/* <ErrorMessage error={errors.endDate} /> */}
             </div>
           </div>
 
           <footer className="flex w-full justify-center bg-white py-4">
-            <Button type="submit" size="large" label="과제 생성" />
+            <Button type="primary" size="large" label="과제 생성"  />
           </footer>
         </form>
       </div>
