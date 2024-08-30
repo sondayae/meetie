@@ -43,7 +43,7 @@ export default function Footer() {
 
   return (
     <>
-      <div className="fixed bottom-0 mx-auto h-[#104px] w-full max-w-[600px] items-center justify-center">
+      <div className="fixed bottom-0 mx-auto h-[#104px] w-full max-w-[600px] items-center justify-center px-4">
         <div className="flex w-full items-center justify-center gap-5 bg-white py-4 text-[14px]">
           <div className="flex w-full flex-col items-center">
             <p className="text-[14px]">참여가능인원</p>
