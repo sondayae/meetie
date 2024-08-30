@@ -1,15 +1,21 @@
 'use client';
-import { useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import PlusIcon from '../icons/PlusIcon';
 import SelectBox from './SelectBox';
 import TabMenu from './TabMenu';
 
-const MainLayout = () => {
+const MainLayout = ({ list, selectedItem, setSelectedItem }) => {
   const menus = [
     {id: 'schedule', name: '캘린더'},
-    {id: 'feedback', name: '피드백'},
-    {id: 'chat', name: '채팅'},
-  ];
+    {id: 'handin', name: '과제'},
+    {id: 'chat', name: '채팅'},];
+    const pathName = usePathname().split('/');
+    const activeMenu = pathName[pathName.length-1];
+    const router = useRouter();
+
+    const handleClick = (menu: string) => {
+      router.push(`./${menu}`);
+    }
 
   return (
     <div className="bg-[#E3E3FA]">
@@ -24,13 +30,9 @@ const MainLayout = () => {
       </div>
     </div>
     <div className="mx-[16px] pb-[20px] pt-[12px]">
-      <SelectBox />
+      <SelectBox list={list} selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
     </div>
-    <ul className="flex justify-evenly border-t-2 border-middle-gray bg-white p-[14px]">
-      {menus.map(menu => {
-        return <TabMenu key={menu.id} label={menu.name}></TabMenu>
-      })}
-    </ul>
+    <TabMenu menus={menus} activeMenu={activeMenu} onClick={menu => handleClick(menu)}/>
   </div>
   )
 }
