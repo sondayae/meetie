@@ -1,8 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import MoreCircles from './MoreCircles';
 import ProfileImg from '../common/ProfileImg';
-import { useState } from 'react';
 import ToggleMenu from './ToggleMenu';
 
 export type HandinType = {
@@ -23,7 +21,7 @@ const dateFormatter = (timestamp: string) => {
 const Handin = ({ id, userName, handinImg, text, date, onEdit, onDelete }: HandinType) => {
     const router = useRouter();
     const showHandinDetail = (handinId: string) => {
-        router.push(`./studyRoom/handin/${handinId}`)
+        router.push(`./handin/${handinId}`)
     }
     const handleTypeFunc = (type: string) => {
       if (type === 'edit') {
@@ -64,12 +62,6 @@ const Handin = ({ id, userName, handinImg, text, date, onEdit, onDelete }: Handi
               menus={[{type: 'edit', label: '수정하기'}, {type: 'delete', label: '삭제하기'}]}
               onClick={(item: string) => {handleTypeFunc(item);}}
             />
-          {/* <MoreCircles openModal={openModal} closeModal={closeModal}/>
-          <NewMoreCircles items=["수정","삭제"] onClick={item=>{
-            if(item==="수정"){
-              ontimeupdate()
-            }
-          }} /> */}
         </div>
       </div>
     </div>
