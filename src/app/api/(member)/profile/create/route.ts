@@ -1,7 +1,8 @@
 import supabase from '@/utils/supabase/client';
 
 export async function POST(request: Request) {
-  const { job, purposes, personalities, studySpan } = await request.json();
+  const { nickname, introduction, job, purposes, personalities, studySpan } =
+    await request.json();
   const userId = '3c572fd8-c5d2-4e20-b65b-91f9c153adb6';
 
   try {
@@ -18,6 +19,8 @@ export async function POST(request: Request) {
         .from('user')
         .upsert({
           id: userId,
+          nickname,
+          introduction,
           job,
           purpose: purposes,
           personality: personalities,
