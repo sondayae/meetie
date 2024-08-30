@@ -4,7 +4,6 @@ import Wavinghand from '@/assets/Wavinghand.png';
 import Link from 'next/link';
 import Image from 'next/image';
 import supabase from '@/utils/supabase/client';
-import { NextResponse } from 'next/server';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -17,8 +16,8 @@ export default async function StudyPage() {
         const { data, error } = await supabase
           .from('user')
           .select('*')
-          // .eq('id', 'e61659b6-8b37-4c47-ade5-0bb2530845f2'); // 스터디룸 있는 유저
-          .eq('id', 'daba5bf3-198f-4a2c-a7fc-aefbe921434f'); // 스터디룸 없는 유저
+          .eq('id', 'e61659b6-8b37-4c47-ade5-0bb2530845f2'); // 스터디룸 있는 유저
+        // .eq('id', 'daba5bf3-198f-4a2c-a7fc-aefbe921434f'); // 스터디룸 없는 유저
 
         if (error) {
           console.error('Error fetching user:', error);
