@@ -6,8 +6,8 @@ import MoreIcon from '../icons/MoreIcon';
 
 type ToggleMenuProps = {
     menus: {
+        icon: string,
         label: string,
-        type: string,
     }[];
   onClick: Function;
 };
@@ -15,8 +15,8 @@ type ToggleMenuProps = {
 export default function ToggleMenu({ menus, onClick }: ToggleMenuProps) {
     const [isOpened, setIsOpened] = useState(false);
 
-    const getIcon = (type: string) => {
-        switch(type) {
+    const getIcon = (icon: string) => {
+        switch(icon) {
             case 'share': return <CopyIcon className='mr-[10px]' />;
             case 'edit': return <EditIcon className='mr-[10px]'/>;
             case 'delete': return <DeleteIcon className='mr-[10px]' />;
@@ -36,12 +36,12 @@ export default function ToggleMenu({ menus, onClick }: ToggleMenuProps) {
                 <ul>
                     {menus.map(menu => {
                         return (
-                            <li key={menu.type} className='flex items-center border-b-[1px] border-[#eee]'>
+                            <li key={menu.icon} className='flex items-center border-b-[1px] border-[#eee]'>
                                 <button
                                     className='flex w-full items-center px-4 py-[10px] text-[#555]'
-                                    onClick={() => onClick(menu.type)}
+                                    onClick={() => onClick(menu.icon)}
                                 >
-                                    {getIcon(menu.type)}
+                                    {getIcon(menu.icon)}
                                     {menu.label}
                                 </button>
                             </li>

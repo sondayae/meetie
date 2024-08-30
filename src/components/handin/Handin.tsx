@@ -59,7 +59,7 @@ const Handin = ({ id, userName, handinImg, text, date, onEdit, onDelete }: Handi
         </div>
         <div>
             <ToggleMenu
-              menus={[{type: 'edit', label: '수정하기'}, {type: 'delete', label: '삭제하기'}]}
+              menus={[{icon: 'edit', label: '수정하기'}, {icon: 'delete', label: '삭제하기'}]}
               onClick={(item: string) => {handleTypeFunc(item);}}
             />
         </div>

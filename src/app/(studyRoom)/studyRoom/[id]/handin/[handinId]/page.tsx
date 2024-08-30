@@ -67,7 +67,7 @@ const page = ({ params }: { params: { handinId: string }}) => {
               <span>{handinInfo.user.name}</span>
             </div>
             <ToggleMenu
-              menus={[{type: 'edit', label: '수정하기'}, {type: 'delete', label: '삭제하기'}]}
+              menus={[{icon: 'edit', label: '수정하기'}, {icon: 'delete', label: '삭제하기'}]}
               onClick={(item: string) => {console.log(item);}}
             />
           </div>
