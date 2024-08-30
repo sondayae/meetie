@@ -1,11 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
 import supabase from '@/utils/supabase/client';
-import Footer from '@/components/study/Footer';
+import StatusDisplay from '@/components/study/StatusDisplay';
 import { useRouter } from 'next/navigation';
 
 function WaitingRequestpage() {
-  const [applydata, setApplydata] = useState(null);
+  const [applydata, setApplydata] = useState([]);
   const fullmember = true;
   const router = useRouter();
 
@@ -186,7 +186,7 @@ function WaitingRequestpage() {
           <p>Loading data...</p>
         )}
       </div>
-      <Footer />
+      <StatusDisplay />
     </>
   );
 }
