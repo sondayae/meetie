@@ -4,13 +4,13 @@ import { useSearchParams } from 'next/navigation'
 import NoticeBox from '@/components/common/NoticeBox';
 import HandinForm from '@/components/handin/HandinForm';
 import HandinHeader from '@/components/handin/HandinHeader';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
+    const router = useRouter();
     const [data, setData] = useState(null);
     const handinId = useSearchParams().get('id');
 
-    const [message, setMessage] = useState('');
-    
     const fetchData = async () => {
         const response = await fetch(`/api/handin?id=${handinId}`);
         const data = await response.json();
@@ -18,10 +18,9 @@ const page = () => {
     }
 
     const onSubmitHandler = async (data: any) => {
-        console.log(data);
         const formData = new FormData();
         data.images = Array.from(data.images);
-        data.images.map(image => {formData.append('files', image)});
+        data.images.map((image: File) => {formData.append('files', image)});
         formData.append('data', JSON.stringify({
             id: data.id,
             homework_id: '2',
@@ -37,8 +36,10 @@ const page = () => {
         const json = await res.json();
         if (res.ok) {
             console.log('success');
+            router.push('./complete');
         } else {
             console.log('error');
+            console.log(json);
         }
         
     }

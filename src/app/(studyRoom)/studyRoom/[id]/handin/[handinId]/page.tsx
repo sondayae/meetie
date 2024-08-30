@@ -14,7 +14,7 @@ const page = ({ params }: { params: { id: string }}) => {
   const handinId = params.id;
   
   const fetchData = async () => {
-    const res = await fetch(`/api/studyRoom/handin?id=${handinId}`);
+    const res = await fetch(`/api/handin?id=${handinId}`);
     const data = await res.json();
 
     const { id, user, text, images, created_at } = data[0];
@@ -38,7 +38,7 @@ const page = ({ params }: { params: { id: string }}) => {
   }
   
   const insertComment = async () => {
-    const response = await fetch('/api/studyRoom/handin/comments',
+    const response = await fetch('/api/handin/comments',
       {
         method: 'POST', 
         headers: {'Content-Type': 'application/json'}, 
