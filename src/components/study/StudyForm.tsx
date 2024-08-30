@@ -187,7 +187,7 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
       />
       <form
         action=""
-        className="flex flex-col"
+        className="flex flex-col px-4"
         onSubmit={handleSubmit(
           isEditMode ? handleEditFormSubmit : handleFormSubmit,
         )}

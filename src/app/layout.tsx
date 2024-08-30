@@ -42,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={pretendard.className}>
-        <div className="m-auto w-full max-w-[600px] px-4 py-2">
+        <div className="m-auto w-full max-w-[600px] py-2">
           <Header />
           <main className="h-full">{children}</main>
           <Footer />
