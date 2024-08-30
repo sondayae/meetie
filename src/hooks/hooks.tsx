@@ -4,10 +4,10 @@ import SelectModal from '@/components/studyRoom/SelectModal';
 import SimpleModal from '@/components/common/SimpleModal';
 
 type TModal = {
-    type: string;
+    type?: string;
     data?: [];
-    title: string;
-    subtitle: string;
+    title?: string;
+    subtitle?: string;
     onConfirm: Dispatch<void>;
     onCancel: Dispatch<void>;
 };
@@ -20,13 +20,12 @@ export const useModal = ({type='none', data, title, subtitle, onConfirm, onCance
     const getModal = () => {
         switch(type) {
             case 'data': return <SelectModal data={data} onConfirm={onConfirm} onCancel={onCancel}/>
-            default: return <SimpleModal />
+            default: return <SimpleModal title={title} subtitle={subtitle} onConfirm={onConfirm} onCancel={onCancel}/>
         }
     }
 
     const Modal = () => {
         return (
-            <>
             <div id='popupModal' className={`${open ? '' : 'hidden'} fixed top-0 left-0 z-50 w-full h-full bg-dark-gray bg-opacity-50`}>
                 <div className='relative m-auto p-4 w-full top-[50%]'>
                         {
@@ -34,22 +33,6 @@ export const useModal = ({type='none', data, title, subtitle, onConfirm, onCance
                         }
                 </div>
             </div>
-                {/* <div id="popupModal" className={`${open ? '' : 'hidden'} fixed top-0 left-0 z-50 w-full h-full bg-dark-gray bg-opacity-50`}>
-                    <div className="relative m-auto p-4 w-full max-w-md top-[50%]">
-                        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                            <div className="p-4 md:p-5 text-center">
-                                <h1>{title}</h1>
-                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{subtitle}</h3>
-                                <div className='flex gap-4'>
-                                    <Button label='확인' type='primary' size='small' onClick={onConfirm}/>
-                                    <Button label='취소' size='small' onClick={onCancel}/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
-            </>
-
         );
     }
 
@@ -59,3 +42,26 @@ export const useModal = ({type='none', data, title, subtitle, onConfirm, onCance
         closeModal,
     }
 };
+
+export const newModal = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const open = () => {setIsOpen(true)};
+    const close = () => {setIsOpen(false)};
+
+    const Modal = ({children}) => {
+        return (
+            <div id='popupModal' className={`${isOpen ? '' : 'hidden'} fixed top-0 left-0 z-50 w-full h-full bg-dark-gray bg-opacity-50`}>
+                <div className='relative m-auto p-4 w-full top-[50%]'>
+                        {children}
+                </div>
+            </div>
+        )
+    }
+  
+    // isOpen이 true라면 Modal 컴포넌트를 반환, false라면 null을 반환
+    return {
+      Modal,
+      open,
+      close,
+    };
+  };
