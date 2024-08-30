@@ -4,26 +4,26 @@ import PlusIcon from '../icons/PlusIcon';
 import Button from '../common/Button';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { useState, useRef } from 'react';
-// import { useModal } from '@/hooks/hooks';
+import { useState, useRef, useEffect } from 'react';
 
-const HandinForm = ({preloadedValues, onSubmitHandler}: any) => {
-    const { register, handleSubmit, formState: { errors } } = useForm({
+const MAX_LENGTH = 500;
+type THanindForm = {
+    type: string;
+    homeworkList: [];
+    preloadedValues?: [];
+    onSubmitHandler: Function;
+}
+
+const HandinForm = ({ type, homeworkList, preloadedValues, onSubmitHandler}: THanindForm) => {
+    const [text, setText] = useState<string | undefined>(preloadedValues ? preloadedValues.text : '');
+    const [image, setImage] = useState<string | undefined>(preloadedValues ? preloadedValues.images.url : '');
+    const [homework, setHomework] = useState(preloadedValues ? preloadedValues.homework : homeworkList[0]);
+    const imgInputRef = useRef<HTMLInputElement | null>(null);
+
+    const { register, handleSubmit, setValue } = useForm({
         defaultValues: preloadedValues
     });
-    const [image, setImage] = useState(preloadedValues.images.url);
-    const [text, setText] = useState(preloadedValues.text);
-    const imgInputRef = useRef<HTMLInputElement | null>(null);
     const { ref, ...rest } = register('images');
-
-    
-    // TODO 과제 선택 영역 모달 필요
-    // const { openModal, closeModal, Modal } = useModal({
-    //     title: '수정',
-    //     subtitle: '수정하시겠습니까?',
-    //     onConfirm: handleConfirm,
-    //     onCancel: handleCancel,
-    //   });
 
     const handleClick = () => {
         if (imgInputRef.current) {
@@ -38,20 +38,21 @@ const HandinForm = ({preloadedValues, onSubmitHandler}: any) => {
         setText(e.target.value);
     }
 
+    useEffect(() => {
+        setValue('homework_id', homework.id);
+    }, [homework])
+
     return (
-        <form className="w-full" onSubmit={handleSubmit(onSubmitHandler)}>
+        <form className="w-full">
             <div className="pb-[25px]">
-                <div className="flex items-center pb-[16px]">
-                <span className="mr-[12px] font-medium">14일차 과제</span>
-                <Mark />
-                </div>
-                <SelectBox />
+                <SelectBox list={homeworkList} selectedItem={homework} setSelectedItem={setHomework} />
+                <input type="text" {...register('homework_id')} className='hidden'/>
             </div>
             <div
                 className="mb-[40px] flex aspect-video justify-center overflow-hidden rounded-md border-2 border-light-gray bg-[#f9f9f9] hover:cursor-pointer"
                 onClick={handleClick}
             >
-                <div className={`items-center justify-center ${preloadedValues.images ? 'hidden' : 'flex flex-col'}`}>
+                <div className={`items-center justify-center ${image ? 'hidden' : 'flex flex-col'}`}>
                     <span className="mb-[8px] rounded-full bg-[#eaeaea] p-1">
                         <PlusIcon className="h-5 w-5 fill-[#a9a9a9] stroke-[#a9a9a9]" />
                     </span>
@@ -65,17 +66,20 @@ const HandinForm = ({preloadedValues, onSubmitHandler}: any) => {
                             imgInputRef.current = e;
                         }}
                         accept="image/*"
+                        className='hidden'
                     />
                 </div>
-                <div className='relative w-full overflow-hidden'>
-                    <Image
-                        src={image}
-                        fill={true}
-                        alt='image'
-                        priority
-                        className='object-cover'
-                    />
-                </div>
+                {image && (
+                    <div className={`relative w-full overflow-hidden`}>
+                        <Image
+                            src={image}
+                            fill={true}
+                            alt='image'
+                            priority
+                            className='object-cover'
+                        />
+                    </div>
+                )}
             </div>
             <div>
                 <label htmlFor="handinText" className="font-medium">기록</label>
@@ -86,16 +90,14 @@ const HandinForm = ({preloadedValues, onSubmitHandler}: any) => {
                     {...register('text')}
                     onChange={handleTextChange}
                 />
-                <p className="mt-1 text-end text-xs text-[#9d9d9d]">{`${text.length} / 20`}</p>
+                <p className="mt-1 text-end text-xs text-[#9d9d9d]">{`${text.length} / ${MAX_LENGTH}`}</p>
             </div>
             <div className="mt-[100px]">
                 <Button
                 type="primary"
-                label="수정하기"
+                label={type === 'add' ? '인증하기' : '수정하기'}
                 size="large"
-                onClick={() => {
-                    console.log('과제 수정');
-                }}
+                onClick={() => handleSubmit(onSubmitHandler)()}
                 />
             </div>
         </form>

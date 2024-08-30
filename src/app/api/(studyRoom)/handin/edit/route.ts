@@ -1,50 +1,60 @@
 import { NextRequest, NextResponse } from 'next/server';
 import supabase from '@/utils/supabase/client';
 
-export async function POST (req: NextRequest) {
+// 뱃지
+// 옵저버 패턴으로 이벤트 즉시 실행
 
-    const bucket = 'images';
+const BUCKET_NAME = 'images';
+// const BUCKET_NAME = '';
+
+
+export async function POST (req: NextRequest) {
     const newFileName = 'handinImg_' + crypto.randomUUID();
     const formData = await req.formData();
     const files = formData.getAll('files') as File[];
-    const insertData = JSON.parse(formData.get('data'));
+    const jsonData = JSON.parse(formData.get('data') as string);
 
     try {
         if (files.length > 0) {
             const fileToStorage = files[0];
-            const { data: storageData, error: storageError } = await supabase.storage.from(bucket).upload(`handin/${newFileName}`, fileToStorage);
+
+            const { data: storageData, error: storageError } = await supabase.storage.from(BUCKET_NAME).upload(`handin/${newFileName}`, fileToStorage);
             if (storageError) {
-                return NextResponse.json({ message: 'File upload error', storageError }, { status: 500 });
+                throw { message: 'File upload error', error: storageError };
             }
-
-            const { data: storageUrlData } = supabase.storage.from(bucket).getPublicUrl(storageData.path);
-
+            
+            const { data: storageUrlData } = supabase.storage.from(BUCKET_NAME).getPublicUrl(storageData.path);
+            
+            
             const { data: imgData, error: imgError } = await supabase.from('images')
-                .insert({ type: 'handin', url: storageUrlData.publicUrl}).select();
+            .insert({ target: 'handin', url: storageUrlData.publicUrl}).select();
             if (imgError) {
-                return NextResponse.json({ error: imgError });
+                throw { message: 'File upload error', error: imgError };
             }
-    
+
             const { data, error } = await supabase.from('handin')
-                .update(
-                    {homework_id: insertData.homework_id, user_id: 'afbf8da9-baf2-4c34-ba94-49fa57b3c813', text: insertData.text, images: imgData.data.id})
-                .eq('id', insertData.id);
+            .update(
+                {homework_id: jsonData.homework_id, user_id: 'afbf8da9-baf2-4c34-ba94-49fa57b3c813', text: jsonData.text, images: imgData[0].id})
+                .eq('id', jsonData.id);
+
             if (error) {
-                return NextResponse.json({ message: 'File insert error1', error }, { status: 500 });
+                throw { message:'Handin update error', error: error };
             }
+
             return NextResponse.json(data);
         } else {
+            console.log('파일 없음');
             const { data, error } = await supabase.from('handin')
-                    .update({ text: insertData.text })
-                    .eq('id', insertData.id)
+                    .update({ text: jsonData.text })
+                    .eq('id', jsonData.id)
                     .select()
             if (error) {
-                return NextResponse.json({ message: 'File insert error2', error }, { status: 500 });
+                throw { message: 'Handin update error2', error: error };
             }
 
             return NextResponse.json(data);
         }
     } catch (err) {
-        return NextResponse.json({ message: 'Error processing request', err }, { status: 500 });
+        return NextResponse.json(err, { status: 500 });
     }
 }

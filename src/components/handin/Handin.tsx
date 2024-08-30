@@ -1,8 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import MoreCircles from './MoreCircles';
 import ProfileImg from '../common/ProfileImg';
-import { useModal } from '@/hooks/hooks';
+import ToggleMenu from './ToggleMenu';
 
 export type HandinType = {
   id: string;
@@ -10,8 +9,8 @@ export type HandinType = {
   text: string,
   handinImg: string,
   date: string;
-  openModal: () => void;
-  closeModal: () => void;
+  onEdit: Function;
+  onDelete: Function;
 };
 
 const dateFormatter = (timestamp: string) => {
@@ -19,17 +18,25 @@ const dateFormatter = (timestamp: string) => {
     return date;
   }
 
-const Handin = ({ id, userName, handinImg, text, date, openModal, closeModal }: HandinType) => {
+const Handin = ({ id, userName, handinImg, text, date, onEdit, onDelete }: HandinType) => {
     const router = useRouter();
-    const handleClick = (handinId: string) => {
-        router.push(`./studyRoom/handin/${handinId}`)
+    const showHandinDetail = (handinId: string) => {
+        router.push(`./handin/${handinId}`)
+    }
+    const handleTypeFunc = (type: string) => {
+      if (type === 'edit') {
+        onEdit();
+      }
+      if (type === 'delete') {
+        onDelete();
+      }
     }
 
   return (
     <div
       key={id}
       className="border-b-2 border-b-middle-gray p-[15px] bg-light-purple"
-      onClick={() => handleClick(id)}
+      onClick={() => showHandinDetail(id)}
     >
       <div className='grid grid-cols-[1fr_7fr_1fr] gap-2'>
         <div>
@@ -51,7 +58,10 @@ const Handin = ({ id, userName, handinImg, text, date, openModal, closeModal }: 
           </div>
         </div>
         <div>
-          <MoreCircles openModal={openModal} closeModal={closeModal}/>
+            <ToggleMenu
+              menus={[{icon: 'edit', label: '수정하기'}, {icon: 'delete', label: '삭제하기'}]}
+              onClick={(item: string) => {handleTypeFunc(item);}}
+            />
         </div>
       </div>
     </div>
