@@ -1,5 +1,5 @@
 // constants.ts
-export const steps = ['job', 'purpose', 'personality', 'studySpan'];
+export const steps = ['initial', 'job', 'purpose', 'personality', 'studySpan'];
 
 export const jobs = ['개발자', '디자이너', '기획자'];
 
