@@ -1,5 +1,5 @@
-type iconStyle = {
-    className: string
+type IconStyle = {
+  className: string;
 };
 
-export default iconStyle;
+export default IconStyle;

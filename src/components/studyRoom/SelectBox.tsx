@@ -1,47 +1,57 @@
-import UpdownArrowIcon from '../icons/UpdownArrowIcon'
-import Mark from '../common/Mark'
+import { Dispatch } from 'react';
+
 import { useModal } from '@/hooks/hooks';
+import Mark from '../common/Mark';
+import UpdownArrowIcon from '../icons/UpdownArrowIcon';
 
-const SelectBox = ({ list, selectedItem, setSelectedItem }) => {
-  
-  const handleCancel = () => {
-    console.log('onCancel');
-    closeModal();
-  }
-  
-  const handleConfirm = (data) => {
-    setSelectedItem(data);
-    closeModal();
-  }
 
+type TSelectBox = {
+  list: [];
+  selectedItem: {
+    id: string;
+    title: string;
+    subtitle: string;
+  };
+  setSelectedItem: Dispatch<void>;
+};
+
+function SelectBox({ list, selectedItem, setSelectedItem }: TSelectBox) {
   const { openModal, closeModal, Modal } = useModal({
     type: 'data',
     data: list,
-    title: '수정',
-    subtitle: '수정하시겠습니까?',
-    onConfirm: handleConfirm,
-    onCancel: handleCancel,
+    onConfirm: () => closeModal(),
+    onCancel: (data) => {
+      setSelectedItem(data);
+      closeModal();
+    },
   });
-
 
   return (
     <>
-    <div className='h-[70px] bg-white border-2 border-light-gray rounded-md drop-shadow-md' onClick={openModal}>
-      <div className='flex'>
-          <div className='flex flex-col justify-center items-center w-[18px] h-[40px] bg-[#F7F3FF] border border-[#EBE9F5] rounded-lg m-[16px]'>
-            <UpdownArrowIcon className='w-5 h-5'/>
+      <div
+        className="h-[70px] rounded-md border-2 border-light-gray bg-white drop-shadow-md"
+        onClick={openModal}
+        aria-hidden
+      >
+        <div className="flex">
+          <div className="m-[16px] flex h-[40px] w-[18px] flex-col items-center justify-center rounded-lg border border-[#EBE9F5] bg-[#F7F3FF]">
+            <UpdownArrowIcon className="h-5 w-5" />
           </div>
-          <div className='flex flex-col justify-center flex-grow'>
-            <span className='text-base font-medium mb-[2px]'>{selectedItem.title}</span>
-            <span className='text-xs text-gray-purple'>{selectedItem.subtitle}</span>
+          <div className="flex flex-grow flex-col justify-center">
+            <span className="mb-[2px] text-base font-medium">
+              {selectedItem.title}
+            </span>
+            <span className="text-xs text-gray-purple">
+              {selectedItem.subtitle}
+            </span>
           </div>
-          <div className='flex flex-col justify-end items-end mb-[18px] mr-[18px]'>
+          <div className="mb-[18px] mr-[18px] flex flex-col items-end justify-end">
             <Mark />
           </div>
+        </div>
       </div>
-    </div>
-    <Modal />
+      <Modal />
     </>
-  )
+  );
 }
-export default SelectBox
+export default SelectBox;
