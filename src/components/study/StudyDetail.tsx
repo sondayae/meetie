@@ -1,22 +1,10 @@
-import { Study } from '@/types/study';
-import { format } from 'date-fns';
-import Link from 'next/link';
+'use client';
+import { useParams } from 'next/navigation';
+import { getStudy } from '@/hooks/useStudy';
 
-export default function StudyDetail({
-  title,
-  endDate,
-  startDate,
-  created_at,
-  viewCount,
-  goal,
-  info,
-  recruitNum,
-  tags,
-  user,
-}: Study) {
-  const ddays = Math.round(
-    (new Date(endDate) - new Date()) / 1000 / 60 / 60 / 24,
-  );
+export default function StudyDetail() {
+  const params = useParams();
+  const study = getStudy(params.studyId);
 
   return (
     <>
@@ -87,7 +75,7 @@ export default function StudyDetail({
             </p>
           </div>
         </main>
-      </div>
+        </div>
     </>
   );
 }
