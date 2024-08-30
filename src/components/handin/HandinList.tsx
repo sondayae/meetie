@@ -1,24 +1,45 @@
 'use client';
-import Handin from '@/components/handin/Handin';
+import Handin, { HandinType } from '@/components/handin/Handin';
 import Button from '@/components/common/Button';
 import { useModal } from '@/hooks/hooks';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 
 const HandinList = ({ data }: any) => {
+    const [selectedHandin, setSelectedHandin]=useState<HandinType|null>();
+    const [type, setType]=useState<'edit'|'delete'|undefined>();
 
     const router = useRouter();
     const addHandin = () => {
-        console.log(addHandin);
+        router.push(`./handin/add`);
+    };
+    const editHandin = () => {
+        if (selectedHandin) {
+            router.push(`./handin/edit?id=${selectedHandin.id}`);
+        }
+    };
+    const deleteHandin = async () => {
+      if (selectedHandin) {
+        const response = await fetch(`/api/handin?id=${selectedHandin.id}`, {
+          method: 'DELETE',
+        });
+        console.log(response);
+      }
     };
 
     const handleConfirm = () => {
-      console.log('handleConfirm');
-      router.push(`./handin/edit?id=2`);
+        closeModal();
+        if (type === 'edit') {
+            editHandin();
+        } else if (type === 'delete') {
+            deleteHandin();
+        }
     };
     const handleCancel = () => {
-      console.log('handleCancel');
-      
+      closeModal();
+      setSelectedHandin(null);
+      setType(undefined);
     };
 
     const { openModal, closeModal, Modal } = useModal({
@@ -27,6 +48,12 @@ const HandinList = ({ data }: any) => {
       onConfirm: handleConfirm,
       onCancel: handleCancel,
     });
+
+    useEffect(()=>{
+      if (selectedHandin) {
+          openModal();
+      }
+    }, [selectedHandin, type])
 
   return (
     <div className="bg-[#FAFAFA]">
@@ -38,8 +65,8 @@ const HandinList = ({ data }: any) => {
           handinImg={data.images.url}
           text={data.text}
           date={data.created_at}
-          openModal={openModal}
-          closeModal={closeModal}
+          onEdit={() => { setSelectedHandin(data); setType('edit'); }}
+          onDelete={() => { setSelectedHandin(data); setType('delete'); }}
         />
       ))}
       <div className="text-center">
