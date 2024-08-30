@@ -6,7 +6,9 @@ interface ButtonProps {
   onClick: () => void;
 }
 
+
 const Button = ({type, label, size, borderStyle='none', onClick}: ButtonProps) => {
+
   const getSize = () => {
     switch(size) {
       case 'small': return 'min-w-[124px] w-full';
@@ -26,7 +28,9 @@ const Button = ({type, label, size, borderStyle='none', onClick}: ButtonProps) =
   };
 
   return (
+
     <button type='button' className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`} onClick={() => onClick()}>
+
       {label}
     </button>
   );

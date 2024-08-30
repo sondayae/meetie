@@ -1,74 +1,31 @@
 'use client';
 
+import Link from 'next/link';
+
+import ROUTE_PATH from '@/constants/route';
+import { useUser } from '@/stores/user/user';
 import supabase from '@/utils/supabase/client';
 
 export default function Notes() {
-  const addPosts = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('user')
-        .insert({ name: '홍길동' });
-
-      if (data) {
-        console.log(data);
-      }
-
-      if (error) throw error;
-      window.location.reload();
-    } catch (error) {
-      alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
-    }
+  const user = useUser((s) => s.user);
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
   };
-
-  const updatePosts = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('user')
-        .update({ name: '황준용' })
-        .eq('id', 29);
-
-      if (data) {
-        console.log(data);
-      }
-
-      if (error) throw error;
-      window.location.reload();
-    } catch (error) {
-      alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
-    }
-  };
-
-  // const deletePosts = async () => {
-  //   try {
-  //     const { data, error } = await supabase
-  //       .from('user')
-  //       .delete({ name: '황준용' })
-  //       .eq('id', 29);
-
-  //     if (data) {
-  //       console.log(data);
-  //     }
-
-  //     if (error) throw error;
-  //     window.location.reload();
-  //   } catch (error) {
-  //     alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
-  //   }
-  // };
-
+  console.log(user);
+  if (!user)
+    return (
+      <>
+        <div>로그인이 필요합니다.</div>
+        <Link href={ROUTE_PATH.AUTH.LOGIN}>로그인하기</Link>
+      </>
+    );
   return (
-    <>
-      <button type="button" onClick={() => addPosts()}>
-        버튼
+    <div>
+      <h1>환영합니다, {user.email}</h1>
+      <p>유저 ID: {user.id}</p>
+      <button type="button" onClick={handleLogout}>
+        로그아웃
       </button>
-      <br />
-      <button type="button" onClick={() => updatePosts()}>
-        업데이트
-      </button>
-      <br />
-      {/* <button type="button" onClick={() => deletePosts()}>
-        삭제
-      </button> */}
-    </>
+    </div>
   );
 }
