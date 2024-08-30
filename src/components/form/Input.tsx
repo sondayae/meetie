@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { ComponentPropsWithoutRef } from 'react';
 import {
   FieldErrors,
   FieldValues,
@@ -10,11 +10,9 @@ import {
 interface InputProps<T extends FieldValues>
   extends ComponentPropsWithoutRef<'input'> {
   label?: string;
-  children?: ReactNode;
-  background?: 'white' | 'gray';
   name: Path<T>;
   register: UseFormRegister<T>;
-  rules: RegisterOptions<T, Path<T>>;
+  rules?: RegisterOptions<T, Path<T>>;
   errors: FieldErrors<T>;
 }
 
@@ -22,10 +20,8 @@ export default function Input<T extends FieldValues>({
   id,
   name,
   type,
-  label,
-  children,
-  background = 'white',
   placeholder,
+  label,
   register,
   rules,
   errors,
@@ -33,23 +29,22 @@ export default function Input<T extends FieldValues>({
   const hasError = !!errors[name];
 
   return (
-    <div className="mt-5 flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
       {label && (
         <label className="font-semibold leading-6 text-[#000417]" htmlFor={id}>
           {label}
         </label>
       )}
       <div
-        className={`flex items-center overflow-hidden rounded-lg border ${background === 'white' ? 'bg-white' : 'bg-[#F9F9F9]'} ${hasError ? 'border-red-400' : 'border-[#e9e9e9] focus-within:border-main-purple hover:border-sub-purple'} tab`}
+        className={`flex items-center justify-between rounded-lg border px-4 py-[14px] ${hasError ? 'border-red-400' : 'border-[#8a8a8a]'} focus-within:${hasError ? 'border-red-400' : 'border-[#aaa]'}`}
       >
         <input
-          className={`w-full flex-initial border-none px-4 py-[14px] placeholder:text-gray-purple focus:outline-none ${background === 'white' ? 'bg-white' : 'bg-[#F9F9F9]'}`}
+          className="w-full flex-initial border-none bg-white outline-none focus:border-[#aaa]"
           id={id}
           type={type}
           placeholder={placeholder}
           {...register(name, rules)}
         />
-        {children}
       </div>
     </div>
   );

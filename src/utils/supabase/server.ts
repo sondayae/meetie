@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 
 import { createServerClient } from '@supabase/ssr';
 
-export default function supabaseServer() {
+export function createClient() {
   const cookieStore = cookies();
 
   return createServerClient(

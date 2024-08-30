@@ -2,11 +2,10 @@
 
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import MoreIcon from '../icons/MoreIcon';
-// import Button from '../common/Button';
+import Button from '../common/Button';
 import { useState } from 'react';
 import BackArrowIcon from '../icons/BackArrowIcon';
 import ToggleMenu from './ToggleMenu';
-import StudyButton from '../common/StudyButton';
 
 export default function NavLink({
   pathName,
@@ -19,8 +18,8 @@ export default function NavLink({
   const router = useRouter();
   const { studyId } = useParams();
 
-  // console.log('path는???', path);
-  // console.log('studyId는???', studyId);
+  console.log('path는???', path);
+  console.log('studyId는???', studyId);
 
   const [toggleMenu, setToggleMenu] = useState<boolean>(false);
 
@@ -34,38 +33,31 @@ export default function NavLink({
           <header className="mx-4 flex items-center justify-between py-2">
             {/* <Link href={`..`}> */}
             {/* 뒤로가기 */}
-            <StudyButton
-              onClick={
-                path.endsWith('edit')
-                  ? () => {
-                      if (confirm('지금 나가면 스터디가 저장되지 않습니다!')) {
-                        router.back();
-                      }
-                    }
-                  : () => router.back()
-              }
-              borderStyle={'border-none'}
-            >
-              <BackArrowIcon className="fill-dark-gray" />
-            </StudyButton>
+            <Button
+              label={<BackArrowIcon className="fill-dark-gray" />}
+              borderStyle={'border-none p-0'}
+              onClick={() => router.back()}
+              primary={false}
+            />
 
             {/* </Link> */}
-            <h2 className="m-auto text-lg font-bold">
-              {path.endsWith('studyrequest') && '대기중인 요청'}
-              {path.endsWith('write') && '스터디 만들기'}
-              {path.endsWith('edit') && '스터디 수정하기'}
+            <h2 className="text-lg font-bold">
+              {path.endsWith('studyrequest') && <p>대기중인 요청</p>}
+              {path.endsWith('write') && <p>스터디 만들기</p>}
             </h2>
             {/* 스터디 만들기 or 스터디 상세 */}
             <div className="relative z-[1] text-[12px]">
-              {path.endsWith('write') && '1 / 2'}
-              {path.endsWith(`study/${studyId}`) && (
-                <StudyButton
+              {path.endsWith('write') ? (
+                '1 / 2'
+              ) : (
+                <Button
+                  label={
+                    <MoreIcon className="h-7 w-7 fill-black stroke-black" />
+                  }
+                  primary={false}
+                  borderStyle={'border-none'}
                   onClick={handleToggleMenu}
-                  borderStyle="border-none"
-                  buttonStyle="min-w-[50px] flex items-center justify-center"
-                >
-                  <MoreIcon className="h-7 w-7 fill-black stroke-black" />
-                </StudyButton>
+                />
               )}
               {/* 토글 메뉴(스터디장만) */}
               {path.endsWith(`study/${studyId}`) && toggleMenu && (

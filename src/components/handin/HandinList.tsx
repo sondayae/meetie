@@ -1,83 +1,55 @@
 'use client';
-import Handin, { HandinType } from '@/components/handin/Handin';
-import Button from '@/components/common/Button';
-import { useModal } from '@/hooks/hooks';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Handin from '@/components/handin/Handin';
+import Button from '@/components/common/Button';
 
+const HandinList = () => {
+  const [handinList, setHandinList] = useState<any[]>([]);
 
-const HandinList = ({ data }: any) => {
-    const [selectedHandin, setSelectedHandin]=useState<HandinType|null>();
-    const [type, setType]=useState<'edit'|'delete'|undefined>();
+  const fetchData = async () => {
+    const res = await fetch('/api/studyRoom/handin');
+    const data = await res.json();
+    setHandinList(data);
+  }
 
-    const router = useRouter();
-    const addHandin = () => {
-        router.push(`./handin/add`);
-    };
-    const editHandin = () => {
-        if (selectedHandin) {
-            router.push(`./handin/edit?id=${selectedHandin.id}`);
-        }
-    };
-    const deleteHandin = async () => {
-      if (selectedHandin) {
-        const response = await fetch(`/api/handin?id=${selectedHandin.id}`, {
-          method: 'DELETE',
-        });
-        console.log(response);
-      }
-    };
-
-    const handleConfirm = () => {
-        closeModal();
-        if (type === 'edit') {
-            editHandin();
-        } else if (type === 'delete') {
-            deleteHandin();
-        }
-    };
-    const handleCancel = () => {
-      closeModal();
-      setSelectedHandin(null);
-      setType(undefined);
-    };
-
-    const { openModal, closeModal, Modal } = useModal({
-      title: '수정',
-      subtitle: '수정하시겠습니까?',
-      onConfirm: handleConfirm,
-      onCancel: handleCancel,
-    });
-
-    useEffect(()=>{
-      if (selectedHandin) {
-          openModal();
-      }
-    }, [selectedHandin, type])
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="bg-[#FAFAFA]">
-      {data.map((data: any) => (
-        <Handin
-          key={data.id}
-          id={data.id}
-          userName={data.user.name}
-          handinImg={data.images.url}
-          text={data.text}
-          date={data.created_at}
-          onEdit={() => { setSelectedHandin(data); setType('edit'); }}
-          onDelete={() => { setSelectedHandin(data); setType('delete'); }}
-        />
-      ))}
-      <div className="text-center">
-        <Button
-          label="과제 인증하기"
-          size="large"
-          borderStyle="border-dotted"
-          onClick={addHandin}
-        />
+      <div className="border-b-2 border-middle-gray p-[34px]">
+        <p>과제 일정</p>
+        <p>주차별 과제 현황을 확인하고 소통해요.</p>
+        <div className="rounded-lg bg-light-purple p-3">
+          <p>우리는 이렇게 소통해요</p>
+        </div>
       </div>
-      <Modal />
+      <div className="p-[13px]">
+        <p>6월</p>
+        캘린더 영역
+      </div>
+      <div className="rounded-md bg-white">
+        <div className="border-b-2 border-middle-gray pb-[24px] pt-[37px]">
+          <p>6월 4일 화요일</p>
+          <p>과제를 인증한 팀원들을 확인해 보세요.</p>
+        </div>
+        <div>
+          {handinList.map((data) => (
+            <Handin
+              key={data.id}
+              id={data.id}
+              userName={data.user.name}
+              handinImg={data.images.url}
+              text={data.text}
+              date={data.created_at}
+            />
+          ))}
+          <div className='text-center'>
+            <Button label='과제 인증하기' size='large' borderStyle='border-dotted'/>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
