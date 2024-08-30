@@ -379,7 +379,7 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
                 className="mb-[10px] inline-block font-semibold"
                 htmlFor="info"
               >
-                스터디 소개 &nbsp;
+                스터디 소 개 &nbsp;
               </label>
               <div className="relative">
                 <Textarea
