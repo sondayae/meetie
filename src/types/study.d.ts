@@ -26,4 +26,5 @@ export type Study = {
   created_at?: string;
   //
   viewCount?: Number;
+  isRecruiting?: boolean;
 };
