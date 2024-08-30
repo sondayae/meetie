@@ -9,7 +9,8 @@ export async function GET (req: NextRequest) {
   const id = searchParams.get('id');
   
   if (id) {
-    query = query.eq('id', id);
+    query = supabase.from('handin')
+    .select('id, text, created_at, images(url), user(name), comments(id, comment, created_at, user_id, user(name), reactions(reactions))').order('created_at', { referencedTable: 'comments', ascending: false }).eq('id', id);
   }
   const { data, error } = await query;
 

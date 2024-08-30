@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import HandinList from '@/components/handin/HandinList';
 import MainLayout from '@/components/studyRoom/MainLayout';
-import { usePathname } from 'next/navigation';
 
 const page = ({params}: {params: {id: string}}) => {
     const [handinList, setHandinList] = useState<any[]>([]);

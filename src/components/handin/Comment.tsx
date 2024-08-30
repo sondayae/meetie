@@ -2,13 +2,14 @@
 import { useState, useEffect } from 'react';
 import ProfileImg from '../common/ProfileImg';
 import AddReaction from '../icons/AddReaction';
-import MoreCircles from './MoreCircles';
 import EmojiPicker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
+import ToggleMenu from './ToggleMenu';
+import CommentInput from './CommentInput';
 
-const Comment = ({ comment }: any) => {
+const Comment = ({ comment, reactions, setModalType }: any) => {
     const [openEmojiPicker, setOpenEmojiPicker] = useState<boolean>(false);
-    const [reactionList, setReactionList] = useState(comment.reactions);
+    const [reactionList, setReactionList] = useState(reactions ? reactions.reactions : null);
     const handleClick = () => {
         setOpenEmojiPicker(!openEmojiPicker);
     };
@@ -34,8 +35,8 @@ const Comment = ({ comment }: any) => {
             return item;
         });
         } else {
-        newReactionList = reactionList;
-        newReactionList.push(newEmoji);
+          newReactionList = reactionList;
+          newReactionList.push(newEmoji);
         }
         return newReactionList;
     };
@@ -46,7 +47,7 @@ const Comment = ({ comment }: any) => {
     };
 
     const saveReaction = async (newReactionList: any) => {
-        const response = await fetch('/api/studyRoom/handin/reactions', {
+        const response = await fetch('/api/handin/reactions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -60,6 +61,10 @@ const Comment = ({ comment }: any) => {
         console.log(res);
     };
 
+    const handleCommentChange = (e) => {
+      setCommentText(e.target.value);
+    }
+
   return (
     <div className="gap-x-2 border-b border-t border-[#efefef] bg-[#fdfdfd]">
       <div className="grid grid-cols-[1fr_5fr_1fr] grid-rows-[2fr_1fr]">
@@ -67,18 +72,22 @@ const Comment = ({ comment }: any) => {
           <ProfileImg />
         </div>
         <div>
-          <p>{comment.userName}</p>
+          <p>{comment.user.name}</p>
           <p>{comment.comment}</p>
+          <CommentInput prefill={comment.comment} onInsert={item => console.log(item)}/>
           <p>{comment.date}</p>
         </div>
         <div>
-          <MoreCircles />
+          <ToggleMenu
+            menus={[{type: 'edit', label: '수정하기'}, {type: 'delete', label: '삭제하기'}]}
+            onClick={(item: string) => {setModalType(item);}}
+          />
         </div>
         <div className="col-start-2">
-          {reactionList.map((item, idx) => {
+          {reactionList && reactionList.map((item) => {
             return (
               <button
-                key={`${item.id}_${idx}`}
+                key={`${item.id}`}
                 className="mr-[8px] rounded-lg border-2 border-middle-gray bg-light-gray p-[8px]"
                 onClick={() => onReactionClick(item)}
               >

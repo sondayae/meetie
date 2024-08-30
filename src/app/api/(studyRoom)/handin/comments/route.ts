@@ -24,11 +24,23 @@ export async function POST (req: NextRequest) {
     const body = await req.json();
 
     const { data, error } = await supabase.from('comments')
-        .insert({target_id: body.handin_id, user_id: 'afbf8da9-baf2-4c34-ba94-49fa57b3c813', comment: body.comment});
+        .insert({target_id: body.handin_id, user_id: 'afbf8da9-baf2-4c34-ba94-49fa57b3c813', comment: body.comment}).select();
 
     if (error) {
         return NextResponse.json({error: error});
     }
   
+    return NextResponse.json(data);
+}
+
+export async function DELETE (req: NextRequest) {
+    const searchParams = req.nextUrl.searchParams;
+    const id = searchParams.get('id');
+    const { data, error } = await supabase.from('comments').delete().eq('id', id);
+
+    if (error) {
+        throw {message: 'Comment Delete has an error', error};
+    }
+
     return NextResponse.json(data);
 }
