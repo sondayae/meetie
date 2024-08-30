@@ -26,7 +26,7 @@ const Button = ({type, label, size, borderStyle='none', onClick}: ButtonProps) =
   };
 
   return (
-    <button className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`} onClick={() => onClick()}>
+    <button type='button' className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`} onClick={() => onClick()}>
       {label}
     </button>
   );
