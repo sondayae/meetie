@@ -5,29 +5,38 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useRouter } from 'next/navigation';
 
-import { postLogin } from '@/apis/auth';
 import Button from '@/components/common/Button';
+import findPassword from '@/components/findPasswordPage/actions/findPassword';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
 import { emailPattern } from '@/constants/validationPatterns';
-import { useUser } from '@/stores/user/user';
-import { LoginFormData } from '@/types/auth';
+import { FindPasswordFormData } from '@/types/auth';
 
-export default function LoginForm() {
+export default function FindPasswordForm() {
   const {
     register,
     setFocus,
+    setError,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormData>({ mode: 'onBlur' });
+  } = useForm<FindPasswordFormData>({ mode: 'onBlur' });
 
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<LoginFormData> = async (formData) => {
+  const onSubmit: SubmitHandler<FindPasswordFormData> = async (formData) => {
     try {
-      const user = await postLogin(formData);
-      useUser.setState({ user });
-      router.replace('/');
+      const result = await findPassword(formData);
+      if (!result.success) {
+        setError('email', {
+          type: result.type,
+          message: result.message,
+        });
+      } else {
+        alert(
+          '위 이메일로 비밀번호 설정 메일이 발송되었습니다. 메일이 확인되지 않을 경우, 스팸함을 확인해 주세요.',
+        );
+        router.replace('/');
+      }
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
@@ -40,12 +49,9 @@ export default function LoginForm() {
   }, [setFocus]);
 
   return (
-    <form
-      className="flex flex-col gap-3 px-4"
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <Input<LoginFormData>
+        <Input<FindPasswordFormData>
           id="email"
           name="email"
           type="email"
@@ -60,24 +66,8 @@ export default function LoginForm() {
         {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
       </div>
 
-      <div>
-        <Input<LoginFormData>
-          id="password"
-          name="password"
-          type="password"
-          placeholder="비밀번호"
-          errors={errors}
-          register={register}
-          rules={{
-            required: '비밀번호를 입력해주세요.',
-          }}
-        />
-        {errors.password && (
-          <ErrorMessage>{errors.password.message}</ErrorMessage>
-        )}
-      </div>
       <div className="mt-5 flex justify-center">
-        <Button label="로그인" type="primary" size="large" />
+        <Button label="변경 링크 전송하기" type="primary" size="large" />
       </div>
     </form>
   );
