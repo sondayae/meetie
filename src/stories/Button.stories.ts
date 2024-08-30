@@ -6,8 +6,8 @@ const meta = {
   title: 'Component/Button',
   component: Button,
   args: {
-    primary: true,
     label: 'Button',
+    type: 'primary' || 'secondary' || 'disabled',
     size: 'small' || 'medium' || 'large',
     borderStyle: 'none',
   },
@@ -20,7 +20,15 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    primary: true,
-    label: 'Button',
+    label: "Button",
+    type: "primary",
+    size: "large"
+  },
+};
+
+export const small: Story = {
+  args: {
+    label: "Button",
+    size: "small"
   },
 };
