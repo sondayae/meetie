@@ -1,6 +1,7 @@
 'use client';
 
 import supabase from '@/utils/supabase/client';
+import { NextUIProvider } from '@nextui-org/react';
 
 export default function Notes() {
   const addPosts = async () => {
@@ -58,14 +59,16 @@ export default function Notes() {
 
   return (
     <>
-      <button type="button" onClick={() => addPosts()}>
-        버튼
-      </button>
-      <br />
-      <button type="button" onClick={() => updatePosts()}>
-        업데이트
-      </button>
-      <br />
+      <NextUIProvider>
+        <button type="button" onClick={() => addPosts()}>
+          버튼
+        </button>
+        <br />
+        <button type="button" onClick={() => updatePosts()}>
+          업데이트
+        </button>
+        <br />
+      </NextUIProvider>
       {/* <button type="button" onClick={() => deletePosts()}>
         삭제
       </button> */}

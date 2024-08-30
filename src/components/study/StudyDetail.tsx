@@ -37,11 +37,15 @@ export default function StudyDetail() {
             <main className="flex flex-col gap-8">
               <div className="flex flex-col gap-4 text-[#434343]">
                 <p className="font-semibold">스터디 주제</p>
-                <p className="whitespace-pre text-[15px]">{study.info}</p>
+                <p className="whitespace-pre text-[15px]">{study.purpose}</p>
               </div>
               <div className="flex flex-col gap-4 text-[#434343]">
                 <p className="font-semibold">스터디 목표</p>
                 <p className="text-[15px]">{study.goal}</p>
+              </div>
+              <div className="flex flex-col gap-4 text-[#434343]">
+                <p className="font-semibold">스터디 소개</p>
+                <p className="text-[15px]">{study.info}</p>
               </div>
               <div className="flex flex-col gap-4 text-[#434343]">
                 <p className="font-semibold">스터디 인원</p>
@@ -50,7 +54,10 @@ export default function StudyDetail() {
               <div className="flex flex-col gap-4 text-[#434343]">
                 <p className="font-semibold">스터디 기간</p>
                 <p className="text-[15px]">
-                  <span>{/* 스터디 기간을 여기에 표시 */}</span>
+                  <span>
+                    {/* 스터디 기간을 여기에 표시 */}
+                    {study.startDate} -{study.endDate}
+                  </span>
                 </p>
               </div>
             </main>

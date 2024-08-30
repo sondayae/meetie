@@ -29,8 +29,7 @@ export const getStudy = async (studyId: string | string[]) => {
       .single();
 
     if (error) throw error;
-
-    return { data };
+    return data;
   } catch (error) {
     console.error('알 수 없는 에러가 발생했습니다.', error);
     throw error;
@@ -38,11 +37,15 @@ export const getStudy = async (studyId: string | string[]) => {
 };
 
 // 스터디 수정
-export const editStudy = async (studyId: string) => {
+export const editStudy = async (
+  studyId: string | string[] | any,
+  study: Study,
+) => {
+  console.log('스터디 수정', study);
   try {
     const { error } = await supabase
       .from('study')
-      .update({ title: '제목 수정' })
+      .update(study)
       .eq('id', studyId);
 
     if (error) throw error;
