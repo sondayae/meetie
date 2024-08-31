@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import ProfileImg from '@/components/common/ProfileImg';
-import CommentInput from '@/components/handin/CommentInput';
-import CommentList from '@/components/handin/CommentList';
 import Header from '@/components/handin/Header';
-import ToggleMenu from '@/components/handin/ToggleMenu';
+import CommentForm from '@/components/handin/CommentForm';
+import Comment from '@/components/handin/Comment';
+import HandinDetail from '@/components/handin/HandinDetail';
+import CommentList from '@/components/handin/CommentList';
 
 function Page({ params }: { params: { handinId: string } }) {
   const [handinInfo, setHandinInfo] = useState<any>();
@@ -66,72 +67,14 @@ function Page({ params }: { params: { handinId: string } }) {
       {handinInfo ? (
         <div className="h-full">
           <Header />
-          <div className="grid grid-cols-[1fr_7fr_1fr] gap-[8px] border-b-2 border-middle-gray py-[30px]">
-            <div className="">
-              <ProfileImg img={handinInfo.images.url} />
-            </div>
-            <div className="">
-              <span>{handinInfo.user.name}</span>
-            </div>
-            <ToggleMenu
-              menus={[
-                { icon: 'edit', label: '수정하기' },
-                { icon: 'delete', label: '삭제하기' },
-              ]}
-              onClick={(item: string) => {
-                console.log(item);
-              }}
-            />
+          <HandinDetail />
+          <div className="flex w-full sticky bottom-0 justify-center items-center gap-[12px] px-[18px] py-[20px] bg-white border-[#efefef] border-t">
+            <ProfileImg />
+            <span className='flex-grow'>
+              <CommentForm />
+            </span>
           </div>
-          <div className="bg-[#FAFAFA] py-[60px]">
-            <div className="mb-[30px]">
-              <span>{handinInfo.text}</span>
-            </div>
-            <div className="mb-[40px] flex aspect-video justify-center rounded-md border-2 border-light-gray">
-              <div className="relative w-full">
-                <Image
-                  src={handinInfo.images.url}
-                  fill
-                  alt="image"
-                  priority
-                  className="object-cover"
-                />
-              </div>
-            </div>
-            <div className="mb-[40px] flex aspect-video justify-center rounded-md border-2 border-light-gray">
-              <div className="relative w-full">
-                <Image
-                  src={handinInfo.images.url}
-                  fill
-                  alt="image"
-                  priority
-                  className="object-cover"
-                />
-              </div>
-            </div>
-            <div className="mb-[40px] flex aspect-video justify-center rounded-md border-2 border-light-gray">
-              <div className="relative w-full">
-                <Image
-                  src={handinInfo.images.url}
-                  fill
-                  alt="image"
-                  priority
-                  className="object-cover"
-                />
-              </div>
-            </div>
-            <span>{dateFormatter(handinInfo.date)}</span>
-          </div>
-          <div className="sticky bottom-0">
-            <CommentInput onInsert={insertComment} />
-          </div>
-          <div>
-            <CommentList
-              data={commentList}
-              dateFormatter={dateFormatter}
-              onDelete={deleteComment}
-            />
-          </div>
+          <CommentList />
         </div>
       ) : (
         <div>
