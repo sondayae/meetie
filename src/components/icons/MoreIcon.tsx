@@ -1,4 +1,4 @@
-export default function NewMoreIcon() {
+export default function MoreIcon() {
   return (
     <svg
       width="15"
