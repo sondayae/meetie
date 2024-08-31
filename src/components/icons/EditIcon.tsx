@@ -1,4 +1,4 @@
-import IconStyle from './iconStyle';
+import IconStyle from '../../types/icon';
 
 function EditIcon(props: IconStyle) {
   return (
