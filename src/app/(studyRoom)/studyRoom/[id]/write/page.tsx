@@ -111,7 +111,8 @@ export default function Page() {
           </div>
 
           <footer className="flex w-full justify-center bg-white py-4">
-            <Button type="primary" size="large" label="과제 생성"  />
+            <Button type="primary" size="large" label="과제 생성" onClick={handleSubmit(onSubmit)} />
+
           </footer>
         </form>
       </div>
