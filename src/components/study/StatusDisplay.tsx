@@ -9,25 +9,28 @@ export default function StatusDisplay({
   params,
   isAuthor,
   children,
-  acceptedApplications,
-  userId
+  acceptedStudy,
+  userId,
+  recruitNum,
 }: {
   params: string;
   isAuthor: boolean;
   children: React.ReactNode;
-  acceptedApplications: number;
+  acceptedStudy: number;
+  recruitNum: number;
   userId: string;
 }) {
   const [accessNum, setAccessNum] = useState<number>(0);
   const path = usePathname();
   const displayRequest = path.endsWith('studyrequest');
+  console.log(params)
 
   useEffect(() => {
     const fetchData = async () => {
       const baseUrl =
         process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
       const response = await fetch(
-        new URL(`/api/study/${params}/studyrequest`, baseUrl).toString(),
+        new URL(`/api/study/studyrequest/${params}`, baseUrl).toString(),
       );
 
       const data = await response.json();
@@ -39,7 +42,6 @@ export default function StatusDisplay({
   }, [params]);
 
   const postApply = async () => {
-
     try {
       const { data, error } = await supabase
         .from('study_apply')
@@ -84,15 +86,16 @@ export default function StatusDisplay({
           <p className="text-[14px]">참여가능인원</p>
           <p className="text-bold text-[18px]">
             <span
-              className={`${acceptedApplications === 0 ? 'text-middle-gray' : 'text-main-purple'}`}
+              className={`${acceptedStudy === 0 ? 'text-middle-gray' : 'text-main-purple'}`}
             >
-              {acceptedApplications}명
+              {acceptedStudy}명
             </span>
-            <span className="text-dark-gray"> / 4명</span>
+            <span className="text-dark-gray"> / {recruitNum}명</span>
           </p>
         </div>
 
         <div className="flex w-full items-center justify-center">
+          {/* isAuthor */}
           {isAuthor && (
             <Link href={`${params}/studyrequest`}>
               <Button

@@ -1,10 +1,12 @@
 import supabase from '@/utils/supabase/client';
 
+// 스터디 조회
 export async function GET(
   request: Request,
   { params }: { params: { studyId: string } },
 ) {
   try {
+    // 스터디 정보 조회
     const { data: studyData, error: studyError } = await supabase
       .from('study')
       .select(`*, user(*)`)
@@ -13,7 +15,8 @@ export async function GET(
 
     if (studyError) throw studyError;
 
-    const { data: acceptedApplications, error: applyError } = await supabase
+    // 스터디 참여 중인 인원 조회
+    const { data: acceptedStudy, error: applyError } = await supabase
       .from('study_apply')
       .select('*')
       .eq('studyId', params.studyId)
@@ -23,7 +26,7 @@ export async function GET(
 
     const responseData = {
       study: studyData,
-      acceptedApplications: acceptedApplications.length,
+      acceptedStudy: acceptedStudy.length,
     };
 
     return new Response(JSON.stringify(responseData), { status: 200 });

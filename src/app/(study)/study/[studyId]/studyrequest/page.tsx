@@ -1,72 +1,53 @@
-'use client';
-import { useEffect, useState } from 'react';
+import StudyDetail from '@/components/study/StudyDetail';
+import supabaseServer from '@/utils/supabase/server';
 import StatusDisplay from '@/components/study/StatusDisplay';
-import StudyRequestItem from '@/components/study/StudyRequestItem';
+import StudyRequest from '@/components/study/StudyRequest';
 
-// 시간별 데이터를 그룹핑
-const groupByDate = (data: any[]) => {
-  return data.reduce(
-    (acc, item) => {
-      if (item.status === 'wating') {
-        const date = new Date(item.created_at).toISOString().split('T')[0];
-        if (!acc[date]) {
-          acc[date] = [];
-        }
+export default async function Page({
+  params,
+}: {
+  params: { studyId: string };
+}) {
+  const supabase = supabaseServer();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-        acc[date].push(item);
-      }
-      return acc;
-    },
-    {} as Record<string, any[]>,
-  );
-};
-
-export default function Page({ params }: { params: { studyId: string } }) {
-  const [data, setData] = useState<any[]>([]);
-  const [groupedData, setGroupedData] = useState<Record<string, any[]>>({});
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const response = await fetch(
+    new URL(`/api/study/${params.studyId}`, baseUrl).toString(),
+  );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(
-        new URL(`/api/studyrequest/${params.studyId}`, baseUrl).toString(),
-      );
+  const data = await response.json();
 
-      const result = await response.json();
+  console.log(data.study);
 
-      if (!response.ok) {
-        throw new Error(result.error || 'Error occurred while fetching data');
-      }
+  if (!response.ok) {
+    throw new Error(data.error || 'Error occurred while updating profile');
+  }
 
-      setData(result);
-      setGroupedData(groupByDate(result)); // 데이터를 시간별로 그룹핑
-    };
-
-    fetchData();
-  }, [params.studyId, baseUrl]);
+  // 작성자 여부 확인
+  const isAuthor = session?.user.id === data.study.user.id;
+  console.log(`작성자 여부 확인: ${isAuthor}`);
 
   return (
-    <>
-      <div className="flex flex-col px-2">
-        {Object.keys(groupedData).length > 0 ? (
-          <>
-            {Object.entries(groupedData).map(([date, items]) => (
-              <div key={date}>
-                <div className="font mb-4 text-sm font-medium text-dark-gray">
-                  {date}
-                </div>
-                <ul className="mb-4 flex flex-col gap-4">
-                  {items.map((item: any) => (
-                    <StudyRequestItem key={item.id} item={item} />
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </>
-        ) : (
-          <p>Loading data...</p>
-        )}
+    <div className="flex flex-col">
+      {/* <StudyDetail {...data.study} /> */}
+      <StudyRequest
+        params={params}
+        acceptedStudy={data.acceptedStudy}
+        recruitNum={data.study.recruitNum}
+      />
+      {/* 로그인 === 작성자  */}
+      <div className="flex-1">
+        <StatusDisplay
+          userId={session?.user.id}
+          isAuthor={isAuthor}
+          params={params.studyId}
+          acceptedStudy={data.acceptedStudy}
+          recruitNum={data.study.recruitNum}
+        />
       </div>
-    </>
+    </div>
   );
 }

@@ -1,7 +1,67 @@
 import Link from 'next/link';
 
-export default function StudyRequestItem({ item }) {
-  console.log(item);
+type ItemType = {
+  id: number;
+  status: string;
+  user: {
+    id: number;
+    name: string;
+    job: string;
+    introduce?: string;
+    personality?: string[];
+  };
+};
+
+export default function StudyRequestItem({
+  params,
+  item,
+  acceptedStudy,
+  recruitNum,
+}: {
+  params: string;
+  item: ItemType;
+  acceptedStudy: number;
+  recruitNum: number;
+}) {
+  const modApply = async (id: number, status: string) => {
+    if (acceptedStudy === --recruitNum) {
+      const response = await fetch(`/api/studyrequest/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          result.error || 'Error occurred while updating profile',
+        );
+      }
+
+      const studyResponse = await fetch('/api/study', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          studyId: params,
+        }),
+      });
+
+      const studyResult = await studyResponse.json();
+      // console.log(studyResult);
+
+      if (!studyResponse.ok) {
+        throw new Error(
+          studyResult.error || 'Error occurred while creating study',
+        );
+      }
+    }
+
+    return alert('모집 인원이 다 찼습니다.');
+  };
+
   return (
     <>
       <li key={item.id}>
@@ -43,14 +103,14 @@ export default function StudyRequestItem({ item }) {
               <div className="flex items-start justify-start gap-1.5">
                 <button
                   type="button"
-                  // onClick={() => modApply(id, 'refused')}
+                  onClick={() => modApply(item.id, 'refused')}
                   className="flex items-center justify-center gap-2 rounded-full bg-light-gray px-4 py-2 text-sm font-medium text-dark-gray"
                 >
                   거절
                 </button>
                 <button
                   type="button"
-                  // onClick={() => modApply(id, 'accepted')}
+                  onClick={() => modApply(item.id, 'accepted')}
                   className="flex items-center justify-center gap-2 rounded-full bg-main-purple px-4 py-2 text-sm font-medium text-white"
                 >
                   수락
@@ -64,7 +124,7 @@ export default function StudyRequestItem({ item }) {
                   : '자기소개가 없습니다.'}
               </div>
               <div className="flex items-start justify-start gap-2.5 px-6">
-                {item.user.personality?.map((tag, idx) => (
+                {item.user.personality?.map((tag: string, idx: number) => (
                   <span
                     key={idx}
                     className="mr-2 rounded-lg bg-[#f5f1ff] px-2 py-2 text-[14px] text-[#434343]"
@@ -76,14 +136,6 @@ export default function StudyRequestItem({ item }) {
             </div>
           </div>
         )}
-        {/* {apply.status && (
-                        <>
-                          <div>{apply.id}</div>
-                          <div>
-                            <button>승인됨</button>
-                          </div>
-                        </>
-                      )} */}
       </li>
     </>
   );

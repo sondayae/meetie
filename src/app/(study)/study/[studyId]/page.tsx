@@ -19,8 +19,8 @@ export default async function Page({
 
   const data = await response.json();
 
-  console.log(data.acceptedApplications);
-
+  console.log(data.study)
+  
   if (!response.ok) {
     throw new Error(data.error || 'Error occurred while updating profile');
   }
@@ -38,7 +38,8 @@ export default async function Page({
           userId={session?.user.id}
           isAuthor={isAuthor}
           params={params.studyId}
-          acceptedApplications={data.acceptedApplications}
+          acceptedStudy={data.acceptedStudy}
+          recruitNum={data.study.recruitNum}
         />
       </div>
     </div>
