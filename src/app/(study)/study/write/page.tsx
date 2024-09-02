@@ -4,7 +4,7 @@ export default function StudyWrite() {
   return (
     <>
       {/* 스터디 폼 */}
-      <StudyForm />
+      <StudyForm isEditMode={false} />
     </>
   );
 }

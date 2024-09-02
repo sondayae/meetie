@@ -38,7 +38,7 @@ export default function Textarea<T extends FieldValues>({
         className={`flex items-center justify-between rounded-lg border ${hasError ? 'border-red-400' : 'border-[#c4c4c4]'} focus-within:${hasError ? 'border-red-400' : 'border-[#c4c4c4]'}`}
       >
         <textarea
-          className="min-h-44 w-full resize-none rounded-lg px-[18px] py-5 outline-sub-purple"
+          className="min-h-44 w-full resize-none truncate rounded-lg px-[18px] py-5 outline-sub-purple"
           id={id}
           {...register(name, rules)}
         ></textarea>
