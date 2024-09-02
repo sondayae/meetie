@@ -24,23 +24,24 @@ export default function StudyRequestItem({
   recruitNum: number;
 }) {
   const modApply = async (id: number, status: string) => {
+    console.log(acceptedStudy, recruitNum);
+    const response = await fetch(`/api/studyrequest/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status }),
+    });
+    
+    const result = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(
+        result.error || 'Error occurred while updating profile',
+      );
+    }
+    
     if (acceptedStudy === --recruitNum) {
-      const response = await fetch(`/api/studyrequest/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result.error || 'Error occurred while updating profile',
-        );
-      }
-
       const studyResponse = await fetch('/api/study', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -57,9 +58,9 @@ export default function StudyRequestItem({
           studyResult.error || 'Error occurred while creating study',
         );
       }
+      return alert('모집 인원이 다 찼습니다.');
     }
-
-    return alert('모집 인원이 다 찼습니다.');
+    return alert('수락 완료');
   };
 
   return (
