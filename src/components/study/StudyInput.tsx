@@ -53,7 +53,7 @@ export default function StudyInput<T extends FieldValues>({
         className={`flex items-center justify-between rounded-lg border ${inputStyle} ${hasError ? 'border-red-400' : ''}}`}
       >
         <input
-          className="w-full flex-initial rounded-lg border bg-white px-4 py-[14px] outline-none transition-all focus:border-main-purple"
+          className="w-full flex-initial truncate rounded-lg border bg-white py-[14px] pl-4 pr-14 outline-none transition-all focus:border-main-purple"
           id={id}
           type={type}
           placeholder={placeholder}

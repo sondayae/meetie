@@ -2,7 +2,6 @@
 import { Study } from '@/types/study';
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-// import Input from '@/components/form/Input';
 import {
   addStudy,
   editStudy,
@@ -15,11 +14,12 @@ import Textarea from '../form/Textarea';
 import Calendar from './Calendar';
 import MinusIcon from '../icons/MinusIcon';
 import PlusIcon from '../icons/PlusIcon';
-import { useStudyStore } from '@/app/stores/studyStore';
 import StudyButton from '../common/StudyButton';
 import StudyInput from './StudyInput';
 import { Progress } from '@nextui-org/progress';
-import { Input, Spacer } from '@nextui-org/react';
+import BottomSheet from './BottomSheet';
+import { set } from 'date-fns';
+import UpdownArrowIcon from '../icons/UpdownArrowIcon';
 
 type studyFormProps = {
   isEditMode: boolean;
@@ -27,40 +27,79 @@ type studyFormProps = {
 
 export default function StudyForm({ isEditMode }: studyFormProps) {
   const router = useRouter();
-  const { study, setStudy } = useStudyStore();
   const params = useParams();
   const { studyId } = params;
 
-  //  useForm
+  const [tagsInput, setTagsInput] = useState(''); // 태그 인풋 상태
+  const [studyStep, setStudyStep] = useState(1); // 스터디 만들기 단계 체크
+  const [progressValue, setProgressValue] = useState(1); // 진행 단계 progress bar
+
+  const [bottomSheet, setBottomSheet] = useState(false); // 바텀 시트 열기/닫기
+  const [selectedItems, setSelectedItems] = useState<string[]>([]); // 선택한 아이템
+  const [selectType, setSelectType] = useState<string>('roles'); // 선택한 아이템 타입
+  const [dataTitle, setDataTitle] = useState<string>(''); // 바텀 시트 타이틀
+  const [data, setData] = useState<string[]>([]); // 바텀 시트 데이터
+
+  // useForm
   const {
-    // 입력 값 등록, 유효성 검사 규칙 적용
     register,
-    // 유효성 검사 통과 시, form 데이터 처리
     handleSubmit,
-    // 전체 form 상태 정보
     formState: { errors, isDirty, isValid },
-    // 특정 필드 값 업데이트
     setValue,
-    // 전체 폼 값
     getValues,
-    // 리셋
     reset,
     watch,
   } = useForm<Study>({
-    defaultValues: study,
+    // study 초기값
+    defaultValues: {
+      // 모집 직군
+      roles: [],
+      // 스킬
+      // skill: '',
+      // 스터디 제목
+      title: '',
+      // 스터디 목적,, purposes
+      purposes: [],
+      // 스터디 목표 goal
+      goal: '',
+      // 스터디 주제
+      topic: '',
+      // 스터디 소개, 진행방식과 커리큘럼
+      info: '',
+      // 시작일
+      startDate: new Date(),
+      // 종료일
+      endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+      // 모집 인원
+      recruitNum: 1,
+      // 관련 태그들
+      tags: [],
+    },
     mode: 'onChange',
   });
 
+  // 폼 데이터 변경 감지
+  const [roles, purposes, title, topic, info, goal, tags, startDate, endDate] =
+    watch([
+      'roles',
+      'purposes',
+      'title',
+      'topic',
+      'info',
+      'goal',
+      'tags',
+      'startDate',
+      'endDate',
+    ]);
+
+  // 스터디 데이터 가져오기 (수정 모드일 경우)
   useEffect(() => {
     async function fetchStudyData() {
-      // 스터디 수정하기인 경우
       if (isEditMode && studyId) {
         try {
           const studyData = await getStudy(studyId);
-          await setStudy(studyData);
-          // 리셋 스터디 데이터
-          await reset(studyData);
-          console.log('해당하는 스터디 값들', getValues());
+          reset(studyData);
+          console.log('studyData', studyData);
         } catch (error) {
           console.error('스터디 수정 중 오류가 발생했습니다.', error);
           alert('스터디 수정 중 오류가 발생했습니다.');
@@ -70,114 +109,133 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
     fetchStudyData();
   }, [isEditMode, studyId]);
 
-  // 태그 []
-  const [tagsInput, setTagsInput] = useState('');
+  // Progress bar 업데이트
+  useEffect(() => {
+    setProgressValue(studyStep === 1 ? 30 : 75);
+  }, [studyStep]);
 
+  // 선택한 아이템 업데이트
+  useEffect(() => {
+    // console.log('selectedItems', selectedItems);
+    if (selectType === 'roles') {
+      setValue('roles', selectedItems);
+    }
+    if (selectType === 'purposes') {
+      setValue('purposes', selectedItems);
+    }
+  }, [selectedItems, selectType]);
+
+  // 태그 입력
   const handleTagsInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTagsInput(e.target.value);
   };
 
-  // Enter키 다운 후 태그 저장
+  //  태그 추가
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // 한글 입력 시
+    if (e.nativeEvent.isComposing) return;
+
+    // 엔터키 입력 시
     if (e.key === 'Enter') {
       e.preventDefault();
+      console.log('tags1', tags);
+      console.log('getvalues(tags)', getValues('tags'));
+      const newTags = await [...tags, tagsInput.trim()];
 
-      const newTags = [...study.tags, tagsInput.trim()];
-
-      console.log('newtags', newTags);
-
-      setStudy({ tags: newTags });
-
-      setValue('tags', newTags, { shouldValidate: true });
-
-      console.log('newtags 등록 후 getValue', getValues());
-      // if (e.nativeEvent.isComposing) {
-      // }
+      // 태그 중복 체크
+      setValue('tags', newTags, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
       setTagsInput('');
+      console.log('tags2', tags);
     }
   };
 
-  // 모집 인원 숫자 -, +
+  // 모집 인원 증감
   const handleDecrement = () =>
     setValue(
       'recruitNum',
-      getValues('recruitNum') > 1
-        ? getValues('recruitNum') - 1
-        : getValues('recruitNum'),
+      Number(getValues('recruitNum')) > 1
+        ? Number(getValues('recruitNum')) - 1
+        : Number(getValues('recruitNum')),
     );
 
+  // 모집 인원 증감
   const handleIncrement = () =>
     setValue(
       'recruitNum',
-      getValues('recruitNum') < 20
-        ? getValues('recruitNum') + 1
-        : getValues('recruitNum'),
+      Number(getValues('recruitNum')) < 20
+        ? Number(getValues('recruitNum')) + 1
+        : Number(getValues('recruitNum')),
     );
 
-  // 스터디 만들기일 때, submit
+  // 스터디 생성
   const handleFormSubmit = async () => {
     try {
+      // 스터디 데이터
       const study = getValues();
+
+      // 스터디 생성
       const newStudy = await addStudy(study);
-      if (newStudy) {
-        // 생성된 스터디 상세페이지로 이동
-        router.push(`/study/${newStudy.id}`);
-      }
+
+      // 스터디 상세 페이지로 이동
+      if (newStudy) router.push(`/study/${newStudy.id}`);
     } catch (error) {
       console.error('스터디 생성 중 에러가 발생했습니다:', error);
     }
   };
 
-  const [
-    role,
-    title,
-    topic,
-    info,
-    goal,
-    purpose,
-    //  recruitNum,
-    tags,
-  ] = watch([
-    'role',
-    'title',
-    'topic',
-    'info',
-    'goal',
-    'purpose',
-    // 'recruitNum',
-    'tags',
-  ]);
-
-  // 스터디 수정하기일 때, submit
+  // 스터디 수정
   const handleEditFormSubmit = async () => {
-    console.log('study?', getValues());
     try {
-      // await editStudy(studyId, study);
-      console.log('getValues()', getValues());
+      // 스터디 수정
       await editStudy(studyId, getValues());
+
       alert('스터디 수정이 완료되었습니다.');
-      // router.push(`/study/${studyId}`);
+      router.push(`/study/${studyId}`);
     } catch (e) {
       console.error(e);
       alert('스터디 수정 중 오류가 발생했습니다.');
     }
   };
-  // useEffect(() => {
-  //   console.log('study?', getValues());
-  // }, [study]);
 
-  // 스터디 만들기 단계 체크
-  const [studyStep, setStudyStep] = useState(1);
+  // 인풋 값 변경
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > e.target.maxLength) {
+      e.target.value = e.target.value.slice(0, e.target.maxLength);
+    }
+    setValue(e.target.name as keyof Study, e.target.value, {
+      shouldDirty: true,
+    });
+  };
 
-  // 진행 단계 progress bar
-  const [progressValue, setProgressValue] = useState(1);
+  // 바텀 시트 열기
+  const openBottomSheet = (type: 'roles' | 'purposes') => {
+    setSelectType(type);
+    setSelectedItems(type === 'roles' ? roles : purposes);
+    setDataTitle(type === 'roles' ? '모집 직군' : '스터디 목적');
+    setData(
+      type === 'roles'
+        ? ['개발자', '디자이너', '기획자']
+        : ['자기 개발', '툴 능력 향상', '해당 분야의 네트워킹 확장', '취미'],
+    );
+    setBottomSheet(true);
+  };
 
-  useEffect(() => {
-    studyStep === 1 ? setProgressValue(30) : setProgressValue(75);
-  }, [studyStep]);
+  // 바텀 시트 닫기
+  const closeBottomSheet = () => setBottomSheet(false);
+
+  // 바텀 시트에서 아이템 선택
+  const handleSelect = (item: string) => {
+    setSelectedItems((prev) =>
+      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item],
+    );
+  };
 
   return (
     <>
+      {/* Progress bar */}
       <Progress
         aria-label="Loading..."
         size="sm"
@@ -185,9 +243,10 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
         color="success"
         className="mb-8 max-w-full [&>*>*]:!rounded-none [&>*>*]:bg-main-purple [&>*]:!rounded-none"
       />
+      {/* Form */}
       <form
         action=""
-        className="flex flex-col px-4"
+        className="flex flex-col px-4 pb-20"
         onSubmit={handleSubmit(
           isEditMode ? handleEditFormSubmit : handleFormSubmit,
         )}
@@ -199,27 +258,31 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
             <div className="mb-[34px] mt-[10px]">
               <label
                 className="mb-[10px] inline-block font-semibold"
-                htmlFor="role"
+                // htmlFor="roles"
               >
                 모집 직군
               </label>
-              <Select
-                name="role"
-                id="role"
-                errors={errors}
-                register={register}
-                rules={{
+              <div
+                className="active: h-[50px] w-full cursor-pointer truncate rounded-lg border border-[#c4c4c4] px-[18px] py-[14px] focus:border-sub-purple"
+                // onClick={openBottomSheet}
+                onClick={() => openBottomSheet('roles')}
+                {...register('roles', {
                   required: '모집 직군을 선택해주세요.',
-                }}
+                })}
               >
-                <option value="">모집 직군을 선택해주세요</option>
-                <option value="productManager">기획자</option>
-                <option value="designer">디자이너</option>
-                <option value="developer">개발자</option>
-              </Select>
-
-              {errors.role && (
-                <ErrorMessage>{errors.role?.message}</ErrorMessage>
+                {!isEditMode &&
+                  (roles.length > 0
+                    ? roles.join(', ')
+                    : '모집 직군을 선택해주세요')}
+                {isEditMode &&
+                  Array.isArray(roles) &&
+                  roles.length > 0 &&
+                  roles.join(', ')}
+              </div>
+              {errors.roles && (
+                <ErrorMessage>
+                  {errors.roles?.message || 'purposes 오류'}
+                </ErrorMessage>
               )}
             </div>
             {/* 스터디 제목 */}
@@ -246,20 +309,14 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
                     },
                   }}
                   maxLength={30}
-                  //   onChange={(e) => {
-                  //     console.log('e.target', e.target);
-                  //     if (e.target.value.length > e.target.maxLength)
-                  //       e.target.value = e.target.value.slice(0, e.target.maxLength);
-                  //   }}
-                  //   maxLength={30}
-                  //   onChange={handleInputChange}
+                  onChange={handleInputChange}
                 />
                 <span
                   className={
                     'absolute bottom-5 right-5 text-xs font-normal text-gray-purple'
                   }
                 >
-                  {study.title.length}/30
+                  {title.length}/30
                 </span>
               </div>
               {errors.title && (
@@ -290,13 +347,14 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
                     },
                   }}
                   maxLength={30}
+                  onChange={handleInputChange}
                 />
                 <span
                   className={
                     'absolute bottom-5 right-5 text-xs font-normal text-gray-purple'
                   }
                 >
-                  {study.topic.length}/30
+                  {topic.length}/30
                 </span>
               </div>
               {errors.topic && (
@@ -307,28 +365,38 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
             <div className="mb-[34px] mt-[10px]">
               <label
                 className="mb-[10px] inline-block font-semibold"
-                htmlFor="purpose"
+                htmlFor="purposes"
               >
                 스터디 목적 &nbsp;
               </label>
-              <Select
-                name="purpose"
-                id="purpose"
-                errors={errors}
-                register={register}
-                rules={{
-                  required: '스터디의 목적을 선택해주세요.',
-                }}
+              <div
+                className="h-[50px] w-full cursor-pointer truncate rounded-lg border border-[#c4c4c4] px-[18px] py-[14px] outline-sub-purple"
+                onClick={() => openBottomSheet('purposes')}
+                {...register('purposes', {
+                  required: '스터디 목적을 선택해주세요.',
+                })}
               >
-                <option value="">스터디의 목적을 선택해주세요</option>
-                <option value="selfImprovement">자기 개발</option>
-                <option value="skillImprovement">툴 능력 향상</option>
-                <option value="devNetworking">해당 분야의 네트워킹 확장</option>
-                <option value="hobby">취미</option>
-              </Select>
+                {!isEditMode &&
+                  (purposes.length > 0
+                    ? purposes.join(', ')
+                    : '스터디의 목적을 선택해주세요')}
+                {isEditMode &&
+                  Array.isArray(purposes) &&
+                  purposes.length > 0 &&
+                  purposes.join(', ')}
+              </div>
+              <BottomSheet
+                title={dataTitle}
+                data={data}
+                bottomSheet={bottomSheet}
+                onClick={closeBottomSheet}
+                selectedItems={selectedItems}
+                setSelectedItems={setSelectedItems}
+                onSelect={handleSelect}
+              />
 
-              {errors.purpose && (
-                <ErrorMessage>{errors.purpose?.message}</ErrorMessage>
+              {errors.purposes && (
+                <ErrorMessage>{errors.purposes?.message}</ErrorMessage>
               )}
             </div>
             {/* 스터디 목표 */}
@@ -355,13 +423,14 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
                     },
                   }}
                   maxLength={100}
+                  onChange={handleInputChange}
                 />
                 <span
                   className={
                     'absolute bottom-5 right-5 text-xs font-normal text-gray-purple'
                   }
                 >
-                  {study.goal.length}/100
+                  {goal.length}/100
                 </span>
               </div>
               {errors.goal && (
@@ -379,7 +448,7 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
                 className="mb-[10px] inline-block font-semibold"
                 htmlFor="info"
               >
-                스터디 소 개 &nbsp;
+                스터디 소개 &nbsp;
               </label>
               <div className="relative">
                 <Textarea
@@ -392,7 +461,7 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
                   errors={errors}
                   register={register}
                   rules={{
-                    required: '스터디의 목표를 작성해주세요.',
+                    required: '스터디의 소개를 작성해주세요.',
                     maxLength: {
                       value: 1000,
                       message: '최대 1000자 이내 입력해주세요.',
@@ -405,7 +474,7 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
                     'absolute bottom-5 right-5 text-xs font-normal text-gray-purple'
                   }
                 >
-                  {study.info.length}/1000
+                  {info.length}/1000
                 </span>
               </div>
               {errors.info && (
@@ -413,7 +482,13 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
               )}
             </div>
             {/* 스터디 시작일, 종료일 */}
-            <Calendar />
+            <Calendar
+              isEditMode={isEditMode}
+              prevStartDate={getValues('startDate')}
+              prevEndDate={getValues('endDate')}
+              setValue={setValue}
+              getValues={getValues}
+            />
             {/* 스터디 모집 인원 */}
             <label className="font-bold" htmlFor="recruitNum">
               스터디 모집 인원
@@ -442,14 +517,14 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
                     },
                   }}
                   maxLength={20}
-                  inputStyle="border-none [&>*]:border-none [&>*]:text-center [&>*]:outline-none"
+                  inputStyle="border-none [&>*]:border-none [&>*]:text-center [&>*]:outline-none [&>input]:pr-4"
                   readOnly
                 />
                 <StudyButton
                   id="increment"
                   onClick={handleIncrement}
                   borderStyle="border-none"
-                  buttonStyle="w-[50px] h-full flex items-center justify-center"
+                  buttonStyle="w-[50px] h-full flex items-center justify-center ml-auto"
                 >
                   <PlusIcon className="w-8 fill-gray-purple" />
                 </StudyButton>
@@ -482,9 +557,9 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
             </p>
             {/* 작성한 태그 리스트 */}
             <ul className="mb-[34px] flex flex-grow-0 flex-wrap gap-2">
-              {Array.isArray(study.tags) &&
-                study.tags.length > 0 &&
-                study.tags.map((tag, index) => (
+              {Array.isArray(tags) &&
+                tags.length > 0 &&
+                tags.map((tag, index) => (
                   <li
                     className="inline-flex w-auto rounded-lg bg-light-purple px-2 py-[5px] text-sm text-dark-gray"
                     key={index}
@@ -533,13 +608,13 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
               />
               <StudyButton
                 type="submit"
-                label="스터디 등록하기"
+                label={isEditMode ? '스터디 수정하기' : '스터디 등록하기'}
                 size="medium"
                 disabled={!isEditMode && (!isDirty || !isValid)}
                 style={
                   (!isEditMode && !isDirty) || !isValid ? 'disabled' : 'primary'
                 }
-                onClick={async () => await setProgressValue(100)}
+                onClick={async () => setProgressValue(100)}
               />
             </div>
           )}
