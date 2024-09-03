@@ -32,15 +32,13 @@ export default function StudyRequestItem({
       },
       body: JSON.stringify({ status }),
     });
-    
+
     const result = await response.json();
-    
+
     if (!response.ok) {
-      throw new Error(
-        result.error || 'Error occurred while updating profile',
-      );
+      throw new Error(result.error || 'Error occurred while updating profile');
     }
-    
+
     if (acceptedStudy === --recruitNum) {
       const studyResponse = await fetch('/api/study', {
         method: 'POST',
@@ -58,7 +56,7 @@ export default function StudyRequestItem({
           studyResult.error || 'Error occurred while creating study',
         );
       }
-      return alert('모집 인원이 다 찼습니다.');
+      return alert('모집 인원이 다 찼습니다. 스터디룸이 생성되었습니다.');
     }
     return alert('수락 완료');
   };
