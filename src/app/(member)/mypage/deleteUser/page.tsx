@@ -10,8 +10,7 @@ export default function deleteUser() {
   console.log(user);
 
   const deleteUser = async () => {
-    const userId = await user?.id; // 실제 유저 ID를 여기에 설정해야 합니다.
-
+    const userId = await user?.id;
     const response = await fetch('/api/deleteUser', {
       method: 'DELETE',
       headers: {
