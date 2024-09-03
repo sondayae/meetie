@@ -4,7 +4,7 @@ export default function ScrapIcon({ fill }: { fill: string }) {
       width="12"
       height="15"
       viewBox="0 0 12 15"
-      fill="none"
+      fill={"none"}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

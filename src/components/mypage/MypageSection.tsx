@@ -19,6 +19,7 @@ export default function MypageSection() {
             </div>
           </Link>
         </div>
+
         <ul className="flex gap-2">
           <li>뱃지1</li>
           <li>뱃지2</li>
@@ -43,7 +44,7 @@ export default function MypageSection() {
               num={34}
             />
           </Link>
-          <Link href="/mypage/post">
+          <Link href="/mypage/myposts">
             <StudyItem
               icon={<BookIcon fill="black" />}
               text="내 작성글"
