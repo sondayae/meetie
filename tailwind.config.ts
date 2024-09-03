@@ -12,6 +12,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        explosion: {
+          '0%': { top: '100%' },
+          '33%, 100%': { top: '-50%' },
+        }
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
