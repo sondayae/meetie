@@ -1,12 +1,14 @@
 import { useState } from 'react';
-
-import NewMoreIcon from '../icons/NewMoreIcon';
-import MenuItem from './MenuItem';
+import MoreIcon from '../icons/MoreIcon';
 
 type DropDownMenuProps = {
-  menus: string[];
+  menus: {
+    name: string;
+    action: () => void;
+  }[];
 }
 
+//TODO 렌더링 최적화
 export default function DropDownMenu({ menus }: DropDownMenuProps) {
   const [showMenu, setShowMenu] = useState(false);
   return (
@@ -15,23 +17,22 @@ export default function DropDownMenu({ menus }: DropDownMenuProps) {
         type="button"
         className="flex h-[32px] w-[32px] items-center justify-center relative"
         onClick={() => setShowMenu(!showMenu)}
-        onBlur={() => setShowMenu(false)}
         aria-label="moreActions"
       >
         <span id="svgContainer">
-          <NewMoreIcon />
+          <MoreIcon />
         </span>
       </button>
       {showMenu &&
-        <div className="absolute top-10 translate-x-[1.4rem] shadow-xl">
+        <div className="absolute top-10 translate-x-[1.4rem] shadow-xl" onClick={() => setShowMenu(false)}>
           <div className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-[#eee]" />
           <div className="z-10 flex flex-col bg-[#eee] py-2 text-start">
             {menus.map(menu => {
-              return <MenuItem key={menu} label={menu}/>;
+               return <span key={menu.name} className='flex px-4 text-xs tracking-widest hover:bg-[#dfdfdf]' onClick={() => menu.action()}>{menu.name}</span>
             })}
           </div>
         </div>
       }
-      </div>
+    </div>
   );
 }

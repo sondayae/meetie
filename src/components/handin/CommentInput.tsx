@@ -2,7 +2,7 @@ type CommnetInputProps = {
   preValue?: string;
 };
 
-function CommentInput({ preValue }: CommnetInputProps) {
+export default function CommentInput({ preValue }: CommnetInputProps) {
   return (
     <input
       defaultValue={preValue}
