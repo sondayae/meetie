@@ -14,7 +14,11 @@ interface Member {
   isLeader: boolean;
 }
 
-export default function StudyRoomSetting() {
+export default function StudyRoomSetting({
+  params,
+}: {
+  params: { id: string };
+}) {
   const router = useRouter();
   const [data, setData] = useState<Member[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -22,7 +26,7 @@ export default function StudyRoomSetting() {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await fetch('/api/studyRoom/setting');
+        const response = await fetch(`/api/studyRoom/${params.id}/setting`);
         const result = await response.json();
 
         if (response.ok) {
@@ -40,7 +44,7 @@ export default function StudyRoomSetting() {
 
   const handleDelegateAuthority = async (newLeaderId: string) => {
     try {
-      const response = await fetch('/api/studyRoom/setting', {
+      const response = await fetch(`/api/studyRoom/${params.id}/setting`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +75,7 @@ export default function StudyRoomSetting() {
 
   const handleRemoveMember = async (memberId: string) => {
     try {
-      const response = await fetch(`/api/studyRoom/setting`, {
+      const response = await fetch(`/api/studyRoom/${params.id}/setting`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -119,21 +123,6 @@ export default function StudyRoomSetting() {
                     <div className="text-xs font-medium text-gray-500">
                       {member.job}
                     </div>
-                    {/* <div>
-                      <span className="text-xs font-medium text-gray-500">
-                        스터디{' '}
-                      </span>
-                      <span className="text-xs font-medium text-indigo-500">
-                        예시 스터디 횟수
-                      </span>
-                      <span className="text-xs font-medium text-gray-500">
-                        {' '}
-                        | 출석률{' '}
-                      </span>
-                      <span className="text-xs font-medium text-indigo-500">
-                        예시 출석률
-                      </span>
-                    </div> */}
                   </div>
                 </div>
                 <div className="flex items-start justify-start gap-1.5">

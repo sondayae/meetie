@@ -1,7 +1,11 @@
 import supabase from '@/utils/supabase/client';
 import supabaseServer from '@/utils/supabase/server';
 
-export async function GET() {
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } },
+) {
+  console.log(params.id);
   const supabaseAuth = supabaseServer();
 
   const { data, error } = await supabaseAuth.auth.getUser();
