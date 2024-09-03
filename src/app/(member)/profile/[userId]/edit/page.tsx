@@ -1,8 +1,9 @@
 'use client';
 import supabase from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
-import { getSpecificColumns } from '../read/[userId]/actions';
+// import { getSpecificColumns } from '../read/[userId]/actions';
 import { useUser } from '@nextui-org/react';
+// import { getProfile } from '@/utils/member/profile';
 
 export default function ProfileEditPage() {
   const [userData, setUserData] = useState<any>(null);
@@ -23,31 +24,41 @@ export default function ProfileEditPage() {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProfileData = async () => {
       if (userData?.id) {
-        console.log('userData.id:', userData.id);
         try {
-          const data = await getSpecificColumns(userData.id);
-          if (data) {
-            setProfileData(data); // 데이터를 상태에 저장
-            console.log('profileData:', data);
-          } else {
-            console.error('No profile data found for the given userId');
-          }
+          // const profileData = await getProfile(userData.id);
+          const data = await supabase
+            .from('user')
+            .select('*')
+            .eq('id', userData.id);
+          // .single();
+          const { data: profileData, error } = data;
+          console.log('profileData:', profileData);
+          setProfileData(profileData); // 사용자 ID를 전달하여 프로필 데이터를 가져옴
         } catch (error) {
           console.error('Error fetching profile data:', error);
         }
       }
     };
 
-    fetchData(); // 데이터 가져오기
+    fetchProfileData();
   }, [userData]);
 
   return (
     <>
       <h1>ProfileEditPage </h1>
       {userData ? (
-        <pre>{JSON.stringify(userData.id, null, 2)}</pre>
+        <>
+          <pre>
+            {' '}
+            현재 로그인 사용자 : {JSON.stringify(userData.id, null, 2)}
+          </pre>
+          <pre>
+            {' '}
+            현재 로그인 사용자 데이터 : {JSON.stringify(profileData, null, 2)}
+          </pre>
+        </>
       ) : (
         <p>Loading...</p>
       )}
