@@ -1,4 +1,5 @@
 const ROUTE_PATH = {
+  HOME: '/',
   AUTH: {
     LOGIN: '/login',
     SIGN_UP: '/signup',
@@ -10,6 +11,9 @@ const ROUTE_PATH = {
     PROFILE: {
       CREATE: '/profile/create',
     },
+  },
+  STUDY_ROOM: {
+    MAIN: '/studyRoom',
   },
 };
 

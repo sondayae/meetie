@@ -8,12 +8,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/study/:path*',
-    '/studyRoom/:path*',
-    '/mypage/:path*',
-    '/profile/:path*',
-    '/login/:path*',
-    '/signup/:path*',
-  ],
+  matcher: ['/'],
 };
