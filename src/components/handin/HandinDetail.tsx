@@ -3,7 +3,13 @@ import ProfileImg from '../common/ProfileImg';
 import NewCheckSignIcon from '../icons/NewCheckSignIcon';
 import DropDownMenu from './DropDownMenu';
 
-export default function HandinDetail({handin, editHandin, deleteHandin}) {
+type HandinDetail = {
+  handin: any;
+  editHandin: any;
+  deleteHandin: any;
+}
+
+export default function HandinDetail({handin, editHandin, deleteHandin}: HandinDetail) {
   const { ConfirmModal, confirm } = useConfirm({title: '삭제', message: '삭제하시겠습니까?'});
 
   const handleDelete = async () => {

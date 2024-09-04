@@ -1,6 +1,6 @@
 import { Icon } from '@/types/icon';
 
-export default function PlusIcon() {
+export default function PlusIcon({className}: Icon) {
   return (
     <svg
       width="12"

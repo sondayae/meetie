@@ -8,7 +8,7 @@ import ScrapIcon from '@/components/icons/Scrap';
 import MypageSection from '@/components/mypage/MypageSection';
 import Link from 'next/link';
 
-export default async function MyPage() {
+export default async function page() {
   const supabase = supabaseServer();
   const {
     data: { session },

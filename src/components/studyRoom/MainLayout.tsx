@@ -45,11 +45,11 @@ function MainLayout({ list, selectedItem, setSelectedItem }: TLayout) {
         </div>
       </div>
       <div className="mx-[16px] pb-[20px] pt-[12px]">
-        <SelectBox
-          list={list}
+        {/* <SelectBox
+          // list={list}
           selectedItem={selectedItem}
           setSelectedItem={setSelectedItem}
-        />
+        /> */}
       </div>
       <TabMenu
         menus={menus}

@@ -8,7 +8,7 @@ import AlramIcon from '@/components/icons/AlramIcon';
 import { getBadges } from '@/lib/actions/badge';
 import { getBadgeImgUrl } from '@/utils/supabase/storage';
 
-function Badge() {
+export default function page() {
   const [badgeList, setBadgeList] = useState<any>();
 
   const fetchData = async () => {
@@ -85,4 +85,3 @@ function Badge() {
     </>
   );
 }
-export default Badge;

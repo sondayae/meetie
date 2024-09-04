@@ -1,6 +1,6 @@
-import iconStyle from '../../types/icon';
+import { Icon } from '../../types/icon';
 
-const BackArrowIcon = (props: iconStyle) => {
+const BackArrowIcon = (props: Icon) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40">
       <path
