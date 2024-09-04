@@ -33,11 +33,17 @@ export default function Footer() {
   };
 
   let btnText =
-    isLeader && !displayRequest && accessNum.length === 0
+    isLeader &&
+    !displayRequest &&
+    Array.isArray(accessNum) &&
+    accessNum.length === 0
       ? '아직 대기 인원이 없습니다'
       : '대기 중인 요청 확인';
   let btnbg =
-    isLeader && !displayRequest && accessNum.length === 0
+    isLeader &&
+    !displayRequest &&
+    Array.isArray(accessNum) &&
+    accessNum.length === 0
       ? '#d0d6e0'
       : '대기 중인 요청 확인';
 
@@ -49,9 +55,9 @@ export default function Footer() {
             <p className="text-[14px]">참여가능인원</p>
             <p className="text-bold text-[18px]">
               <span
-                className={`${accessNum.length === 0 ? 'text-middle-gray' : 'text-main-purple'}`}
+                className={`${Array.isArray(accessNum) && accessNum.length === 0 ? 'text-middle-gray' : 'text-main-purple'}`}
               >
-                {accessNum.length}명
+                {Array.isArray(accessNum) ? accessNum.length : 0}명
               </span>
               <span className="text-dark-gray"> / 4명</span>
             </p>
@@ -60,12 +66,12 @@ export default function Footer() {
           <div className="flex w-full items-center justify-center">
             {isLeader && !displayRequest && (
               <Link href={`${params.studyId}/studyrequest`}>
-                <Button primary label={btnText} size="large"></Button>
+                <Button label={btnText} size="large"></Button>
               </Link>
             )}
             {isLeader && displayRequest && (
               <Link href={`${params.studyId}/studyrequest`}>
-                <Button primary label={'전체 수락'} size="large"></Button>
+                <Button label={'전체 수락'} size="large"></Button>
               </Link>
             )}
             {/* TODO: 스터디원 => 요청(상태)*/}

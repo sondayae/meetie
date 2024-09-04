@@ -10,13 +10,13 @@ export const useStudyStore = create<StudyState>((set) => ({
   // study 초기값
   study: {
     // 모집 직군
-    role: '',
+    roles: [],
     // 스킬
     // skill: '',
     // 스터디 제목
     title: '',
     // 스터디 목적,, purpose
-    purpose: '',
+    purposes: [],
     // 스터디 목표 goal
     goal: '',
     // 스터디 주제
