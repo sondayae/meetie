@@ -22,7 +22,7 @@ function Page({ params }: { params: { handinId: string } }) {
   const [handinInfo, setHandinInfo] = useState<any>();
   const [commentList, setCommentList] = useState<any>();
   const { handinId } = params;
-  const formRef = useRef();
+  const formRef: any = useRef(null);
 
   const fetchData = async () => {
     const res = await fetch(`/api/handin?id=${handinId}`);
@@ -41,7 +41,7 @@ function Page({ params }: { params: { handinId: string } }) {
   const handleEditHandin = () => {
     router.push(`./edit/${handinId}`);
   };
-  const handleDeleteHandin = async (id) => {
+  const handleDeleteHandin = async (id: string) => {
     const { success } = await deleteHandin(id);
     if (success) {
       router.push('./');
@@ -52,13 +52,13 @@ function Page({ params }: { params: { handinId: string } }) {
     const { data: sentComment } = await createComment(formData);
     formRef.current.reset();
     if (sentComment) {
-      setCommentList((commentList) => [sentComment, ...commentList]);
+      setCommentList((commentList: any) => [sentComment, ...commentList]);
     }
   };
   const handleUpdateComment = async (formData: FormData) => {
     const { data: sentComment } = await updateComment(formData);
     if (sentComment) {
-      const newCommentList = commentList.map((item) => {
+      const newCommentList = commentList.map((item: any) => {
         if (item.id === sentComment.id) {
           item.comment = sentComment.comment;
           item.created_at = sentComment.created_at;
@@ -69,11 +69,11 @@ function Page({ params }: { params: { handinId: string } }) {
     }
   };
 
-  const handleDeleteComment = async (commentId) => {
+  const handleDeleteComment = async (commentId: string) => {
     const { success } = await deleteComment(commentId);
     if (success) {
       const newCommentList = commentList.filter(
-        (item) => item.id !== commentId,
+        (item: any) => item.id !== commentId,
       );
       setCommentList(newCommentList);
     }
@@ -122,7 +122,7 @@ function Page({ params }: { params: { handinId: string } }) {
             </span>
           </div>
           {commentList &&
-            commentList.map((comment) => (
+            commentList.map((comment: any) => (
               <Comment
                 key={comment.id}
                 comment={comment}
