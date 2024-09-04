@@ -27,7 +27,7 @@ export function getStudy(studyId: string | string[]) {
 }
 
 export function getacceptedApplyUser() {
-  const [acceptedNum, setAcceptedNum] = useState(0);
+  const [acceptedNum, setAcceptedNum] = useState<any[]>([]);
   const params = useParams();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export function getacceptedApplyUser() {
         .eq('studyId', params.studyId)
         .eq('status', 'accepted');
 
-      setAcceptedNum(data);
+      setAcceptedNum(data as any[]);
     }
 
     getApply();

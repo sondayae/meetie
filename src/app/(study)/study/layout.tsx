@@ -8,11 +8,7 @@ export default function StudyLayout({
 }) {
   return (
     <>
-      <div className="m-auto w-full max-w-[600px] py-2">
-        <NavLink />
-
-        {children}
-      </div>
+      <div className="m-auto w-full max-w-[600px] py-2">{children}</div>
     </>
   );
 }
