@@ -3,6 +3,7 @@
 import supabaseServer from '@/utils/supabase/server';
 import { getServerUserId } from './getServerUserId';
 
+
 const FOLDER = 'handin';
 
 export async function createHandin(formData: FormData) {
@@ -10,8 +11,7 @@ export async function createHandin(formData: FormData) {
   const userId = await getServerUserId();
 
   const file = formData.get('file') as File;
-  console.log(file);
-  
+
   const text = formData.get('text');
   const homeworkId = '2';
   try {
@@ -20,8 +20,8 @@ export async function createHandin(formData: FormData) {
     }
     // 1. 과제 테이블에 데이터 삽입
     const { data: handinData, error: handinError } = await supabase
-      .from('handin')  // 과제 테이블 이름
-      .insert({ homework_id: homeworkId, user_id: userId, text: text })
+      .from('handin') // 과제 테이블 이름
+      .insert({ homework_id: homeworkId, user_id: userId, text })
       .select();
 
     if (handinError) {
@@ -31,32 +31,28 @@ export async function createHandin(formData: FormData) {
     const handinId = handinData.id;
 
     // 2. 스토리지 업로드
-    const fileName = 'handin_' + crypto.randomUUID();
+    const fileName = `handin_${crypto.randomUUID()}`;
     const filePath = `${FOLDER}/${fileName}`;
-    const { data: storageData, error: storageError } = await supabase
-      .storage
+    const { data: storageData, error: storageError } = await supabase.storage
       .from(`${process.env.NEXT_PUBLIC_STORAGE_BUCKET}`)
       .upload(filePath, file, {
-        upsert: true
+        upsert: true,
       });
 
     if (storageError) {
       throw new Error(`Failed to upload storage: ${storageError.message}`);
     }
 
-    console.log(handinId);
-    
     const { data: imgData, error: imgError } = await supabase
-    .from('images')
-    .insert({ url: storageData?.path, target: 'handin', target_id: handinId })
-    .select();
+      .from('images')
+      .insert({ url: storageData?.path, target: 'handin', target_id: handinId })
+      .select();
 
     if (imgError) {
       throw new Error(`Failed to upload images: ${imgError.message}`);
     }
-    return { success: true, data: {handin: handinData, image: imgData}};
+    return { success: true, data: { handin: handinData, image: imgData } };
   } catch (error) {
-    console.error('Error during handin creation and image upload:', error.message);
     return { success: false, error: error.message };
   }
 }
@@ -64,8 +60,7 @@ export async function createHandin(formData: FormData) {
 export async function deleteHandin(handinId: string) {
   const supabase = await supabaseServer();
   const userId = await getServerUserId();
-  console.log(handinId);
-  
+
   try {
     if (!userId) {
       throw new Error('There is no user.');
@@ -79,13 +74,10 @@ export async function deleteHandin(handinId: string) {
     if (error) {
       throw new Error(`Failed to delete handin: ${error.message}`);
     }
-    return { success: true, data: data };
+    return { success: true, data };
   } catch (error: any) {
-    console.log(error.message);
-    
     return { success: false, error: error.message };
   }
-
 }
 
 export async function updateHandin(formData: FormData) {
@@ -93,20 +85,20 @@ export async function updateHandin(formData: FormData) {
   const userId = await getServerUserId();
 
   const file = formData.get('file') as File;
-  
+
   const text = formData.get('text');
   const homeworkId = formData.get('homeworkId');
   const id = formData.get('id');
   console.log(file);
-  
+
   try {
     if (!userId) {
       throw new Error('There is no user.');
     }
     // 1. 과제 테이블에 데이터 삽입
     const { data: handinData, error: handinError } = await supabase
-      .from('handin')  // 과제 테이블 이름
-      .update({ homework_id: homeworkId, text: text })
+      .from('handin') // 과제 테이블 이름
+      .update({ homework_id: homeworkId, text })
       .eq('id', id)
       .select();
 
@@ -118,32 +110,33 @@ export async function updateHandin(formData: FormData) {
 
     // 2. 스토리지 업로드
     if (file.size > 0) {
-      const fileName = 'handin_' + crypto.randomUUID();
+      const fileName = `handin_${crypto.randomUUID()}`;
       const filePath = `${FOLDER}/${fileName}`;
-      const { data: storageData, error: storageError } = await supabase
-        .storage
+      const { data: storageData, error: storageError } = await supabase.storage
         .from(`${process.env.NEXT_PUBLIC_STORAGE_BUCKET}`)
         .upload(filePath, file, {
-          upsert: true
+          upsert: true,
         });
-  
+
       if (storageError) {
         throw new Error(`Failed to upload storage: ${storageError.message}`);
       }
-  
+
       const { data: imgData, error: imgError } = await supabase
-      .from('images')
-      .insert({ url: storageData?.path, target: 'handin', target_id: handinId })
-      .select();
+        .from('images')
+        .insert({
+          url: storageData?.path,
+          target: 'handin',
+          target_id: handinId,
+        })
+        .select();
       if (imgError) {
         throw new Error(`Failed to upload images: ${imgError.message}`);
       }
-      return { success: true, data: {handin: handinData, image: imgData}};
+      return { success: true, data: { handin: handinData, image: imgData } };
     }
-    return {success: true, data: {handin: handinData}};
-
+    return { success: true, data: { handin: handinData } };
   } catch (error) {
-    console.error('Error during handin and image update:', error.message);
     return { success: false, error: error.message };
   }
 }
@@ -163,15 +156,9 @@ export async function getHandin(handinId) {
     if (error) {
       throw new Error(error.message);
     }
-    console.log(error);
-    
-    console.log(data);
-    
-    return { success: true, data: data};
+
+    return { success: true, data };
   } catch (err: any) {
-    console.log(err.message);
-    
     return { success: false, error: err.message };
   }
 }
-
