@@ -16,7 +16,7 @@ const config: Config = {
         explosion: {
           '0%': { top: '100%' },
           '33%, 100%': { top: '-50%' },
-        }
+        },
       },
       backgroundImage: {
         'gradient-custom':
@@ -45,11 +45,11 @@ const config: Config = {
         },
         messageMove: {
           '0%, 100%': {
-            transform: 'translateY(-1%)',
+            transform: 'translateY(0%)',
             'animation-timing-function': 'cubic-bezier(0.8,0,1,1)',
           },
           '50%': {
-            transform: 'translateY(0%)',
+            transform: 'translateY(-1%)',
             'animation-timing-function': 'cubic-bezier(0,0,0.2,1)',
           },
         },
