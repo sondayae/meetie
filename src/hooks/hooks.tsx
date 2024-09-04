@@ -69,7 +69,7 @@ export const NewModal = () => {
     setIsOpen(false);
   };
 
-  function Modal({ children }) {
+  function Modal({ children }: { children: React.ReactElement }) {
     return (
       <div
         id="popupModal"

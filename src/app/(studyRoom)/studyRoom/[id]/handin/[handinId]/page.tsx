@@ -2,15 +2,20 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { createComment, deleteComment, getComments, updateComment } from '@/lib/actions/comment';
+import { useRouter } from 'next/navigation';
 
 import ProfileImg from '@/components/common/ProfileImg';
-import Header from '@/components/handin/Header';
-import HandinDetail from '@/components/handin/HandinDetail';
 import Comment from '@/components/handin/Comment';
+import HandinDetail from '@/components/handin/HandinDetail';
+import Header from '@/components/handin/Header';
 import SendIcon from '@/components/icons/SendIcon';
+import {
+  createComment,
+  deleteComment,
+  getComments,
+  updateComment,
+} from '@/lib/actions/comment';
 import { deleteHandin } from '@/lib/actions/handin';
-import { useRouter } from 'next/navigation';
 
 function Page({ params }: { params: { handinId: string } }) {
   const router = useRouter();
@@ -18,7 +23,7 @@ function Page({ params }: { params: { handinId: string } }) {
   const [commentList, setCommentList] = useState<any>();
   const { handinId } = params;
   const formRef = useRef();
-  
+
   const fetchData = async () => {
     const res = await fetch(`/api/handin?id=${handinId}`);
     const data = await res.json();
@@ -27,33 +32,33 @@ function Page({ params }: { params: { handinId: string } }) {
   const fetchCommentList = async () => {
     const { data } = await getComments(handinId);
     setCommentList(data);
-  }
+  };
   useEffect(() => {
     fetchData();
     fetchCommentList();
   }, []);
 
   const handleEditHandin = () => {
-    router.push(`./edit/${handinId}`)
-  }
+    router.push(`./edit/${handinId}`);
+  };
   const handleDeleteHandin = async (id) => {
     const { success } = await deleteHandin(id);
     if (success) {
       router.push('./');
     }
-  }
+  };
 
   const handleCreateComment = async (formData: FormData) => {
-    const {data: sentComment} = await createComment(formData);
+    const { data: sentComment } = await createComment(formData);
     formRef.current.reset();
     if (sentComment) {
       setCommentList((commentList) => [sentComment, ...commentList]);
     }
-  }
+  };
   const handleUpdateComment = async (formData: FormData) => {
-    const {data: sentComment} = await updateComment(formData);
+    const { data: sentComment } = await updateComment(formData);
     if (sentComment) {
-      let newCommentList = commentList.map(item => {
+      const newCommentList = commentList.map((item) => {
         if (item.id === sentComment.id) {
           item.comment = sentComment.comment;
           item.created_at = sentComment.created_at;
@@ -62,39 +67,49 @@ function Page({ params }: { params: { handinId: string } }) {
       });
       setCommentList(newCommentList);
     }
-  }
+  };
 
   const handleDeleteComment = async (commentId) => {
     const { success } = await deleteComment(commentId);
     if (success) {
-      let newCommentList = commentList.filter(item => item.id !== commentId);
+      const newCommentList = commentList.filter(
+        (item) => item.id !== commentId,
+      );
       setCommentList(newCommentList);
     }
-  }
+  };
 
   return (
     <>
-      {handinInfo && 
+      {handinInfo && (
         <div className="h-full">
           <Header />
-          <HandinDetail handin={handinInfo} editHandin={handleEditHandin} deleteHandin={handleDeleteHandin}/>
-          <div className="flex w-full sticky bottom-0 justify-center items-center gap-[12px] px-[18px] py-[20px] bg-white border-[#efefef] border-y">
+          <HandinDetail
+            handin={handinInfo}
+            editHandin={handleEditHandin}
+            deleteHandin={handleDeleteHandin}
+          />
+          <div className="sticky bottom-0 flex w-full items-center justify-center gap-[12px] border-y border-[#efefef] bg-white px-[18px] py-[20px]">
             <ProfileImg />
-          <span className='flex-grow'>
-          <form action={handleCreateComment} className="relative" ref={formRef}>
+            <span className="flex-grow">
+              <form
+                action={handleCreateComment}
+                className="relative"
+                ref={formRef}
+              >
                 <input
                   type="text"
                   name="targetId"
                   className="hidden"
                   required
-                  defaultValue={'14'}
+                  defaultValue="14"
                 />
                 <input
                   required
                   type="text"
                   name="comment"
                   placeholder="스터디원에게 응원의 메세지 보내기"
-                  className={`w-full rounded-lg bg-[#f3f3f3] py-[11.5px] border border-[#E9E9E9] text-sm placeholder-gray-purple focus:outline-none p-2`}
+                  className="w-full rounded-lg border border-[#E9E9E9] bg-[#f3f3f3] p-2 py-[11.5px] text-sm placeholder-gray-purple focus:outline-none"
                 />
                 <button
                   type="submit"
@@ -103,12 +118,20 @@ function Page({ params }: { params: { handinId: string } }) {
                 >
                   <SendIcon />
                 </button>
-            </form>
-          </span>
+              </form>
+            </span>
           </div>
-          {commentList && commentList.map(comment => <Comment key={comment.id} comment={comment} handleEdit={handleUpdateComment} handleDelete={handleDeleteComment}/>)}
-          </div>
-      }
+          {commentList &&
+            commentList.map((comment) => (
+              <Comment
+                key={comment.id}
+                comment={comment}
+                handleEdit={handleUpdateComment}
+                handleDelete={handleDeleteComment}
+              />
+            ))}
+        </div>
+      )}
     </>
   );
 }

@@ -8,7 +8,8 @@ export async function getHomeworks(studyRoomId: string) {
       throw new Error('id is required');
     }
     const { data, error } = 
-    await supabase.from('homework').select()
+    await supabase
+    .from('homework').select()
     .eq('studyId', studyRoomId)
     .order('created_at', { ascending: false });
   
@@ -18,8 +19,6 @@ export async function getHomeworks(studyRoomId: string) {
     
     return { success: true, data };
   } catch (err: any) {
-    // TODO 에러 타입
-    
     return { success: false, error: err.message };
   }
 }
