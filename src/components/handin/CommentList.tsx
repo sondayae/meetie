@@ -1,37 +1,46 @@
-import { NewModal } from '@/hooks/hooks';
+import { useEffect, useState } from 'react';
 import Comment from './Comment';
+import { getComments } from '@/lib/actions/comment';
+import CommentForm from './CommentForm';
 
+type CommentList = {
+    id: string;
+    comment: string;
+    created_at: string;
+    user: {
+        id: string;
+        name: string;
+        images: {
+            url: string;
+        }[];
+    }[];
+}
 
-export default function CommentList() {
-  const { open, close, Modal } = NewModal();
-  const data = [
-    {
-      id: 1,
-      name: '테리',
-      content:
-        '처음부터 끝까지 봤는데, 정말 꼼꼼하게 잘하셨네요! 피드백 할 부분이 없는데요! 잘 보고 가요 :>',
-    },
-    {
-      id: 2,
-      name: '테리',
-      content:
-        '처음부터 끝까지 봤는데, 정말 꼼꼼하게 잘하셨네요! 피드백 할 부분이 없는데요! 잘 보고 가요 :>',
-    },
-    {
-      id: 3,
-      name: '테리',
-      content:
-        '처음부터 끝까지 봤는데, 정말 꼼꼼하게 잘하셨네요! 피드백 할 부분이 없는데요! 잘 보고 가요 :>',
-    },
-  ];
+export default function CommentList({ targetId }: {targetId: string}) {
+
+  const [commentList, setCommentList] = useState<any>();
+
+  const fetchData = async () => {
+    const { data } = await getComments(targetId);
+    setCommentList(data);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+  
   return (
-    <div className="[&>*:first-child]:border-t">
-      {data.map((item) => {
-        return <Comment key={item.id} />;
-      })}
-      <Modal>
-        <div>comment modal</div>
-      </Modal>
-    </div>
+    <>
+    { commentList &&
+      <div className="[&>*:first-child]:border-t">
+        {
+          commentList.map((comment) => {
+            return <Comment key={comment.id} id={comment.id} comment={comment.comment} author={comment.user} date={comment.created_at}/>
+          })
+        }
+      </div>
+    }
+    </>
   );
 }

@@ -1,8 +1,12 @@
+'use client';
+
 import { useRef } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 
-import { createComment } from '@/lib/actions/createComment';
+import { upsertComment } from '@/lib/actions/upsertComment';
+
 import SendIcon from '../icons/SendIcon';
+import CommentInput from './CommentInput';
 
 
 const initialState = {
@@ -10,18 +14,11 @@ const initialState = {
 };
 
 type CommentFormProps = {
-  preValue: string;
-  showEdit: boolean;
-  setShowEdit: (arg: boolean) => void;
+  targetId: string;
 };
 
-export default function CommentForm({
-  preValue,
-  showEdit,
-  setShowEdit,
-}: CommentFormProps) {
-  const [state, formAction] = useFormState(createComment, initialState);
-  const targetId = 2;
+export default function CommentForm({ targetId }: CommentFormProps) {
+  const [state, formAction] = useFormState(upsertComment, initialState);
   const formRef = useRef<HTMLFormElement>(null);
 
   if (formRef.current && state.success) {
@@ -37,37 +34,20 @@ export default function CommentForm({
         defaultValue={targetId}
         required
       />
-      {!showEdit ? (
-        <>
-          <CommentInput />
-          <button
-            type="submit"
-            className="absolute bottom-[8px] right-[14px] top-[8px]"
-            aria-label="send"
-          >
-            <SendIcon />
-          </button>
-        </>
-      ) : (
-        <div className="rounded-lg bg-[#f3f3f3]">
-          <CommentInput preValue={preValue} />
-          <div className="flex justify-end gap-[8px] border-t border-[#dfdfdf] p-1">
-            <button
-              type="button"
-              className="rounded-lg border border-middle-gray px-3 py-2 text-xs"
-              onClick={() => setShowEdit(false)}
-            >
-              취소
-            </button>
-            <button
-              type="submit"
-              className="rounded-lg bg-main-purple px-3 py-2 text-xs text-white"
-            >
-              저장
-            </button>
-          </div>
-        </div>
-      )}
+      <input
+        required
+        type="text"
+        name="comment"
+        placeholder="스터디원에게 응원의 메세지 보내기"
+        className={`w-full rounded-lg bg-[#f3f3f3] py-[11.5px] border border-[#E9E9E9] text-sm placeholder-gray-purple focus:outline-none p-2`}
+      />
+      <button
+        type="submit"
+        className="absolute bottom-[8px] right-[14px] top-[8px]"
+        aria-label="send"
+      >
+        <SendIcon />
+      </button>
     </form>
   );
 }

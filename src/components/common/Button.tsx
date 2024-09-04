@@ -1,13 +1,14 @@
 interface ButtonProps {
   label: string,
+  buttonType?: 'button' | 'submit',
   type?: 'primary' | 'secondary' | 'disabled',
   size?: 'small' | 'medium' | 'large',
   borderStyle?: string,
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 
-const Button = ({type, label, size, borderStyle='none', onClick}: ButtonProps) => {
+const Button = ({type, buttonType = 'button', label, size, borderStyle='none', onClick}: ButtonProps) => {
 
   const getSize = () => {
     switch(size) {
@@ -28,9 +29,7 @@ const Button = ({type, label, size, borderStyle='none', onClick}: ButtonProps) =
   };
 
   return (
-
-    <button type='button' className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`} onClick={() => onClick()}>
-
+    <button type={buttonType} className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`} onClick={() => onClick?.()}>
       {label}
     </button>
   );

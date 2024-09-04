@@ -1,46 +1,60 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import Button from '../common/Button';
 import Mark from '../common/Mark';
 import NoticeBox from '../common/NoticeBox';
 import SelectBox from '../studyRoom/SelectBox';
-import HandinImage from './HandinImage';
-import { useFormState, useFormStatus } from 'react-dom';
 import { createHandin } from '@/lib/actions/createHandin';
+import ImageFrame from './ImageFrame';
+import ImageInput from './ImageInput';
+import { redirect } from 'next/navigation';
+import { useFormState } from 'react-dom';
 
 const initialState = {
   success: false,
 };
+const MAX_LENGTH = 500;
 
-export default function HandinForm() {
+export default function HandinForm({homeworkList}) {
   const [state, formAction] = useFormState(createHandin, initialState);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const [images, setImages] = useState<[]>();
-  const { pending } = useFormStatus();
+  const [selected, setSelected] = useState('');
+  // const [text, setText] = useState<string>('');
+  // const [previews, setPreviews] = useState<string>();
+
+  // const fileInputRef = useRef<HTMLInputElement | null>(null);
+  // const formRef = useRef<HTMLFormElement>(null);
 
   if (formRef.current && state.success) {
     formRef.current.reset();
+    redirect('./complete');
   }
 
-  const handleFileClick = () => {
-    fileInputRef.current?.click();
-  }
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newImages = [];
-    const files = e.target.files;
-    if (files && files.length < 3) {
-      const reader = new FileReader();
-      for (let i=0; i<files.length; i++) {
-        const file = files[i];
-        reader.readAsDataURL(file);
-        reader.onload = (e) => {
-          newImages.push(e.target!.result as string);
-        };
-      }
-      setImages(newImages);
-    }
-  }
+  // const handleFileClick = () => {
+  //   fileInputRef.current?.click();
+  // }
+  // const readAndPreview = (file: any) => {
+  //   const reader = new FileReader()
+  //   reader.onload = async () => {
+  //     const result = await reader.result as string;
+  //     // setPreviews(prev => [...prev!, result]); // TODO type
+  //     setPreviews(result);
+  //   }
+  //   reader.readAsDataURL(file)
+  // }
+  // const handleFileChange = () => {
+  //   const files = fileInputRef.current?.files;
+  //   if (files) {
+  //     [].forEach.call(files, readAndPreview)
+  //   }
+  // }
+
+  // const handleTextChange = (e) => {
+  //   let newText = e.target.value;
+  //   if (newText.length > MAX_LENGTH) {
+  //     newText = e.target.value.slice(0, MAX_LENGTH);
+  //   }
+  //   setText(newText);
+  // }
 
   return (
     <div className="p-[16px]">
@@ -52,10 +66,17 @@ export default function HandinForm() {
         <Mark label={'진행중'} />
       </div>
       <div className="pb-[24px]">
-        <SelectBox />
+        <SelectBox selectList={homeworkList} setSelected={setSelected}/>
       </div>
-      <div onClick={() => handleFileClick()}>
-        <HandinImage />
+      <div onClick={() => handleFileClick()} className='mb-[40px]'>
+        {previews ? <ImageFrame src={previews} alt='preview' /> : <ImageInput />}
+        {/* {previews.length > 0 ? (
+          previews.map((preview, idx) => {
+            return <ImageFrame key={idx} src={preview} alt='preview'/>
+          })
+        ) : (
+          <ImageInput />
+        )} */}
       </div>
       <form action={formAction} ref={formRef}>
         <input type="text" name='id' className='hidden'/>
@@ -66,10 +87,10 @@ export default function HandinForm() {
           className='hidden'
           accept='image/*'
           ref={fileInputRef}
-          multiple
-          onChange={(e) => handleFileChange(e)}
+          // multiple
+          onChange={handleFileChange}
         />
-        <div className='flex flex-col gap-[12px]'>
+        <div className='flex flex-col gap-[12px] mb-[40px]'>
           <label htmlFor="text" className='block font-bold'>기록</label>
           <input
             required
@@ -77,22 +98,16 @@ export default function HandinForm() {
             name="text"
             placeholder="과제를 하며 나누고 싶은 생각을 적어보세요."
             className={`w-full rounded-lg bg-[#f3f3f3] border-[#E9E9E9] border text-sm placeholder-gray-purple focus:outline-none px-[14px] py-[11.5px]`}
+            onChange={(e) => handleTextChange(e)}
+            value={text}
           />
-          <span className='text-xs text-[#9d9d9d] self-end mr-[2px]'>0 / 500</span>
+          <span className='text-xs text-[#9d9d9d] self-end mr-[2px]'>{`${text.length}`} / 500</span>
         </div>
-        { !pending ? (
-          <div className='mt-[40px]'>
-            <Button type='primary' buttonType='submit' label='인증하기'></Button>
-          </div>
-        ) : (
-          <div>Pending</div>
-        ) }
+        <ImageInput size='small'/>
+        <div className='mt-[40px]'>
+          <Button type='primary' buttonType='submit' label='인증하기'></Button>
+        </div>
       </form>
-      <div>
-        {images?.map(image => {
-          return <img src={image} alt="" />
-        })}
-      </div>
     </div>
   );
 }

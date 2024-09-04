@@ -7,19 +7,15 @@ type AvatarProps = {
   className?: string;
 };
 
-function ProfileImg({ src, username, size = 'md', className }: AvatarProps) {
-  if (!src || !username) {
-    return (
-        <Avatar
-          showFallback
-          size={size}
-          src="https://api.dicebear.com/9.x/glass/svg"
-          className={className}
-        />
-    );
-  }
+function ProfileImg({ src, size = 'md', className }: AvatarProps) {
   return (
-      <Avatar showFallback size={size} name={username} src={src} className={className}/>
-  );
+    <>
+    { src ? (
+      <Avatar src={src} showFallback className='bg-main-purple'/>
+    ) : (
+      <Avatar src='https://api.dicebear.com/9.x/glass/svg?backgroundColor=d1d4f9' showFallback className='bg-main-purple'/>
+    )}
+    </>
+  )
 }
 export default ProfileImg;

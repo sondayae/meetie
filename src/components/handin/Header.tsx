@@ -13,9 +13,11 @@ function Header({ label, rightIcon }: HeaderType) {
         <BackArrowIcon />
       </span>
       <span className='text-lg font-bold'>{label}</span>
-      <span className='hover:cursor-pointer'>
-        <CalendarIcon />
-      </span>
+      {rightIcon && 
+        <span className='hover:cursor-pointer'>
+          <CalendarIcon />
+        </span>
+      }
     </div>
   );
 }

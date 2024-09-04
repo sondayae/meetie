@@ -1,40 +1,47 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import HandinForm from '@/components/handin/HandinForm';
 import Header from '@/components/handin/Header';
-import { getHomeworks } from '@/lib/actions/homework';
+import SelectModal from '@/components/handin/SelectModal';
 import NoticeBox from '@/components/common/NoticeBox';
 import Mark from '@/components/common/Mark';
 import SelectBox from '@/components/studyRoom/SelectBox';
 import ImageFrame from '@/components/handin/ImageFrame';
 import ImageInput from '@/components/handin/ImageInput';
 import Button from '@/components/common/Button';
-import { SelectItem } from '@/components/studyRoom/SelectItem';
-import { createHandin } from '@/lib/actions/handin';
-import { useFormState } from 'react-dom';
-import SelectModal from '@/components/handin/SelectModal';
+import { getHandin, updateHandin } from '@/lib/actions/handin';
+import { getHomeworks } from '@/lib/actions/homework';
+import { getImgUrl } from '@/utils/supabase/storage';
 
 const MAX_LENGTH = 500;
 
-const page = ({ params }: { params: { id: string } }) => {
+const page = ({ params }: { params: { id: string, editId: string } }) => {
   const router = useRouter();
   const [homeworkList, setHomeworkList] = useState<[]>();
   const [text, setText] = useState<string>('');
   const [previews, setPreviews] = useState<string>();
   const [selected, setSelected] = useState();
   const studyRoomId = params.id;
+  const handinId = params.editId;
   const formRef = useRef();
   const fileInputRef = useRef();
   const [showModal, setShowModal] = useState(false);
 
   const fetchData = async () => {
-    const { data } = await getHomeworks(studyRoomId);
-    setHomeworkList(data);
-    console.log(data);
+    const { data: homeworks } = await getHomeworks(studyRoomId);
+    const { data: handin } = await getHandin(handinId);
+    
+    setHomeworkList(homeworks);
 
-    setSelected(data[0]);
+    const selectedHomework = homeworks?.filter((homework) => {
+      if (homework.id === handin[0].homework_id) {
+        return homework;
+      }});
+    
+    setSelected(selectedHomework[0]);
+    setPreviews(getImgUrl(handin[0].images[0].url));
+    setText(handin[0].text);
   };
 
   useEffect(() => {
@@ -42,14 +49,13 @@ const page = ({ params }: { params: { id: string } }) => {
   }, []);
 
   useEffect(() => {
-    console.log(selected);
     setShowModal(false);
   }, [selected]);
 
   const formAction = async (formData: FormData) => {
-    const { success } = await createHandin(formData);
+    const { success } = await updateHandin(formData);
     if (success) {
-      router.push('./complete');
+      router.push('../');
     }
   };
 
@@ -66,7 +72,6 @@ const page = ({ params }: { params: { id: string } }) => {
     const reader = new FileReader();
     reader.onload = async () => {
       const result = (await reader.result) as string;
-      // setPreviews(prev => [...prev!, result]); // TODO type
       setPreviews(result);
     };
     reader.readAsDataURL(file);
@@ -86,7 +91,6 @@ const page = ({ params }: { params: { id: string } }) => {
         <SelectModal selectList={homeworkList} setSelected={setSelected} />
       )}
       <Header label="과제 인증" />
-      {/* <HandinForm homeworkList={homeworkList}/> */}
       <div className="p-[16px]">
         <NoticeBox />
         <div className="flex items-center gap-[12px] pb-[16px] pt-[34px]">
@@ -106,7 +110,7 @@ const page = ({ params }: { params: { id: string } }) => {
           )}
         </div>
         <form action={formAction} ref={formRef}>
-          <input type="text" name="id" className="hidden" />
+          <input type="text" name="id" className="hidden" defaultValue={handinId}/>
           <input
             type="text"
             name="homeworkId"

@@ -7,18 +7,13 @@ import ProfileImg from '../common/ProfileImg';
 import { Avatar } from '@nextui-org/react';
 
 type SelectItemProps = {
-  id: number;
   title: string;
   subtitle: string;
-  selected: number|undefined;
-  setSelected: (id: number) => void;
 }
 
-export function SelectItem({id, title, subtitle, selected, setSelected}: SelectItemProps) {
+export function SelectItem({title, subtitle}: SelectItemProps) {
   return (
-    <div id='selectItem' className='flex w-full justify-center items-center p-[11.5px] gap-[12px] border-t'
-      onClick={() => setSelected(id)}
-    >
+    <div id='selectItem' className='flex w-full justify-center items-center p-[11.5px] gap-[12px] border-t'>
       <div className='aspect-square overflow-hidden w-[40px] h-[40px] border rounded-lg'>
         <img src="https://api.dicebear.com/9.x/glass/svg" alt="" />
       </div>
@@ -34,13 +29,13 @@ export function SelectItem({id, title, subtitle, selected, setSelected}: SelectI
           <span className="">14일차 과제</span>
         </div>
       </div>
-    { selected === id &&
+    {/* { selected === id &&
       <div>
         <span>
           <NewCheckSignIcon circleClassName='fill-white stroke-main-purple' checkClassName='fill-main-purple'/>
         </span>
       </div>
-    }
+    } */}
 </div>
   )
 }
