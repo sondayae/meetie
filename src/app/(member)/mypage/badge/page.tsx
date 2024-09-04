@@ -13,13 +13,7 @@ function Badge() {
 
   const fetchData = async () => {
     const { data } = await getBadges();
-    // let list = data?.map((item) => {
-    //   item.src = getBadgeImgUrl(item.name);
-    //   return item;
-    // });
-    console.log(data);
-
-    // setBadgeList(list);
+    setBadgeList(data);
   };
 
   useEffect(() => {
@@ -29,23 +23,64 @@ function Badge() {
   return (
     <>
       <Header label="내 능력 현황" />
-      <div className="flex items-center justify-between px-[14px] py-[12px]">
-        <h1 className="text-lg font-semibold">내 뱃지</h1>
-        <div className="flex items-center justify-center gap-1">
-          <span>
-            <AlramIcon />
-          </span>
-          <span className="text-xs text-gray-purple">업데이트 매일 오전</span>
+      <div className='px-[20px]'>
+        <div className="flex items-center justify-between py-[12px]">
+          <h1 className="text-lg font-semibold">내 뱃지</h1>
+          <div className="flex items-center justify-center gap-1">
+            <span>
+              <AlramIcon />
+            </span>
+            <span className="text-xs text-gray-purple">업데이트 매일 오전</span>
+          </div>
         </div>
-      </div>
-      <div className="grid grid-cols-3">
-        {badgeList?.map((badge) => {
-          return (
-            <div key={badge.id}>
-              <BadgeCard badge={badge} />
+          <div>
+            <h1 className='font-medium'>댓글 뱃지</h1>
+            <div className='flex items-center'>
+              {badgeList?.comment.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <BadgeCard badge={item} type='댓'/>
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
+          </div>
+          <div>
+            <h1 className='font-medium'>피드 뱃지</h1>
+            <div className='flex items-center'>
+              {badgeList?.feedback.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <BadgeCard badge={item} type='피드'/>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div>
+            <h1 className='font-medium'>스터디 뱃지</h1>
+            <div className='flex items-center'>
+              {badgeList?.study.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <BadgeCard badge={item} type='스터디'/>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div>
+            <h1 className='font-medium'>밋티 뱃지</h1>
+            <div className='flex items-center'>
+              {badgeList?.meett.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <BadgeCard badge={item} type='밋티'/>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
       </div>
     </>
   );
