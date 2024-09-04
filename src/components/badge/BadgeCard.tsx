@@ -1,18 +1,22 @@
 'use client';
 
-import { getBadgeImgUrl } from '@/utils/supabase/storage';
 import {
   Card,
   CardBody,
   CardFooter,
-  CardHeader,
   Image,
 } from '@nextui-org/react';
 
-export default function BadgeCard({ badge, type }) {
+type Badge = {
+  title: string;
+  name: string;
+  src: string;
+}
+
+export default function BadgeCard({ badge, type }: {badge: Badge, type: string}) {
   const title = badge.name;
   
-  function getDisplayName(title) {
+  function getDisplayName(title: string) {
     if (title.includes('beginner')) {
         return '뉴비';
     } else if (title.includes('runner')) {
@@ -29,7 +33,6 @@ export default function BadgeCard({ badge, type }) {
         <Image
           alt="Card background"
           className="rounded-xl object-cover"
-          // src="https://nextui.org/images/hero-card-complete.jpeg"
           src={badge.src}
           width={270}
         />
