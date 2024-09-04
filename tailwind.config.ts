@@ -34,8 +34,8 @@ const config: Config = {
       },
       keyframes: {
         rocketMove: {
-          '0%, 100%': { transform: 'translate(-65%, -60%)' },
-          '50%': { transform: 'translate(-100%, -100%)' },
+          '0%, 100%': { transform: 'translate(5%, 15%)' },
+          '50%': { transform: 'translate(-5%, 0%)' },
         },
         messageMove: {
           '0%, 100%': {
