@@ -11,7 +11,7 @@ type TModal = {
 
 function SimpleModal({ title, subtitle, onConfirm, onCancel }: TModal) {
   return (
-    <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
+    <div className="absolute rounded-lg bg-white shadow dark:bg-gray-700">
       <div className="p-4 text-center md:p-5">
         <h1>{title}</h1>
         <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">

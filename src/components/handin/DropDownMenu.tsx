@@ -2,14 +2,14 @@ import { useState } from 'react';
 import MoreIcon from '../icons/MoreIcon';
 
 type DropDownMenuProps = {
-  menus: {
+  menus?: {
     name: string;
     action: () => void;
   }[];
 }
 
 //TODO 렌더링 최적화
-export default function DropDownMenu({ menus }: DropDownMenuProps) {
+export default function DropDownMenu({handleEdit, handleDelete}) {
   const [showMenu, setShowMenu] = useState(false);
   return (
     <div className='flex justify-end'>
@@ -27,9 +27,8 @@ export default function DropDownMenu({ menus }: DropDownMenuProps) {
         <div className="absolute top-10 translate-x-[1.4rem] shadow-xl" onClick={() => setShowMenu(false)}>
           <div className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-[#eee]" />
           <div className="z-10 flex flex-col bg-[#eee] py-2 text-start">
-            {menus.map(menu => {
-               return <span key={menu.name} className='flex px-4 text-xs tracking-widest hover:bg-[#dfdfdf]' onClick={() => menu.action()}>{menu.name}</span>
-            })}
+            <span className='flex px-4 text-xs tracking-widest hover:bg-[#dfdfdf]' onClick={handleEdit}>수정하기</span>
+            <span className='flex px-4 text-xs tracking-widest hover:bg-[#dfdfdf]' onClick={handleDelete}>삭제하기</span>
           </div>
         </div>
       }

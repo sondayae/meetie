@@ -6,7 +6,6 @@ import PlusIcon from '../icons/PlusIcon';
 import SelectBox from './SelectBox';
 import TabMenu from './TabMenu';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 
 type TLayout = {

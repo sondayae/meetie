@@ -16,9 +16,9 @@ export async function GET(req: NextRequest) {
     query = supabase
       .from('handin')
       .select(
-        'id, text, created_at, images(url), user(name), comments(id, comment, created_at, user_id, user(name), reactions(reactions))',
+        'id, text, created_at, images(url), user(name, image_id, images(url))',
       )
-      .order('created_at', { referencedTable: 'comments', ascending: false })
+      .order('created_at')
       .eq('id', id);
   }
   const { data, error } = await query;

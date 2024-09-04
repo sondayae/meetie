@@ -1,86 +1,114 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import Image from 'next/image';
+import { createComment, deleteComment, getComments, updateComment } from '@/lib/actions/comment';
 
 import ProfileImg from '@/components/common/ProfileImg';
 import Header from '@/components/handin/Header';
-import CommentForm from '@/components/handin/CommentForm';
-import Comment from '@/components/handin/Comment';
 import HandinDetail from '@/components/handin/HandinDetail';
-import CommentList from '@/components/handin/CommentList';
+import Comment from '@/components/handin/Comment';
+import SendIcon from '@/components/icons/SendIcon';
+import { deleteHandin } from '@/lib/actions/handin';
+import { useRouter } from 'next/navigation';
 
 function Page({ params }: { params: { handinId: string } }) {
+  const router = useRouter();
   const [handinInfo, setHandinInfo] = useState<any>();
-  const [commentList, setCommentList] = useState<any[]>([]);
+  const [commentList, setCommentList] = useState<any>();
   const { handinId } = params;
-
+  const formRef = useRef();
+  
   const fetchData = async () => {
-    // todo 과제 인증 상세정보와 댓글 정보 같이 끌어오기
     const res = await fetch(`/api/handin?id=${handinId}`);
     const data = await res.json();
-
     setHandinInfo(data[0]);
-    setCommentList(data[0].comments);
   };
-
+  const fetchCommentList = async () => {
+    const { data } = await getComments(handinId);
+    setCommentList(data);
+  }
   useEffect(() => {
     fetchData();
+    fetchCommentList();
   }, []);
 
-  const dateFormatter = (timestamp: string) => {
-    const date = new Date(timestamp).toLocaleString().slice(0, -3);
-    return date;
-  };
+  const handleEditHandin = () => {
+    router.push(`./edit/${handinId}`)
+  }
+  const handleDeleteHandin = async (id) => {
+    const { success } = await deleteHandin(id);
+    if (success) {
+      router.push('./');
+    }
+  }
 
-  const insertComment = async (comment: any) => {
-    const response = await fetch('/api/handin/comments', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        handin_id: handinId,
-        user_id: 'f07001a0-50c1-4393-8124-dc9130e73196',
-        comment,
-      }),
-    });
-    const data = await response.json();
-    // TODO 렌더링
-  };
+  const handleCreateComment = async (formData: FormData) => {
+    const {data: sentComment} = await createComment(formData);
+    formRef.current.reset();
+    if (sentComment) {
+      setCommentList((commentList) => [sentComment, ...commentList]);
+    }
+  }
+  const handleUpdateComment = async (formData: FormData) => {
+    const {data: sentComment} = await updateComment(formData);
+    if (sentComment) {
+      let newCommentList = commentList.map(item => {
+        if (item.id === sentComment.id) {
+          item.comment = sentComment.comment;
+          item.created_at = sentComment.created_at;
+        }
+        return item;
+      });
+      setCommentList(newCommentList);
+    }
+  }
 
-  const deleteComment = async (selectedComment: object) => {
-    const response = await fetch(
-      `/api/handin/comments?id=${selectedComment.id}`,
-      {
-        method: 'DELETE',
-      },
-    );
-    // if (response.ok) {
-    //   console.log('삭제 완료'); // TODO 모달처리
-    // } else {
-    //   console.log('삭제 실패');
-    // }
-  };
+  const handleDeleteComment = async (commentId) => {
+    const { success } = await deleteComment(commentId);
+    if (success) {
+      let newCommentList = commentList.filter(item => item.id !== commentId);
+      setCommentList(newCommentList);
+    }
+  }
 
   return (
     <>
-      {handinInfo ? (
+      {handinInfo && 
         <div className="h-full">
           <Header />
-          <HandinDetail />
-          <div className="flex w-full sticky bottom-0 justify-center items-center gap-[12px] px-[18px] py-[20px] bg-white border-[#efefef] border-t">
+          <HandinDetail handin={handinInfo} editHandin={handleEditHandin} deleteHandin={handleDeleteHandin}/>
+          <div className="flex w-full sticky bottom-0 justify-center items-center gap-[12px] px-[18px] py-[20px] bg-white border-[#efefef] border-y">
             <ProfileImg />
-            <span className='flex-grow'>
-              <CommentForm />
-            </span>
+          <span className='flex-grow'>
+          <form action={handleCreateComment} className="relative" ref={formRef}>
+                <input
+                  type="text"
+                  name="targetId"
+                  className="hidden"
+                  required
+                  defaultValue={'14'}
+                />
+                <input
+                  required
+                  type="text"
+                  name="comment"
+                  placeholder="스터디원에게 응원의 메세지 보내기"
+                  className={`w-full rounded-lg bg-[#f3f3f3] py-[11.5px] border border-[#E9E9E9] text-sm placeholder-gray-purple focus:outline-none p-2`}
+                />
+                <button
+                  type="submit"
+                  className="absolute bottom-[8px] right-[14px] top-[8px]"
+                  aria-label="send"
+                >
+                  <SendIcon />
+                </button>
+            </form>
+          </span>
           </div>
-          <CommentList />
-        </div>
-      ) : (
-        <div>
-          <span>Loading</span>
-        </div>
-      )}
+          {commentList && commentList.map(comment => <Comment key={comment.id} comment={comment} handleEdit={handleUpdateComment} handleDelete={handleDeleteComment}/>)}
+          </div>
+      }
     </>
   );
 }
