@@ -1,5 +1,6 @@
-import iconStyle from '../../types/icon';
-const AddReaction = (props: iconStyle) => {
+import { Icon } from '../../types/icon';
+
+const AddReaction = (props: Icon) => {
   return (
     <svg
       width="17"

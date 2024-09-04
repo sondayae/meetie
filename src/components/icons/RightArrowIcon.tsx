@@ -1,5 +1,5 @@
-import iconStyle from '../../types/icon';
-const RightArrowIcon = (props: iconStyle) => {
+import { Icon } from '../../types/icon';
+const RightArrowIcon = (props: Icon) => {
   return (
     <svg
       viewBox="0 0 6 12"

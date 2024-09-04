@@ -1,6 +1,6 @@
-import IconStyle from '../../types/icon';
+import { Icon } from '../../types/icon';
 
-function EditIcon(props: IconStyle) {
+function EditIcon(props: Icon) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" {...props}>
       <path

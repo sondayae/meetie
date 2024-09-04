@@ -6,11 +6,17 @@ import DropDownMenu from './DropDownMenu';
 import { useRef, useState } from 'react';
 import useConfirm from '@/hooks/use-confirm';
 
-export default function Comment({ comment, handleEdit, handleDelete }) {
-  const [isEdit, setIsEdit] = useState(false);
-  const formRef = useRef();
+type CommentProps = {
+  comment: any;
+  handleEdit: any;
+  handleDelete: any;
+}
 
-  const formAction = (formData) => {
+export default function Comment({ comment, handleEdit, handleDelete }: CommentProps) {
+  const [isEdit, setIsEdit] = useState(false);
+  const formRef:any = useRef();
+
+  const formAction = (formData: FormData) => {
     handleEdit(formData);
     setIsEdit(false);
   }
