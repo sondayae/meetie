@@ -12,12 +12,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      keyframes: {
-        explosion: {
-          '0%': { top: '100%' },
-          '33%, 100%': { top: '-50%' },
-        }
-      },
       backgroundImage: {
         'gradient-custom':
           'linear-gradient(191deg, #E4E4FF -7.98%, #FFF 44.59%)',
@@ -39,20 +33,28 @@ const config: Config = {
         bold: '700',
       },
       keyframes: {
+        explosion: {
+          '0%': { top: '100%' },
+          '33%, 100%': { top: '-50%' },
+        },
         rocketMove: {
-          '0%': { transform: 'translate(-65%, -60%)' },
-          '50%': { transform: 'translate(-100%, -100%)' },
-          '100%': { transform: 'translate(-65%, -60%)' },
+          '0%, 100%': { transform: 'translate(5%, 15%)' },
+          '50%': { transform: 'translate(-5%, 0%)' },
         },
         messageMove: {
-          '0%': { transform: 'translateY(0%)' },
-          '50%': { transform: 'translateY(-15%)' },
-          '100%': { transform: 'translateY(0%)' },
+          '0%, 100%': {
+            transform: 'translateY(0%)',
+            'animation-timing-function': 'cubic-bezier(0.8,0,1,1)',
+          },
+          '50%': {
+            transform: 'translateY(-1%)',
+            'animation-timing-function': 'cubic-bezier(0,0,0.2,1)',
+          },
         },
       },
       animation: {
         rocketMove: 'rocketMove 3.5s linear infinite',
-        messageMove: 'messageMove 2s linear infinite',
+        messageMove: 'messageMove 2s infinite',
       },
     },
   },
