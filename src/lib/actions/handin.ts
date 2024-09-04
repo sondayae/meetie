@@ -1,8 +1,10 @@
 'use server';
 
-import supabaseServer from '@/utils/supabase/server';
 import { getServerUserId } from './getServerUserId';
 
+import supabase from '@/utils/supabase/client';
+import supabaseServer from '@/utils/supabase/server';
+import { getImgUrl } from '@/utils/supabase/storage';
 
 const FOLDER = 'handin';
 
@@ -24,10 +26,11 @@ export async function createHandin(formData: FormData) {
       throw new Error('There is no user.');
     }
     // 1. 과제 테이블에 데이터 삽입
-    const { data: handinData, error: handinError }: {data: any, error: any} = await supabase
-      .from('handin') // 과제 테이블 이름
-      .insert({ homework_id: homeworkId, user_id: userId, text })
-      .select();
+    const { data: handinData, error: handinError }: { data: any; error: any } =
+      await supabase
+        .from('handin') // 과제 테이블 이름
+        .insert({ homework_id: homeworkId, user_id: userId, text })
+        .select();
 
     if (handinError) {
       throw new Error(`Failed to insert handin: ${handinError.message}`);
@@ -101,11 +104,12 @@ export async function updateHandin(formData: FormData) {
       throw new Error('There is no user.');
     }
     // 과제 업로드
-    const { data: handinData, error: handinError }: {data: any, error: any} = await supabase
-      .from('handin')
-      .update({ homework_id: homeworkId, text })
-      .eq('id', id)
-      .select();
+    const { data: handinData, error: handinError }: { data: any; error: any } =
+      await supabase
+        .from('handin')
+        .update({ homework_id: homeworkId, text })
+        .eq('id', id)
+        .select();
 
     if (handinError) {
       throw new Error(`Failed to insert handin: ${handinError.message}`);
@@ -148,7 +152,6 @@ export async function updateHandin(formData: FormData) {
 }
 
 export async function getHandin(handinId: string) {
-  const supabase = supabaseServer();
   try {
     if (!handinId) {
       throw new Error('handin id is required');
@@ -156,12 +159,13 @@ export async function getHandin(handinId: string) {
 
     const { data, error } = await supabase
       .from('handin')
-      .select('*, images(url)')
-      .eq('id', handinId);
+      .select(
+        'id, text, created_at, homework(id, title, subtitle), user(id, name, images(url)), images(url)',
+      )
+      .eq('id', handinId)
+      .single();
 
-    if (error) {
-      throw new Error(error.message);
-    }
+    handleError(error);
 
     return { success: true, data };
   } catch (err: any) {
@@ -170,19 +174,23 @@ export async function getHandin(handinId: string) {
 }
 
 export async function getHandinList(studyRoomId: string) {
-  const supabase = supabaseServer();
   try {
     if (!studyRoomId) {
       throw new Error('studyRoom id is required');
     }
 
-    const { data , error }: {data: any, error: any} = await supabase.from('handin').select().eq('studyroom_id', studyRoomId);
+    const { data, error }: { data: any; error: any } = await supabase
+      .from('handin')
+      .select(
+        'id, text, created_at, homework(id, title), user(id, name, images(url)), images(url), comments(count)',
+      )
+      .order('created_at', { ascending: false })
+      .eq('studyroom_id', studyRoomId);
 
     handleError(error);
 
-    return {success: true, data};
-
+    return { success: true, data };
   } catch (err: any) {
-    return { success: false, error: err.message};
+    return { success: false, error: err.message };
   }
 }
