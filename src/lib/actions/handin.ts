@@ -6,6 +6,12 @@ import { getServerUserId } from './getServerUserId';
 
 const FOLDER = 'handin';
 
+function handleError(error: any) {
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
 export async function createHandin(formData: FormData) {
   const supabase = await supabaseServer();
   const userId = await getServerUserId();
@@ -160,5 +166,23 @@ export async function getHandin(handinId: string) {
     return { success: true, data };
   } catch (err: any) {
     return { success: false, error: err.message };
+  }
+}
+
+export async function getHandinList(studyRoomId: string) {
+  const supabase = supabaseServer();
+  try {
+    if (!studyRoomId) {
+      throw new Error('studyRoom id is required');
+    }
+
+    const { data , error }: {data: any, error: any} = await supabase.from('handin').select().eq('studyroom_id', studyRoomId);
+
+    handleError(error);
+
+    return {success: true, data};
+
+  } catch (err: any) {
+    return { success: false, error: err.message};
   }
 }
