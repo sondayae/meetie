@@ -18,7 +18,7 @@ export async function createHandin(formData: FormData) {
       throw new Error('There is no user.');
     }
     // 1. 과제 테이블에 데이터 삽입
-    const { data: handinData, error: handinError } = await supabase
+    const { data: handinData, error: handinError }: {data: any, error: any} = await supabase
       .from('handin') // 과제 테이블 이름
       .insert({ homework_id: homeworkId, user_id: userId, text })
       .select();
@@ -94,9 +94,9 @@ export async function updateHandin(formData: FormData) {
     if (!userId) {
       throw new Error('There is no user.');
     }
-    // 1. 과제 테이블에 데이터 삽입
-    const { data: handinData, error: handinError } = await supabase
-      .from('handin') // 과제 테이블 이름
+    // 과제 업로드
+    const { data: handinData, error: handinError }: {data: any, error: any} = await supabase
+      .from('handin')
       .update({ homework_id: homeworkId, text })
       .eq('id', id)
       .select();
@@ -107,7 +107,7 @@ export async function updateHandin(formData: FormData) {
 
     const handinId = handinData.id;
 
-    // 2. 스토리지 업로드
+    // 스토리지 업로드
     if (file.size > 0) {
       const fileName = `handin_${crypto.randomUUID()}`;
       const filePath = `${FOLDER}/${fileName}`;
@@ -121,6 +121,7 @@ export async function updateHandin(formData: FormData) {
         throw new Error(`Failed to upload storage: ${storageError.message}`);
       }
 
+      // 이미지 테이블 업로드
       const { data: imgData, error: imgError } = await supabase
         .from('images')
         .insert({
