@@ -1,6 +1,21 @@
-import { Study } from '@/types/study';
 import { format } from 'date-fns';
 import Link from 'next/link';
+
+interface Study {
+  title: string;
+  endDate: string;
+  startDate: string;
+  created_at: string;
+  viewCount: number;
+  goal: string;
+  info: string;
+  recruitNum: number;
+  tags: string[];
+  user: {
+    id: string;
+    name: string;
+  };
+}
 
 export default function StudyDetail({
   title,
@@ -15,7 +30,7 @@ export default function StudyDetail({
   user,
 }: Study) {
   const ddays = Math.round(
-    (new Date(endDate) - new Date()) / 1000 / 60 / 60 / 24,
+    (Number(new Date(endDate)) - Number(new Date())) / 1000 / 60 / 60 / 24,
   );
 
   return (
@@ -40,7 +55,7 @@ export default function StudyDetail({
           </div>
 
           <div className="flex items-center gap-2">
-            <Link href={`/profile/${user.id}`}>
+            <Link href={`/profile/read/${user.id}`}>
               <img
                 className="h-[38px] w-[38px] rounded-full"
                 src="https://th.bing.com/th/id/OIG3.6Q6JSjGGulke2mGv6MPj?pid=ImgGn"
@@ -48,11 +63,11 @@ export default function StudyDetail({
               />
             </Link>
             <div className="flex w-full flex-col text-gray-purple">
-              <Link href={`/profile/${user?.id}`}>
+              <Link href={`/profile/read/${user?.id}`}>
                 <p className="flex text-[13px] font-semibold">{user.name}</p>
               </Link>
               <div className="flex w-full justify-between">
-                <span className="text-[12px] text-[#82829B] flex gap-2">
+                <span className="flex gap-2 text-[12px] text-[#82829B]">
                   <span>작성일</span>
                   <span>{format(created_at, 'yyyy-MM-dd')}</span>
                   <span>&#124;</span>
@@ -71,7 +86,7 @@ export default function StudyDetail({
             <p className="whitespace-pre text-[15px]">{info}</p>
           </div>
           <div className="flex flex-col gap-4 text-[#434343]">
-            <p className="font-semibold whitespace-break-spaces">스터디 목표</p>
+            <p className="whitespace-break-spaces font-semibold">스터디 목표</p>
             <p className="text-[15px]">{goal}</p>
           </div>
           <div className="flex flex-col gap-4 text-[#434343]">

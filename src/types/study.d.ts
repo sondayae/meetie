@@ -1,13 +1,13 @@
 export type Study = {
   id?: string;
   // 모집 직군
-  role: string;
+  roles: string[];
   // 스킬
   // skill: string,
   // 스터디 제목
   title: string;
   // 스터디 목적,, purpose
-  purpose: string;
+  purposes: string[];
   // 스터디 목표 goal
   goal: string;
   // 스터디 주제
@@ -26,4 +26,5 @@ export type Study = {
   created_at?: string;
   //
   viewCount?: Number;
+  isRecruiting?: boolean;
 };

@@ -1,31 +1,38 @@
-'use client';
-
 import Link from 'next/link';
 
+import HomeSVG from '@/components/icons/HomeSVG';
+import MoreIcon from '@/components/icons/MoreIcon';
+import AccountRecoveryLinks from '@/components/loginPage/AccountRecoveryLinks';
+import SocialButtons from '@/components/loginPage/SocialButtons';
 import ROUTE_PATH from '@/constants/route';
-import { useUser } from '@/stores/user/user';
-import supabase from '@/utils/supabase/client';
 
-export default function Notes() {
-  const user = useUser((s) => s.user);
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-  };
-  console.log(user);
-  if (!user)
-    return (
-      <>
-        <div>로그인이 필요합니다.</div>
-        <Link href={ROUTE_PATH.AUTH.LOGIN}>로그인하기</Link>
-      </>
-    );
+export default async function Home() {
   return (
-    <div>
-      <h1>환영합니다, {user.email}</h1>
-      <p>유저 ID: {user.id}</p>
-      <button type="button" onClick={handleLogout}>
-        로그아웃
-      </button>
+    <div className="bg-gradient-custom py-16">
+      <div className="flex flex-col items-center justify-center gap-2">
+        <p className="text-lg font-semibold text-dark-gray">
+          같은 목표로 공부중인 유저
+        </p>
+        <span className="text-center text-2xl font-extrabold text-sub-purple">
+          123명
+        </span>
+      </div>
+
+      <div className="mb-3 mt-20 flex h-[332px] w-full items-center justify-center overflow-hidden">
+        <HomeSVG className="h-full w-auto pr-11" />
+      </div>
+
+      <div className="flex justify-center gap-6">
+        <SocialButtons />
+        <Link
+          href={ROUTE_PATH.AUTH.LOGIN}
+          className="flex h-11 w-11 items-center justify-center rounded bg-dark-gray shadow"
+        >
+          <MoreIcon stroke="white" className="h-7 w-7" />
+        </Link>
+      </div>
+
+      <AccountRecoveryLinks />
     </div>
   );
 }

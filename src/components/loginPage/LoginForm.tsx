@@ -2,11 +2,14 @@
 
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+
 import { useRouter } from 'next/navigation';
+
 import { postLogin } from '@/apis/auth';
 import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
+import ROUTE_PATH from '@/constants/route';
 import { emailPattern } from '@/constants/validationPatterns';
 import { useUser } from '@/stores/user/user';
 import { LoginFormData } from '@/types/auth';
@@ -25,7 +28,7 @@ export default function LoginForm() {
     try {
       const user = await postLogin(formData);
       useUser.setState({ user });
-      router.replace('/');
+      router.replace(ROUTE_PATH.STUDY_ROOM.MAIN);
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
@@ -38,9 +41,7 @@ export default function LoginForm() {
   }, [setFocus]);
 
   return (
-    <form
-      className="flex flex-col gap-3 px-4"
-    >
+    <form className="flex flex-col gap-3 px-4">
       <div>
         <Input<LoginFormData>
           id="email"
@@ -74,7 +75,12 @@ export default function LoginForm() {
         )}
       </div>
       <div className="mt-5 flex justify-center">
-        <Button label="로그인" type="primary" size="large" onClick={() => handleSubmit(onSubmit)()}/>
+        <Button
+          label="로그인"
+          type="primary"
+          size="large"
+          onClick={handleSubmit(onSubmit)}
+        />
       </div>
     </form>
   );

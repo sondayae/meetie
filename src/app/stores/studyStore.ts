@@ -3,7 +3,7 @@ import { create } from 'zustand';
 
 type StudyState = {
   study: Study;
-  setStudy: (study: Partial<Study>) => void;
+  setStudy: (study: Partial<Study> | Study) => void;
 };
 
 export const useStudyStore = create<StudyState>((set) => ({

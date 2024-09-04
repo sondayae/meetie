@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import { nextui } from '@nextui-org/react';
 
 const config: Config = {
   content: [
@@ -7,19 +8,13 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/hooks/**/*.{js,ts,jsx,tsx,mdx}',
     './src/stories/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
-      keyframes: {
-        explosion: {
-          '0%': { top: '100%' },
-          '33%, 100%': { top: '-50%' },
-        }
-      },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-custom':
+          'linear-gradient(191deg, #E4E4FF -7.98%, #FFF 44.59%)',
       },
       colors: {
         'main-purple': '#6224FD',
@@ -37,8 +32,33 @@ const config: Config = {
         semibold: '600',
         bold: '700',
       },
+      keyframes: {
+        explosion: {
+          '0%': { top: '100%' },
+          '33%, 100%': { top: '-50%' },
+        },
+        rocketMove: {
+          '0%, 100%': { transform: 'translate(5%, 15%)' },
+          '50%': { transform: 'translate(-5%, 0%)' },
+        },
+        messageMove: {
+          '0%, 100%': {
+            transform: 'translateY(0%)',
+            'animation-timing-function': 'cubic-bezier(0.8,0,1,1)',
+          },
+          '50%': {
+            transform: 'translateY(-1%)',
+            'animation-timing-function': 'cubic-bezier(0,0,0.2,1)',
+          },
+        },
+      },
+      animation: {
+        rocketMove: 'rocketMove 3.5s linear infinite',
+        messageMove: 'messageMove 2s infinite',
+      },
     },
   },
-  plugins: [],
+  darkMode: 'class',
+  plugins: [nextui()],
 };
 export default config;
