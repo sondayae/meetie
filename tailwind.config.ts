@@ -12,12 +12,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      keyframes: {
-        explosion: {
-          '0%': { top: '100%' },
-          '33%, 100%': { top: '-50%' },
-        },
-      },
       backgroundImage: {
         'gradient-custom':
           'linear-gradient(191deg, #E4E4FF -7.98%, #FFF 44.59%)',
@@ -39,6 +33,10 @@ const config: Config = {
         bold: '700',
       },
       keyframes: {
+        explosion: {
+          '0%': { top: '100%' },
+          '33%, 100%': { top: '-50%' },
+        },
         rocketMove: {
           '0%, 100%': { transform: 'translate(5%, 15%)' },
           '50%': { transform: 'translate(-5%, 0%)' },
