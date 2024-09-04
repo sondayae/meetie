@@ -3,7 +3,6 @@
 import { Dispatch, useState } from 'react';
 
 import Button from '../common/Button';
-import CheckSign from '../handin/CheckSign';
 
 type TSelectModal = {
   data: [] | undefined;
@@ -54,12 +53,6 @@ function SelectModal({ data, onConfirm, onCancel }: TSelectModal) {
                 <div
                   className={`${selectedItem.id === item.id ? '' : 'hidden'} m-auto mr-[20px]`}
                 >
-                  <CheckSign
-                    fill="fill-main-purple"
-                    background="bg-white"
-                    border="bg-main-purple"
-                    size="small"
-                  />
                 </div>
               )}
             </button>

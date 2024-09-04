@@ -3,8 +3,6 @@
 import { useRouter } from 'next/navigation';
 
 import ProfileImg from '../common/ProfileImg';
-import ToggleMenu from './ToggleMenu';
-
 export type HandinType = {
   id: string;
   userName: string;
@@ -70,7 +68,7 @@ function Handin({
           </div>
         </div>
         <div>
-          <ToggleMenu
+          {/* <ToggleMenu
             menus={[
               { icon: 'edit', label: '수정하기' },
               { icon: 'delete', label: '삭제하기' },
@@ -78,7 +76,7 @@ function Handin({
             onClick={(item: string) => {
               handleTypeFunc(item);
             }}
-          />
+          /> */}
         </div>
       </div>
     </div>
