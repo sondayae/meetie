@@ -19,8 +19,8 @@ export default async function Page({
 
   const data = await response.json();
 
-  console.log(data.study)
-  
+  console.log(data.study);
+
   if (!response.ok) {
     throw new Error(data.error || 'Error occurred while updating profile');
   }
@@ -35,11 +35,12 @@ export default async function Page({
       {/* 로그인 === 작성자  */}
       <div className="flex-1">
         <StatusDisplay
-          userId={session?.user.id}
+          userId={session?.user.id || ''}
           isAuthor={isAuthor}
           params={params.studyId}
           acceptedStudy={data.acceptedStudy}
           recruitNum={data.study.recruitNum}
+          children={null}
         />
       </div>
     </div>

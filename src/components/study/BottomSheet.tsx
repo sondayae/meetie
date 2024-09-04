@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import CheckSign from '../handin/CheckSign';
+// import CheckSign from '../handin/CheckSign';
 import UnCheckedIcon from '../icons/UncheckedIcon';
 import CheckedIcon from '../icons/CheckedIcon';
 

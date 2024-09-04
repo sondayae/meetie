@@ -41,11 +41,12 @@ export default async function Page({
       {/* 로그인 === 작성자  */}
       <div className="flex-1">
         <StatusDisplay
-          userId={session?.user.id}
+          userId={session?.user.id || ''}
           isAuthor={isAuthor}
           params={params.studyId}
           acceptedStudy={data.acceptedStudy}
           recruitNum={data.study.recruitNum}
+          children={null}
         />
       </div>
     </div>

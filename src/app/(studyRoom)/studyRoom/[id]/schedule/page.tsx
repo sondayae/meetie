@@ -4,7 +4,7 @@ import MainLayout from '@/components/studyRoom/MainLayout'
 const page = () => {
   return (
     <div>
-      <MainLayout list={[]} selectedItem={''} setSelectedItem={() => {}}/>
+      <MainLayout list={[]} selectedItem={{ id: '', title: '', subtitle: '' }} setSelectedItem={() => {}}/>
     </div>
   )
 }
