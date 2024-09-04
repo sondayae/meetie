@@ -1,10 +1,37 @@
-'use client';
-import { useParams } from 'next/navigation';
-import { getStudy } from '@/hooks/useStudy';
+import { format } from 'date-fns';
+import Link from 'next/link';
 
-export default function StudyDetail() {
-  const params = useParams();
-  const study = getStudy(params.studyId);
+interface Study {
+  title: string;
+  endDate: string;
+  startDate: string;
+  created_at: string;
+  viewCount: number;
+  goal: string;
+  info: string;
+  recruitNum: number;
+  tags: string[];
+  user: {
+    id: string;
+    name: string;
+  };
+}
+
+export default function StudyDetail({
+  title,
+  endDate,
+  startDate,
+  created_at,
+  viewCount,
+  goal,
+  info,
+  recruitNum,
+  tags,
+  user,
+}: Study) {
+  const ddays = Math.round(
+    (Number(new Date(endDate)) - Number(new Date())) / 1000 / 60 / 60 / 24,
+  );
 
   return (
     <>
@@ -28,7 +55,7 @@ export default function StudyDetail() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Link href={`/profile/${user.id}`}>
+            <Link href={`/profile/read/${user.id}`}>
               <img
                 className="h-[38px] w-[38px] rounded-full"
                 src="https://th.bing.com/th/id/OIG3.6Q6JSjGGulke2mGv6MPj?pid=ImgGn"
@@ -36,7 +63,7 @@ export default function StudyDetail() {
               />
             </Link>
             <div className="flex w-full flex-col text-gray-purple">
-              <Link href={`/profile/${user?.id}`}>
+              <Link href={`/profile/read/${user?.id}`}>
                 <p className="flex text-[13px] font-semibold">{user.name}</p>
               </Link>
               <div className="flex w-full justify-between">
@@ -75,7 +102,7 @@ export default function StudyDetail() {
             </p>
           </div>
         </main>
-        </div>
+      </div>
     </>
   );
 }

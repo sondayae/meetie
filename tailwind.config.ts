@@ -12,6 +12,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        explosion: {
+          '0%': { top: '100%' },
+          '33%, 100%': { top: '-50%' },
+        }
+      },
       backgroundImage: {
         'gradient-custom':
           'linear-gradient(191deg, #E4E4FF -7.98%, #FFF 44.59%)',
