@@ -1,10 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import UpdownArrowIcon from '../icons/UpdownArrowIcon';
-import { SelectItem } from './SelectItem';
 
-function SelectBox({ selected, setShowModal }) {
+type SelectBoxProps = {
+  selected: {
+    title: string;
+    subtitle: string;
+  },
+  setShowModal: (tf: boolean) => {},
+}
+
+function SelectBox({ selected, setShowModal }: SelectBoxProps) {
   
 
   return (

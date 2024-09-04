@@ -3,6 +3,12 @@
 import supabase from '@/utils/supabase/client';
 import { getBadgeImgUrl } from '@/utils/supabase/storage';
 
+function handleError(error: any) {
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
 export async function getBadges() {
   const { data: commentBadges, error: commentError } = await supabase.storage
     .from('admin')
@@ -13,6 +19,7 @@ export async function getBadges() {
     });
 
     const commentList = getListWithSrc(commentBadges, 'comment');
+    handleError(commentError);
 
   const { data: feedBadges, error: feedError } = await supabase.storage
     .from('admin')
@@ -23,6 +30,7 @@ export async function getBadges() {
     });
   
     const feedbackList = getListWithSrc(feedBadges, 'feedback');
+    handleError(feedError);
 
   const { data: studyBadges, error: studyError } = await supabase.storage
     .from('admin')
@@ -33,6 +41,7 @@ export async function getBadges() {
     });
   
     const studyList = getListWithSrc(studyBadges, 'study');
+    handleError(studyError);
   
   const { data: meettBadges, error: meettError } = await supabase.storage
     .from('admin')
@@ -43,15 +52,16 @@ export async function getBadges() {
     });
 
     const meettList = getListWithSrc(meettBadges, 'meett');
+    handleError(meettError);
 
   const badgeList = { comment: commentList, feedback: feedbackList, study: studyList, meett: meettList };
 
   return { success: true, data: badgeList };
 }
 
-function getListWithSrc(list, path) {
+function getListWithSrc(list: any[]|null, path: string) {
 
-  const newList = list?.map((item) => {
+  const newList = list?.map((item: any) => {
     const newItem = {...item, src: getBadgeImgUrl(`${path}/${item.name}`)};
     return newItem;
   });

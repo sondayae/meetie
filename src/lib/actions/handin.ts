@@ -11,9 +11,8 @@ export async function createHandin(formData: FormData) {
   const userId = await getServerUserId();
 
   const file = formData.get('file') as File;
-
   const text = formData.get('text');
-  const homeworkId = '2';
+  const homeworkId = formData.get('homework_id');
   try {
     if (!userId) {
       throw new Error('There is no user.');
@@ -52,7 +51,7 @@ export async function createHandin(formData: FormData) {
       throw new Error(`Failed to upload images: ${imgError.message}`);
     }
     return { success: true, data: { handin: handinData, image: imgData } };
-  } catch (error) {
+  } catch (error: any) {
     return { success: false, error: error.message };
   }
 }
@@ -136,12 +135,12 @@ export async function updateHandin(formData: FormData) {
       return { success: true, data: { handin: handinData, image: imgData } };
     }
     return { success: true, data: { handin: handinData } };
-  } catch (error) {
+  } catch (error: any) {
     return { success: false, error: error.message };
   }
 }
 
-export async function getHandin(handinId) {
+export async function getHandin(handinId: string) {
   const supabase = supabaseServer();
   try {
     if (!handinId) {
