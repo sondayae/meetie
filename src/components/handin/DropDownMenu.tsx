@@ -2,8 +2,8 @@ import { useState } from 'react';
 import MoreIcon from '../icons/MoreIcon';
 
 type DropDownMenuProps = {
-  handleEdit: () => {},
-  handleDelete: () => {},
+  handleEdit: any;
+  handleDelete: any;
 }
 
 //TODO 렌더링 최적화

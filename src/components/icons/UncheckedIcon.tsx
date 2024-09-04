@@ -1,5 +1,5 @@
-import iconStyle from './iconStyle';
-const UnCheckedIcon = (props: iconStyle) => {
+import { Icon } from '@/types/icon';
+const UnCheckedIcon = (props: Icon) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

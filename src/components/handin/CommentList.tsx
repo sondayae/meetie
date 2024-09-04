@@ -34,11 +34,11 @@ export default function CommentList({ targetId }: {targetId: string}) {
     <>
     { commentList &&
       <div className="[&>*:first-child]:border-t">
-        {
-          commentList.map((comment: any) => {
-            return <Comment key={comment.id} id={comment.id} comment={comment.comment} author={comment.user} date={comment.created_at}/>
+        {/* {
+          commentList.map((comment:) => {
+            // return <Comment key={comment.id} id={comment.id} comment={comment.comment} author={comment.user} date={comment.created_at}/>
           })
-        }
+        } */}
       </div>
     }
     </>

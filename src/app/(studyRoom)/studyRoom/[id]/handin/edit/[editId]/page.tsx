@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
 import Header from '@/components/handin/Header';
 import SelectModal from '@/components/handin/SelectModal';
@@ -21,20 +20,20 @@ const page = ({ params }: { params: { id: string, editId: string } }) => {
   const [homeworkList, setHomeworkList] = useState<[]>();
   const [text, setText] = useState<string>('');
   const [previews, setPreviews] = useState<string>();
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState<any>();
   const studyRoomId = params.id;
   const handinId = params.editId;
-  const formRef = useRef();
-  const fileInputRef = useRef();
+  const formRef: any = useRef();
+  const fileInputRef: any = useRef();
   const [showModal, setShowModal] = useState(false);
 
   const fetchData = async () => {
-    const { data: homeworks } = await getHomeworks(studyRoomId);
-    const { data: handin } = await getHandin(handinId);
+    const { data: homeworks }: any = await getHomeworks(studyRoomId);
+    const { data: handin }: any = await getHandin(handinId);
     
     setHomeworkList(homeworks);
 
-    const selectedHomework = homeworks?.filter((homework) => {
+    const selectedHomework = homeworks?.filter((homework: any) => {
       if (homework.id === handin[0].homework_id) {
         return homework;
       }});
@@ -77,7 +76,7 @@ const page = ({ params }: { params: { id: string, editId: string } }) => {
     reader.readAsDataURL(file);
   };
 
-  const handleTextChange = (e) => {
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newText = e.target.value;
     if (newText.length > MAX_LENGTH) {
       newText = e.target.value.slice(0, MAX_LENGTH);

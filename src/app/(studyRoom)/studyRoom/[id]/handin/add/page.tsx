@@ -1,8 +1,7 @@
 'use client';
+
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import HandinForm from '@/components/handin/HandinForm';
 import Header from '@/components/handin/Header';
 import { getHomeworks } from '@/lib/actions/homework';
 import NoticeBox from '@/components/common/NoticeBox';
@@ -11,30 +10,29 @@ import SelectBox from '@/components/studyRoom/SelectBox';
 import ImageFrame from '@/components/handin/ImageFrame';
 import ImageInput from '@/components/handin/ImageInput';
 import Button from '@/components/common/Button';
-import { SelectItem } from '@/components/studyRoom/SelectItem';
 import { createHandin } from '@/lib/actions/handin';
-import { useFormState } from 'react-dom';
 import SelectModal from '@/components/handin/SelectModal';
 
 const MAX_LENGTH = 500;
 
 const page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
-  const [homeworkList, setHomeworkList] = useState<[]>();
+  const [homeworkList, setHomeworkList] = useState<any>();
   const [text, setText] = useState<string>('');
   const [previews, setPreviews] = useState<string>();
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState<any>();
   const studyRoomId = params.id;
-  const formRef = useRef();
-  const fileInputRef = useRef();
+  const formRef: any = useRef();
+  const fileInputRef:any = useRef();
   const [showModal, setShowModal] = useState(false);
 
   const fetchData = async () => {
-    const { data } = await getHomeworks(studyRoomId);
+    const { data }: { success: boolean; data?: any[]; error?: undefined; } = await getHomeworks(studyRoomId);
     setHomeworkList(data);
-    console.log(data);
+    if (data) {
+      setSelected(data[0]);
+    }
 
-    setSelected(data[0]);
   };
 
   useEffect(() => {
@@ -72,7 +70,7 @@ const page = ({ params }: { params: { id: string } }) => {
     reader.readAsDataURL(file);
   };
 
-  const handleTextChange = (e) => {
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newText = e.target.value;
     if (newText.length > MAX_LENGTH) {
       newText = e.target.value.slice(0, MAX_LENGTH);

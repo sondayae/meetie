@@ -3,9 +3,6 @@
 @tailwind utilities;
 
 
-.firework {
-	position: absolute;
-}
 .explosion {
 	position: absolute;
   left: -2px;

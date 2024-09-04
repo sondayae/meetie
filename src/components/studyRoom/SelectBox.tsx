@@ -1,13 +1,14 @@
 'use client';
 
+import { Dispatch, SetStateAction } from 'react';
 import UpdownArrowIcon from '../icons/UpdownArrowIcon';
 
 type SelectBoxProps = {
   selected: {
     title: string;
     subtitle: string;
-  },
-  setShowModal: (tf: boolean) => {},
+  }|undefined,
+  setShowModal: Dispatch<SetStateAction<boolean>>;
 }
 
 function SelectBox({ selected, setShowModal }: SelectBoxProps) {

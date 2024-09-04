@@ -14,7 +14,7 @@ const page = ({params}: {params: {id: string}}) => {
       const data = await res.json();
       setHandinList(data);
 
-      const tempStudyRoomList = [{id: '1', title: '스터디룸 1', subtitle: '디자인 | 멤버 5'}, {id: '2', title: '스터디룸 2', subtitle: '개발 | 멤버 5'}];
+      const tempStudyRoomList: any = [{id: '1', title: '스터디룸 1', subtitle: '디자인 | 멤버 5'}, {id: '2', title: '스터디룸 2', subtitle: '개발 | 멤버 5'}];
       setStudyRoomList(tempStudyRoomList);
       setStudyRoom(tempStudyRoomList[0]);
     }
@@ -25,9 +25,9 @@ const page = ({params}: {params: {id: string}}) => {
 
     return (
         <div className="bg-[#FAFAFA]">
-            {
+            {/* {
                 studyRoom &&  <MainLayout list={studyRoomList} selectedItem={studyRoom} setSelectedItem={setStudyRoom}/>
-            }
+            } */}
             <div className="border-b-2 border-middle-gray p-[34px]">
                 <p>과제 일정</p>
                 <p>주차별 과제 현황을 확인하고 소통해요.</p>
