@@ -41,7 +41,8 @@ export async function updateSession(request: NextRequest) {
   if (!user) {
     if (
       !request.nextUrl.pathname.startsWith(ROUTE_PATH.AUTH.LOGIN) &&
-      !request.nextUrl.pathname.startsWith(ROUTE_PATH.AUTH.SIGN_UP)
+      !request.nextUrl.pathname.startsWith(ROUTE_PATH.AUTH.SIGN_UP) &&
+      !request.nextUrl.pathname.startsWith(ROUTE_PATH.HOME)
     ) {
       const url = request.nextUrl.clone();
       url.pathname = ROUTE_PATH.AUTH.LOGIN;
