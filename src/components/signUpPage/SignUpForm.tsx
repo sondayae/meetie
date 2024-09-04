@@ -41,10 +41,7 @@ export default function SignUpForm() {
   }, [setFocus]);
 
   return (
-    <form
-      className="flex flex-col gap-3 px-4"
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form className="flex flex-col gap-3 px-4">
       <div>
         <Input<SignUpFormData>
           id="email"
@@ -119,7 +116,12 @@ export default function SignUpForm() {
       </div>
 
       <div className="mt-6 flex flex-col items-center">
-        <Button label="계정 만들기" type="primary" size="large" />
+        <Button
+          label="계정 만들기"
+          type="primary"
+          size="large"
+          onClick={handleSubmit(onSubmit)}
+        />
         <Link
           className="after:contents-[''] relative mt-6 px-2 py-1 text-sm font-medium text-dark-gray after:absolute after:bottom-1 after:left-2 after:right-2 after:h-px after:bg-dark-gray"
           href={ROUTE_PATH.AUTH.LOGIN}

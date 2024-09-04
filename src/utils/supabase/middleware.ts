@@ -41,20 +41,20 @@ export async function updateSession(request: NextRequest) {
   if (!user) {
     if (
       !request.nextUrl.pathname.startsWith(ROUTE_PATH.AUTH.LOGIN) &&
-      !request.nextUrl.pathname.startsWith(ROUTE_PATH.AUTH.SIGN_UP)
+      !request.nextUrl.pathname.startsWith(ROUTE_PATH.AUTH.SIGN_UP) &&
+      !request.nextUrl.pathname.startsWith(ROUTE_PATH.HOME)
     ) {
       const url = request.nextUrl.clone();
       url.pathname = ROUTE_PATH.AUTH.LOGIN;
-      console.log('Redirecting to login');
       return NextResponse.redirect(url);
     }
   } else if (
     request.nextUrl.pathname.startsWith(ROUTE_PATH.AUTH.LOGIN) ||
-    request.nextUrl.pathname.startsWith(ROUTE_PATH.AUTH.SIGN_UP)
+    request.nextUrl.pathname.startsWith(ROUTE_PATH.AUTH.SIGN_UP) ||
+    request.nextUrl.pathname.startsWith(ROUTE_PATH.HOME)
   ) {
     const url = request.nextUrl.clone();
-    url.pathname = '/';
-    console.log('Redirecting to home');
+    url.pathname = ROUTE_PATH.STUDY_ROOM.MAIN;
     return NextResponse.redirect(url);
   }
 
