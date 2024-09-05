@@ -55,7 +55,7 @@ export default function SignUpForm() {
           errors={errors}
           register={register}
           rules={{
-            required: '이메일을 입력해주세요.',
+            required: emailPattern.message,
             pattern: emailPattern,
           }}
         />
@@ -72,7 +72,7 @@ export default function SignUpForm() {
           errors={errors}
           register={register}
           rules={{
-            required: '새 비밀번호를 입력해주세요.',
+            required: passwordPattern.message,
             pattern: passwordPattern,
           }}
         />
@@ -91,7 +91,7 @@ export default function SignUpForm() {
           errors={errors}
           register={register}
           rules={{
-            required: '비밀번호를 입력해주세요.',
+            required: passwordPattern.message,
             validate: (value) =>
               value === watch('password') ||
               '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
