@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Header from '@/components/handin/Header';
 import CalendarIcon from '@/components/icons/CalendarIcon';
+import ProfileAvatar from '@/components/common/ProfileAvatar';
 
 export default function StudyPage() {
   const router = useRouter();

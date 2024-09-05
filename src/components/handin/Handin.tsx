@@ -1,5 +1,6 @@
 'use client';
 
+import ProfileAvatar from '../common/ProfileAvatar';
 import ProfileImg from '../common/ProfileImg';
 import Separator from '../common/Separator';
 import CommentIcon from '../icons/CommentIcon';
@@ -19,7 +20,7 @@ export default function Handin({ user, handin, commentsCount }: {user: any, hand
     <div className="flex flex-col gap-4 border-b px-4 py-5">
       <div className="relative flex gap-2">
         <div className="flex flex-shrink-0">
-          <ProfileImg src={user.images?.url} />
+          <ProfileAvatar src={user.images?.url}/>
         </div>
         <div className="flex w-full flex-grow items-center justify-between">
           <div className="flex items-center gap-1">
