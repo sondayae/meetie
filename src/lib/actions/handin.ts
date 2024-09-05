@@ -1,10 +1,9 @@
 'use server';
 
-import { getServerUserId } from './getServerUserId';
-
 import supabase from '@/utils/supabase/client';
 import supabaseServer from '@/utils/supabase/server';
 import { getImgUrl } from '@/utils/supabase/storage';
+import { getServerUserId } from './getServerUserId';
 
 const FOLDER = 'handin';
 
@@ -173,9 +172,9 @@ export async function getHandin(handinId: string) {
   }
 }
 
-export async function getHandinList(studyRoomId: string) {
+export async function getHandinList(studyId: string) {
   try {
-    if (!studyRoomId) {
+    if (!studyId) {
       throw new Error('studyRoom id is required');
     }
 
@@ -185,9 +184,45 @@ export async function getHandinList(studyRoomId: string) {
         'id, text, created_at, homework(id, title), user(id, name, images(url)), images(url), comments(count)',
       )
       .order('created_at', { ascending: false })
-      .eq('studyroom_id', studyRoomId);
+      .eq('study_id', studyId);
 
     handleError(error);
+
+    return { success: true, data };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
+
+export async function getJoinedStudyRoomList() {
+  const userId = await getServerUserId();
+
+  try {
+    if (!userId) {
+      handleError(new Error('user is required'));
+    }
+    const { data, error } = await supabase
+      .from('studymember')
+      .select('*, study(id, title, topic, endDate)')
+      .eq('participantId', userId);
+
+    return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+export async function getJoinedStudyRoom(studyId: string) {
+  const userId = await getServerUserId();
+
+  try {
+    if (!userId) {
+      handleError(new Error('user is required'));
+    }
+    const { data, error } = await supabase
+      .from('study')
+      .select('*')
+      .eq('id', studyId)
+      .single();
 
     return { success: true, data };
   } catch (err: any) {
