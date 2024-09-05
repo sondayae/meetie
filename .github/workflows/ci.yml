@@ -3,7 +3,7 @@ name: CI Pipeline
 on:
   pull_request:
     branches:
-      - '*'
+      - '*' # 모든 브랜치에 대해 실행
 
 jobs:
   lint:
@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: '22.6.0'
 
-      - name: Install npm
+      - name: Install dependencies
         run: npm install
 
       - name: Run ESLint
@@ -36,7 +36,7 @@ jobs:
         with:
           node-version: '22.6.0'
 
-      - name: Install npm
+      - name: Install dependencies
         run: npm install
 
       - name: Create .env file
