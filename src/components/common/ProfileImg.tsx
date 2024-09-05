@@ -1,4 +1,3 @@
-import { Avatar } from '@nextui-org/avatar';
 
 type AvatarProps = {
   src?: string;
@@ -10,11 +9,11 @@ type AvatarProps = {
 function ProfileImg({ src, size = 'md', className }: AvatarProps) {
   return (
     <>
-    { src ? (
+    {/* { src ? (
       <Avatar src={src} showFallback className='bg-main-purple'/>
     ) : (
       <Avatar src='https://api.dicebear.com/9.x/glass/svg?backgroundColor=d1d4f9' showFallback className='bg-main-purple'/>
-    )}
+    )} */}
     </>
   )
 }

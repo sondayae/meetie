@@ -1,7 +1,6 @@
 // components/CustomAvatar.tsx
 'use client';
 
-import { Avatar as NextUIAvatar } from '@nextui-org/avatar';
 import React from 'react';
 
 interface CustomAvatarProps {
@@ -21,12 +20,13 @@ const CustomAvatar: React.FC<CustomAvatarProps> = ({
   const imageSrc = src || fallbackImage;
 
   return (
-    <NextUIAvatar
-      showFallback
-      src={imageSrc}
-      alt={alt}
-      className={`h-24 w-24 ${className}`}
-    />
+    // <NextUIAvatar
+    //   showFallback
+    //   src={imageSrc}
+    //   alt={alt}
+    //   className={`h-24 w-24 ${className}`}
+    // />
+    <></>
   );
 };
 
