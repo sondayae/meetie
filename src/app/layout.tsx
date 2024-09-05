@@ -46,13 +46,18 @@ export default async function RootLayout({
   const { data } = await supabase.auth.getUser();
 
   return (
-    <html lang="ko" className='h-full'>
-      <body className={`${pretendard.className} h-full`}>
-        <div className="m-auto h-full w-full max-w-[600px] shadow">
-          {/* <Header /> */}
-          {children}
-          {/* <Footer /> */}
-          <InitUser user={data.user} />
+    <html lang="ko">
+      <body className={`${pretendard.className}`}>
+        <div id='wrapper' className='max-w-[600px] h-[100dvh] m-auto'>
+          {/* <div className='border-blue-500 border h-full'> */}
+            {children}
+          {/* </div> */}
+          {/* <div className="m-auto shadow"> */}
+            {/* <Header /> */}
+            {/* {children} */}
+            {/* <Footer /> */}
+            {/* <InitUser user={data.user} /> */}
+          {/* </div> */}
         </div>
       </body>
     </html>
