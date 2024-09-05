@@ -3,6 +3,8 @@ import supabaseServer from '@/utils/supabase/server';
 import StatusDisplay from '@/components/study/StatusDisplay';
 import StudyRequest from '@/components/study/StudyRequest';
 
+import { getStudyDetails } from '@/actions/study.action';
+
 export default async function Page({
   params,
 }: {
@@ -13,18 +15,20 @@ export default async function Page({
     data: { session },
   } = await supabase.auth.getSession();
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const response = await fetch(
-    new URL(`/api/study/${params.studyId}`, baseUrl).toString(),
-  );
+  const data = await getStudyDetails(params.studyId);
 
-  const data = await response.json();
+  // console.log(data2);
+  // fetch(
+  //   new URL(`/api/study/${params.studyId}`, baseUrl).toString(),
+  // );
 
-  console.log(data.study);
+  // const data = await response.json();
 
-  if (!response.ok) {
-    throw new Error(data.error || 'Error occurred while updating profile');
-  }
+  // console.log(data.study);
+
+  // if (!response.ok) {
+  //   throw new Error(data.error || 'Error occurred while updating profile');
+  // }
 
   // 작성자 여부 확인
   const isAuthor = session?.user.id === data.study.user.id;

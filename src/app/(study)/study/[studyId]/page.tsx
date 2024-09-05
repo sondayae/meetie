@@ -22,19 +22,24 @@ export default async function Page({
   console.log(`작성자 여부 확인: ${isAuthor}`);
 
   return (
-    <div className="flex flex-col">
-      <StudyDetail {...data.study} />
-      {/* 로그인 === 작성자  */}
-      <div className="flex-1">
-        <StatusDisplay
-          userId={session?.user.id || ''}
-          isAuthor={isAuthor}
-          params={params.studyId}
-          acceptedStudy={data.acceptedStudy}
-          recruitNum={data.study.recruitNum}
-          children={null}
-        />
-      </div>
-    </div>
+    <>
+      {!data.study.isRecruiting && <p className='h-24'>모집이 마감되었습니다.</p>}
+      {data.study.isRecruiting && (
+        <div className="flex flex-col">
+          <StudyDetail {...data.study} />
+          {/* 로그인 === 작성자  */}
+          <div className="flex-1">
+            <StatusDisplay
+              userId={session?.user.id || ''}
+              isAuthor={isAuthor}
+              params={params.studyId}
+              acceptedStudy={data.acceptedStudy}
+              recruitNum={data.study.recruitNum}
+              children={null}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import StudyRequestItem from '@/components/study/StudyRequestItem';
+import { fetchStudyApplies } from '@/actions/studyrequest.action';
 
 // 시간별 데이터를 그룹핑
 const groupByDate = (data: any[]) => {
@@ -40,27 +41,17 @@ export default function Page({ params, acceptedStudy, recruitNum }: PageProps) {
     Record<string, StudyRequestItem[]>
   >({});
 
-  console.log(params);
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-
+  
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(
-        new URL(`/api/studyrequest/${params.studyId}`, baseUrl).toString(),
-      );
+      const data = await fetchStudyApplies(params.studyId);
 
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Error occurred while fetching data');
-      }
-
-      setData(result);
-      setGroupedData(groupByDate(result)); // 데이터를 시간별로 그룹핑
+      setData(data);
+      setGroupedData(groupByDate(data)); // 데이터를 시간별로 그룹핑
     };
 
     fetchData();
-  }, [params.studyId, baseUrl]);
+  }, [params.studyId]);
 
   return (
     <>

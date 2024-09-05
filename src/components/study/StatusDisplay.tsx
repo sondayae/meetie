@@ -20,10 +20,10 @@ export default function StatusDisplay({
   recruitNum: number;
   userId: string;
 }) {
-  const [accessNum, setAccessNum] = useState<number>(0);
-  const path = usePathname();
-  const displayRequest = path.endsWith('studyrequest');
-  console.log(params);
+  // const [accessNum, setAccessNum] = useState<number>(0);
+  // const path = usePathname();
+  // const displayRequest = path.endsWith('studyrequest');
+  // console.log(params);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +35,7 @@ export default function StatusDisplay({
 
       const data = await response.json();
       console.log(data);
-      setAccessNum(data.participants.length || 0);
+      // setAccessNum(data.participants.length || 0);
     };
 
     fetchData();
