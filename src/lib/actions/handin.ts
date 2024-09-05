@@ -207,7 +207,7 @@ export async function getJoinedStudyRoomList() {
       .eq('participantId', userId);
 
     return { success: true, data };
-  } catch (err) {
+  } catch (err: any) {
     return { success: false, error: err.message };
   }
 }

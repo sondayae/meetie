@@ -35,7 +35,7 @@ export default function page() {
         </div>
           <div>
             <h1 className='font-medium'>댓글 뱃지</h1>
-            <div className='flex items-center'>
+            <div className='flex items-center gap-3'>
               {badgeList?.comment.map((item: any) => {
                 return (
                   <div key={item.id}>
@@ -47,7 +47,7 @@ export default function page() {
           </div>
           <div>
             <h1 className='font-medium'>피드 뱃지</h1>
-            <div className='flex items-center'>
+            <div className='flex items-center gap-3'>
               {badgeList?.feedback.map((item: any) => {
                 return (
                   <div key={item.id}>
@@ -59,7 +59,7 @@ export default function page() {
           </div>
           <div>
             <h1 className='font-medium'>스터디 뱃지</h1>
-            <div className='flex items-center'>
+            <div className='flex items-center gap-3'>
               {badgeList?.study.map((item: any) => {
                 return (
                   <div key={item.id}>
@@ -71,7 +71,7 @@ export default function page() {
           </div>
           <div>
             <h1 className='font-medium'>밋티 뱃지</h1>
-            <div className='flex items-center'>
+            <div className='flex items-center gap-3'>
               {badgeList?.meett.map((item: any) => {
                 return (
                   <div key={item.id}>

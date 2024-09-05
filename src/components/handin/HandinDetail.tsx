@@ -53,7 +53,7 @@ export default function HandinDetail({
                   checkClassName="fill-white"
                 />
               </div>
-              {loginUser.id === handin.user.id && (
+              {loginUser?.id === handin.user.id && (
                 <DropDownMenu
                   handleEdit={editHandin}
                   handleDelete={handleDelete}

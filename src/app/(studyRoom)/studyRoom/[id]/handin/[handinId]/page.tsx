@@ -122,7 +122,7 @@ function Page({ params }: { params: { handinId: string } }) {
             </span>
           </div>
           {commentList &&
-            commentList.map((comment: unknown) => (
+            commentList.map((comment: any) => (
               <Comment
                 key={comment.id}
                 comment={comment}
