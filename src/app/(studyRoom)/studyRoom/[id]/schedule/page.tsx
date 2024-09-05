@@ -50,7 +50,7 @@ export default function Schedule() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('schedule')
         .select('*')
         .gte('event_date', format(new Date(), 'yyyy-MM-dd'))
