@@ -12,7 +12,7 @@ import { useUser } from '@/stores/user/user';
 import { dateFormatter, timeFormatter } from '@/utils/common/dateFormatter';
 import { getImgUrl } from '@/utils/supabase/storage';
 
-export default function Handin({ user, handin, commentsCount }) {
+export default function Handin({ user, handin, commentsCount }: {user: any, handin: any, commentsCount: any}) {
   const loginUser = useUser((store) => store.user);
 
   return (
@@ -35,7 +35,7 @@ export default function Handin({ user, handin, commentsCount }) {
             </span>
           </div>
           <div>
-            {loginUser.id === user.id && (
+            {loginUser?.id === user.id && (
               <DropDownMenu handleEdit={() => {}} handleDelete={() => {}} />
             )}
           </div>

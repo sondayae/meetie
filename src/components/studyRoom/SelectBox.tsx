@@ -14,7 +14,7 @@ type SelectBoxProps = {
   setShowModal: Dispatch<SetStateAction<boolean>>;
 };
 
-function SelectBox({ selected, setShowModal }: SelectBoxProps) {
+function SelectBox({ selected, setShowModal }: {selected: any, setShowModal: any}) {
   return (
     <div
       className="b-[#E9E9E9] rounded-lg border bg-white p-[16px] shadow delay-75 hover:cursor-pointer hover:bg-[#efefef]"

@@ -15,9 +15,8 @@ import { useUser } from '@/stores/user/user';
 export default function Page({ params }: { params: { id: string } }) {
   const studyId = params.id;
   const [handinList, setHandinList] = useState<any>();
-  const [selectedStudyRoom, setSelectedStudyRoom] = useState();
-  const [joinedStudyRoomList, setJoinedStudyRoomList] = useState<[]>();
-  // const [studyRoom, setStudyRoom] = useState();
+  const [selectedStudyRoom, setSelectedStudyRoom] = useState<any>();
+  const [joinedStudyRoomList, setJoinedStudyRoomList] = useState<any>();
 
   const fetchData = async () => {
     const { data } = await getHandinList(studyId);
@@ -127,7 +126,7 @@ export default function Page({ params }: { params: { id: string } }) {
           </div>
           <div>
             {handinList ? (
-              handinList.map((handin) => {
+              handinList.map((handin: any) => {
                 return (
                   <Link key={handin.id} href={`./handin/${handin.id}`}>
                     <Handin
