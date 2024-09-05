@@ -49,7 +49,7 @@ export default function FindPasswordForm() {
   }, [setFocus]);
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col gap-4">
       <div>
         <Input<FindPasswordFormData>
           id="email"
@@ -67,7 +67,13 @@ export default function FindPasswordForm() {
       </div>
 
       <div className="mt-5 flex justify-center">
-        <Button label="변경 링크 전송하기" type="primary" size="large" />
+        <Button
+          label="변경 링크 전송하기"
+          type="primary"
+          size="large"
+          buttonType="submit"
+          onClick={() => handleSubmit(onSubmit)()}
+        />
       </div>
     </form>
   );

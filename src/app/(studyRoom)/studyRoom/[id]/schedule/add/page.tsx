@@ -95,8 +95,8 @@ export default function ScheduleAdd() {
           {...register('eventType')}
           className="w-full rounded border border-gray-300 px-3 py-2"
         >
-          <option value="meeting">회의</option>
-          <option value="assignment">과제 제출</option>
+          <option value="회의">회의</option>
+          <option value="과제 제출">과제 제출</option>
         </select>
       </label>
       <Button
