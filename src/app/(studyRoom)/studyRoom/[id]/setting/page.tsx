@@ -1,9 +1,11 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 interface Member {
   id: string;
+  name: string;
   nickname: string;
   job: string;
   participating_study: string;
@@ -12,14 +14,19 @@ interface Member {
   isLeader: boolean;
 }
 
-export default function StudyRoomSetting() {
+export default function StudyRoomSetting({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const router = useRouter();
   const [data, setData] = useState<Member[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await fetch('/api/studyRoom/setting');
+        const response = await fetch(`/api/studyRoom/${params.id}/setting`);
         const result = await response.json();
 
         if (response.ok) {
@@ -37,7 +44,7 @@ export default function StudyRoomSetting() {
 
   const handleDelegateAuthority = async (newLeaderId: string) => {
     try {
-      const response = await fetch('/api/studyRoom/setting', {
+      const response = await fetch(`/api/studyRoom/${params.id}/setting`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -49,6 +56,7 @@ export default function StudyRoomSetting() {
 
       if (response.ok) {
         alert('권한 위임이 성공적으로 완료되었습니다.');
+        router.push('/studyRoom');
 
         setData((prevData) =>
           prevData.map((member) =>
@@ -65,6 +73,30 @@ export default function StudyRoomSetting() {
     }
   };
 
+  const handleRemoveMember = async (memberId: string) => {
+    try {
+      const response = await fetch(`/api/studyRoom/${params.id}/setting`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ participantId: memberId }),
+      });
+      const result = await response.json();
+
+      if (response.ok) {
+        alert('사용자가 성공적으로 강퇴되었습니다.');
+        setData((prevData) =>
+          prevData.filter((member) => member.id !== memberId),
+        );
+      } else {
+        alert(result.error || '사용자 강퇴 중 오류가 발생했습니다.');
+      }
+    } catch (error) {
+      alert('사용자 강퇴 중 오류가 발생했습니다.');
+    }
+  };
+
   return (
     <div>
       {error && <div className="text-red-500">{error}</div>}
@@ -73,7 +105,7 @@ export default function StudyRoomSetting() {
           {data.map((member) => (
             <div
               key={member.id}
-              className="flex w-full flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 p-5"
+              className="mb-[30px] flex w-full flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 p-5"
             >
               <div className="flex w-full items-start justify-between gap-4 p-5">
                 <div className="flex items-start justify-start gap-2.5">
@@ -86,25 +118,10 @@ export default function StudyRoomSetting() {
                   </div>
                   <div className="flex flex-col items-start justify-start gap-1">
                     <div className="text-base font-semibold text-black">
-                      {member.nickname}
+                      {member.nickname || member.name}
                     </div>
                     <div className="text-xs font-medium text-gray-500">
                       {member.job}
-                    </div>
-                    <div>
-                      <span className="text-xs font-medium text-gray-500">
-                        스터디{' '}
-                      </span>
-                      <span className="text-xs font-medium text-indigo-500">
-                        예시 스터디 횟수
-                      </span>
-                      <span className="text-xs font-medium text-gray-500">
-                        {' '}
-                        | 출석률{' '}
-                      </span>
-                      <span className="text-xs font-medium text-indigo-500">
-                        예시 출석률
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -112,6 +129,7 @@ export default function StudyRoomSetting() {
                   <button
                     type="button"
                     className="flex items-center justify-center gap-2 rounded-full bg-light-gray px-4 py-2 text-sm font-medium text-dark-gray"
+                    onClick={() => handleRemoveMember(member.id)}
                   >
                     강퇴
                   </button>
@@ -127,8 +145,8 @@ export default function StudyRoomSetting() {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-col items-start justify-start gap-4">
-                <div className="h-10 w-full px-6 text-sm font-normal leading-tight text-dark-gray">
+              <div className="flex w-full flex-col items-start justify-start gap-4">
+                <div className="h-10 w-full px-6 text-left text-sm font-normal leading-tight text-dark-gray">
                   {member.introduction}
                 </div>
                 <div className="flex items-start justify-start gap-2.5 px-6">
@@ -136,7 +154,7 @@ export default function StudyRoomSetting() {
                     member.personality.map((trait) => (
                       <div
                         key={trait}
-                        className="flex items-center justify-center gap-2.5 rounded-lg bg-light-purple p-2.5"
+                        className="flex w-auto items-center justify-center gap-2.5 rounded-lg bg-light-purple p-2.5 text-left"
                       >
                         <div className="text-xs font-normal text-dark-gray">
                           {trait}

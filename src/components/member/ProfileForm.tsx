@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { Avatar } from '@nextui-org/react';
+import { useUser } from '@/stores/user/user';
 
 interface ProfileFormProps {
   onFileChange: (file: File | null) => void;
@@ -12,6 +13,9 @@ export default function ProfileForm({
   onNicknameChange,
   onIntroductionChange,
 }: ProfileFormProps) {
+  const user = useUser();
+  const userName = user.user?.user_metadata.name;
+
   const [nickname, setNickname] = useState<string>('');
   const [introduction, setIntroduction] = useState<string>('');
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -54,7 +58,7 @@ export default function ProfileForm({
     <>
       <div>
         <div className="mb-5 text-2xl font-semibold">
-          김서희님의 프로필을 작성해주세요!
+          {`${userName}님의 프로필을 작성해주세요!`}
         </div>
         <div className="mb-[60px] text-[14px]">
           작성하신 내용은 공개 프로필에 사용됩니다.

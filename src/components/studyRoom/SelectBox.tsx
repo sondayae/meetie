@@ -1,47 +1,26 @@
-import UpdownArrowIcon from '../icons/UpdownArrowIcon'
-import Mark from '../common/Mark'
-import { useModal } from '@/hooks/hooks';
+'use client';
 
-const SelectBox = ({ list, selectedItem, setSelectedItem }) => {
+import { useEffect, useState } from 'react';
+import UpdownArrowIcon from '../icons/UpdownArrowIcon';
+import { SelectItem } from './SelectItem';
+
+function SelectBox({ selected, setShowModal }) {
   
-  const handleCancel = () => {
-    console.log('onCancel');
-    closeModal();
-  }
-  
-  const handleConfirm = (data) => {
-    setSelectedItem(data);
-    closeModal();
-  }
-
-  const { openModal, closeModal, Modal } = useModal({
-    type: 'data',
-    data: list,
-    title: '수정',
-    subtitle: '수정하시겠습니까?',
-    onConfirm: handleConfirm,
-    onCancel: handleCancel,
-  });
-
 
   return (
     <>
-    <div className='h-[70px] bg-white border-2 border-light-gray rounded-md drop-shadow-md' onClick={openModal}>
-      <div className='flex'>
-          <div className='flex flex-col justify-center items-center w-[18px] h-[40px] bg-[#F7F3FF] border border-[#EBE9F5] rounded-lg m-[16px]'>
-            <UpdownArrowIcon className='w-5 h-5'/>
-          </div>
-          <div className='flex flex-col justify-center flex-grow'>
-            <span className='text-base font-medium mb-[2px]'>{selectedItem.title}</span>
-            <span className='text-xs text-gray-purple'>{selectedItem.subtitle}</span>
-          </div>
-          <div className='flex flex-col justify-end items-end mb-[18px] mr-[18px]'>
-            <Mark />
-          </div>
+    <div className='p-[16px] border b-[#E9E9E9] rounded-lg shadow hover:bg-[#efefef] hover:cursor-pointer'  onClick={() => setShowModal(true)}>
+      <div className='flex gap-[17px]'>
+        <span className='bg-[#F7F3FF] py-[11.5px] border-[#E9E9E9] border rounded-xl'>
+          <UpdownArrowIcon />
+        </span>
+        <div className='flex flex-col'>
+          <span className='font-medium'>{selected && selected.title}</span>
+          <span className='text-gray-purple text-xs'>{selected && selected.subtitle}</span>
+        </div>
       </div>
     </div>
-    <Modal />
     </>
-  )
+  );
 }
-export default SelectBox
+export default SelectBox;

@@ -1,117 +1,96 @@
 'use client';
-import { useState, useEffect } from 'react';
+
+import { dateFormatter } from '@/utils/common/dateFormatter';
 import ProfileImg from '../common/ProfileImg';
-import AddReaction from '../icons/AddReaction';
-import EmojiPicker from '@emoji-mart/react';
-import data from '@emoji-mart/data';
-import ToggleMenu from './ToggleMenu';
-import CommentInput from './CommentInput';
+import DropDownMenu from './DropDownMenu';
+import { useRef, useState } from 'react';
+import useConfirm from '@/hooks/use-confirm';
 
-const Comment = ({ comment, reactions, setModalType }: any) => {
-    const [openEmojiPicker, setOpenEmojiPicker] = useState<boolean>(false);
-    const [reactionList, setReactionList] = useState(reactions ? reactions.reactions : null);
-    const handleClick = () => {
-        setOpenEmojiPicker(!openEmojiPicker);
-    };
+export default function Comment({ comment, handleEdit, handleDelete }) {
+  const [isEdit, setIsEdit] = useState(false);
+  const formRef = useRef();
 
-    const handleEmojiSelect = (e: any) => {
-        const sym: any = '0x' + e.unified;
-        let emoji = String.fromCodePoint(sym);
-        const newReaction = { id: e.id, count: 1, emoji: emoji };
-        const newReactionList = updateEmojis(newReaction);
-        saveReaction(newReactionList);
-        setOpenEmojiPicker(!openEmojiPicker);
-    };
+  const formAction = (formData) => {
+    handleEdit(formData);
+    setIsEdit(false);
+  }
 
-    const updateEmojis = (newEmoji: any) => {
-        const existingEmoji = reactionList.find((e) => e.id === newEmoji.id);
-        let newReactionList = [];
-
-        if (existingEmoji) {
-        newReactionList = reactionList.map((item) => {
-            if (item.id === newEmoji.id) {
-            item.count += 1;
-            }
-            return item;
-        });
-        } else {
-          newReactionList = reactionList;
-          newReactionList.push(newEmoji);
-        }
-        return newReactionList;
-    };
-
-    const onReactionClick = (emoji: any) => { // TODO 숫자 업데이트 안 되는 현상
-        const newReactionList = updateEmojis(emoji);
-        saveReaction(newReactionList);
-    };
-
-    const saveReaction = async (newReactionList: any) => {
-        const response = await fetch('/api/handin/reactions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            target_id: comment.id,
-            user_id: 'afbf8da9-baf2-4c34-ba94-49fa57b3c813',
-            reactions: newReactionList,
-        }),
-        });
-
-        const res = await response.json();
-        console.log(res);
-    };
-
-    const handleCommentChange = (e) => {
-      // setCommentText(e.target.value);
+  const deleteComment = async () => {
+    const result = await confirm();
+    if (result) {
+      handleDelete(comment.id);
     }
+  }
+
+  const { ConfirmModal, confirm } = useConfirm({
+    title: '삭제',
+    message: '댓글을 삭제하시겠습니까?',
+  });
 
   return (
-    <div className="gap-x-2 border-b border-t border-[#efefef] bg-[#fdfdfd]">
-      <div className="grid grid-cols-[1fr_5fr_1fr] grid-rows-[2fr_1fr]">
-        <div className="">
+    <>
+    <ConfirmModal />
+    <div key={comment.id} className="border-x border-b border-[#efefef] bg-[#FAFAFA] bg-opacity-45 p-[18px]">
+      <div className="flex gap-[12px]">
+        <div>
           <ProfileImg />
         </div>
-        <div>
-          <p>{comment.user.name}</p>
-          <p>{comment.comment}</p>
-          <CommentInput prefill={comment.comment} onInsert={item => console.log(item)}/>
-          <p>{comment.date}</p>
-        </div>
-        <div>
-          <ToggleMenu
-            menus={[{type: 'edit', label: '수정하기'}, {type: 'delete', label: '삭제하기'}]}
-            onClick={(item: string) => {setModalType(item);}}
-          />
-        </div>
-        <div className="col-start-2">
-          {reactionList && reactionList.map((item) => {
-            return (
+        {isEdit &&
+          <div className="w-full">
+          <form action={formAction} className="relative" ref={formRef}>
+            <input
+              type="text"
+              name="id"
+              className="hidden"
+              defaultValue={comment.id}
+            />
+            <div className="rounded-lg bg-[#f3f3f3]">
+            <input
+              defaultValue={comment.comment}
+              required
+              type="text"
+              name="comment"
+              className={`w-full rounded-lg bg-[#f3f3f3] py-[11.5px] border border-[#E9E9E9] text-sm placeholder-gray-purple focus:outline-none p-2`}
+            />
+            <div className="flex justify-end gap-[8px] border-t border-[#dfdfdf] p-1">
               <button
-                key={`${item.id}`}
-                className="mr-[8px] rounded-lg border-2 border-middle-gray bg-light-gray p-[8px]"
-                onClick={() => onReactionClick(item)}
+                type="button"
+                className="rounded-lg border border-middle-gray px-3 py-2 text-xs"
+                onClick={() => setIsEdit(false)}
               >
-                <span className="pr-[8px]">{item.emoji}</span>
-                <span>{item.count}</span>
+                취소
               </button>
-            );
-          })}
-          <button
-            className="rounded-lg border-2 border-middle-gray bg-light-gray p-[8px]"
-            onClick={handleClick}
-          >
-            <AddReaction className="" />
-          </button>
+              <button
+                type="submit"
+                className="rounded-lg bg-main-purple px-3 py-2 text-xs text-white"
+              >
+                저장
+              </button>
+            </div>
+            </div>
+            </form>
+            </div>
+        }
+        {!isEdit &&
+          <div className="flex flex-col gap-[4px] w-full">
+            <div className='flex justify-between relative flex-nowrap'>
+              <div className="flex items-center">
+                <span className="mr-[7px] font-bold">{comment.user && comment.user.name}</span>
+                <span className="text-xs text-[#898989]">{dateFormatter(comment.created_at)}</span>
+              </div>
+              <DropDownMenu handleEdit={() => setIsEdit(true)} handleDelete={deleteComment}/>
+            </div>
+            <span className="break-all text-sm">
+              {comment.comment}
+              {!!comment.sending && <small>(Sending...)</small>}
+            </span>
+            <div>
+              리액션
+            </div>
+          </div>
+        }
         </div>
-      </div>
-      <div className={`${openEmojiPicker ? '' : 'hidden'}`}>
-        <EmojiPicker
-          data={data}
-          locale={'ko'}
-          onEmojiSelect={handleEmojiSelect}
-        />
-      </div>
     </div>
+    </>
   );
-};
-export default Comment;
+}

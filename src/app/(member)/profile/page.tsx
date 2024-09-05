@@ -1,7 +1,7 @@
 'use client';
 
-import ProfileAvatar from '@/components/common/\bProfileAvatar';
-import Tag from '@/components/common/\bTag';
+import ProfileAvatar from '@/components/common/ProfileAvatar';
+import Tag from '@/components/common/Tag';
 import Button from '@/components/common/Button';
 import { useUser } from '@/stores/user/user';
 import { useRouter } from 'next/navigation';

@@ -50,14 +50,15 @@ export default function NavLink({
             </StudyButton>
 
             {/* </Link> */}
-            <h2 className="m-auto text-lg font-bold">
+            <h2 className="absolute left-[50%] m-auto translate-x-[-50%] text-lg font-bold">
               {path.endsWith('studyrequest') && '대기중인 요청'}
               {path.endsWith('write') && '스터디 만들기'}
               {path.endsWith('edit') && '스터디 수정하기'}
             </h2>
             {/* 스터디 만들기 or 스터디 상세 */}
             <div className="relative z-[1] text-[12px]">
-              {path.endsWith('write') && '1 / 2'}
+              {/* {path.endsWith('write') && '1 / 2'} */}
+
               {path.endsWith(`study/${studyId}`) && (
                 <StudyButton
                   onClick={handleToggleMenu}

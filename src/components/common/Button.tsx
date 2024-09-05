@@ -1,13 +1,15 @@
 interface ButtonProps {
   label: string;
+  buttonType?: 'button' | 'submit';
   type?: 'primary' | 'secondary' | 'disabled';
   size?: 'small' | 'medium' | 'large';
   borderStyle?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Button = ({
   type,
+  buttonType = 'button',
   label,
   size,
   borderStyle = 'none',
@@ -41,9 +43,9 @@ const Button = ({
 
   return (
     <button
-      type="button"
-      className={`cursor-pointer rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`}
-      onClick={() => onClick()}
+      type={buttonType}
+      className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`}
+      onClick={() => onClick?.()}
     >
       {label}
     </button>

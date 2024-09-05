@@ -1,9 +1,21 @@
-const ProfileImg = ({img}: any) => {
+import { Avatar } from '@nextui-org/avatar';
 
+type AvatarProps = {
+  src?: string;
+  username?: string;
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+};
+
+function ProfileImg({ src, size = 'md', className }: AvatarProps) {
   return (
-    <div className='border-middle-gray border-2 rounded-full overflow-hidden aspect-square'>
-        <img src={img} className='w-full h-full object-cover'/>
-    </div>
+    <>
+    { src ? (
+      <Avatar src={src} showFallback className='bg-main-purple'/>
+    ) : (
+      <Avatar src='https://api.dicebear.com/9.x/glass/svg?backgroundColor=d1d4f9' showFallback className='bg-main-purple'/>
+    )}
+    </>
   )
 }
-export default ProfileImg
+export default ProfileImg;
