@@ -1,85 +1,66 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
 import ProfileImg from '../common/ProfileImg';
-export type HandinType = {
-  id: string;
-  userName: string;
-  text: string;
-  handinImg: string;
-  date: string;
-  onEdit: () => void;
-  onDelete: () => void;
-};
+import Separator from '../common/Separator';
+import CommentIcon from '../icons/CommentIcon';
+import EmojiIcon from '../icons/EmojiIcon';
+import NewCheckSignIcon from '../icons/NewCheckSignIcon';
+import DropDownMenu from './DropDownMenu';
+import ImageFrame from './ImageFrame';
 
-const dateFormatter = (timestamp: string) => {
-  const date = new Date(timestamp).toLocaleString().slice(0, -3);
-  return date;
-};
+import { dateFormatter, timeFormatter } from '@/utils/common/dateFormatter';
+import { getImgUrl } from '@/utils/supabase/storage';
 
-function Handin({
-  id,
-  userName,
-  handinImg,
-  text,
-  date,
-  onEdit,
-  onDelete,
-}: HandinType) {
-  const router = useRouter();
-  const showHandinDetail = (handinId: string) => {
-    router.push(`./handin/${handinId}`);
-  };
-  const handleTypeFunc = (type: string) => {
-    if (type === 'edit') {
-      onEdit();
-    }
-    if (type === 'delete') {
-      onDelete();
-    }
-  };
-
+export default function Handin({ user, handin, commentsCount }) {
   return (
-    <div
-      key={id}
-      className="border-b-2 border-b-middle-gray bg-light-purple p-[15px]"
-      onClick={() => showHandinDetail(id)}
-    >
-      <div className="grid grid-cols-[1fr_7fr_1fr] gap-2">
-        <ProfileImg />
-        <div className="">
-          <div className="pb-[16px]">
-            <span className="pr-[30px]">{userName}</span>
-            <span>14일차 과제</span>
-          </div>
-          <div className="pb-[10px]">
-            <span>{text}</span>
-          </div>
-          <div className="aspect-video overflow-hidden rounded-lg bg-black">
-            <img
-              src={handinImg}
-              alt="과제 인증 사진"
-              className="h-full w-full object-cover"
-            />
+    <div className="flex flex-col gap-4 border-b px-4 py-5">
+      <div className="relative flex gap-2">
+        <div className="flex flex-shrink-0">
+          <ProfileImg src={user.images?.url} />
+        </div>
+        <div className="flex w-full flex-grow items-center justify-between">
+          <div className="flex items-center gap-1">
+            <span className="font-bold">{user.name}</span>
+            <span>
+              <NewCheckSignIcon
+                circleClassName="fill-black"
+                checkClassName="fill-white"
+              />
+            </span>
+            <span className="text-xs text-[#898989]">
+              {handin.homework.title}
+            </span>
           </div>
           <div>
-            <span>{dateFormatter(date)}</span>
+            <DropDownMenu handleEdit={() => {}} handleDelete={() => {}} />
           </div>
         </div>
-        <div>
-          {/* <ToggleMenu
-            menus={[
-              { icon: 'edit', label: '수정하기' },
-              { icon: 'delete', label: '삭제하기' },
-            ]}
-            onClick={(item: string) => {
-              handleTypeFunc(item);
-            }}
-          /> */}
+      </div>
+      <div className="m-6 flex flex-col gap-5">
+        <p>{handin.text}</p>
+        <ImageFrame src={getImgUrl(handin.images[0].url)} alt="handin_image" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1 text-xs text-[#636363]">
+            <span>{timeFormatter(handin.created_at)}</span>
+            <Separator type="circle" />
+            <span>{dateFormatter(handin.created_at)}</span>
+          </div>
+          <div className="flex flex-shrink-0 items-center gap-3">
+            <div className="flex items-center gap-1">
+              <span>
+                <EmojiIcon />
+              </span>
+              <span className="text-xs text-[#636363]">1</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <span>
+                <CommentIcon />
+              </span>
+              <span className="text-xs text-[#636363]">{commentsCount}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
-export default Handin;

@@ -1,21 +1,24 @@
 'use client';
+
 import { useEffect, useRef, useState } from 'react';
+
 import { useRouter } from 'next/navigation';
-import Header from '@/components/handin/Header';
-import SelectModal from '@/components/handin/SelectModal';
-import NoticeBox from '@/components/common/NoticeBox';
+
+import Button from '@/components/common/Button';
 import Mark from '@/components/common/Mark';
-import SelectBox from '@/components/studyRoom/SelectBox';
+import NoticeBox from '@/components/common/NoticeBox';
+import Header from '@/components/handin/Header';
 import ImageFrame from '@/components/handin/ImageFrame';
 import ImageInput from '@/components/handin/ImageInput';
-import Button from '@/components/common/Button';
+import SelectModal from '@/components/handin/SelectModal';
+import SelectBox from '@/components/studyRoom/SelectBox';
 import { getHandin, updateHandin } from '@/lib/actions/handin';
 import { getHomeworks } from '@/lib/actions/homework';
 import { getImgUrl } from '@/utils/supabase/storage';
 
 const MAX_LENGTH = 500;
 
-const page = ({ params }: { params: { id: string, editId: string } }) => {
+const page = ({ params }: { params: { id: string; editId: string } }) => {
   const router = useRouter();
   const [homeworkList, setHomeworkList] = useState<[]>();
   const [text, setText] = useState<string>('');
@@ -30,17 +33,12 @@ const page = ({ params }: { params: { id: string, editId: string } }) => {
   const fetchData = async () => {
     const { data: homeworks }: any = await getHomeworks(studyRoomId);
     const { data: handin }: any = await getHandin(handinId);
-    
-    setHomeworkList(homeworks);
+    console.log(handin);
 
-    const selectedHomework = homeworks?.filter((homework: any) => {
-      if (homework.id === handin[0].homework_id) {
-        return homework;
-      }});
-    
-    setSelected(selectedHomework[0]);
-    setPreviews(getImgUrl(handin[0].images[0].url));
-    setText(handin[0].text);
+    setHomeworkList(homeworks);
+    setSelected(handin.homework);
+    setPreviews(getImgUrl(handin.images[0].url));
+    setText(handin.text);
   };
 
   useEffect(() => {
@@ -96,7 +94,7 @@ const page = ({ params }: { params: { id: string, editId: string } }) => {
           <span className="items-center justify-center gap-[12px] text-lg font-medium">
             14일차 과제
           </span>
-          <Mark label={'진행중'} />
+          <Mark label="진행중" />
         </div>
         <div className="pb-[24px]">
           <SelectBox selected={selected} setShowModal={setShowModal} />
@@ -109,7 +107,12 @@ const page = ({ params }: { params: { id: string, editId: string } }) => {
           )}
         </div>
         <form action={formAction} ref={formRef}>
-          <input type="text" name="id" className="hidden" defaultValue={handinId}/>
+          <input
+            type="text"
+            name="id"
+            className="hidden"
+            defaultValue={handinId}
+          />
           <input
             type="text"
             name="homeworkId"
@@ -133,7 +136,7 @@ const page = ({ params }: { params: { id: string, editId: string } }) => {
               type="text"
               name="text"
               placeholder="과제를 하며 나누고 싶은 생각을 적어보세요."
-              className={`w-full rounded-lg border border-[#E9E9E9] bg-[#f3f3f3] px-[14px] py-[11.5px] text-sm placeholder-gray-purple focus:outline-none`}
+              className="w-full rounded-lg border border-[#E9E9E9] bg-[#f3f3f3] px-[14px] py-[11.5px] text-sm placeholder-gray-purple focus:outline-none"
               onChange={(e) => handleTextChange(e)}
               value={text}
             />
@@ -141,7 +144,7 @@ const page = ({ params }: { params: { id: string, editId: string } }) => {
               {`${text.length}`} / 500
             </span>
           </div>
-          <Button type="primary" buttonType="submit" label="인증하기"></Button>
+          <Button type="primary" buttonType="submit" label="인증하기" />
         </form>
       </div>
     </>
