@@ -42,7 +42,7 @@ export default function UpdatePasswordForm({
     setFocus('password');
   }, [setFocus]);
   return (
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col gap-4">
       <div>
         <Input<UpdatePasswordFormData>
           id="password"
@@ -84,7 +84,12 @@ export default function UpdatePasswordForm({
       </div>
 
       <div className="mt-5 flex justify-center">
-        <Button label="비밀번호 변경" type="primary" size="large" />
+        <Button
+          label="비밀번호 변경"
+          type="primary"
+          size="large"
+          onClick={() => handleSubmit(onSubmit)()}
+        />
       </div>
     </form>
   );
