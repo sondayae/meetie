@@ -4,7 +4,6 @@ import Button from '@/components/common/Button';
 
 type TModal = {
   title: string | undefined;
-  subtitle: string | undefined;
   onConfirm: () => void;
   onCancel: () => void;
   filterOptions: string[]; // 필터 옵션 배열
@@ -18,7 +17,6 @@ type TModal = {
 
 function FilterModal({
   title,
-  subtitle,
   onConfirm,
   onCancel,
   filterOptions,
@@ -34,9 +32,7 @@ function FilterModal({
       <div className="p-4 md:p-5">
         {/* 모달 제목과 설명 */}
         <h1 className="text-xl font-semibold">{title}</h1>
-        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-          {subtitle}
-        </h3>
+
         <div className="flex">
           {/* 왼쪽 필터 항목 */}
           <div className="w-1/3 border-r border-gray-300 p-2">
@@ -107,7 +103,7 @@ function FilterModal({
             size="small"
             onClick={onConfirm}
           />
-          <Button label="취소" size="small" onClick={onCancel} />
+          <Button label="닫기" size="small" onClick={onCancel} />
         </div>
       </div>
     </div>
