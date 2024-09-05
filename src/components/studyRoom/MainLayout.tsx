@@ -18,7 +18,7 @@ type TLayout = {
   setSelectedItem: () => unknown;
 };
 
-function MainLayout({ list, selectedItem, setSelectedItem }: TLayout) {
+function MainLayout() {
   const menus = [
     { id: 'schedule', name: '캘린더' },
     { id: 'handin', name: '과제' },
@@ -45,11 +45,11 @@ function MainLayout({ list, selectedItem, setSelectedItem }: TLayout) {
         </div>
       </div>
       <div className="mx-[16px] pb-[20px] pt-[12px]">
-        {/* <SelectBox
+        <SelectBox
           // list={list}
           selectedItem={selectedItem}
           setSelectedItem={setSelectedItem}
-        /> */}
+        />
       </div>
       <TabMenu
         menus={menus}

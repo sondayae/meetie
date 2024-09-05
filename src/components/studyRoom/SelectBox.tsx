@@ -15,8 +15,7 @@ function SelectBox({ selected, setShowModal }: SelectBoxProps) {
   
 
   return (
-    <>
-    <div className='p-[16px] border b-[#E9E9E9] rounded-lg shadow hover:bg-[#efefef] hover:cursor-pointer'  onClick={() => setShowModal(true)}>
+    <div className='p-[16px] border b-[#E9E9E9] rounded-lg shadow bg-white hover:bg-[#efefef] hover:cursor-pointer'  onClick={() => setShowModal(true)}>
       <div className='flex gap-[17px]'>
         <span className='bg-[#F7F3FF] py-[11.5px] border-[#E9E9E9] border rounded-xl'>
           <UpdownArrowIcon />
@@ -27,7 +26,6 @@ function SelectBox({ selected, setShowModal }: SelectBoxProps) {
         </div>
       </div>
     </div>
-    </>
   );
 }
 export default SelectBox;
