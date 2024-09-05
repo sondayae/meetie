@@ -9,25 +9,23 @@ import Handin from '@/components/handin/Handin';
 import EventCalendarIcon from '@/components/icons/EventCalendarIcon';
 import PlusIcon from '@/components/icons/PlusIcon';
 import SelectBox from '@/components/studyRoom/SelectBox';
-import { getHandinList } from '@/lib/actions/handin';
+import { getHandinList, getJoinedStudyRoom, getJoinedStudyRoomList } from '@/lib/actions/handin';
+import { useUser } from '@/stores/user/user';
 
 export default function Page({ params }: { params: { id: string } }) {
-  const studyRoomId = params.id;
-
+  const studyId = params.id;
   const [handinList, setHandinList] = useState<any>();
-  // const [studyRoomList, setStudyRoomList] = useState<[]>();
-  // const [studyRoom, setStudyRoom] = useState();
+  const [selectedStudyRoom, setSelectedStudyRoom] = useState<any>();
+  const [joinedStudyRoomList, setJoinedStudyRoomList] = useState<any>();
 
   const fetchData = async () => {
-    const { data } = await getHandinList(studyRoomId);
+    const { data } = await getHandinList(studyId);
+    const { data: studyRoomList } = await getJoinedStudyRoomList();
+    const { data: nowStudyRoomData } = await getJoinedStudyRoom(studyId);
     setHandinList(data);
-
-    // const tempStudyRoomList: any = [
-    //   { id: '1', title: '스터디룸 1', subtitle: '디자인 | 멤버 5' },
-    //   { id: '2', title: '스터디룸 2', subtitle: '개발 | 멤버 5' },
-    // ];
-    // setStudyRoomList(tempStudyRoomList);
-    // setStudyRoom(tempStudyRoomList[0]);
+    setJoinedStudyRoomList(studyRoomList);
+    setSelectedStudyRoom(nowStudyRoomData);
+    
   };
 
   useEffect(() => {
@@ -52,7 +50,7 @@ export default function Page({ params }: { params: { id: string } }) {
             </span>
           </div>
           <SelectBox
-            selected={{ title: '피그마 정복하기', subtitle: '디자인 | 멤버 5' }}
+            selected={selectedStudyRoom}
             setShowModal={() => {}}
           />
         </div>
@@ -128,7 +126,7 @@ export default function Page({ params }: { params: { id: string } }) {
           </div>
           <div>
             {handinList ? (
-              handinList.map((handin) => {
+              handinList.map((handin: any) => {
                 return (
                   <Link key={handin.id} href={`./handin/${handin.id}`}>
                     <Handin

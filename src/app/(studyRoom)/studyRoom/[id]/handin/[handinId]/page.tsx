@@ -26,7 +26,7 @@ function Page({ params }: { params: { handinId: string } }) {
 
   const fetchData = async () => {
     const { data } = await getHandin(handinId);
-    setHandin(data[0]);
+    setHandin(data);
     console.log(data);
   };
   const fetchCommentList = async () => {
@@ -122,7 +122,7 @@ function Page({ params }: { params: { handinId: string } }) {
             </span>
           </div>
           {commentList &&
-            commentList.map((comment: unknown) => (
+            commentList.map((comment: any) => (
               <Comment
                 key={comment.id}
                 comment={comment}

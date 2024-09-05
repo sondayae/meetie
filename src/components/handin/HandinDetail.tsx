@@ -4,6 +4,7 @@ import NewCheckSignIcon from '../icons/NewCheckSignIcon';
 import DropDownMenu from './DropDownMenu';
 import ImageFrame from './ImageFrame';
 
+import { useUser } from '@/stores/user/user';
 import { dateFormatter, timeFormatter } from '@/utils/common/dateFormatter';
 import { getImgUrl } from '@/utils/supabase/storage';
 
@@ -30,6 +31,8 @@ export default function HandinDetail({
     }
   };
 
+  const loginUser = useUser((store) => store.user);
+
   return (
     <>
       <ConfirmModal />
@@ -37,7 +40,7 @@ export default function HandinDetail({
         <div>
           <div className="flex justify-between p-[16px]">
             <div className="flex flex-shrink-0 flex-grow items-center">
-              <ProfileImg src={handin.user.images.url} />
+              <ProfileImg src={handin.user.images?.url} />
               <span className="ml-[8px] font-bold">{handin.user.name}</span>
             </div>
             <div className="relative flex w-full items-center justify-end gap-[24px]">
@@ -50,10 +53,12 @@ export default function HandinDetail({
                   checkClassName="fill-white"
                 />
               </div>
-              <DropDownMenu
-                handleEdit={editHandin}
-                handleDelete={handleDelete}
-              />
+              {loginUser?.id === handin.user.id && (
+                <DropDownMenu
+                  handleEdit={editHandin}
+                  handleDelete={handleDelete}
+                />
+              )}
             </div>
           </div>
         </div>

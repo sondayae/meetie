@@ -32,6 +32,8 @@ const page = ({ params }: { params: { id: string; editId: string } }) => {
 
   const fetchData = async () => {
     const { data: homeworks }: any = await getHomeworks(studyRoomId);
+    console.log(homeworks);
+
     const { data: handin }: any = await getHandin(handinId);
     console.log(handin);
 

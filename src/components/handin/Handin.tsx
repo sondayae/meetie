@@ -8,10 +8,13 @@ import NewCheckSignIcon from '../icons/NewCheckSignIcon';
 import DropDownMenu from './DropDownMenu';
 import ImageFrame from './ImageFrame';
 
+import { useUser } from '@/stores/user/user';
 import { dateFormatter, timeFormatter } from '@/utils/common/dateFormatter';
 import { getImgUrl } from '@/utils/supabase/storage';
 
-export default function Handin({ user, handin, commentsCount }) {
+export default function Handin({ user, handin, commentsCount }: {user: any, handin: any, commentsCount: any}) {
+  const loginUser = useUser((store) => store.user);
+
   return (
     <div className="flex flex-col gap-4 border-b px-4 py-5">
       <div className="relative flex gap-2">
@@ -32,7 +35,9 @@ export default function Handin({ user, handin, commentsCount }) {
             </span>
           </div>
           <div>
-            <DropDownMenu handleEdit={() => {}} handleDelete={() => {}} />
+            {loginUser?.id === user.id && (
+              <DropDownMenu handleEdit={() => {}} handleDelete={() => {}} />
+            )}
           </div>
         </div>
       </div>
