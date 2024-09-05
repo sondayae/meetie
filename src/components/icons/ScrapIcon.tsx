@@ -1,6 +1,6 @@
-import iconStyle from './iconStyle';
+import { Icon } from '@/types/icon';
 
-const ScrapIcon = (props: iconStyle) => {
+const ScrapIcon = (props: Icon) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

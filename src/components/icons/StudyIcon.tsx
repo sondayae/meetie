@@ -1,6 +1,6 @@
-import iconStyle from './iconStyle';
+import { Icon } from '@/types/icon';
 
-const StudyIcon = (props: iconStyle) => {
+const StudyIcon = (props: Icon) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
