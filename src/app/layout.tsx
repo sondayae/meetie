@@ -48,7 +48,7 @@ export default async function RootLayout({
   return (
     <html lang="ko" className="h-full">
       <body className={`${pretendard.className}`}>
-        <div className="m-auto flex h-full w-full max-w-[600px] flex-col shadow">
+        <div className="m-auto flex h-screen w-full max-w-[600px] flex-col shadow">
           {/* <Header /> */}
           {children}
           {/* <Footer /> */}
