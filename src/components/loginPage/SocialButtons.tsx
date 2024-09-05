@@ -9,7 +9,9 @@ function SocialButtons() {
   const signInWithSocial = async (provider: Provider) => {
     await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: `http://localhost:3000/api/auth/callback` },
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/callback`,
+      },
     });
   };
 
