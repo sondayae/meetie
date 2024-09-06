@@ -44,7 +44,7 @@ export default function StudyPage() {
         <h1 className="break-words text-[18px] font-bold">
           아직 스터디룸이<br/>존재하지 않아요!
         </h1>
-        <p className="text-gray-purple text-sm">#원하는 스터디 룸을 탐색해 볼까요?</p>
+        <p className="text-muted-foreground text-sm">#원하는 스터디 룸을 탐색해 볼까요?</p>
       </div>
       {/* banner */}
       <div className="flex flex-col gap-4">

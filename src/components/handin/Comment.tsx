@@ -2,11 +2,11 @@
 
 import { useRef, useState } from 'react';
 
-import ProfileImg from '../common/ProfileImg';
 import DropDownMenu from './DropDownMenu';
 
 import useConfirm from '@/hooks/use-confirm';
 import { dateFormatter } from '@/utils/common/dateFormatter';
+import ProfileAvatar from '../common/ProfileAvatar';
 
 type CommentProps = {
   comment: any;
@@ -48,7 +48,7 @@ export default function Comment({
       >
         <div className="flex gap-[12px]">
           <div>
-            <ProfileImg />
+            <ProfileAvatar />
           </div>
           {isEdit && (
             <div className="w-full">
@@ -77,7 +77,7 @@ export default function Comment({
                     </button>
                     <button
                       type="submit"
-                      className="rounded-lg bg-main-purple px-3 py-2 text-xs text-white"
+                      className="rounded-lg bg-primary px-3 py-2 text-xs text-white"
                     >
                       저장
                     </button>

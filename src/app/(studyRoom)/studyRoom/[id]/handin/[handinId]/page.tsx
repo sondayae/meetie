@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import ProfileImg from '@/components/common/ProfileImg';
 import Comment from '@/components/handin/Comment';
 import HandinDetail from '@/components/handin/HandinDetail';
 import Header from '@/components/handin/Header';
@@ -16,6 +15,7 @@ import {
   updateComment,
 } from '@/lib/actions/comment';
 import { deleteHandin, getHandin } from '@/lib/actions/handin';
+import ProfileAvatar from '@/components/common/ProfileAvatar';
 
 function Page({ params }: { params: { handinId: string } }) {
   const router = useRouter();
@@ -90,7 +90,7 @@ function Page({ params }: { params: { handinId: string } }) {
             deleteHandin={handleDeleteHandin}
           />
           <div className="sticky bottom-0 flex w-full items-center justify-center gap-[12px] border-y border-[#efefef] bg-white px-[18px] py-[20px]">
-            <ProfileImg />
+            <ProfileAvatar />
             <span className="flex-grow">
               <form
                 action={handleCreateComment}

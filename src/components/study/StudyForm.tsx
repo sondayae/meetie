@@ -240,7 +240,7 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
         size="sm"
         value={progressValue}
         color="success"
-        className="mb-8 max-w-full [&>*>*]:!rounded-none [&>*>*]:bg-main-purple [&>*]:!rounded-none"
+        className="mb-8 max-w-full [&>*>*]:!rounded-none [&>*>*]:bg-primary [&>*]:!rounded-none"
       /> */}
       {/* Form */}
       <form
@@ -312,7 +312,7 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
                 />
                 <span
                   className={
-                    'absolute bottom-5 right-5 text-xs font-normal text-gray-purple'
+                    'absolute bottom-5 right-5 text-xs font-normal text-muted-foreground'
                   }
                 >
                   {title.length}/30
@@ -350,7 +350,7 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
                 />
                 <span
                   className={
-                    'absolute bottom-5 right-5 text-xs font-normal text-gray-purple'
+                    'absolute bottom-5 right-5 text-xs font-normal text-muted-foreground'
                   }
                 >
                   {topic.length}/30
@@ -426,7 +426,7 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
                 />
                 <span
                   className={
-                    'absolute bottom-5 right-5 text-xs font-normal text-gray-purple'
+                    'absolute bottom-5 right-5 text-xs font-normal text-muted-foreground'
                   }
                 >
                   {goal.length}/100
@@ -470,7 +470,7 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
                 />
                 <span
                   className={
-                    'absolute bottom-5 right-5 text-xs font-normal text-gray-purple'
+                    'absolute bottom-5 right-5 text-xs font-normal text-muted-foreground'
                   }
                 >
                   {info.length}/1000

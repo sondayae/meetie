@@ -92,7 +92,7 @@ export default function CheckList({
                   />
                 <label
                   htmlFor={item.id}
-                  className="cursor-pointer text-middle-gray peer-checked:text-main-purple"
+                  className="cursor-pointer text-middle-gray peer-checked:text-primary"
                   >
                   <NewCheckSignIcon
                     circleClassName="fill-current"

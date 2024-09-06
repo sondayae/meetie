@@ -110,7 +110,7 @@ export default function StudyRequestItem({
                 <button
                   type="button"
                   onClick={() => modApply(item.id, 'accepted')}
-                  className="flex items-center justify-center gap-2 rounded-full bg-main-purple px-4 py-2 text-sm font-medium text-white"
+                  className="flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-white"
                 >
                   수락
                 </button>

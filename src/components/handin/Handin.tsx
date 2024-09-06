@@ -1,57 +1,67 @@
 'use client';
 
 import ProfileAvatar from '../common/ProfileAvatar';
-import ProfileImg from '../common/ProfileImg';
 import Separator from '../common/Separator';
 import CommentIcon from '../icons/CommentIcon';
 import EmojiIcon from '../icons/EmojiIcon';
 import NewCheckSignIcon from '../icons/NewCheckSignIcon';
-import DropDownMenu from './DropDownMenu';
 import ImageFrame from './ImageFrame';
 
 import { useUser } from '@/stores/user/user';
 import { dateFormatter, timeFormatter } from '@/utils/common/dateFormatter';
 import { getImgUrl } from '@/utils/supabase/storage';
+import CustomDropDownMenu from '../common/DropdownMenu';
 
-export default function Handin({ user, handin, commentsCount }: {user: any, handin: any, commentsCount: any}) {
+export default function Handin({
+  user,
+  handin,
+  commentsCount,
+}: {
+  user: any;
+  handin: any;
+  commentsCount: any;
+}) {
   const loginUser = useUser((store) => store.user);
+  console.log(handin);
+  console.log(user);
+  
+  
 
   return (
-    <div className="flex flex-col gap-4 border-b px-4 py-5">
-      <div className="relative flex gap-2">
-        <div className="flex flex-shrink-0">
-          <ProfileAvatar src={user.images?.url}/>
-        </div>
-        <div className="flex w-full flex-grow items-center justify-between">
-          <div className="flex items-center gap-1">
-            <span className="font-bold">{user.name}</span>
-            <span>
-              <NewCheckSignIcon
-                circleClassName="fill-black"
-                checkClassName="fill-white"
-              />
-            </span>
-            <span className="text-xs text-[#898989]">
-              {handin.homework.title}
-            </span>
-          </div>
-          <div>
-            {loginUser?.id === user.id && (
-              <DropDownMenu handleEdit={() => {}} handleDelete={() => {}} />
-            )}
-          </div>
-        </div>
+    <div className="grid grid-cols-[50px_1fr_45px] px-4 py-5 gap-2 border-b">
+      <div className='mx-auto'>
+        <ProfileAvatar src={user.images?.url}/>
       </div>
-      <div className="m-6 flex flex-col gap-5">
-        <p>{handin.text}</p>
-        <ImageFrame src={getImgUrl(handin.images[0].url)} alt="handin_image" />
-        <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-2">
+        <div className="flex gap-2 items-center">
+          <span className="font-bold">{handin.user.name}</span>
+          <span>
+            <NewCheckSignIcon
+              sizeClassName='w-4 h-4'
+              circleClassName="fill-black"
+              checkClassName="fill-white"
+            />
+          </span>
+          <span className="text-xs text-[#898989]">
+            {handin.homework.title}
+          </span>
+        </div>
+        <div className='min-h-20'>
+          <p>{handin.text}</p>
+        </div>
+        <div>
+          <ImageFrame
+            src={getImgUrl(handin.images[0].url)}
+            alt="handin_image"
+          />
+        </div>
+        <div className="flex justify-between">
           <div className="flex items-center gap-1 text-xs text-[#636363]">
             <span>{timeFormatter(handin.created_at)}</span>
             <Separator type="circle" />
             <span>{dateFormatter(handin.created_at)}</span>
           </div>
-          <div className="flex flex-shrink-0 items-center gap-3">
+          <div className="flex gap-2 items-center">
             <div className="flex items-center gap-1">
               <span>
                 <EmojiIcon />
@@ -66,6 +76,9 @@ export default function Handin({ user, handin, commentsCount }: {user: any, hand
             </div>
           </div>
         </div>
+      </div>
+      <div className='mx-auto'>
+        <CustomDropDownMenu />
       </div>
     </div>
   );

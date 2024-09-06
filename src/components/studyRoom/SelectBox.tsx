@@ -21,7 +21,7 @@ function SelectBox({
         </span>
         <div className="flex flex-col">
           <span className="font-medium">{selected && selected.title}</span>
-          <span className="text-xs text-gray-purple">
+          <span className="text-xs text-muted-foreground">
             {selected && selected.subtitle}
           </span>
         </div>

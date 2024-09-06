@@ -44,8 +44,8 @@ export default function Navigator() {
               className={twMerge(
                 'flex flex-col items-center justify-center gap-1 text-xs',
                 path.includes(menu.path)
-                  ? 'text-main-purple'
-                  : 'text-gray-purple',
+                  ? 'text-primary'
+                  : 'text-muted-foreground',
               )}
             >
               <span>{menu.icon}</span>
