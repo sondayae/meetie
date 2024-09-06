@@ -10,12 +10,12 @@ import {
 import { useForm } from 'react-hook-form';
 import ErrorMessage from '../form/ErrorMessage';
 import Textarea from '../form/Textarea';
-import Calendar from './Calendar';
+import Calendar from './write/Calendar';
 import MinusIcon from '../icons/MinusIcon';
 import PlusIcon from '../icons/PlusIcon';
-import StudyButton from '../common/StudyButton';
-import StudyInput from './StudyInput';
-import BottomSheet from './BottomSheet';
+import StudyButton from './write/StudyButton';
+import StudyInput from './write/StudyInput';
+import BottomSheet from './write/BottomSheet';
 import DeleteIcon from '../icons/DeleteIcon';
 
 type studyFormProps = {

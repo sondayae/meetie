@@ -1,5 +1,5 @@
 'use client';
-import StudyButton from '@/components/common/StudyButton';
+import StudyButton from '@/components/study/write/StudyButton';
 import BackArrowIcon from '@/components/icons/BackArrowIcon';
 import HomeIcon from '@/components/icons/HomeIcon';
 import { useRouter } from 'next/navigation';
