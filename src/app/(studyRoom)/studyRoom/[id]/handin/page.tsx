@@ -4,41 +4,83 @@ import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 
+import CheckList from '@/components/common/CheckList';
+import Navigator from '@/components/common/Navigator';
 import NoticeBox from '@/components/common/NoticeBox';
 import Handin from '@/components/handin/Handin';
+import Header from '@/components/handin/Header';
 import EventCalendarIcon from '@/components/icons/EventCalendarIcon';
 import PlusIcon from '@/components/icons/PlusIcon';
 import SelectBox from '@/components/studyRoom/SelectBox';
-import { getHandinList, getJoinedStudyRoom, getJoinedStudyRoomList } from '@/lib/actions/handin';
-import Header from '@/components/handin/Header';
-import Navigator from '@/components/common/Navigator';
+import useBottomSheet from '@/hooks/use-bottomsheet';
+import {
+  getHandinList,
+  getJoinedStudyRoom,
+  getJoinedStudyRoomList,
+} from '@/lib/actions/handin';
+import NewCheckSignIcon from '@/components/icons/NewCheckSignIcon';
+import StudyAvatar from '@/components/common/StudyAvatar';
 
 export default function Page({ params }: { params: { id: string } }) {
   const studyId = params.id;
   const [handinList, setHandinList] = useState<any>();
-  const [selectedStudyRoom, setSelectedStudyRoom] = useState<any>();
-  const [joinedStudyRoomList, setJoinedStudyRoomList] = useState<any>();
+  const [selectedStudy, setSelectedStudy] = useState<any>();
+  const [joinedStudyList, setJoinedStudyList] = useState<any>();
+  const { BottomSheet, open, close } = useBottomSheet();
 
   const fetchData = async () => {
-    const { data } = await getHandinList(studyId);
-    const { data: studyRoomList } = await getJoinedStudyRoomList();
+    // const { data: studyRoomList } = await getJoinedStudyRoomList();
+    const studyRoomList = [
+      { id: 1, title: '스터디 1' },
+      { id: 2, title: '스터디 2' },
+      { id: 3, title: '스터디 3' },
+    ];
     const { data: nowStudyRoomData } = await getJoinedStudyRoom(studyId);
+    const { data } = await getHandinList(studyId);
+    setJoinedStudyList(studyRoomList);
+    setSelectedStudy(nowStudyRoomData);
     setHandinList(data);
-    setJoinedStudyRoomList(studyRoomList);
-    setSelectedStudyRoom(nowStudyRoomData);
-    
   };
+
+  const handleChangeStudyroom = (study) => {
+    setSelectedStudy(study);
+    console.log('링크 이동');
+  }
 
   useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
+      <BottomSheet>
+        {joinedStudyList &&
+        <>
+        <div className='flex justify-center mb-8 font-medium text-lg gap-1'>
+          <h1>진행 중인 스터디</h1>
+          <span className='text-[#697DD4]'>{joinedStudyList.length}</span>
+        </div>
+        <div className='rounded-lg border [&>*:first-child]:border-none'>
+          {joinedStudyList.map(study => (
+            <div key={study.id} className='flex items-center px-3 py-2 gap-3 border-t' onClick={() => handleChangeStudyroom(study)}>
+                <StudyAvatar />
+                <div className='flex flex-col flex-grow'>
+                  <span className="font-semibold">{study.title}</span>
+                  <span>14일차 과제</span>
+                </div>
+                { selectedStudy.id === study.id && <NewCheckSignIcon circleClassName='fill-white stroke-main-purple' checkClassName='fill-main-purple'/> }
+            </div>
+          ))}
+        </div>
+        </>
+        }
+      </BottomSheet>
       <div className="bg-[#E3E3FA]">
         <div className="flex flex-col gap-5">
-          <Header label='스터디룸' rightIcon={<PlusIcon className='fill-black'/>} />
+          <Header
+            label="스터디룸"
+            rightIcon={<PlusIcon className="fill-black" />}
+          />
           <div className="flex items-center justify-end text-xs">
             <span className="rounded-l-lg border border-transparent bg-main-purple px-2 py-1 text-white">
               진행중 3
@@ -47,10 +89,7 @@ export default function Page({ params }: { params: { id: string } }) {
               진행완료
             </span>
           </div>
-          <SelectBox
-            selected={selectedStudyRoom}
-            setShowModal={() => {}}
-          />
+          <SelectBox selected={selectedStudy} handleClick={() => open()}/>
         </div>
       </div>
       <div className="bg-[#FAFAFA]">
@@ -141,7 +180,7 @@ export default function Page({ params }: { params: { id: string } }) {
             )}
           </div>
         </div>
-        <div className='sticky bottom-0'>
+        <div className="sticky bottom-0">
           <Navigator />
         </div>
       </div>
