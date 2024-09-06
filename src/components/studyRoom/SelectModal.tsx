@@ -44,10 +44,10 @@ function SelectModal({ data, onConfirm, onCancel }: TSelectModal) {
                 <span className="mb-[2px] text-base font-medium">
                   {item.title}
                 </span>
-                <span className="text-xs text-gray-purple">
+                <span className="text-xs text-muted-foreground">
                   {item.subtitle}
                 </span>
-                <span className="text-xs text-gray-purple">{`${dateFormatter(item.startDate)} ~ ${dateFormatter(item.endDate)}`}</span>
+                <span className="text-xs text-muted-foreground">{`${dateFormatter(item.startDate)} ~ ${dateFormatter(item.endDate)}`}</span>
               </div>
               {selectedItem && (
                 <div

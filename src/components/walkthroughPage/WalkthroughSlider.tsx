@@ -67,7 +67,7 @@ export default function WalkthroughSlider() {
           </button>
         )}
         <Link
-          className="ml-auto text-sm font-medium text-gray-purple"
+          className="ml-auto text-sm font-medium text-muted-foreground"
           href={ROUTE_PATH.MEMBER.PROFILE.CREATE}
         >
           SKIP
@@ -105,7 +105,7 @@ export default function WalkthroughSlider() {
       <div className="my-11 w-full px-4">
         {currentIndex === 2 ? (
           <Link
-            className="inline-block w-full min-w-[340px] rounded-lg border-2 border-main-purple bg-main-purple p-3 text-center text-white"
+            className="inline-block w-full min-w-[340px] rounded-lg border-2 border-main-purple bg-primary p-3 text-center text-white"
             href={ROUTE_PATH.MEMBER.PROFILE.CREATE}
           >
             나와 비슷한 팀원 찾기

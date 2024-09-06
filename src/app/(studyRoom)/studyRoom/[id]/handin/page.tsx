@@ -45,6 +45,7 @@ export default function Page({ params }: { params: { id: string } }) {
   const handleChangeStudyroom = (study) => {
     setSelectedStudy(study);
     console.log('링크 이동');
+    close();
   }
 
   useEffect(() => {
@@ -82,10 +83,10 @@ export default function Page({ params }: { params: { id: string } }) {
             rightIcon={<PlusIcon className="fill-black" />}
           />
           <div className="flex items-center justify-end text-xs">
-            <span className="rounded-l-lg border border-transparent bg-main-purple px-2 py-1 text-white">
+            <span className="rounded-l-lg border border-transparent bg-primary px-2 py-1 text-white">
               진행중 3
             </span>
-            <span className="rounded-r-lg border border-main-purple bg-white px-2 py-1 text-gray-purple">
+            <span className="rounded-r-lg border border-primary bg-white px-2 py-1 text-muted-foreground">
               진행완료
             </span>
           </div>
@@ -96,7 +97,7 @@ export default function Page({ params }: { params: { id: string } }) {
         <div className="border-b-2 px-4 py-7">
           <div className="mb-[20px] flex flex-col gap-1">
             <h1 className="text-lg font-bold">📚 과제 일정</h1>
-            <p className="text-sm text-gray-purple">
+            <p className="text-sm text-muted-foreground">
               주차별 과제 현황을 확인하고 소통해요.
             </p>
           </div>
@@ -112,7 +113,7 @@ export default function Page({ params }: { params: { id: string } }) {
           <div className="flex justify-between gap-3 text-xs">
             <div className="flex flex-col items-center gap-2">
               <span>월</span>
-              <span className="inline-block aspect-square rounded-full border border-main-purple bg-main-purple p-3 text-center font-bold text-white opacity-20">
+              <span className="inline-block aspect-square rounded-full border border-main-purple bg-primary p-3 text-center font-bold text-white opacity-20">
                 3
               </span>
             </div>
@@ -157,11 +158,10 @@ export default function Page({ params }: { params: { id: string } }) {
         <div className="rounded-t-xl bg-white drop-shadow-md">
           <div className="flex flex-col gap-1 border-b p-8">
             <h1 className="text-lg font-semibold">✏️ 6월 4일 화요일</h1>
-            <p className="text-sm text-gray-purple">
+            <p className="text-sm text-muted-foreground">
               과제를 인증한 팀원들을 확인해 보세요.
             </p>
           </div>
-          <div>
             {handinList ? (
               handinList.map((handin: any) => {
                 return (
@@ -178,7 +178,6 @@ export default function Page({ params }: { params: { id: string } }) {
             ) : (
               <span>로딩</span>
             )}
-          </div>
         </div>
         <div className="sticky bottom-0">
           <Navigator />

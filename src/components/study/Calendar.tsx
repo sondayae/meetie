@@ -101,7 +101,7 @@ export default function Calendar({
           withPortal
           placeholderText="시작일, 종료일을 선택하세요"
           className="h-0 opacity-0"
-          calendarClassName="rounded-lg border border-gray-300 shadow-lg *:!bg-white !font-['Pretendard'] [&:nth-child(4)]:!bg-main-purple 
+          calendarClassName="rounded-lg border border-gray-300 shadow-lg *:!bg-white !font-['Pretendard'] [&:nth-child(4)]:!bg-primary 
           
           [&>*:last-child>:first-child]:!bg-white
           [&>*:last-child>:first-child]:!pt-4
@@ -136,13 +136,13 @@ export default function Calendar({
               `${date.getFullYear()}${date.getMonth()}${date.getDate()}` ===
               `${startDate.getFullYear()}${startDate.getMonth()}${startDate.getDate()}`
             ) {
-              classes = ' !bg-main-purple !rounded-full';
+              classes = ' !bg-primary !rounded-full';
             }
             if (
               `${date.getFullYear()}${date.getMonth()}${date.getDate()}` ===
               `${endDate?.getFullYear()}${endDate?.getMonth()}${endDate?.getDate()}`
             ) {
-              classes = ' !bg-main-purple !rounded-full';
+              classes = ' !bg-primary !rounded-full';
             }
 
             return classes;

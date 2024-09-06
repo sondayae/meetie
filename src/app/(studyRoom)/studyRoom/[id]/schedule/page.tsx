@@ -66,7 +66,7 @@ export default function Schedule() {
       {/* <MainLayout /> */}
       <div className="px-4 pb-5 pt-10">
         <p className="text-lg font-bold">🤙 팀원과의 약속</p>
-        <span className="text-sm text-gray-purple">
+        <span className="text-sm text-muted-foreground">
           #이번 주의 과제와 회의 시간을 확인해보세요
         </span>
       </div>
@@ -92,7 +92,7 @@ export default function Schedule() {
                 onClick={() => handleDateClick(date)}
               >
                 <span
-                  className={`text-sm ${selectedDate && isSameDay(selectedDate, date) ? 'text-main-purple' : 'text-[#000417]'}`}
+                  className={`text-sm ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary' : 'text-[#000417]'}`}
                 >
                   {format(date, 'EEE', { locale: ko })}
                 </span>
@@ -115,7 +115,7 @@ export default function Schedule() {
 
       <div className="px-4 pb-5 pt-10">
         <p className="text-lg font-bold">✍ 다가오는 일정</p>
-        <span className="text-sm text-gray-purple">
+        <span className="text-sm text-muted-foreground">
           #이번 주의 과제와 회의 시간을 확인해보세요
         </span>
       </div>
@@ -136,7 +136,7 @@ export default function Schedule() {
               <div className="text-sm font-bold text-dark-gray">
                 {schedule.event_type}
               </div>
-              <div className="text-xs text-gray-purple">
+              <div className="text-xs text-muted-foreground">
                 {format(
                   parse(
                     `${schedule.event_date}T${schedule.start_time}`,
@@ -169,7 +169,7 @@ export default function Schedule() {
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-2">
             <p className="font-medium">콜로소 인강 1강 완강 인증하기</p>
-            <p className="text-xs font-medium text-gray-purple">
+            <p className="text-xs font-medium text-muted-foreground">
               <span className="text-[#4C4CC7]">3명의 팀원</span>이 수행했어요👍
             </p>
           </div>
@@ -179,7 +179,7 @@ export default function Schedule() {
               background: 'conic-gradient(#6224FD calc(60 * 1%), #EDF1FF 0)',
             }}
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-center text-sm font-bold text-main-purple">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-center text-sm font-bold text-primary">
               60%
             </div>
           </div>
