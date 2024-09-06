@@ -22,7 +22,7 @@ export default function Page() {
     mode: 'onChange',
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     try {
       console.log(data);
 
@@ -49,7 +49,6 @@ export default function Page() {
   return (
     <>
       {/* TODO: Input 교체, error message  */}
-      <NavLink />
       <div className="flex min-h-screen w-full max-w-[600px] flex-col items-center px-4 py-2">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -62,9 +61,7 @@ export default function Page() {
             className="mt-2 h-12 w-full rounded-lg border border-[#c4c4c4] px-4"
             type="text"
             id="title"
-            name="title"
             placeholder="스터디 과제의 제목을 작성해주세요."
-            errors={errors}
             {...register('title', { required: '제목을 작성해주세요.' })}
           />
           {/* {errors.title && <ErrorMessage error={errors.title} />} */}
@@ -76,7 +73,6 @@ export default function Page() {
             className="mt-2 h-12 w-full rounded-lg border border-[#c4c4c4] px-4"
             type="text"
             id="subtitle"
-            name="subtitle"
             placeholder="스터디 과제의 부제목을 작성해주세요."
             {...register('subtitle', { required: '부제목을 작성해주세요.' })}
           />
@@ -104,15 +100,19 @@ export default function Page() {
               <input
                 type="date"
                 {...register('endDate', { required: '종료일을 선택해주세요.' })}
-                className="mt-2 h-12 w-full rounded-lg border border-[#c4 c4c4] px-4"
+                className="border-[#c4 c4c4] mt-2 h-12 w-full rounded-lg border px-4"
               />
               {/* <ErrorMessage error={errors.endDate} /> */}
             </div>
           </div>
 
           <footer className="flex w-full justify-center bg-white py-4">
-            <Button type="primary" size="large" label="과제 생성" onClick={handleSubmit(onSubmit)} />
-
+            <Button
+              type="primary"
+              size="large"
+              label="과제 생성"
+              onClick={handleSubmit(onSubmit)}
+            />
           </footer>
         </form>
       </div>

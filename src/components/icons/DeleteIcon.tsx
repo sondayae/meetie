@@ -1,6 +1,6 @@
-import iconStyle from '../../types/icon';
+import { Icon } from '../../types/icon';
 
-const DeleteIcon = (props: iconStyle) => {
+const DeleteIcon = (props: Icon) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" {...props}>
       <path

@@ -2,14 +2,12 @@ import { useState } from 'react';
 import MoreIcon from '../icons/MoreIcon';
 
 type DropDownMenuProps = {
-  menus?: {
-    name: string;
-    action: () => void;
-  }[];
+  handleEdit: any;
+  handleDelete: any;
 }
 
 //TODO 렌더링 최적화
-export default function DropDownMenu({handleEdit, handleDelete}) {
+export default function DropDownMenu({handleEdit, handleDelete}: DropDownMenuProps) {
   const [showMenu, setShowMenu] = useState(false);
   return (
     <div className='flex justify-end'>

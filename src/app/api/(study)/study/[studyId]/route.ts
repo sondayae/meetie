@@ -24,6 +24,7 @@ export async function GET(
 
     if (applyError) throw applyError;
 
+    console.log(studyData)
     const responseData = {
       study: studyData,
       acceptedStudy: acceptedStudy.length,

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Button from '@/components/common/Button';
 
 export default function useConfirm({ title, message }: {title: string, message: string}) {
-  const [promise, setPromise] = useState(null);
+  const [promise, setPromise] = useState<any>(null);
 
   const confirm = () => new Promise((resolve, reject) => {
     setPromise({ resolve });

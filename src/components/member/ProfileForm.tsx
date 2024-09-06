@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { Avatar } from '@nextui-org/react';
 import { useUser } from '@/stores/user/user';
 
 interface ProfileFormProps {
@@ -66,13 +65,13 @@ export default function ProfileForm({
       </div>
 
       <div className="mb-[138px] flex flex-col items-center gap-y-3">
-        <Avatar
+        {/* <Avatar
           showFallback
           src={profileImage || 'https://images.unsplash.com/broken'}
           alt="Profile"
           onClick={handleAvatarClick}
-          className="mb-[34px] h-24 w-24 cursor-pointer"
-        />
+          className="h-24 w-24 cursor-pointer"
+        /> */}
 
         {/* 숨겨진 파일 입력 요소 */}
         <input

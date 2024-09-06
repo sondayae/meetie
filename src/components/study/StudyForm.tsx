@@ -16,7 +16,6 @@ import MinusIcon from '../icons/MinusIcon';
 import PlusIcon from '../icons/PlusIcon';
 import StudyButton from '../common/StudyButton';
 import StudyInput from './StudyInput';
-import { Progress } from '@nextui-org/progress';
 import BottomSheet from './BottomSheet';
 import { set } from 'date-fns';
 import UpdownArrowIcon from '../icons/UpdownArrowIcon';
@@ -236,13 +235,13 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
   return (
     <>
       {/* Progress bar */}
-      <Progress
+      {/* <Progress
         aria-label="Loading..."
         size="sm"
         value={progressValue}
         color="success"
         className="mb-8 max-w-full [&>*>*]:!rounded-none [&>*>*]:bg-main-purple [&>*]:!rounded-none"
-      />
+      /> */}
       {/* Form */}
       <form
         action=""

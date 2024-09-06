@@ -1,6 +1,6 @@
-import iconStyle from './iconStyle';
+import { Icon } from '@/types/icon';
 
-const PasswordIcon = (props: iconStyle) => {
+const PasswordIcon = (props: Icon) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

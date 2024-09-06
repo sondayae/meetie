@@ -13,7 +13,7 @@ export default function StatusDisplay({
   userId,
   recruitNum,
 }: {
-  params: string;
+  params: string | undefined;
   isAuthor: boolean;
   children: React.ReactNode;
   acceptedStudy: number;
@@ -23,7 +23,7 @@ export default function StatusDisplay({
   const [accessNum, setAccessNum] = useState<number>(0);
   const path = usePathname();
   const displayRequest = path.endsWith('studyrequest');
-  console.log(params)
+  console.log(params);
 
   useEffect(() => {
     const fetchData = async () => {

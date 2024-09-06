@@ -1,6 +1,6 @@
-import iconStyle from './iconStyle';
+import { Icon } from '@/types/icon';
 
-const HomeIcon = (props: iconStyle) => {
+const HomeIcon = (props: Icon) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
       <g fill="none" fillRule="evenodd">

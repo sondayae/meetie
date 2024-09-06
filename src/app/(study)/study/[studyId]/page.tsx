@@ -1,6 +1,7 @@
 import StudyDetail from '@/components/study/StudyDetail';
 import StatusDisplay from '@/components/study/StatusDisplay';
 import supabaseServer from '@/utils/supabase/server';
+import { getStudyDetails } from '@/actions/study.action';
 
 export default async function Page({
   params,
@@ -12,18 +13,9 @@ export default async function Page({
     data: { session },
   } = await supabase.auth.getSession();
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const response = await fetch(
-    new URL(`/api/study/${params.studyId}`, baseUrl).toString(),
-  );
+  const data = await getStudyDetails(params.studyId);
 
-  const data = await response.json();
-
-  console.log(data.study)
-  
-  if (!response.ok) {
-    throw new Error(data.error || 'Error occurred while updating profile');
-  }
+  console.log(data);
 
   // 작성자 여부 확인
   const isAuthor = session?.user.id === data.study.user.id;
@@ -35,11 +27,12 @@ export default async function Page({
       {/* 로그인 === 작성자  */}
       <div className="flex-1">
         <StatusDisplay
-          userId={session?.user.id}
+          userId={session?.user.id || ''}
           isAuthor={isAuthor}
           params={params.studyId}
           acceptedStudy={data.acceptedStudy}
           recruitNum={data.study.recruitNum}
+          children={null}
         />
       </div>
     </div>

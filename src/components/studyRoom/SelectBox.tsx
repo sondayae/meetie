@@ -1,26 +1,37 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
+
 import UpdownArrowIcon from '../icons/UpdownArrowIcon';
-import { SelectItem } from './SelectItem';
 
-function SelectBox({ selected, setShowModal }) {
-  
+type SelectBoxProps = {
+  selected:
+    | {
+        title: string;
+        subtitle: string;
+      }
+    | undefined;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+};
 
+function SelectBox({ selected, setShowModal }: {selected: any, setShowModal: any}) {
   return (
-    <>
-    <div className='p-[16px] border b-[#E9E9E9] rounded-lg shadow hover:bg-[#efefef] hover:cursor-pointer'  onClick={() => setShowModal(true)}>
-      <div className='flex gap-[17px]'>
-        <span className='bg-[#F7F3FF] py-[11.5px] border-[#E9E9E9] border rounded-xl'>
+    <div
+      className="b-[#E9E9E9] rounded-lg border bg-white p-[16px] shadow delay-75 hover:cursor-pointer hover:bg-[#efefef]"
+      onClick={() => setShowModal(true)}
+    >
+      <div className="flex gap-[17px]">
+        <span className="rounded-xl border border-[#E9E9E9] bg-[#F7F3FF] py-[11.5px]">
           <UpdownArrowIcon />
         </span>
-        <div className='flex flex-col'>
-          <span className='font-medium'>{selected && selected.title}</span>
-          <span className='text-gray-purple text-xs'>{selected && selected.subtitle}</span>
+        <div className="flex flex-col">
+          <span className="font-medium">{selected && selected.title}</span>
+          <span className="text-xs text-gray-purple">
+            {selected && selected.subtitle}
+          </span>
         </div>
       </div>
     </div>
-    </>
   );
 }
 export default SelectBox;

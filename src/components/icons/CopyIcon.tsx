@@ -1,6 +1,6 @@
-import iconStyle from '../../types/icon';
+import { Icon } from '../../types/icon';
 
-const CopyIcon = (props: iconStyle) => {
+const CopyIcon = (props: Icon) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" {...props}>
       <path

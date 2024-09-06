@@ -1,5 +1,5 @@
-import iconStyle from '../../types/icon';
-const UpdownArrowIcon = (props: iconStyle) => {
+import { Icon } from '../../types/icon';
+const UpdownArrowIcon = (props: Icon) => {
   return (
     <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path fillRule="evenodd" clipRule="evenodd" d="M4.1263 11.8921C4.35849 11.6857 4.71403 11.7066 4.92042 11.9388L9.00001 16.5283L13.0796 11.9388C13.286 11.7066 13.6415 11.6857 13.8737 11.8921C14.1059 12.0985 14.1268 12.454 13.9204 12.6862L9.42042 17.7487C9.31368 17.8688 9.16068 17.9375 9.00001 17.9375C8.83933 17.9375 8.68633 17.8688 8.57959 17.7487L4.07959 12.6862C3.8732 12.454 3.89411 12.0985 4.1263 11.8921Z" fill="#434343"/>

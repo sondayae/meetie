@@ -1,5 +1,5 @@
-import iconStyle from './iconStyle';
-const CheckedIcon = (props: iconStyle) => {
+import { Icon } from '@/types/icon';
+const CheckedIcon = (props: Icon) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

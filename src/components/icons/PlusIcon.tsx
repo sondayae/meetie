@@ -1,6 +1,6 @@
 import { Icon } from '@/types/icon';
 
-export default function PlusIcon() {
+export default function PlusIcon({className}: Icon) {
   return (
     <svg
       width="12"
@@ -12,6 +12,7 @@ export default function PlusIcon() {
       <path
         d="M5.16675 6.66667H0.166748V5H5.16675V0H6.83342V5H11.8334V6.66667H6.83342V11.6667H5.16675V6.66667Z"
         fill="#A9A9A9"
+        className={className}
       />
     </svg>
   );
