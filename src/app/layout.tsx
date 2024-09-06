@@ -47,12 +47,17 @@ export default async function RootLayout({
 
   return (
     <html lang="ko">
-      <body className={pretendard.className}>
-        <div className="m-auto w-full max-w-[600px] py-2">
-          <Header />
-          <main className="h-full">{children}</main>
-          <Footer />
-          <InitUser user={data.user} />
+      <body className={`${pretendard.className}`}>
+        <div id='wrapper' className='max-w-[600px] h-[100dvh] m-auto'>
+          {/* <div className='border-blue-500 border h-full'> */}
+            {children}
+          {/* </div> */}
+          {/* <div className="m-auto shadow"> */}
+            {/* <Header /> */}
+            {/* {children} */}
+            {/* <Footer /> */}
+            {/* <InitUser user={data.user} /> */}
+          {/* </div> */}
         </div>
       </body>
     </html>

@@ -5,6 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Header from '@/components/handin/Header';
+import CalendarIcon from '@/components/icons/CalendarIcon';
+import ProfileAvatar from '@/components/common/ProfileAvatar';
 
 export default function StudyPage() {
   const router = useRouter();
@@ -34,12 +37,14 @@ export default function StudyPage() {
 
   return (
     <>
+    <Header label='스터디룸' rightIcon={<CalendarIcon />}/>
+    <div className='px-4 py-3'>
+
       <div className="mb-8 flex flex-col gap-2">
         <h1 className="break-words text-[18px] font-bold">
-          아직 스터디룸이
-          <br /> 존재하지 않아요!
+          아직 스터디룸이<br/>존재하지 않아요!
         </h1>
-        <p className="text-gray-purple">#원하는 스터디 룸을 탐색해 볼까요?</p>
+        <p className="text-gray-purple text-sm">#원하는 스터디 룸을 탐색해 볼까요?</p>
       </div>
       {/* banner */}
       <div className="flex flex-col gap-4">
@@ -91,6 +96,7 @@ export default function StudyPage() {
           </div>
         </Link>
       </div>
+    </div>
     </>
   );
 }

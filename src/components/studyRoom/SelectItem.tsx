@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Separator from '../common/Separator';
 import NewCheckSignIcon from '../icons/NewCheckSignIcon';
 import ProfileImg from '../common/ProfileImg';
-import { Avatar } from '@nextui-org/react';
 
 type SelectItemProps = {
   title: string;

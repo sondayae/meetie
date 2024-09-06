@@ -96,12 +96,17 @@ export default function MypageSection() {
         <p className="py-4 text-lg font-bold">계정 정보</p>
         <ul className="flex flex-col gap-5 px-2 text-base">
           <li className="flex items-center justify-between">
-            <p className="flex gap-2">
-              <span>회원 정보 수정</span>
-            </p>
-            <p>
-              <RightArrowIcon className="m-auto h-4 w-4" />
-            </p>
+            <Link
+              className="flex w-full items-center justify-between"
+              href="/mypage/editAccount"
+            >
+              <p className="flex gap-2">
+                <span>회원 정보 수정</span>
+              </p>
+              <p>
+                <RightArrowIcon className="m-auto h-4 w-4" />
+              </p>
+            </Link>
           </li>
           <li className="flex items-center justify-between">
             <p className="flex gap-2">
@@ -120,12 +125,17 @@ export default function MypageSection() {
             </p>
           </li>
           <li className="flex items-center justify-between">
-            <p className="flex gap-2">
-              <span>회원탈퇴</span>
-            </p>
-            <p>
-              <RightArrowIcon className="m-auto h-4 w-4" />
-            </p>
+            <Link
+              className="flex w-full items-center justify-between"
+              href="/mypage/deleteUser"
+            >
+              <p className="flex gap-2">
+                <span>회원탈퇴</span>
+              </p>
+              <p>
+                <RightArrowIcon className="m-auto h-4 w-4" />
+              </p>
+            </Link>
           </li>
         </ul>
       </section>

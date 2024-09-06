@@ -15,19 +15,19 @@ import {
   getComments,
   updateComment,
 } from '@/lib/actions/comment';
-import { deleteHandin } from '@/lib/actions/handin';
+import { deleteHandin, getHandin } from '@/lib/actions/handin';
 
 function Page({ params }: { params: { handinId: string } }) {
   const router = useRouter();
-  const [handinInfo, setHandinInfo] = useState<any>();
+  const [handin, setHandin] = useState<any>();
   const [commentList, setCommentList] = useState<any>();
   const { handinId } = params;
   const formRef: any = useRef(null);
 
   const fetchData = async () => {
-    const res = await fetch(`/api/handin?id=${handinId}`);
-    const data = await res.json();
-    setHandinInfo(data[0]);
+    const { data } = await getHandin(handinId);
+    setHandin(data);
+    console.log(data);
   };
   const fetchCommentList = async () => {
     const { data } = await getComments(handinId);
@@ -80,12 +80,12 @@ function Page({ params }: { params: { handinId: string } }) {
   };
 
   return (
-    <>
-      {handinInfo && (
+    <div>
+      {handin && (
         <div className="h-full">
           <Header />
           <HandinDetail
-            handin={handinInfo}
+            handin={handin}
             editHandin={handleEditHandin}
             deleteHandin={handleDeleteHandin}
           />
@@ -102,7 +102,7 @@ function Page({ params }: { params: { handinId: string } }) {
                   name="targetId"
                   className="hidden"
                   required
-                  defaultValue="14"
+                  defaultValue={handinId}
                 />
                 <input
                   required
@@ -132,7 +132,7 @@ function Page({ params }: { params: { handinId: string } }) {
             ))}
         </div>
       )}
-    </>
+    </div>
   );
 }
 export default Page;
