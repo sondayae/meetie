@@ -1,11 +1,11 @@
 'use client';
 
-import ProfileAvatar from '@/components/common/ProfileAvatar';
 import Tag from '@/components/common/Tag';
 import Button from '@/components/common/Button';
 import { useUser } from '@/stores/user/user';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import ProfileImg from '@/components/common/ProfileImg';
 
 interface UserProfileData {
   nickname: string;
@@ -14,7 +14,7 @@ interface UserProfileData {
   purpose: string[];
   personality: string[];
   expected_study_span: string;
-  imageUrl: string | null;
+  imageUrl: string;
 }
 
 export default function UserProfile() {
@@ -46,7 +46,7 @@ export default function UserProfile() {
 
   return (
     <div className="flex flex-col items-center">
-      <ProfileAvatar src={profile?.imageUrl} alt="Profile" className="mb-2" />
+      <ProfileImg size="lg" src={profile?.imageUrl} className="mb-2" />
 
       <div className="mb-10 flex flex-col items-center">
         <div className="mb-2.5 text-xl font-semibold">{profile?.nickname}</div>

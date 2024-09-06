@@ -83,27 +83,35 @@ export default function ProfileForm({
         />
 
         <form className="w-full space-y-3">
-          <div>
-            <label htmlFor="nickname" className="block text-lg font-semibold">
+          <div className="mb-[34px]">
+            <label
+              htmlFor="nickname"
+              className="mb-[10px] block text-base font-semibold"
+            >
               닉네임
             </label>
             <input
               id="nickname"
               type="text"
               value={nickname}
+              placeholder="닉네임을 입력해주세요"
               onChange={handleNicknameChange}
-              className="mt-1 block w-full rounded border border-gray-300 p-2"
+              className="w-full flex-initial truncate rounded-lg border bg-white py-[14px] pl-4 pr-14 outline-none transition-all focus:border-main-purple"
             />
           </div>
-          <div>
-            <label htmlFor="introduction" className="">
-              한줄 소개
+          <div className="">
+            <label
+              htmlFor="introduction"
+              className="mb-[10px] block text-base font-semibold"
+            >
+              자기 소개
             </label>
             <textarea
               id="introduction"
               value={introduction}
+              placeholder="자신을 나타낼 수 있는 소개글을 작성해주세요"
               onChange={handleIntroductionChange}
-              className="mt-1 block w-full rounded border border-gray-300 p-2"
+              className="w-full flex-initial truncate rounded-lg border bg-white py-[14px] pl-4 pr-14 outline-none transition-all focus:border-main-purple"
             />
           </div>
         </form>
