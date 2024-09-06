@@ -31,7 +31,7 @@ export default function StudyButton({
       case 'medium':
         return ' flex-[1.66]';
       case 'large':
-        return 'w-full min-w-[340px] max-w-[600px]';
+        return 'w-full  max-w-[600px]';
     }
   };
 

@@ -1,0 +1,49 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.6.0'
+
+      - name: Install npm
+        run: npm install
+
+      - name: Run ESLint
+        run: npm run lint
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22.6.0'
+
+      - name: Install npm
+        run: npm install
+
+      - name: Create .env file
+        run: |
+          jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' <<< "$SECRETS_CONTEXT" > .env
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+
+      - name: Build project
+        run: npm run build

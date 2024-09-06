@@ -10,7 +10,8 @@ import EventCalendarIcon from '@/components/icons/EventCalendarIcon';
 import PlusIcon from '@/components/icons/PlusIcon';
 import SelectBox from '@/components/studyRoom/SelectBox';
 import { getHandinList, getJoinedStudyRoom, getJoinedStudyRoomList } from '@/lib/actions/handin';
-import { useUser } from '@/stores/user/user';
+import Header from '@/components/handin/Header';
+import Navigator from '@/components/common/Navigator';
 
 export default function Page({ params }: { params: { id: string } }) {
   const studyId = params.id;
@@ -35,12 +36,9 @@ export default function Page({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <div className="bg-[#E3E3FA] px-4 py-5">
+      <div className="bg-[#E3E3FA]">
         <div className="flex flex-col gap-5">
-          <div className="flex items-center justify-between">
-            <h1 className="text-lg font-bold">스터디룸</h1>
-            <PlusIcon className="fill-black" />
-          </div>
+          <Header label='스터디룸' rightIcon={<PlusIcon className='fill-black'/>} />
           <div className="flex items-center justify-end text-xs">
             <span className="rounded-l-lg border border-transparent bg-main-purple px-2 py-1 text-white">
               진행중 3
@@ -142,6 +140,9 @@ export default function Page({ params }: { params: { id: string } }) {
               <span>로딩</span>
             )}
           </div>
+        </div>
+        <div className='sticky bottom-0'>
+          <Navigator />
         </div>
       </div>
     </>

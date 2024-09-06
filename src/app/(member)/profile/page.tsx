@@ -66,17 +66,19 @@ export default function UserProfile() {
         <div>
           <div className="mb-2 text-base font-bold">스터디 목적</div>
           <div>
-            {profile?.purpose.map((item, index) => (
-              <Tag key={index}>{item}</Tag>
-            ))}
+            {profile?.purpose &&
+              profile?.purpose.map((item, index) => (
+                <Tag key={index}>{item}</Tag>
+              ))}
           </div>
         </div>
         <div>
           <div className="mb-2 text-base font-bold">키워드</div>
           <div>
-            {profile?.personality.map((item, index) => (
-              <Tag key={index}>{item}</Tag>
-            ))}
+            {profile?.personality &&
+              profile?.personality.map((item, index) => (
+                <Tag key={index}>{item}</Tag>
+              ))}
           </div>
         </div>
         <div>
