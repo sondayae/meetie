@@ -1,7 +1,7 @@
 'use client';
 import { Study } from '@/types/study';
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { redirect, useParams, useRouter } from 'next/navigation';
 import {
   addStudy,
   editStudy,
@@ -9,7 +9,6 @@ import {
 } from '@/app/(study)/study/[studyId]/studyAction';
 import { useForm } from 'react-hook-form';
 import ErrorMessage from '../form/ErrorMessage';
-import Select from '../form/Select';
 import Textarea from '../form/Textarea';
 import Calendar from './Calendar';
 import MinusIcon from '../icons/MinusIcon';
@@ -17,18 +16,19 @@ import PlusIcon from '../icons/PlusIcon';
 import StudyButton from '../common/StudyButton';
 import StudyInput from './StudyInput';
 import BottomSheet from './BottomSheet';
-import { set } from 'date-fns';
-import UpdownArrowIcon from '../icons/UpdownArrowIcon';
+import DeleteIcon from '../icons/DeleteIcon';
 
 type studyFormProps = {
   isEditMode: boolean;
+  userId?: string;
 };
 
-export default function StudyForm({ isEditMode }: studyFormProps) {
+export default function StudyForm({ isEditMode, userId }: studyFormProps) {
   const router = useRouter();
   const params = useParams();
   const { studyId } = params;
 
+  const [tags, setTags] = useState<string[]>([]);
   const [tagsInput, setTagsInput] = useState(''); // 태그 인풋 상태
   const [studyStep, setStudyStep] = useState(1); // 스터디 만들기 단계 체크
   const [progressValue, setProgressValue] = useState(1); // 진행 단계 progress bar
@@ -78,18 +78,24 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
   });
 
   // 폼 데이터 변경 감지
-  const [roles, purposes, title, topic, info, goal, tags, startDate, endDate] =
-    watch([
+  const [roles, purposes, title, topic, info, goal, startDate, endDate] = watch(
+    [
       'roles',
       'purposes',
       'title',
       'topic',
       'info',
       'goal',
-      'tags',
       'startDate',
       'endDate',
-    ]);
+    ],
+  );
+
+  // 로그인 체크
+  if (!userId) {
+    redirect('/login');
+    return null;
+  }
 
   // 스터디 데이터 가져오기 (수정 모드일 경우)
   useEffect(() => {
@@ -115,7 +121,6 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
 
   // 선택한 아이템 업데이트
   useEffect(() => {
-    // console.log('selectedItems', selectedItems);
     if (selectType === 'roles') {
       setValue('roles', selectedItems);
     }
@@ -131,24 +136,35 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
 
   //  태그 추가
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // 한글 입력 시
-    if (e.nativeEvent.isComposing) return;
-
     // 엔터키 입력 시
     if (e.key === 'Enter') {
       e.preventDefault();
-      console.log('tags1', tags);
-      console.log('getvalues(tags)', getValues('tags'));
-      const newTags = await [...tags, tagsInput.trim()];
 
-      // 태그 중복 체크
-      setValue('tags', newTags, {
-        shouldValidate: true,
-        shouldDirty: true,
-      });
+      // 태그 입력 값이 없을 경우
+      const trimmedTag = tagsInput.trim();
+      if (!trimmedTag) return;
+
+      // 한글 입력 시
+      if (e.nativeEvent.isComposing) return;
+
+      // 중복 입력 방지
+      if (tags.includes(trimmedTag)) return;
+
+      // 최대 10개까지만 입력 가능
+      if (tags.length >= 10) {
+        alert('태그는 최대 10개까지 입력 가능합니다.');
+        return;
+      }
+
+      setTags([...tags, trimmedTag]);
+
       setTagsInput('');
-      console.log('tags2', tags);
     }
+  };
+  // 태그 삭제
+  const handleDeleteTag = (deleteTag: string) => {
+    const updatedTags = tags.filter((tag) => tag !== deleteTag);
+    setTags(updatedTags);
   };
 
   // 모집 인원 증감
@@ -172,9 +188,16 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
   // 스터디 생성
   const handleFormSubmit = async () => {
     try {
+      // 태그 추가
+      setValue('tags', tags, { shouldValidate: true, shouldDirty: true });
+
       // 스터디 데이터
       const study = getValues();
+      console.log('study', study);
 
+      if (userId) {
+        study.author = userId;
+      }
       // 스터디 생성
       const newStudy = await addStudy(study);
 
@@ -188,7 +211,8 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
   // 스터디 수정
   const handleEditFormSubmit = async () => {
     try {
-      // 스터디 수정
+      const study = getValues();
+
       await editStudy(studyId, getValues());
 
       alert('스터디 수정이 완료되었습니다.');
@@ -556,16 +580,21 @@ export default function StudyForm({ isEditMode }: studyFormProps) {
             </p>
             {/* 작성한 태그 리스트 */}
             <ul className="mb-[34px] flex flex-grow-0 flex-wrap gap-2">
-              {Array.isArray(tags) &&
-                tags.length > 0 &&
-                tags.map((tag, index) => (
-                  <li
-                    className="inline-flex w-auto rounded-lg bg-light-purple px-2 py-[5px] text-sm text-dark-gray"
-                    key={index}
+              {tags.map((tag, index) => (
+                <li
+                  key={index}
+                  className="inline-flex w-auto rounded-lg bg-light-purple px-2 py-[5px] text-sm text-dark-gray"
+                >
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteTag(tag)}
+                    className="mr-1"
                   >
-                    {tag}
-                  </li>
-                ))}
+                    <DeleteIcon />
+                  </button>
+                  {tag}
+                </li>
+              ))}
             </ul>
             {/* 추천 태그 */}
             <p>00님 이런 태그는 어떠세요?</p>
