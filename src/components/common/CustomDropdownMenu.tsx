@@ -16,7 +16,7 @@ export default function CustomDropDownMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-          <MoreIcon className='w-5 h-5'/>
+          <MoreIcon className='stroke-black'/>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>

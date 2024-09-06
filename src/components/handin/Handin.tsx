@@ -10,7 +10,7 @@ import ImageFrame from './ImageFrame';
 import { useUser } from '@/stores/user/user';
 import { dateFormatter, timeFormatter } from '@/utils/common/dateFormatter';
 import { getImgUrl } from '@/utils/supabase/storage';
-import CustomDropDownMenu from '../common/DropdownMenu';
+import CustomDropDownMenu from '../common/CustomDropdownMenu';
 
 export default function Handin({
   user,

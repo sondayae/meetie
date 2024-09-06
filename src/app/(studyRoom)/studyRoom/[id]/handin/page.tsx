@@ -20,6 +20,8 @@ import {
 } from '@/lib/actions/handin';
 import NewCheckSignIcon from '@/components/icons/NewCheckSignIcon';
 import StudyAvatar from '@/components/common/StudyAvatar';
+import { SkeletonCard } from '@/components/handin/SkeletonCard';
+import TabMenu from '@/components/studyRoom/TabMenu';
 
 export default function Page({ params }: { params: { id: string } }) {
   const studyId = params.id;
@@ -93,6 +95,7 @@ export default function Page({ params }: { params: { id: string } }) {
           <SelectBox selected={selectedStudy} handleClick={() => open()}/>
         </div>
       </div>
+      <TabMenu />
       <div className="bg-[#FAFAFA]">
         <div className="border-b-2 px-4 py-7">
           <div className="mb-[20px] flex flex-col gap-1">
@@ -176,12 +179,12 @@ export default function Page({ params }: { params: { id: string } }) {
                 );
               })
             ) : (
-              <span>로딩</span>
+              <SkeletonCard />
             )}
         </div>
-        <div className="sticky bottom-0">
-          <Navigator />
-        </div>
+      </div>
+      <div className="bottom-0">
+        <Navigator />
       </div>
     </>
   );
