@@ -4,8 +4,10 @@ import { usePathname } from 'next/navigation';
 import Button from '@/components/common/Button';
 import supabase from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
+import { getStudyMember } from '@/actions/studymember.action';
 
 export default function StatusDisplay({
+  isRecruit,
   params,
   isAuthor,
   children,
@@ -13,6 +15,7 @@ export default function StatusDisplay({
   userId,
   recruitNum,
 }: {
+  isRecruit: string | undefined;
   params: string | undefined;
   isAuthor: boolean;
   children: React.ReactNode;
@@ -20,27 +23,6 @@ export default function StatusDisplay({
   recruitNum: number;
   userId: string;
 }) {
-  // const [accessNum, setAccessNum] = useState<number>(0);
-  // const path = usePathname();
-  // const displayRequest = path.endsWith('studyrequest');
-  // console.log(params);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const baseUrl =
-        process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-      const response = await fetch(
-        new URL(`/api/study/studyrequest/${params}`, baseUrl).toString(),
-      );
-
-      const data = await response.json();
-      console.log(data);
-      // setAccessNum(data.participants.length || 0);
-    };
-
-    fetchData();
-  }, [params]);
-
   const postApply = async () => {
     try {
       const { data, error } = await supabase
@@ -64,7 +46,7 @@ export default function StatusDisplay({
           {
             studyId: params,
             userId: userId,
-            status: 'wating',
+            status: 'waiting',
           },
         ]);
 
@@ -78,10 +60,9 @@ export default function StatusDisplay({
       alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
     }
   };
-
   return (
-    <div className="fixed bottom-0 h-[#104px] w-full max-w-[600px] items-center justify-center px-8">
-      <div className="flex items-center justify-center gap-5 bg-white py-4 text-[14px]">
+    <>
+      <div className="flex h-[#104px] w-full max-w-[600px] items-center justify-center gap-5 bg-white px-8">
         <div className="flex w-full flex-col items-center">
           <p className="text-[14px]">참여가능인원</p>
           <p className="text-bold text-[18px]">
@@ -101,7 +82,7 @@ export default function StatusDisplay({
               <Button
                 type="primary"
                 label="대기 중인 요청 확인"
-                size="large"
+                // size="large"
                 onClick={() => {}}
               />
             </Link>
@@ -110,13 +91,13 @@ export default function StatusDisplay({
             <Button
               type="primary"
               label="신청하기"
-              size="large"
+              // size="large"
               onClick={postApply}
             />
           )}
           {children}
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -1,9 +1,11 @@
-import StudyDetail from '@/components/study/StudyDetail';
 import supabaseServer from '@/utils/supabase/server';
 import StatusDisplay from '@/components/study/StatusDisplay';
 import StudyRequest from '@/components/study/StudyRequest';
 
 import { getStudyDetails } from '@/actions/study.action';
+import Header from '@/components/handin/Header';
+import { createStudyRoom } from '@/actions/studyroom.action';
+import CreateStudyRoom from '@/components/studyRoom/CreateStudyRoom';
 
 export default async function Page({
   params,
@@ -17,25 +19,17 @@ export default async function Page({
 
   const data = await getStudyDetails(params.studyId);
 
-  // console.log(data2);
-  // fetch(
-  //   new URL(`/api/study/${params.studyId}`, baseUrl).toString(),
-  // );
-
-  // const data = await response.json();
-
-  // console.log(data.study);
-
-  // if (!response.ok) {
-  //   throw new Error(data.error || 'Error occurred while updating profile');
-  // }
-
   // 작성자 여부 확인
   const isAuthor = session?.user.id === data.study.user.id;
   console.log(`작성자 여부 확인: ${isAuthor}`);
 
+  
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pb-24">
+      <Header label="대기중인요청" leftIcon rightIcon />
+      {isAuthor && <CreateStudyRoom params={params.studyId}/>}
+
       {/* <StudyDetail {...data.study} /> */}
       <StudyRequest
         params={params}
@@ -43,15 +37,17 @@ export default async function Page({
         recruitNum={data.study.recruitNum}
       />
       {/* 로그인 === 작성자  */}
-      <div className="flex-1">
-        <StatusDisplay
-          userId={session?.user.id || ''}
-          isAuthor={isAuthor}
-          params={params.studyId}
-          acceptedStudy={data.acceptedStudy}
-          recruitNum={data.study.recruitNum}
-          children={null}
-        />
+      <div className="flex items-center justify-center">
+        <div className="fixed bottom-0 w-full bg-white pt-8">
+          <StatusDisplay
+            userId={session?.user.id || ''}
+            isAuthor={isAuthor}
+            params={params.studyId}
+            acceptedStudy={data.acceptedStudy}
+            recruitNum={data.study.recruitNum}
+            children={null}
+          />
+        </div>
       </div>
     </div>
   );

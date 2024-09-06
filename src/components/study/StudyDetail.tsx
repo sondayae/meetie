@@ -40,7 +40,7 @@ export default function StudyDetail({
           <div className="mb-2 flex w-full items-center gap-4">
             <p className="text-[24px] font-bold">{title}</p>
             <span className="rounded-full border-[1px] border-sub-purple px-2 py-1 text-[14px] text-sub-purple">
-              {`D - ${ddays}`}
+              {ddays > 0 ? `D - ${ddays}` : `D + ${Math.abs(ddays)}`}
             </span>
           </div>
           <div className="mb-2 w-full overflow-hidden">

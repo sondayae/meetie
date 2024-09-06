@@ -15,7 +15,7 @@ export default async function page() {
   } = await supabase.auth.getSession();
   console.log(session?.user.id);
 
-  const userdata = await getUser({ id: session?.user.id });
+  const userdata = await getUser({ id: session?.user?.id });
   console.log(userdata);
 
   return (

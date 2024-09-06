@@ -24,7 +24,7 @@ export default function Footer() {
           studyId: params.studyId,
           // userId: '705bccf5-d3f9-4aac-9bbb-582a5edcab87',
           userId: '10669baa-7476-4f40-8bbf-37ba8765de74',
-          status: 'wating',
+          status: 'waiting',
         },
       ]);
     } catch (error) {

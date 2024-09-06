@@ -7,14 +7,15 @@ import { fetchStudyApplies } from '@/actions/studyrequest.action';
 const groupByDate = (data: any[]) => {
   return data.reduce(
     (acc, item) => {
-      if (item.status === 'wating') {
-        const date = new Date(item.created_at).toISOString().split('T')[0];
-        if (!acc[date]) {
-          acc[date] = [];
-        }
-
-        acc[date].push(item);
+      // 대기중만 표시 => 취소
+      // if (item.status === 'waiting') {
+      const date = new Date(item.created_at).toISOString().split('T')[0];
+      if (!acc[date]) {
+        acc[date] = [];
       }
+
+      acc[date].push(item);
+      // }
       return acc;
     },
     {} as Record<string, any[]>,
@@ -41,7 +42,6 @@ export default function Page({ params, acceptedStudy, recruitNum }: PageProps) {
     Record<string, StudyRequestItem[]>
   >({});
 
-  
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchStudyApplies(params.studyId);
@@ -52,6 +52,8 @@ export default function Page({ params, acceptedStudy, recruitNum }: PageProps) {
 
     fetchData();
   }, [params.studyId]);
+
+  console.log(data);
 
   return (
     <>

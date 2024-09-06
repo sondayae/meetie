@@ -83,10 +83,10 @@ export default function page() {
               </div>
               <div className="h-5 w-px rounded-lg bg-[#7875e3]" />
               <div className="w-full flex-col items-start justify-start gap-0.5">
-                <div className="self-stretch font-['Pretendard'] text-sm font-bold text-[#434343]">
+                <div className="self-stretch text-sm font-bold text-[#434343]">
                   {item.subcategory}
                 </div>
-                <div className="self-stretch font-['Pretendard'] text-xs font-normal text-[#81819b]">
+                <div className="self-stretch text-xs font-normal text-[#81819b]">
                   {item.content}
                 </div>
               </div>
