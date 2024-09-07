@@ -46,6 +46,7 @@ export default function Page({
   const [groupedData, setGroupedData] = useState<
     Record<string, StudyRequestItem[]>
   >({});
+  const [acceptedReqStudy, setacceptedReqStudy] = useState(acceptedStudy);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,6 +72,7 @@ export default function Page({
                 <ul className="mb-4 flex flex-col gap-4">
                   {items.map((item: any) => (
                     <StudyRequestItem
+                    setacceptedReqStudy={setacceptedReqStudy}
                       params={params.studyId}
                       key={item.id}
                       item={item}

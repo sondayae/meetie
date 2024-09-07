@@ -7,7 +7,7 @@ import Header from '@/components/handin/Header';
 import { createStudyRoom } from '@/actions/studyroom.action';
 import CreateStudyRoom from '@/components/studyRoom/CreateStudyRoom';
 import { getStudyMember } from '@/actions/studymember.action';
-import { fetchStudyApplies } from '@/actions/studyrequest.action';
+import { getStudyApply } from '@/actions/studyrequest.action';
 
 export default async function Page({
   params,
@@ -21,13 +21,14 @@ export default async function Page({
 
   const data = await getStudyDetails(params.studyId);
 
-  const applyData = await fetchStudyApplies(params.studyId);
+  const applyData = await getStudyApply(params.studyId);
 
   const memberData = await getStudyMember(params.studyId);
 
   return (
     <div className="flex flex-col pb-24">
       <Header label="대기중인요청" leftIcon rightIcon />
+
       <CreateStudyRoom params={params.studyId} />
 
       <StudyRequest

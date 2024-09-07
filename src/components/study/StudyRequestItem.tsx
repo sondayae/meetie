@@ -23,11 +23,13 @@ export default function StudyRequestItem({
   item,
   acceptedStudy,
   recruitNum,
+  setacceptedReqStudy,
 }: {
   params: string;
   item: ItemType;
   acceptedStudy: number;
   recruitNum: number;
+  setacceptedReqStudy: (value: number) => void;
 }) {
   const [currentStatus, setCurrentStatus] = useState(item.status);
 
@@ -38,10 +40,9 @@ export default function StudyRequestItem({
 
       // 성공적으로 업데이트되면 상태를 변경
       setCurrentStatus(status);
-      alert('수락 완료');
+      setacceptedReqStudy(acceptedStudy + 1);
     } catch (error) {
       console.error('상태 업데이트 중 에러:', error);
-      alert('상태 업데이트 실패');
     }
   };
 
@@ -115,7 +116,7 @@ export default function StudyRequestItem({
                     // onClick={() => modApply(item.id, 'refused')}
                     className="text-dark-gray flex items-center justify-center gap-2 rounded-full bg-muted px-4 py-2 text-sm font-medium"
                   >
-                    {item.status === 'accepted' ? '수락됨' : '거절됨'}
+                    {currentStatus === 'accepted' ? '수락됨' : '거절됨'}
                   </button>
                 </>
               )}

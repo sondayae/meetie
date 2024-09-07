@@ -9,19 +9,17 @@ import { useModal } from '@/hooks/hooks';
 export default function StatusDisplay({
   isRecruiting,
   params,
-  children,
   acceptedStudy,
   userId,
   recruitNum,
 }: {
   isRecruiting: string | undefined;
-  params: { studyId: string };
+  params: string;
   children: React.ReactNode;
   acceptedStudy: number;
   recruitNum: number;
   userId: string;
 }) {
-
   const path = usePathname();
   const postApply = async () => {
     try {
@@ -79,13 +77,16 @@ export default function StatusDisplay({
                 </div>
 
                 <div className="flex w-full items-center justify-center">
-                  {acceptedStudy > recruitNum && (
-                    <Button
-                      type="primary"
-                      label={'스터디룸 생성'}
-                      onClick={() => {}}
-                    />
-                  )}
+                  {acceptedStudy > recruitNum ||
+                    (acceptedStudy === recruitNum && (
+                      <Link href={`/study/${params}/studyover`}>
+                        <Button
+                          type="primary"
+                          label={'스터디룸 생성'}
+                          onClick={() => {}}
+                        />
+                      </Link>
+                    ))}
                   {acceptedStudy < recruitNum && (
                     <Button
                       type="primary"
