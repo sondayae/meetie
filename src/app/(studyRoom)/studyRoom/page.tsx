@@ -38,9 +38,12 @@ export default function StudyPage() {
 
   return (
     <>
-    <div className='bg-muted'>
-      <Header label='스터디룸' rightIcon={<Question />}/>
-      <div className='p-4'>
+      {/* 헤더 영역 */}
+      <div className='bg-muted'>
+        <Header label='스터디룸' rightIcon={<Question />}/>
+      </div>
+      {/* 콘텐츠 영역 */}
+      <div className='flex-grow bg-muted p-4'>
         <div className='mb-8'>
           <h1 className='font-bold text-lg mb-2'>아직 스터디룸이<br/>존재하지 않아요!</h1>
           <p className='text-sm text-muted-foreground'>#원하는 스터디 룸을 탐색해볼까요?</p>
@@ -77,10 +80,8 @@ export default function StudyPage() {
           </Link>
         </div>
       </div>
-    </div>
-    <div className='sticky bottom-0'>
+      {/* 푸터 영역 */}
       <Navigator />
-    </div>
     </>
   );
 }

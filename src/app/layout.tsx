@@ -48,7 +48,7 @@ export default async function RootLayout({
     <ReactQueryClientProvider>
       <html lang="ko">
         <body className={`${pretendard.className}`}>
-          <div id="wrapper" className="m-auto h-[100dvh] max-w-[600px]">
+          <div id="wrapper" className="m-auto h-[100dvh] max-w-[600px] flex flex-col">
             {children}
             <InitUser user={data.user} />
           </div>
