@@ -1,6 +1,7 @@
 import supabase from '@/utils/supabase/client';
 import { UUID } from 'crypto';
 import { is } from 'date-fns/locale';
+import { revalidatePath } from 'next/cache';
 
 // 요청 목록 조회
 export async function fetchStudyApplies(studyId: string) {
@@ -77,8 +78,10 @@ export async function updateStudyApplyStatus(
       throw new Error('Failed to update study status');
     }
 
+    // revalidatePath(`/`);
+    // revalidatePath(`/study/${studyId}/studyrequest`);
     // console.log(updateData);
-    return updateData;
+    // return updateData;
   } catch (error) {
     console.error('Error in server action:', error);
     throw new Error('Failed to update study status');

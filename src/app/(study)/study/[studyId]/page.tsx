@@ -1,57 +1,64 @@
-import StudyDetail from '@/components/study/StudyDetail';
-import StatusDisplay from '@/components/study/StatusDisplay';
+import StudyMain from '@/components/study/StudyMain';
+import StatusDisplay from '@/components/study/studyDetail/StatusDisplay';
 import supabaseServer from '@/utils/supabase/server';
 import { getStudyDetails } from '@/actions/study.action';
 import Header from '@/components/handin/Header';
+import KebabMenuIcon from '@/components/icons/KebabMenuIcon';
+import { getStudyMember } from '@/actions/studymember.action';
+import { fetchStudyApplies } from '@/actions/studyrequest.action';
+// import { useRouter } from 'next/navigation';
 
 export default async function Page({
   params,
 }: {
   params: { studyId: string };
 }) {
+  // const router = useRouter();
+
   const supabase = supabaseServer();
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
+  // 스터디 정보 가져오기
   const data = await getStudyDetails(params.studyId);
+  // console.log(data);
 
-  console.log(data);
+  // 스터티 멤버 정보 가져오기
+  const applyData = await fetchStudyApplies(params.studyId);
+
+  // 로그인 유저 신청 여부 확인
+  const isApply = applyData.find(
+    (item: any) => item.userId === session?.user.id,
+  );
+
+  // 스터티 멤버 정보 가져오기
+  const memberData = await getStudyMember(params.studyId);
+  console.log(`memberData: ${memberData}`);
 
   // 작성자 여부 확인
-  const isAuthor = session?.user.id === data.study.user.id;
+  const isAuthor = session?.user.id === data.user.id;
   console.log(`작성자 여부 확인: ${isAuthor}`);
 
   return (
     <>
       <div className="flex flex-col pb-24">
-        <Header leftIcon />
-        <StudyDetail {...data.study} />
-        {/* 로그인 === 작성자  */}
-        <div className="flex w-full items-center justify-center">
-          <div className="fixed bottom-0 mx-auto w-full bg-white pt-8">
-            <div className="flex items-center justify-center">
-              {data.study.isRecruiting && (
-                <StatusDisplay
-                  isRecruit={data.study.isRecruit}
-                  userId={session?.user.id || ''}
-                  isAuthor={isAuthor}
-                  params={params.studyId}
-                  acceptedStudy={data.acceptedStudy}
-                  recruitNum={data.study.recruitNum}
-                  children={null}
-                />
-              )}
-              {!data.study.isRecruiting && (
-                <div className="flex w-full min-w-[600px] items-center justify-center py-8">
-                  <div className="text-text-primary flex w-full max-w-[343px] items-center justify-center rounded-lg border-2 border-disabled bg-disabled p-4">
-                    모집이 마감되었습니다.
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+        <header>
+          <Header leftIcon rightIcon={isAuthor ? <KebabMenuIcon /> : ''} />
+        </header>
+        <StudyMain {...data} />
+        <footer>
+          <StatusDisplay
+            isRecruiting={data.isRecruiting}
+            userId={session?.user.id || ''}
+            isAuthor={isAuthor}
+            isApply={isApply}
+            params={params.studyId}
+            acceptedStudy={memberData.length}
+            recruitNum={data.recruitNum}
+            children={null}
+          />
+        </footer>
       </div>
     </>
   );

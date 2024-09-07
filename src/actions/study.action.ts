@@ -1,29 +1,18 @@
 import supabase from '@/utils/supabase/client';
+import { revalidatePath } from 'next/cache';
 
 export async function getStudyDetails(studyId: string) {
   try {
-    const { data: studyData, error: studyError } = await supabase
+    const { data, error } = await supabase
       .from('study')
       .select(`*, user(*)`)
       .eq('id', studyId)
       .single();
 
-    if (studyError) throw studyError;
+    if (error) throw error;
 
-    const { data: acceptedStudy, error: applyError } = await supabase
-      .from('study_apply')
-      .select('*')
-      .eq('studyId', studyId)
-      .eq('status', 'accepted');
-
-    if (applyError) throw applyError;
-
-    const responseData = {
-      study: studyData,
-      acceptedStudy: acceptedStudy.length,
-    };
-
-    return responseData;
+    revalidatePath(`/study/${studyId}`);
+    return data;
   } catch (error) {
     console.error('Error fetching study details:', error);
     throw new Error('Failed to fetch study details');

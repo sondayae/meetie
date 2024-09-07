@@ -1,9 +1,10 @@
 'use server';
 
+import { redirect } from 'next/navigation';
 import supabase from '@/utils/supabase/client';
 
 export async function createStudyRoom(studyId: string) {
-  console.log(studyId)
+  console.log(studyId);
 
   try {
     if (studyId) {
@@ -16,8 +17,6 @@ export async function createStudyRoom(studyId: string) {
         throw error;
       }
 
-      
-      
       return data;
     } else {
       throw new Error('Request body is missing or studyId is undefined');

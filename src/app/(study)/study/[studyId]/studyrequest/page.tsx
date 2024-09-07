@@ -1,11 +1,12 @@
 import supabaseServer from '@/utils/supabase/server';
-import StatusDisplay from '@/components/study/StatusDisplay';
+import StatusDisplay2 from '@/components/study/studyDetail/StatusDisplay2';
 import StudyRequest from '@/components/study/StudyRequest';
 
 import { getStudyDetails } from '@/actions/study.action';
 import Header from '@/components/handin/Header';
 import { createStudyRoom } from '@/actions/studyroom.action';
 import CreateStudyRoom from '@/components/studyRoom/CreateStudyRoom';
+import { getStudyMember } from '@/actions/studymember.action';
 
 export default async function Page({
   params,
@@ -19,32 +20,30 @@ export default async function Page({
 
   const data = await getStudyDetails(params.studyId);
 
-  // 작성자 여부 확인
-  const isAuthor = session?.user.id === data.study.user.id;
-  console.log(`작성자 여부 확인: ${isAuthor}`);
+  const memberData = await getStudyMember(params.studyId);
+  // console.log(`memberData: ${memberData.length}`);
 
   return (
     <div className="flex flex-col pb-24">
       <Header label="대기중인요청" leftIcon rightIcon />
-      {isAuthor && <CreateStudyRoom params={params.studyId} />}
+      <CreateStudyRoom params={params.studyId} />
 
       {/* <StudyDetail {...data.study} /> */}
       <StudyRequest
         params={params}
         acceptedStudy={data.acceptedStudy}
-        recruitNum={data.study.recruitNum}
+        recruitNum={data.recruitNum}
       />
       {/* 로그인 === 작성자  */}
       <div className="flex w-full items-center justify-center">
         <div className="fixed bottom-0 mx-auto w-full bg-white pt-8">
-          <div className='flex items-center justify-center'>
-            <StatusDisplay
+          <div className="flex items-center justify-center">
+            <StatusDisplay2
               userId={session?.user.id || ''}
-              isAuthor={isAuthor}
               params={params.studyId}
-              acceptedStudy={data.acceptedStudy}
-              recruitNum={data.study.recruitNum}
-              isRecruit={data.study.isRecruit} // Add the isRecruit property with the appropriate value
+              acceptedStudy={memberData.length}
+              recruitNum={data.recruitNum}
+              isRecruiting={data.isRecruiting}
               children={null}
             />
           </div>

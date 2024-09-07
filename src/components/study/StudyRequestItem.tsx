@@ -29,7 +29,7 @@ export default function StudyRequestItem({
 }) {
   const modApply = async (studyid: number, userid: UUID, status: string) => {
     console.log(studyid, userid, status);
-    const res = await updateStudyApplyStatus(studyid, userid, status);
+    await updateStudyApplyStatus(studyid, userid, status);
     return alert('수락 완료');
   };
 
