@@ -14,7 +14,7 @@ export default function ManagerIcon() {
           r="11.79"
           fill="#9192FF"
           stroke="url(#paint0_linear_2_2543)"
-          stroke-width="0.42"
+          strokeWidth="0.42"
         />
         <circle cx="12.7359" cy="12.7359" r="8.4" fill="white" />
         <circle cx="12.7353" cy="12.7392" r="5.04" fill="#6224FD" />
@@ -35,8 +35,8 @@ export default function ManagerIcon() {
             y2="19.7"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="white" />
-            <stop offset="1" stop-color="white" stop-opacity="0" />
+            <stop stopColor="white" />
+            <stop offset="1" stopColor="white" stopOpacity="0" />
           </linearGradient>
         </defs>
       </svg>

@@ -1,6 +1,7 @@
 import DeveloperIcon from '../icons/DeveloperIcon';
 import DesignIcon from '../icons/DesignIcon';
 import ManagerIcon from '../icons/ManagerIcon';
+import { useUser } from '@/stores/user/user';
 
 interface JobStepProps {
   selectedJob: string;
@@ -26,7 +27,7 @@ const JobStep: React.FC<JobStepProps> = ({
         <br />
         직무는 무엇인가요?
       </div>
-      <div className="mb-[60px] text-[14px]">
+      <div className="mb-[60px] text-[14px] text-[#82829B]">
         선택한 직무를 바탕으로 스터디를 추천해줄게요!
       </div>
       <div className="mb-[138px] flex flex-wrap gap-2">

@@ -19,7 +19,9 @@ const PurposeStep: React.FC<PurposeStepProps> = ({
         <br />
         스터디 목적은 무엇인가요?
       </div>
-      <div className="mb-[60px] text-[14px]">중복선택도 가능해요</div>
+      <div className="mb-[60px] text-[14px] text-[#82829B]">
+        중복선택도 가능해요
+      </div>
       <div className="mb-[138px] flex flex-col items-start gap-y-3">
         {purposes.map((purpose) => (
           <Chip

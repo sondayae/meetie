@@ -19,7 +19,9 @@ const PersonalityStep: React.FC<PersonalityStepProps> = ({
         <br />
         어떤 스타일이신가요?
       </div>
-      <div className="mb-[60px] text-[14px]">중복선택도 가능해요</div>
+      <div className="mb-[60px] text-[14px] text-[#82829B]">
+        중복선택도 가능해요
+      </div>
       {/* Chip들이 가로로 정렬되도록 flex-wrap 속성을 추가 */}
       <div className="mb-[138px] flex flex-wrap gap-3">
         {personalities.map((personality) => (

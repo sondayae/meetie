@@ -216,7 +216,7 @@ export default function Profile() {
             <Button
               label={step === 'studySpan' ? '프로필 추가' : '다음'}
               type="primary"
-              size="large"
+              size="small"
               borderStyle="w-full min-w-[100px] rounded-[8px] h-[49px]"
               onClick={handleNextClick}
             />
