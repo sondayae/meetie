@@ -10,17 +10,17 @@ function Header({ label, leftIcon, rightIcon }: HeaderType) {
   const px = leftIcon && rightIcon ? 'px-2' : 'px-4';
   return (
     <div className='py-2 border-b'>
-    <div className={`border-[#E6E6E6] flex items-center justify-between h-[40px] ${px}`}>
+    <div className={`flex items-center justify-between h-[40px] ${px} border-[#E6E6E6]`}>
       {leftIcon &&
-        <span className='hover:cursor-pointer w-[40px] h-[40px]'>
+        <span className='flex items-center justify-center hover:cursor-pointer w-[40px] h-[40px]'>
           <BackArrowIcon />
         </span>
       }
       <span className='text-lg font-bold text-center'>{label}</span>
       {rightIcon &&
-        <span className='hover:cursor-pointer w-[40px] h-[40px]'>
-          {rightIcon}
-        </span>
+        <div className='flex items-center justify-center hover:cursor-pointer w-[40px] h-[40px]'>
+            {rightIcon}
+        </div>
       }
     </div>
     </div>
