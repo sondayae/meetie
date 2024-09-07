@@ -69,7 +69,7 @@ export async function updateStudyApplyStatus(
       throw new Error('Failed to update study status');
     }
 
-    console.log(updateData);
+    // console.log(updateData);
     return updateData;
   } catch (error) {
     console.error('Error in server action:', error);

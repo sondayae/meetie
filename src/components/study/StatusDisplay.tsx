@@ -62,7 +62,7 @@ export default function StatusDisplay({
   };
   return (
     <>
-      <div className="flex h-[#104px] w-full max-w-[600px] items-center justify-center gap-5 bg-white px-8">
+      <div className="flex h-[#104px] w-full max-w-[600px] items-center justify-center gap-5 bg-white px-8 py-8">
         <div className="flex w-full flex-col items-center">
           <p className="text-[14px]">참여가능인원</p>
           <p className="text-bold text-[18px]">

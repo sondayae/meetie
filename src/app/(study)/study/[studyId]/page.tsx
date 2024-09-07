@@ -2,7 +2,7 @@ import StudyDetail from '@/components/study/StudyDetail';
 import StatusDisplay from '@/components/study/StatusDisplay';
 import supabaseServer from '@/utils/supabase/server';
 import { getStudyDetails } from '@/actions/study.action';
-import Button from '@/components/common/Button';
+import Header from '@/components/handin/Header';
 
 export default async function Page({
   params,
@@ -25,10 +25,11 @@ export default async function Page({
   return (
     <>
       <div className="flex flex-col pb-24">
+        <Header leftIcon />
         <StudyDetail {...data.study} />
         {/* 로그인 === 작성자  */}
-        <div className="flex items-center justify-center">
-          <div className="fixed bottom-0 pt-8">
+        <div className="flex w-full items-center justify-center">
+          <div className="fixed bottom-0 w-full bg-white pt-8">
             {data.study.isRecruiting && (
               <StatusDisplay
                 isRecruit={data.study.isRecruit}
@@ -41,8 +42,8 @@ export default async function Page({
               />
             )}
             {!data.study.isRecruiting && (
-              <div className="flex w-full min-w-[600px] items-center justify-center">
-                <div className="mb-8 flex w-full max-w-[343px] items-center justify-center rounded-lg border-2 border-disabled bg-disabled p-4 text-white">
+              <div className="flex w-full min-w-[600px] items-center justify-center py-8">
+                <div className="text-text-primary flex w-full max-w-[343px] items-center justify-center rounded-lg border-2 border-disabled bg-disabled p-4">
                   모집이 마감되었습니다.
                 </div>
               </div>

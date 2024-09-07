@@ -28,7 +28,7 @@ export default async function page() {
       {/* 내정보 */}
       <p className="py-4 text-lg font-bold">내정보</p>
 
-      <section className="flex items-center justify-center gap-[60px] rounded-lg border-1 border-[#E0D8F] bg-[#FDFBFF] px-8 py-6">
+      <section className="border-1 flex items-center justify-center gap-[60px] rounded-lg border-[#E0D8F] bg-[#FDFBFF] px-8 py-6">
         {/* <StudyCard text="참여스터디" num={userdata. || 0} />
         <StudyCard text="관심스터디" num={userdata. || 0} />
         <StudyCard text="스터디친구" num={userdata. || 0} /> */}

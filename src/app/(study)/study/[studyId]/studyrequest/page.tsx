@@ -23,12 +23,10 @@ export default async function Page({
   const isAuthor = session?.user.id === data.study.user.id;
   console.log(`작성자 여부 확인: ${isAuthor}`);
 
-  
-
   return (
     <div className="flex flex-col pb-24">
       <Header label="대기중인요청" leftIcon rightIcon />
-      {isAuthor && <CreateStudyRoom params={params.studyId}/>}
+      {isAuthor && <CreateStudyRoom params={params.studyId} />}
 
       {/* <StudyDetail {...data.study} /> */}
       <StudyRequest
@@ -45,6 +43,7 @@ export default async function Page({
             params={params.studyId}
             acceptedStudy={data.acceptedStudy}
             recruitNum={data.study.recruitNum}
+            isRecruit={data.study.isRecruit} // Add the isRecruit property with the appropriate value
             children={null}
           />
         </div>

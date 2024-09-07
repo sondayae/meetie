@@ -16,9 +16,8 @@ export async function createStudyRoom(studyId: string) {
         throw error;
       }
 
-      // Optionally revalidate paths to reflect the change
-      // revalidatePath('/studyrooms'); // Use this to revalidate a path after mutation
-
+      
+      
       return data;
     } else {
       throw new Error('Request body is missing or studyId is undefined');
