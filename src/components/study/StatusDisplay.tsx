@@ -67,7 +67,7 @@ export default function StatusDisplay({
           <p className="text-[14px]">참여가능인원</p>
           <p className="text-bold text-[18px]">
             <span
-              className={`${acceptedStudy === 0 ? 'text-middle-gray' : 'text-main-purple'}`}
+              className={`${acceptedStudy === 0 ? 'text-middle-gray' : 'text-primary'}`}
             >
               {acceptedStudy}명
             </span>

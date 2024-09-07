@@ -62,7 +62,7 @@ export default function StudyDetail({
                 alt="Profile"
               />
             </Link>
-            <div className="flex w-full flex-col text-gray-purple">
+            <div className="flex w-full flex-col text-muted-foreground">
               <Link href={`/profile/read/${user?.id}`}>
                 <p className="flex text-[13px] font-semibold">{user.name}</p>
               </Link>

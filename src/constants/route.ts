@@ -13,7 +13,7 @@ const ROUTE_PATH = {
     },
   },
   STUDY_ROOM: {
-    MAIN: '/studyRoom',
+    MAIN: '/studyroom',
   },
 };
 

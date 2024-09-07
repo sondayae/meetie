@@ -66,7 +66,7 @@ export default function page() {
           <p className="text-lg font-bold text-dark-gray">
             📣 공지사항이 있습니다!
           </p>
-          <p className="text-sm font-normal text-gray-purple">
+          <p className="text-sm font-normal text-muted-foreground">
             아래 내용을 확인해 주세요.
           </p>
         </div>

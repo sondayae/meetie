@@ -9,7 +9,7 @@ function AccountRecoveryLinks() {
     <div className="mt-16 flex justify-center gap-3">
       <Link
         href={ROUTE_PATH.AUTH.SIGN_UP}
-        className="text-xs font-medium text-gray-purple"
+        className="text-xs font-medium text-muted-foreground"
       >
         회원가입하기
       </Link>

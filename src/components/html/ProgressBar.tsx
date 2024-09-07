@@ -18,7 +18,7 @@ const ProgressBar: React.FC<TProgressBarProps> = ({
     //   size="sm"
     //   value={progressValue}
     //   color="success"
-    //   className="mb-8 max-w-full [&>*>*]:!rounded-none [&>*>*]:bg-main-purple [&>*]:!rounded-none"
+    //   className="mb-8 max-w-full [&>*>*]:!rounded-none [&>*>*]:bg-primary [&>*]:!rounded-none"
     // />
   );
 };

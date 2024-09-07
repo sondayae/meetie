@@ -1,5 +1,6 @@
 'use server';
 
+
 import supabase from '@/utils/supabase/client';
 import supabaseServer from '@/utils/supabase/server';
 import { getImgUrl } from '@/utils/supabase/storage';
@@ -14,7 +15,6 @@ function handleError(error: any) {
 }
 
 export async function createHandin(formData: FormData) {
-  const supabase = await supabaseServer();
   const userId = await getServerUserId();
 
   const file = formData.get('file') as File;
@@ -65,7 +65,6 @@ export async function createHandin(formData: FormData) {
 }
 
 export async function deleteHandin(handinId: string) {
-  const supabase = await supabaseServer();
   const userId = await getServerUserId();
 
   try {
@@ -88,7 +87,6 @@ export async function deleteHandin(handinId: string) {
 }
 
 export async function updateHandin(formData: FormData) {
-  const supabase = await supabaseServer();
   const userId = await getServerUserId();
 
   const file = formData.get('file') as File;
@@ -206,7 +204,10 @@ export async function getJoinedStudyRoomList() {
       .select('*, study(id, title, topic, endDate)')
       .eq('participantId', userId);
 
-    return { success: true, data };
+    const studyList = data?.map((item) => {
+      return item.study;
+    });
+    return { success: true, data: studyList };
   } catch (err: any) {
     return { success: false, error: err.message };
   }

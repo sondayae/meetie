@@ -17,7 +17,7 @@ export default function page() {
                     <p className="text- text-[16px] font-semibold text-black">
                       피그마 고급 스킬 스터디 모집
                     </p>
-                    <div className="h-5 grow basis-0 text-xs font-medium text-gray-purple">
+                    <div className="h-5 grow basis-0 text-xs font-medium text-muted-foreground">
                       기획,디자인 | 멤버 5 | D-30
                     </div>
                     <div className="w-72 items-center justify-start"></div>

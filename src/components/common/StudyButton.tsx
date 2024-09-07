@@ -38,13 +38,13 @@ export default function StudyButton({
   const getColor = () => {
     switch (style) {
       case 'primary':
-        return 'bg-main-purple border-main-purple text-white bg-sub-purple text-center transition-all hover:bg-main-purple ';
+        return 'bg-primary border-main-purple text-white bg-sub-purple text-center transition-all hover:bg-primary ';
       case 'secondary':
-        return 'border-main-purple text-main-purple';
+        return 'border-main-purple text-primary';
       case 'disabled':
         return 'bg-disabled text-white';
       default:
-        return 'border-middle-gray text-gray-purple';
+        return 'border-middle-gray text-muted-foreground';
     }
   };
 

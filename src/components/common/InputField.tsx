@@ -39,7 +39,7 @@ const InputField: React.FC<InputFieldProps> = ({
         id={id}
         type={type}
         placeholder={placeholder}
-        className="w-full flex-initial border-none bg-[#fcfcfc] px-4 py-[14px] placeholder:text-gray-purple focus:outline-none"
+        className="w-full flex-initial border-none bg-[#fcfcfc] px-4 py-[14px] placeholder:text-muted-foreground focus:outline-none"
         defaultValue={defaultValue}
         {...register(id, validation)}
       />

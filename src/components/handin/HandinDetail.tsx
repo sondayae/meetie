@@ -1,5 +1,4 @@
 import useConfirm from '@/hooks/use-confirm';
-import ProfileImg from '../common/ProfileImg';
 import NewCheckSignIcon from '../icons/NewCheckSignIcon';
 import DropDownMenu from './DropDownMenu';
 import ImageFrame from './ImageFrame';
@@ -7,6 +6,7 @@ import ImageFrame from './ImageFrame';
 import { useUser } from '@/stores/user/user';
 import { dateFormatter, timeFormatter } from '@/utils/common/dateFormatter';
 import { getImgUrl } from '@/utils/supabase/storage';
+import ProfileAvatar from '../common/ProfileAvatar';
 
 type HandinDetail = {
   handin: any;
@@ -40,12 +40,12 @@ export default function HandinDetail({
         <div>
           <div className="flex justify-between p-[16px]">
             <div className="flex flex-shrink-0 flex-grow items-center">
-              <ProfileImg src={handin.user.images?.url} />
+              <ProfileAvatar />
               <span className="ml-[8px] font-bold">{handin.user.name}</span>
             </div>
             <div className="relative flex w-full items-center justify-end gap-[24px]">
               <div className="flex items-center">
-                <span className="mr-[4px] text-sm text-gray-purple">
+                <span className="mr-[4px] text-sm text-muted-foreground">
                   사진으로 인증됨
                 </span>
                 <NewCheckSignIcon

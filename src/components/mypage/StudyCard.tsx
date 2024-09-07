@@ -21,7 +21,7 @@ export default function StudyCard({
         {/* text */}
         <div className="flex flex-col items-center justify-center gap-3">
           <div className="flex flex-col items-center justify-center gap-2">
-            <div className="text-4 text-center font-normal text-gray-purple">
+            <div className="text-4 text-center font-normal text-muted-foreground">
               {text}
             </div>
           </div>
