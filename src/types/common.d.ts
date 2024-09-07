@@ -3,4 +3,5 @@ export type AvatarProps = {
   alt?: string;
   fallback?: string;
   className?: string;
-}
+  onClick?: () => void;
+};
