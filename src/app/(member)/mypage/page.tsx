@@ -13,10 +13,8 @@ export default async function page() {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  console.log(session?.user.id);
 
   const userdata = await getUser({ id: session?.user?.id });
-  console.log(userdata);
 
   return (
     <div className="m-auto flex w-full max-w-[600px] flex-col px-4">

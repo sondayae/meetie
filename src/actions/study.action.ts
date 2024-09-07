@@ -1,5 +1,4 @@
 import supabase from '@/utils/supabase/client';
-import { revalidatePath } from 'next/cache';
 
 export async function getStudyDetails(studyId: string) {
   try {

@@ -4,7 +4,6 @@ import { redirect } from 'next/navigation';
 import supabase from '@/utils/supabase/client';
 
 export async function createStudyRoom(studyId: string) {
-  console.log(studyId);
 
   try {
     if (studyId) {

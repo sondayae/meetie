@@ -4,7 +4,7 @@ import { is } from 'date-fns/locale';
 import { revalidatePath } from 'next/cache';
 
 // 요청 목록 조회
-export async function fetchStudyApplies(studyId: string) {
+export async function getStudyApply(studyId: string) {
   try {
     const { data, error } = await supabase
       .from('study_apply')
@@ -29,11 +29,10 @@ export async function updateStudyApplyStatus(
   userId: UUID,
   status: string,
 ) {
-  console.log(studyId, userId, status);
   try {
     // Validate input if needed
-    if (!studyId || !status) {
-      throw new Error('Missing studyId or status');
+    if (!studyId || !userId) {
+      throw new Error('Missing studyId or userId');
     }
 
     // Study가 존재하는지 확인
@@ -70,18 +69,15 @@ export async function updateStudyApplyStatus(
     // Study 신청 상태 업데이트
     const { data: updateData, error: updateError } = await supabase
       .from('study_apply')
-      .update({ status })
-      .eq('studyId', studyId);
+      .update({ 'status': 'accepted' })
+      .eq('studyId', studyId)
+      .eq('userId', userId);
 
     if (updateError) {
       console.error('Error updating study status:', updateError);
       throw new Error('Failed to update study status');
     }
 
-    // revalidatePath(`/`);
-    // revalidatePath(`/study/${studyId}/studyrequest`);
-    // console.log(updateData);
-    // return updateData;
   } catch (error) {
     console.error('Error in server action:', error);
     throw new Error('Failed to update study status');

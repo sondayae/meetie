@@ -1,17 +1,14 @@
 'use client';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import Button from '@/components/common/Button';
 import supabase from '@/utils/supabase/client';
-import { useEffect, useState } from 'react';
-import { useModal } from '@/hooks/hooks';
+import { useState } from 'react';
 
 export default function StatusDisplay({
   isRecruiting,
   isApply,
   params,
   isAuthor,
-  children,
   acceptedStudy,
   userId,
   recruitNum,
@@ -20,17 +17,14 @@ export default function StatusDisplay({
   isRecruiting: string | undefined;
   params: string | undefined;
   isAuthor: boolean;
-  children: React.ReactNode;
   acceptedStudy: number;
   recruitNum: number;
   userId: string;
 }) {
   // 스터티 멤버 정보 가져오기
   // const memberData = await getStudyMember(params.studyId);
-  // console.log(`memberData: ${memberData.length}`);
+  const [btnisApply, setbtnisApply] = useState(isApply);
 
-  const path = usePathname();
-  console.log(path.split('/')[3]);
   const postApply = async () => {
     try {
       const { data, error } = await supabase
@@ -39,15 +33,9 @@ export default function StatusDisplay({
         .eq('studyId', params)
         .eq('userId', userId);
 
+      setbtnisApply(true);
       if (error) {
         throw error;
-      }
-
-      if (data && data.length > 0) {
-        useModal({ title: '이미', onConfirm: () => {}, onCancel: () => {} });
-
-        alert('이미 신청한 상태입니다.');
-        return;
       }
 
       const { data: data2, error: error2 } = await supabase
@@ -63,15 +51,29 @@ export default function StatusDisplay({
       if (error2) {
         throw error2;
       }
-
-      console.log(data2);
-      alert('신청이 완료되었습니다.');
     } catch (error) {
-      console.log(error);
       alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
     }
   };
-  console.log(`recruitNum: ${recruitNum}`);
+  const deleteApply = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('study_apply')
+        .delete()
+        .eq('studyId', params)
+        .eq('userId', userId);
+
+      if (error) {
+        throw error;
+      }
+
+      setbtnisApply(false);
+    } catch (error) {
+      alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
+    }
+  };
+
+  console.log(`isApply: ${isApply}`);
   return (
     <>
       <div className="flex w-full items-center justify-center">
@@ -92,41 +94,32 @@ export default function StatusDisplay({
                 </div>
 
                 <div className="flex w-full items-center justify-center">
-                  {/* isAuthor */}
                   {isAuthor && (
                     <Link href={`${params}/studyrequest`}>
                       <Button
                         type="primary"
-                        label={
-                          path.split('/')[3] === 'studyrequest'
-                            ? '전체수락'
-                            : '대기 중인 요청 확인'
-                        }
-                        // size="large"
+                        label="대기 중인 요청 확인"
                         onClick={() => {}}
                       />
                     </Link>
                   )}
                   {!isAuthor && (
                     <Button
-                      type={isApply ? 'disabled' : 'primary'}
-                      label={isApply ? '신청완료' : '신청하기'}
-                      onClick={postApply}
+                      type={btnisApply ? 'disabled' : 'primary'}
+                      label={!btnisApply ? '신청하기' : '신청취소'}
+                      onClick={!btnisApply ? postApply : deleteApply}
                     />
                   )}
-                  {children}
                 </div>
               </div>
             )}
 
             {!isRecruiting && (
-              // <Link href={`/studyRoom/${params.studyId}/schedule`}>
               <div className="flex w-full min-w-[600px] items-center justify-center py-8">
                 <div className="text-text-primary border-disabled bg-disabled flex w-full max-w-[343px] items-center justify-center rounded-lg border-2 p-4">
                   <p>모집이 마감되었습니다.</p>
                 </div>
               </div>
-              // </Link>
             )}
           </div>
         </div>

@@ -36,10 +36,8 @@ export default function StudyRequestItem({
       // 상태 업데이트 요청
       await updateStudyApplyStatus(studyid, userid, status);
 
-      console.log(currentStatus)
       // 성공적으로 업데이트되면 상태를 변경
       setCurrentStatus(status);
-      console.log(currentStatus)
       alert('수락 완료');
     } catch (error) {
       console.error('상태 업데이트 중 에러:', error);

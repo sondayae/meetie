@@ -21,12 +21,8 @@ export default function StatusDisplay({
   recruitNum: number;
   userId: string;
 }) {
-  // 스터티 멤버 정보 가져오기
-  // const memberData = await getStudyMember(params.studyId);
-  // console.log(`memberData: ${memberData.length}`);
 
   const path = usePathname();
-  console.log(path.split('/')[3]);
   const postApply = async () => {
     try {
       const { data, error } = await supabase
@@ -58,14 +54,11 @@ export default function StatusDisplay({
         throw error2;
       }
 
-      console.log(data2);
       alert('신청이 완료되었습니다.');
     } catch (error) {
-      console.log(error);
       alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
     }
   };
-  console.log(`recruitNum: ${recruitNum}`);
   return (
     <>
       <div className="flex w-full items-center justify-center">

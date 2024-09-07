@@ -6,11 +6,7 @@ import Button from '@/components/common/Button';
 import Link from 'next/link';
 
 export default async function page({ params }: { params: any }) {
-  console.log(params.studyId);
   const memberData = await getStudyMember(params.studyId);
-  console.log(memberData);
-  // const { data, error } = getStudyDetails(params.studyId);
-  // console.log(data.study)
 
   return (
     <>
