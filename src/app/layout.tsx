@@ -1,8 +1,6 @@
 import localFont from 'next/font/local';
 
 import '@/css/globals.css';
-import Footer from '@/components/common/Footer';
-import Header from '@/components/common/Header';
 import InitUser from '@/stores/user/InitUser';
 import supabaseServer from '@/utils/supabase/server';
 
@@ -49,15 +47,8 @@ export default async function RootLayout({
     <html lang="ko">
       <body className={`${pretendard.className}`}>
         <div id='wrapper' className='max-w-[600px] h-[100dvh] m-auto'>
-          {/* <div className='border-blue-500 border h-full'> */}
             {children}
-          {/* </div> */}
-          {/* <div className="m-auto shadow"> */}
-            {/* <Header /> */}
-            {/* {children} */}
-            {/* <Footer /> */}
-            {/* <InitUser user={data.user} /> */}
-          {/* </div> */}
+            <InitUser user={data.user} />
         </div>
       </body>
     </html>

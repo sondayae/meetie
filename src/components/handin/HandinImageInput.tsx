@@ -22,7 +22,7 @@ export default function HandinImageInput({size='big'}: {size: string}) {
                 <PlusIcon />
               </span>
           </div>
-          <span className='text-xs text-gray-purple'>0 / 4</span>
+          <span className='text-xs text-muted-foreground'>0 / 4</span>
         </div>
       </div>
       )}

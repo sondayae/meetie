@@ -20,7 +20,7 @@ function TabMenu({
         return (
           <li
             key={menu.id}
-            className={`${activeMenu === menu.id ? 'border-b-2 border-b-main-purple text-main-purple' : ''} flex-grow text-center`}
+            className={`${activeMenu === menu.id ? 'border-b-2 border-b-main-purple text-primary' : ''} flex-grow text-center`}
             role="presentation"
             onClick={() => onClick(menu.id)}
           >

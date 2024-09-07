@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Separator from '../common/Separator';
 import NewCheckSignIcon from '../icons/NewCheckSignIcon';
-import ProfileImg from '../common/ProfileImg';
 
 type SelectItemProps = {
   title: string;
@@ -20,7 +19,7 @@ export function SelectItem({title, subtitle}: SelectItemProps) {
         <span className="font-semibold text-base">
           {title}
         </span>
-        <div className='flex text-xs text-gray-purple font-medium'>
+        <div className='flex text-xs text-muted-foreground font-medium'>
           <span>
             {subtitle}
           </span>

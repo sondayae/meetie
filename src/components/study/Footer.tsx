@@ -55,7 +55,7 @@ export default function Footer() {
             <p className="text-[14px]">참여가능인원</p>
             <p className="text-bold text-[18px]">
               <span
-                className={`${Array.isArray(accessNum) && accessNum.length === 0 ? 'text-middle-gray' : 'text-main-purple'}`}
+                className={`${Array.isArray(accessNum) && accessNum.length === 0 ? 'text-middle-gray' : 'text-primary'}`}
               >
                 {Array.isArray(accessNum) ? accessNum.length : 0}명
               </span>

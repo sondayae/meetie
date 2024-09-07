@@ -137,7 +137,7 @@ export default function StudyRoomSetting({
                     type="button"
                     onClick={() => handleDelegateAuthority(member.id)}
                     className={`flex items-center justify-center gap-2 rounded-full ${
-                      member.isLeader ? 'bg-gray-400' : 'bg-main-purple'
+                      member.isLeader ? 'bg-gray-400' : 'bg-primary'
                     } px-4 py-2 text-sm font-medium text-white`}
                     disabled={member.isLeader} // 이미 리더인 경우 버튼 비활성화
                   >
