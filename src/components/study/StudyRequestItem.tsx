@@ -1,6 +1,8 @@
+'use client';
 import { updateStudyApplyStatus } from '@/actions/studyrequest.action';
 import { UUID } from 'crypto';
 import Link from 'next/link';
+import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 type ItemType = {
@@ -27,10 +29,22 @@ export default function StudyRequestItem({
   acceptedStudy: number;
   recruitNum: number;
 }) {
+  const [currentStatus, setCurrentStatus] = useState(item.status);
+
   const modApply = async (studyid: number, userid: UUID, status: string) => {
-    console.log(studyid, userid, status);
-    await updateStudyApplyStatus(studyid, userid, status);
-    return alert('수락 완료');
+    try {
+      // 상태 업데이트 요청
+      await updateStudyApplyStatus(studyid, userid, status);
+
+      console.log(currentStatus)
+      // 성공적으로 업데이트되면 상태를 변경
+      setCurrentStatus(status);
+      console.log(currentStatus)
+      alert('수락 완료');
+    } catch (error) {
+      console.error('상태 업데이트 중 에러:', error);
+      alert('상태 업데이트 실패');
+    }
   };
 
   return (
@@ -72,14 +86,14 @@ export default function StudyRequestItem({
               </div>
             </div>
             <div className="flex items-start justify-start gap-1.5">
-              {item.status === 'waiting' && (
+              {currentStatus === 'waiting' && (
                 <>
                   <button
                     type="button"
                     onClick={() =>
                       modApply(item.studyId, item.user.id, 'refused')
                     }
-                    className="flex items-center justify-center gap-2 rounded-full bg-light-gray px-4 py-2 text-sm font-medium text-dark-gray"
+                    className="bg-light-gray text-dark-gray flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium"
                   >
                     거절
                   </button>
@@ -88,20 +102,20 @@ export default function StudyRequestItem({
                     onClick={() =>
                       modApply(item.studyId, item.user.id, 'accepted')
                     }
-                    className="flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-dark-gray text-white"
+                    className="text-dark-gray flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-white"
                   >
                     수락
                   </button>
                 </>
               )}
 
-              {item.status === 'accepted' && (
+              {currentStatus === 'accepted' && (
                 <>
                   <button
                     type="button"
                     disabled
                     // onClick={() => modApply(item.id, 'refused')}
-                    className="flex items-center justify-center gap-2 rounded-full bg-muted px-4 py-2 text-sm font-medium text-dark-gray"
+                    className="text-dark-gray flex items-center justify-center gap-2 rounded-full bg-muted px-4 py-2 text-sm font-medium"
                   >
                     {item.status === 'accepted' ? '수락됨' : '거절됨'}
                   </button>
@@ -110,7 +124,7 @@ export default function StudyRequestItem({
             </div>
           </div>
           <div className="flex w-full flex-col items-start justify-start gap-4">
-            <div className="h-10 w-full px-6 text-sm font-normal leading-tight text-dark-gray">
+            <div className="text-dark-gray h-10 w-full px-6 text-sm font-normal leading-tight">
               {item.user.introduce
                 ? item.user.introduce
                 : '자기소개가 없습니다.'}

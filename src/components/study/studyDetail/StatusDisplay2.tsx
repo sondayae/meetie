@@ -15,7 +15,7 @@ export default function StatusDisplay({
   recruitNum,
 }: {
   isRecruiting: string | undefined;
-  params: string | undefined;
+  params: { studyId: string };
   children: React.ReactNode;
   acceptedStudy: number;
   recruitNum: number;
@@ -100,13 +100,6 @@ export default function StatusDisplay({
                       onClick={() => {}}
                     />
                   )}
-                </div>
-              </div>
-            )}
-            {!isRecruiting && (
-              <div className="flex w-full min-w-[600px] items-center justify-center py-8">
-                <div className="text-text-primary border-disabled bg-disabled flex w-full max-w-[343px] items-center justify-center rounded-lg border-2 p-4">
-                  <p>스터디룸으로 이동</p>
                 </div>
               </div>
             )}

@@ -7,7 +7,7 @@ const CreateStudyRoom = ({ params }: { params: any }) => {
 
   const handleCreateStudyRoom = async () => {
     createStudyRoom(params);
-    router.push(`/studyRoom/${params}/schedule`);
+    router.push(`/studyRoom/${params}/studyover`);
   };
 
   return (

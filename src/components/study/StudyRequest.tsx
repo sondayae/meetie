@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import StudyRequestItem from '@/components/study/StudyRequestItem';
-import { fetchStudyApplies } from '@/actions/studyrequest.action';
 
 // 시간별 데이터를 그룹핑
 const groupByDate = (data: any[]) => {
@@ -34,9 +33,15 @@ interface PageProps {
   };
   acceptedStudy: number;
   recruitNum: number;
+  applyData: StudyRequestItem[];
 }
 
-export default function Page({ params, acceptedStudy, recruitNum }: PageProps) {
+export default function Page({
+  applyData,
+  params,
+  acceptedStudy,
+  recruitNum,
+}: PageProps) {
   const [data, setData] = useState<StudyRequestItem[]>([]);
   const [groupedData, setGroupedData] = useState<
     Record<string, StudyRequestItem[]>
@@ -44,10 +49,8 @@ export default function Page({ params, acceptedStudy, recruitNum }: PageProps) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchStudyApplies(params.studyId);
-
-      setData(data);
-      setGroupedData(groupByDate(data)); // 데이터를 시간별로 그룹핑
+      setData(applyData);
+      setGroupedData(groupByDate(applyData)); // 데이터를 시간별로 그룹핑
     };
 
     fetchData();
@@ -62,7 +65,7 @@ export default function Page({ params, acceptedStudy, recruitNum }: PageProps) {
           <>
             {Object.entries(groupedData).map(([date, items]) => (
               <div key={date}>
-                <div className="font mb-4 text-sm font-medium text-dark-gray">
+                <div className="font text-dark-gray mb-4 text-sm font-medium">
                   {date}
                 </div>
                 <ul className="mb-4 flex flex-col gap-4">

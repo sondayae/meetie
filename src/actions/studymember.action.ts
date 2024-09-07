@@ -6,7 +6,8 @@ export async function getStudyMember(studyId: string) {
   try {
     const { data, error } = await supabase
       .from('studymember')
-      .select(`*`)
+      .select(`*, user(*)`)
+      // .select(`*, user(*), images(url)`)
       .eq('studyId', studyId);
 
     if (error) {

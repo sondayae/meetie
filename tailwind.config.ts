@@ -82,11 +82,20 @@ const config: Config = {
 						transform: 'translateY(-1%)',
 						'animation-timing-function': 'cubic-bezier(0,0,0.2,1)'
 					}
+				},
+				testScroll: {
+					'0%': {
+						transform: 'translateX(0)'
+					},
+					'100%': {
+						transform: 'translateX(-100%)'
+					}
 				}
 			},
 			animation: {
 				rocketMove: 'rocketMove 3.5s linear infinite',
-				messageMove: 'messageMove 2s infinite'
+				messageMove: 'messageMove 2s infinite',
+				testScroll: 'testScroll 20s linear infinite'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

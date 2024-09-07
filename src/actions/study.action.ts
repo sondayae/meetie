@@ -11,7 +11,6 @@ export async function getStudyDetails(studyId: string) {
 
     if (error) throw error;
 
-    revalidatePath(`/study/${studyId}`);
     return data;
   } catch (error) {
     console.error('Error fetching study details:', error);

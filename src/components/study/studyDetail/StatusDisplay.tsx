@@ -118,12 +118,15 @@ export default function StatusDisplay({
                 </div>
               </div>
             )}
+
             {!isRecruiting && (
+              // <Link href={`/studyRoom/${params.studyId}/schedule`}>
               <div className="flex w-full min-w-[600px] items-center justify-center py-8">
                 <div className="text-text-primary border-disabled bg-disabled flex w-full max-w-[343px] items-center justify-center rounded-lg border-2 p-4">
-                  모집이 마감되었습니다.
+                  <p>모집이 마감되었습니다.</p>
                 </div>
               </div>
+              // </Link>
             )}
           </div>
         </div>
