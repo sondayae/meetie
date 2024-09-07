@@ -58,7 +58,7 @@ export default function page() {
 
         {/* 3 */}
         {DUMMY.map((item) => (
-          <div className="w-full rounded-lg border border-light-gray bg-light-gray px-4 py-3">
+          <div className="w-full rounded-lg border border-light-gray bg-muted px-4 py-3">
             <div className="flex flex-col gap-2">
               <div className="text-lg font-normal text-dark-gray">
                 {item.question}

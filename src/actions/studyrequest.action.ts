@@ -47,6 +47,14 @@ export async function updateStudyApplyStatus(
     //   throw new Error('Study not found');
     // }
 
+    // Study멤버에 존재 하는지 확인
+    // const { data: studyData, error: studyError } = await supabase
+    //   .from('study')
+    //   .select(`*`)
+    //   .eq('id', studyId)
+    //   .single();
+    // => 이미 수락됨으로 return
+
     // 스터디 멤버 추가
     const { data: insertData, error: insertError } = await supabase
       .from('studymember')
@@ -62,7 +70,7 @@ export async function updateStudyApplyStatus(
     const { data: updateData, error: updateError } = await supabase
       .from('study_apply')
       .update({ status })
-      .eq('id', studyId);
+      .eq('studyId', studyId);
 
     if (updateError) {
       console.error('Error updating study status:', updateError);

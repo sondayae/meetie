@@ -1,7 +1,15 @@
 'use client';
 import { createStudyRoom } from '@/actions/studyroom.action';
+import { useRouter } from 'next/navigation';
 
 const CreateStudyRoom = ({ params }: { params: any }) => {
+  const router = useRouter();
+
+  const handleCreateStudyRoom = async () => {
+    createStudyRoom(params);
+    router.push(`/studyRoom/${params}/schedule`);
+  };
+
   return (
     <div className="flex h-20 w-full items-center justify-center">
       <div className="max-w-[340px] rounded-xl border border-[#e2d6ff] bg-white/60 backdrop-blur-md">
@@ -10,7 +18,7 @@ const CreateStudyRoom = ({ params }: { params: any }) => {
             <p>원하는 팀원이 없으신가요?</p>
             <p>지금 바로 스터디룸을 생성해보세요!</p>
           </div>
-          <button type="button" onClick={() => createStudyRoom(params)}>
+          <button type="button" onClick={() => handleCreateStudyRoom()}>
             스터디룸 생성
           </button>
         </div>

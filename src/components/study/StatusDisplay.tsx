@@ -23,6 +23,8 @@ export default function StatusDisplay({
   recruitNum: number;
   userId: string;
 }) {
+  const path = usePathname();
+  console.log(path.split('/')[3]);
   const postApply = async () => {
     try {
       const { data, error } = await supabase
@@ -81,7 +83,11 @@ export default function StatusDisplay({
             <Link href={`${params}/studyrequest`}>
               <Button
                 type="primary"
-                label="대기 중인 요청 확인"
+                label={
+                  path.split('/')[3] === 'studyrequest'
+                    ? '전체수락'
+                    : '대기 중인 요청 확인'
+                }
                 // size="large"
                 onClick={() => {}}
               />

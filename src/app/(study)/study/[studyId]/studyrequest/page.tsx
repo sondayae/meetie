@@ -35,17 +35,19 @@ export default async function Page({
         recruitNum={data.study.recruitNum}
       />
       {/* 로그인 === 작성자  */}
-      <div className="flex items-center justify-center">
-        <div className="fixed bottom-0 w-full bg-white pt-8">
-          <StatusDisplay
-            userId={session?.user.id || ''}
-            isAuthor={isAuthor}
-            params={params.studyId}
-            acceptedStudy={data.acceptedStudy}
-            recruitNum={data.study.recruitNum}
-            isRecruit={data.study.isRecruit} // Add the isRecruit property with the appropriate value
-            children={null}
-          />
+      <div className="flex w-full items-center justify-center">
+        <div className="fixed bottom-0 mx-auto w-full bg-white pt-8">
+          <div className='flex items-center justify-center'>
+            <StatusDisplay
+              userId={session?.user.id || ''}
+              isAuthor={isAuthor}
+              params={params.studyId}
+              acceptedStudy={data.acceptedStudy}
+              recruitNum={data.study.recruitNum}
+              isRecruit={data.study.isRecruit} // Add the isRecruit property with the appropriate value
+              children={null}
+            />
+          </div>
         </div>
       </div>
     </div>

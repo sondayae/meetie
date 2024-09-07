@@ -29,25 +29,27 @@ export default async function Page({
         <StudyDetail {...data.study} />
         {/* 로그인 === 작성자  */}
         <div className="flex w-full items-center justify-center">
-          <div className="fixed bottom-0 w-full bg-white pt-8">
-            {data.study.isRecruiting && (
-              <StatusDisplay
-                isRecruit={data.study.isRecruit}
-                userId={session?.user.id || ''}
-                isAuthor={isAuthor}
-                params={params.studyId}
-                acceptedStudy={data.acceptedStudy}
-                recruitNum={data.study.recruitNum}
-                children={null}
-              />
-            )}
-            {!data.study.isRecruiting && (
-              <div className="flex w-full min-w-[600px] items-center justify-center py-8">
-                <div className="text-text-primary flex w-full max-w-[343px] items-center justify-center rounded-lg border-2 border-disabled bg-disabled p-4">
-                  모집이 마감되었습니다.
+          <div className="fixed bottom-0 mx-auto w-full bg-white pt-8">
+            <div className="flex items-center justify-center">
+              {data.study.isRecruiting && (
+                <StatusDisplay
+                  isRecruit={data.study.isRecruit}
+                  userId={session?.user.id || ''}
+                  isAuthor={isAuthor}
+                  params={params.studyId}
+                  acceptedStudy={data.acceptedStudy}
+                  recruitNum={data.study.recruitNum}
+                  children={null}
+                />
+              )}
+              {!data.study.isRecruiting && (
+                <div className="flex w-full min-w-[600px] items-center justify-center py-8">
+                  <div className="text-text-primary flex w-full max-w-[343px] items-center justify-center rounded-lg border-2 border-disabled bg-disabled p-4">
+                    모집이 마감되었습니다.
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
