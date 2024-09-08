@@ -1,4 +1,5 @@
 import React from 'react';
+import { Progress } from '../ui/progress';
 
 type TProgressBarProps = {
   currentStepIndex: number;
@@ -12,14 +13,9 @@ const ProgressBar: React.FC<TProgressBarProps> = ({
   const progressValue = ((currentStepIndex + 1) / totalSteps) * 100;
 
   return (
-    <></>
-    // <Progress
-    //   aria-label="Loading..."
-    //   size="sm"
-    //   value={progressValue}
-    //   color="success"
-    //   className="mb-8 max-w-full [&>*>*]:!rounded-none [&>*>*]:bg-primary [&>*]:!rounded-none"
-    // />
+    <div className="w-full">
+      <Progress value={progressValue} className="mb-4" />
+    </div>
   );
 };
 
