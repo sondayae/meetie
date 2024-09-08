@@ -201,7 +201,7 @@ export default function Profile() {
 
       <div className="fixed bottom-0 left-0 w-full bg-white p-4">
         <div className="mx-auto w-full max-w-[600px]">
-          <div className="mb-3 text-xs text-middle-gray">
+          <div className="mb-3 text-xs text-border">
             내용은 다시 수정할 수 있어요!
           </div>
           <div className="flex w-full gap-x-3">

@@ -36,7 +36,7 @@ const JobStep: React.FC<JobStepProps> = ({
             key={job.id}
             className={`flex h-[120px] w-full max-w-[calc(33.333%_-_0.5rem)] flex-1 cursor-pointer flex-col items-center rounded-lg p-[26px] text-center transition duration-300 ${
               selectedJob === job.label
-                ? 'border border-main-purple bg-[#EFE9FF]'
+                ? 'border border-primary bg-[#EFE9FF]'
                 : 'border border-[#D9D9D9] bg-[#F5F5F5]'
             }`}
             onClick={() => handleJobClick(job.label)}

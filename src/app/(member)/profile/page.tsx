@@ -71,7 +71,7 @@ export default function UserProfile() {
           <div className="text-sm">{profile?.job}</div>
         </div>
 
-        <div className="text-left">
+        <div className="w-full px-4 text-left">
           <div className="mb-5">
             <div className="mb-2 text-base font-bold">한줄 자기 소개</div>
             <div>{profile?.introduction}</div>
@@ -86,7 +86,7 @@ export default function UserProfile() {
           </div>
           <div className="mt-8">
             <div className="mb-2 text-base font-bold">스터디 목적</div>
-            <div className="mb-5">
+            <div className="mb-5 flex flex-wrap gap-2">
               {profile?.purpose &&
                 profile?.purpose.map((item, index) => (
                   <Tag key={index}>{item}</Tag>
@@ -95,7 +95,7 @@ export default function UserProfile() {
             {/* </div> */}
             {/* <div> */}
             <div className="mb-2 text-base font-bold">키워드</div>
-            <div className="mb-5">
+            <div className="mb-5 flex flex-wrap gap-2">
               {profile?.personality &&
                 profile?.personality.map((item, index) => (
                   <Tag key={index}>{item}</Tag>
@@ -112,7 +112,7 @@ export default function UserProfile() {
             label="홈으로 가기"
             type="primary"
             size="large"
-            borderStyle="flex-[3] rounded-[8px] h-[49px] w-[206px]"
+            borderStyle="flex-[3] rounded-[8px] h-[49px] w-[206px] w-full"
             onClick={handleGoHome}
           />
         </div>
