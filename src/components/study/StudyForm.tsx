@@ -23,6 +23,7 @@ import DownArrowIcon from '../icons/DownArrowIcon';
 import ProgressBar from './write/ProgressBar';
 import LoadingModal from './write/LoadingModal';
 import CloseIcon from '../icons/CloseIcon';
+import CompleteModal from './write/CompleteModal';
 
 type studyFormProps = {
   isEditMode: boolean;
@@ -51,6 +52,9 @@ export default function StudyForm({
   const [data, setData] = useState<string[]>([]); // 바텀 시트 데이터
 
   const [loading, setLoading] = useState(false);
+  const [completed, setCompleted] = useState(false);
+
+  const [newStudy, setNewStudy] = useState<{ id: any } | null>(null);
 
   // useForm
   const {
@@ -219,11 +223,16 @@ export default function StudyForm({
         study.author = userId;
       }
       // 스터디 생성
-      const newStudy = await addStudy(study);
+      const createdStudy = await addStudy(study);
+
+      if (createdStudy) {
+        setNewStudy(createdStudy);
+        setCompleted(true);
+      }
 
       setLoading(false);
-      // 스터디 상세 페이지로 이동
-      if (newStudy) router.push(`/study/${newStudy.id}`);
+
+      setCompleted(true);
     } catch (error) {
       setLoading(false);
       console.error('스터디 생성 중 에러가 발생했습니다:', error);
@@ -283,6 +292,12 @@ export default function StudyForm({
 
   return (
     <>
+      {completed && (
+        <CompleteModal
+          label="스터디 등록을 완료했습니다!"
+          studyId={newStudy?.id}
+        />
+      )}
       {loading && <LoadingModal label="모집글 발행 중" />}
       <Header
         label={'스터디 만들기'}
