@@ -7,30 +7,43 @@ import DropDownMenu from './DropDownMenu';
 import useConfirm from '@/hooks/use-confirm';
 import { dateFormatter } from '@/utils/common/dateFormatter';
 import ProfileAvatar from '../common/ProfileAvatar';
+import { useMutation } from '@tanstack/react-query';
+import { updateComment } from '@/actions/studyroom/handinActions';
+import { queryClient } from '@/config/ReactQueryClientProvider';
+import AddReaction from '../icons/AddReaction';
+import Picker from '@emoji-mart/react'
+import { createReaction } from '@/actions/studyroom/commentActions';
 
 type CommentProps = {
   comment: any;
-  handleEdit: any;
-  handleDelete: any;
 };
 
 export default function Comment({
-  comment,
-  handleEdit,
-  handleDelete,
+  comment
 }: CommentProps) {
+  
+  
   const [isEdit, setIsEdit] = useState(false);
-  const formRef: any = useRef();
+  const [text, setText] = useState(comment.comment);
+  const [showEmoji, setShowEmoji] = useState(false);
+  const reactionListWithCount = comment.reactions.reduce((acc, current) => {
+    const existingEntry = acc.find(item => item.emoji === current.emoji);
+  
+    if (existingEntry) {
+      // 이미 해당 value가 존재하면 count를 증가
+      existingEntry.count += 1;
+    } else {
+      // 존재하지 않으면 새로운 객체를 추가
+      acc.push({ emoji: current.emoji, count: 1 });
+    }
+  
+    return acc;
+  }, []);
 
-  const formAction = (formData: FormData) => {
-    handleEdit(formData);
-    setIsEdit(false);
-  };
-
-  const deleteComment = async () => {
+  const handleDelete = async () => {
     const result = await confirm();
     if (result) {
-      handleDelete(comment.id);
+      deleteCommentMutation.mutate();
     }
   };
 
@@ -38,6 +51,53 @@ export default function Comment({
     title: '삭제',
     message: '댓글을 삭제하시겠습니까?',
   });
+
+  const updateCommentMutation = useMutation({
+    mutationFn: () =>
+      updateComment({
+        comment: text,
+        id: comment.id,
+      }),
+    onSuccess: () => {
+      setIsEdit(false);
+      queryClient.invalidateQueries({queryKey: ['comments']});
+    },
+  });
+
+  const deleteCommentMutation = useMutation({
+    mutationFn: () =>
+      deleteComment({
+        id: comment.id,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['comments']});
+    },
+  });
+
+  const createReactionMutation = useMutation({
+    mutationFn: (emoji: string) =>
+      createReaction({
+        targetId: comment.id,
+        emoji: emoji,
+      }),
+      onSuccess: (data) => {
+        console.log(data);
+        
+        setShowEmoji(false);
+        queryClient.invalidateQueries({queryKey: ['comments']});
+      }
+  });
+
+  const handleEmojiSelect = (emoji) => {
+    createReactionMutation.mutate(emoji);
+    console.log(emoji);
+  }
+
+  const handleEmojiPicketSelect = (e) => {
+    const sym = '0x' + e.unified;
+    const emoji = String.fromCodePoint(sym);
+    handleEmojiSelect(emoji);
+  }
 
   return (
     <>
@@ -52,19 +112,11 @@ export default function Comment({
           </div>
           {isEdit && (
             <div className="w-full">
-              <form action={formAction} className="relative" ref={formRef}>
-                <input
-                  type="text"
-                  name="id"
-                  className="hidden"
-                  defaultValue={comment.id}
-                />
                 <div className="rounded-lg bg-[#f3f3f3]">
                   <input
-                    defaultValue={comment.comment}
-                    required
+                    value={text}
                     type="text"
-                    name="comment"
+                    onChange={(e) => setText(e.target.value)}
                     className="w-full rounded-lg border border-[#E9E9E9] bg-[#f3f3f3] p-2 py-[11.5px] text-sm placeholder-gray-purple focus:outline-none"
                   />
                   <div className="flex justify-end gap-[8px] border-t border-[#dfdfdf] p-1">
@@ -76,14 +128,14 @@ export default function Comment({
                       취소
                     </button>
                     <button
-                      type="submit"
+                      type="button"
                       className="rounded-lg bg-primary px-3 py-2 text-xs text-white"
+                      onClick={() => updateCommentMutation.mutate()}
                     >
                       저장
                     </button>
                   </div>
                 </div>
-              </form>
             </div>
           )}
           {!isEdit && (
@@ -91,7 +143,7 @@ export default function Comment({
               <div className="relative flex flex-nowrap justify-between">
                 <div className="flex items-center">
                   <span className="mr-[7px] font-bold">
-                    {comment.user && comment.user.name}
+                    {comment.user?.name}
                   </span>
                   <span className="text-xs text-[#898989]">
                     {dateFormatter(comment.created_at)}
@@ -99,14 +151,32 @@ export default function Comment({
                 </div>
                 <DropDownMenu
                   handleEdit={() => setIsEdit(true)}
-                  handleDelete={deleteComment}
+                  handleDelete={handleDelete}
                 />
               </div>
               <span className="break-all text-sm">
                 {comment.comment}
                 {!!comment.sending && <small>(Sending...)</small>}
               </span>
-              <div>리액션</div>
+              <div className='flex relative items-center gap-1'>
+                <span className='p-2 border border-[#DDDDDD] rounded-lg bg-[#F3F3F3]' onClick={() => setShowEmoji(!showEmoji)}>
+                  <AddReaction />
+                </span>
+                {reactionListWithCount.map((reaction, idx) => 
+                  <span
+                    key={idx} 
+                    className='py-1 px-2 border border-[#DDDDDD] rounded-lg bg-[#F3F3F3]'
+                    onClick={() => handleEmojiSelect(reaction.emoji)}
+                  >
+                    {reaction.emoji} {reaction.count}
+                  </span>
+                )}
+                {showEmoji &&
+                  <div className='absolute bottom-10'>
+                    <Picker onEmojiSelect={(e) => handleEmojiPicketSelect(e)} locale={'ko'}/>
+                  </div>
+                }
+              </div>
             </div>
           )}
         </div>

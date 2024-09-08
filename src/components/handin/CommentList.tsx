@@ -1,46 +1,33 @@
-import { useEffect, useState } from 'react';
+'use client';
+
+import { useMutation, useQuery } from '@tanstack/react-query';
+import ProfileAvatar from '../common/ProfileAvatar';
+import SendIcon from '../icons/SendIcon';
 import Comment from './Comment';
-import { getComments } from '@/lib/actions/comment';
-import CommentForm from './CommentForm';
+import { useState } from 'react';
+import { getComments } from '@/actions/studyroom/commentActions';
 
-type CommentList = {
-    id: string;
-    comment: string;
-    created_at: string;
-    user: {
-        id: string;
-        name: string;
-        images: {
-            url: string;
-        }[];
-    }[];
-}
+export default function CommentList({targetId}) {
 
-export default function CommentList({ targetId }: {targetId: string}) {
 
-  const [commentList, setCommentList] = useState<any>();
+  const getCommentList = useQuery({
+    queryKey: ['comments'],
+    queryFn: async () => {
+      const comments = await getComments(targetId);
+      return comments;
+    }
+  });
 
-  const fetchData = async () => {
-    const { data } = await getComments(targetId);
-    setCommentList(data);
-    console.log(data);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [])
-  
   return (
     <>
-    { commentList &&
-      <div className="[&>*:first-child]:border-t">
-        {/* {
-          commentList.map((comment:) => {
-            // return <Comment key={comment.id} id={comment.id} comment={comment.comment} author={comment.user} date={comment.created_at}/>
-          })
-        } */}
-      </div>
-    }
-    </>
-  );
+    <div className='bg-[#fafafa]'>
+      {getCommentList.data?.map(comment => (
+          <Comment
+            key={comment.id}
+            comment={comment}
+          />
+      ))}
+    </div>
+  </>
+  )
 }

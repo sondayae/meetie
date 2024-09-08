@@ -2,9 +2,7 @@
 
 
 import supabase from '@/utils/supabase/client';
-import supabaseServer from '@/utils/supabase/server';
-import { getImgUrl } from '@/utils/supabase/storage';
-import { getServerUserId } from './getServerUserId';
+import { getServerUserId } from '../../lib/actions/getServerUserId';
 
 const FOLDER = 'handin';
 
@@ -148,7 +146,7 @@ export async function updateHandin(formData: FormData) {
   }
 }
 
-export async function getHandin(handinId: string) {
+export async function getFeedback(handinId: string) {
   try {
     if (!handinId) {
       throw new Error('handin id is required');
@@ -164,9 +162,9 @@ export async function getHandin(handinId: string) {
 
     handleError(error);
 
-    return { success: true, data };
+    return data;
   } catch (err: any) {
-    return { success: false, error: err.message };
+    handleError(err);
   }
 }
 
@@ -226,6 +224,92 @@ export async function getJoinedStudyRoom(studyId: string) {
       .single();
 
     return { success: true, data };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
+
+export async function setComment(targetId) {
+  const {data, error} = await supabase.from('comments').insert({userId: userId, comment: comment, target_id: targetId});
+  if (error) {
+    throw new Error('has an error');
+  }
+  return data;
+}
+
+export async function createComment({comment, targetId}) {
+  const userId = await getServerUserId();
+  try {
+    if (!userId) {
+      throw new Error('There is no User');
+    }
+    if (comment === '') {
+      throw new Error('comment is required');
+    }
+    const { data, error } = await supabase
+      .from('comments')
+      .insert({
+        target_id: targetId,
+        user_id: userId,
+        comment,
+      })
+      .select('id, user(name), comment');
+
+    if (error) {
+      throw new Error(`${error}`);
+    }
+    return { success: true, data: data};
+  } catch (err: any) {
+    // TODO 에러 타입
+    return { success: false, error: err.message };
+  }
+}
+
+export async function updateComment({id, comment}) {
+  const userId = await getServerUserId();
+
+  try {
+    if (!userId) {
+      throw new Error('There is no User');
+    }
+    if (comment === '') {
+      throw new Error('comment is required');
+    }
+    const { data, error } = await supabase
+      .from('comments')
+      .update({
+        comment,
+      })
+      .eq('id', id);
+
+    if (error) {
+      throw new Error(`${error}`);
+    }
+    return { success: true, data };
+  } catch (err: any) {
+    // TODO 에러 타입
+    return { success: false, error: err.message };
+  }
+}
+
+export async function deleteComment(id: string) {
+  const userId = await getServerUserId();
+  try {
+    if (!userId) {
+      throw new Error('There is no User');
+    }
+    if (id === '') {
+      throw new Error('comment id is required');
+    }
+    const { error } = await supabase
+      .from('comments')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      throw new Error(`${error.message}`);
+    }
+    return { success: true };
   } catch (err: any) {
     return { success: false, error: err.message };
   }
