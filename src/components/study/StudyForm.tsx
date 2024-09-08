@@ -1,6 +1,6 @@
 'use client';
 import { Study } from '@/types/study';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { redirect, useParams, useRouter } from 'next/navigation';
 import {
   addStudy,
@@ -16,14 +16,25 @@ import PlusIcon from '../icons/PlusIcon';
 import StudyButton from './write/StudyButton';
 import StudyInput from './write/StudyInput';
 import BottomSheet from './write/BottomSheet';
-import DeleteIcon from '../icons/DeleteIcon';
+import Header from '../handin/Header';
+import LeftArrowIcon from '../icons/LeftArrowIcon';
+import HomeIcon from '../icons/HomeIcon';
+import DownArrowIcon from '../icons/DownArrowIcon';
+import ProgressBar from './write/ProgressBar';
+import LoadingModal from './write/LoadingModal';
+import CloseIcon from '../icons/CloseIcon';
 
 type studyFormProps = {
   isEditMode: boolean;
   userId?: string;
+  user?: any;
 };
 
-export default function StudyForm({ isEditMode, userId }: studyFormProps) {
+export default function StudyForm({
+  isEditMode,
+  userId,
+  user,
+}: studyFormProps) {
   const router = useRouter();
   const params = useParams();
   const { studyId } = params;
@@ -31,13 +42,15 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
   const [tags, setTags] = useState<string[]>([]);
   const [tagsInput, setTagsInput] = useState(''); // 태그 인풋 상태
   const [studyStep, setStudyStep] = useState(1); // 스터디 만들기 단계 체크
-  const [progressValue, setProgressValue] = useState(1); // 진행 단계 progress bar
+  const [progressValue, setProgressValue] = useState<number>(1); // 진행 단계 progress bar
 
   const [bottomSheet, setBottomSheet] = useState(false); // 바텀 시트 열기/닫기
   const [selectedItems, setSelectedItems] = useState<string[]>([]); // 선택한 아이템
   const [selectType, setSelectType] = useState<string>('roles'); // 선택한 아이템 타입
   const [dataTitle, setDataTitle] = useState<string>(''); // 바텀 시트 타이틀
   const [data, setData] = useState<string[]>([]); // 바텀 시트 데이터
+
+  const [loading, setLoading] = useState(false);
 
   // useForm
   const {
@@ -48,6 +61,7 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
     getValues,
     reset,
     watch,
+    trigger,
   } = useForm<Study>({
     // study 초기값
     defaultValues: {
@@ -127,6 +141,11 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
     if (selectType === 'purposes') {
       setValue('purposes', selectedItems);
     }
+
+    // 유효성 검사 강제 트리거
+    if (selectedItems.length > 0) {
+      trigger(['purposes', 'roles']);
+    }
   }, [selectedItems, selectType]);
 
   // 태그 입력
@@ -187,6 +206,7 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
 
   // 스터디 생성
   const handleFormSubmit = async () => {
+    setLoading(true);
     try {
       // 태그 추가
       setValue('tags', tags, { shouldValidate: true, shouldDirty: true });
@@ -201,23 +221,28 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
       // 스터디 생성
       const newStudy = await addStudy(study);
 
+      setLoading(false);
       // 스터디 상세 페이지로 이동
       if (newStudy) router.push(`/study/${newStudy.id}`);
     } catch (error) {
+      setLoading(false);
       console.error('스터디 생성 중 에러가 발생했습니다:', error);
     }
   };
 
   // 스터디 수정
   const handleEditFormSubmit = async () => {
+    setLoading(true);
     try {
       const study = getValues();
 
       await editStudy(studyId, getValues());
 
+      setLoading(false);
       alert('스터디 수정이 완료되었습니다.');
       router.push(`/study/${studyId}`);
     } catch (e) {
+      setLoading(false);
       console.error(e);
       alert('스터디 수정 중 오류가 발생했습니다.');
     }
@@ -258,18 +283,18 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
 
   return (
     <>
+      {loading && <LoadingModal label="모집글 발행 중" />}
+      <Header
+        label={'스터디 만들기'}
+        leftIcon={<LeftArrowIcon />}
+        rightIcon={<HomeIcon className="h-7 w-7 stroke-[#777777]" />}
+      />
       {/* Progress bar */}
-      {/* <Progress
-        aria-label="Loading..."
-        size="sm"
-        value={progressValue}
-        color="success"
-        className="mb-8 max-w-full [&>*>*]:!rounded-none [&>*>*]:bg-primary [&>*]:!rounded-none"
-      /> */}
+      <ProgressBar value={progressValue} />
       {/* Form */}
       <form
         action=""
-        className="flex flex-col px-4 pb-20"
+        className="flex h-full flex-col px-4 pb-20 pt-10"
         onSubmit={handleSubmit(
           isEditMode ? handleEditFormSubmit : handleFormSubmit,
         )}
@@ -278,16 +303,15 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
         {studyStep === 1 && (
           <>
             {/* 모집 직군 */}
-            <div className="mb-[34px] mt-[10px]">
+            <div className="mb-[34px] mt-2.5">
               <label
-                className="mb-[10px] inline-block font-semibold"
+                className="mb-2.5 inline-block font-semibold"
                 // htmlFor="roles"
               >
                 모집 직군
               </label>
               <div
-                className="active: h-[50px] w-full cursor-pointer truncate rounded-lg border border-[#c4c4c4] px-[18px] py-[14px] focus:border-sub-purple"
-                // onClick={openBottomSheet}
+                className="flex h-[50px] w-full cursor-pointer items-center justify-between truncate rounded-lg border border-[#c4c4c4] px-[18px] py-[14px] focus:border-secondary"
                 onClick={() => openBottomSheet('roles')}
                 {...register('roles', {
                   required: '모집 직군을 선택해주세요.',
@@ -301,6 +325,7 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
                   Array.isArray(roles) &&
                   roles.length > 0 &&
                   roles.join(', ')}
+                <DownArrowIcon className={'h-4 w-4'} />
               </div>
               {errors.roles && (
                 <ErrorMessage>
@@ -309,9 +334,9 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
               )}
             </div>
             {/* 스터디 제목 */}
-            <div className="relative mb-[34px] mt-[10px]">
+            <div className="relative mb-[34px] mt-2.5">
               <label
-                className="mb-[10px] inline-block font-semibold"
+                className="mb-2.5 inline-block font-semibold"
                 htmlFor="title"
               >
                 스터디 제목 &nbsp;
@@ -347,9 +372,9 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
               )}
             </div>
             {/* 스터디 주제 */}
-            <div className="mb-[34px] mt-[10px]">
+            <div className="mb-[34px] mt-2.5">
               <label
-                className="mb-[10px] inline-block font-semibold"
+                className="mb-2.5 inline-block font-semibold"
                 htmlFor="topic"
               >
                 스터디 주제 &nbsp;
@@ -385,15 +410,15 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
               )}
             </div>
             {/* 스터디 목적 */}
-            <div className="mb-[34px] mt-[10px]">
+            <div className="mb-[34px] mt-2.5">
               <label
-                className="mb-[10px] inline-block font-semibold"
+                className="mb-2.5 inline-block font-semibold"
                 htmlFor="purposes"
               >
                 스터디 목적 &nbsp;
               </label>
               <div
-                className="h-[50px] w-full cursor-pointer truncate rounded-lg border border-[#c4c4c4] px-[18px] py-[14px] outline-sub-purple"
+                className="flex h-[50px] w-full cursor-pointer items-center justify-between truncate rounded-lg border border-[#c4c4c4] px-[18px] py-[14px] outline-secondary"
                 onClick={() => openBottomSheet('purposes')}
                 {...register('purposes', {
                   required: '스터디 목적을 선택해주세요.',
@@ -407,6 +432,7 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
                   Array.isArray(purposes) &&
                   purposes.length > 0 &&
                   purposes.join(', ')}
+                <DownArrowIcon className={'h-4 w-4'} />
               </div>
               <BottomSheet
                 title={dataTitle}
@@ -423,9 +449,9 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
               )}
             </div>
             {/* 스터디 목표 */}
-            <div className="mb-[34px] mt-[10px]">
+            <div className="mb-[34px] mt-2.5">
               <label
-                className="mb-[10px] inline-block font-semibold"
+                className="mb-2.5 inline-block font-semibold"
                 htmlFor="goal"
               >
                 스터디 목표 &nbsp;
@@ -466,9 +492,9 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
         {studyStep === 2 && (
           <>
             {/* 스터디 소개 */}
-            <div className="mb-[34px] mt-[10px]">
+            <div className="mb-[34px] mt-2.5">
               <label
-                className="mb-[10px] inline-block font-semibold"
+                className="mb-2.5 inline-block font-semibold"
                 htmlFor="info"
               >
                 스터디 소개 &nbsp;
@@ -480,7 +506,7 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
                   rows={4}
                   cols={50}
                   placeholder="스터디를 설명해보세요"
-                  className="mb-[34px] mt-[10px] w-full resize-none rounded-lg border border-[#c4c4c4] px-[18px] py-5 outline-sub-purple"
+                  className="mb-[34px] mt-2.5 w-full resize-none rounded-lg border border-[#c4c4c4] px-[18px] py-5 outline-secondary"
                   errors={errors}
                   register={register}
                   rules={{
@@ -513,12 +539,12 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
               getValues={getValues}
             />
             {/* 스터디 모집 인원 */}
-            <label className="font-bold" htmlFor="recruitNum">
+            <label className="font-semibold" htmlFor="recruitNum">
               스터디 모집 인원
             </label>
             {/* 넘버 인풋 */}
             <div>
-              <div className="mt-[10px] grid min-h-[50px] w-full grid-cols-[1fr_8fr_1fr] rounded-lg border border-[#c4c4c4]">
+              <div className="mt-2.5 grid min-h-[50px] w-full grid-cols-[1fr_8fr_1fr] rounded-lg border border-[#c4c4c4]">
                 <StudyButton
                   id="decrement"
                   onClick={handleDecrement}
@@ -549,66 +575,67 @@ export default function StudyForm({ isEditMode, userId }: studyFormProps) {
                   borderStyle="border-none"
                   buttonStyle="w-[50px] h-full flex items-center justify-center ml-auto"
                 >
-                  <PlusIcon className="w-8 fill-gray-purple" />
+                  <PlusIcon className="w-8 fill-muted-foreground" />
                 </StudyButton>
               </div>
               {errors.recruitNum && (
                 <ErrorMessage>{errors.recruitNum?.message}</ErrorMessage>
               )}
             </div>
-            <p className="mb-[34px] mt-[10px] text-sm text-sub-purple">
+            <p className="mb-[34px] mt-2.5 text-sm text-secondary">
               4~8명이 적당한 스터디 인원이에요
             </p>
             {/* 관련 태그 */}
-            <label className="font-bold" htmlFor="tags">
+            <label className="mb-2.5 font-semibold" htmlFor="tags">
               관련 태그
             </label>
-            <StudyInput
-              id="tags"
-              name="tags"
-              type="text"
-              onChange={handleTagsInputChange}
-              onKeyDown={handleKeyDown}
-              value={tagsInput}
-              placeholder="관련된 태그를 작성해주세요 (최대 10개)"
-              errors={errors}
-              register={register}
-            />
-
-            <p className="mb-[34px] mt-[10px] text-sm text-sub-purple">
-              관련 태그는 최대 10개까지 가능해요
-            </p>
-            {/* 작성한 태그 리스트 */}
-            <ul className="mb-[34px] flex flex-grow-0 flex-wrap gap-2">
+            <div className="focus:border-main-purple flex min-h-[52px] w-full flex-initial flex-wrap gap-2 rounded-lg border bg-white py-2 pl-4 pr-14 outline-none transition-all">
+              {/* 작성한 태그 리스트 */}
               {tags.map((tag, index) => (
-                <li
+                <span
                   key={index}
-                  className="inline-flex w-auto rounded-lg bg-light-purple px-2 py-[5px] text-sm text-dark-gray"
+                  className="inline-flex items-center rounded-lg bg-accent px-2 py-[5px] text-sm"
                 >
+                  {tag}
                   <button
                     type="button"
                     onClick={() => handleDeleteTag(tag)}
-                    className="mr-1"
+                    className="ml-1 text-xs text-white"
                   >
-                    <DeleteIcon />
+                    <CloseIcon className="h-3 w-3 fill-[#888888]" />
                   </button>
-                  {tag}
-                </li>
+                </span>
               ))}
-            </ul>
+
+              {/* 인풋 필드 */}
+              <input
+                id="tags"
+                name="tags"
+                type="text"
+                onChange={handleTagsInputChange}
+                onKeyDown={handleKeyDown}
+                value={tagsInput}
+                placeholder="관련 태그를 입력해주세요 (최대 10개)"
+                className="flex-grow p-1 outline-none"
+              />
+            </div>
+
+            <p className="mb-[34px] mt-2.5 text-sm text-[#999999]">
+              관련 태그는 최대 10개까지 가능해요
+            </p>
             {/* 추천 태그 */}
-            <p>00님 이런 태그는 어떠세요?</p>
-            <ul className="mt-[10px] flex gap-2">
-              <li className="inline-flex w-auto rounded-lg bg-light-purple px-2 py-[5px] text-sm text-dark-gray">
+            <p>{user?.name} 님, 이런 태그는 어떠세요?</p>
+            <ul className="mt-2.5 flex gap-2">
+              <li className="inline-flex w-auto rounded-lg bg-accent px-2 py-[5px] text-sm">
                 자바스크립트
               </li>
-              <li className="inline-flex w-auto rounded-lg bg-light-purple px-2 py-[5px] text-sm text-dark-gray">
+              <li className="inline-flex w-auto rounded-lg bg-accent px-2 py-[5px] text-sm">
                 리액트
               </li>
-              <li className="inline-flex w-auto rounded-lg bg-light-purple px-2 py-[5px] text-sm text-dark-gray">
+              <li className="inline-flex w-auto rounded-lg bg-accent px-2 py-[5px] text-sm">
                 Nextjs
               </li>
-              <li className="inline-flex w-auto rounded-lg bg-light-purple px-2 py-[5px] text-sm text-dark-gray">
+              <li className="inline-flex w-auto rounded-lg bg-accent px-2 py-[5px] text-sm">
                 모각코
               </li>
             </ul>

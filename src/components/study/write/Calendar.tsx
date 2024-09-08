@@ -120,7 +120,7 @@ export default function Calendar({
            [&>button]:!top-[10px]
            [&>button:last-of-type]:!right-[16px] 
            [&>+button:first-of-type +button]:!left-[10px]
-           [&>:last-child>div:last-child>div>div.react-datepicker__day--in-selecting-range]:!bg-light-gray
+           [&>:last-child>div:last-child>div>div.react-datepicker__day--in-selecting-range]:!bg-accent
            "
           // header - [&>*:nth-child(4)>:first-child]
 
@@ -129,7 +129,7 @@ export default function Calendar({
 
             if (date > startDate && date < endDate) {
               classes +=
-                ' !bg-light-gray !text-dark-gray !rounded-full  hover:!bg-middle-gray focus:!bg-middle-gray ';
+                ' !bg-accent !text-text-primary !rounded-full  hover:!bg-border focus:!bg-border ';
             }
 
             if (
@@ -186,7 +186,7 @@ export default function Calendar({
           </div>
         </div>
         {/* 안내문구 */}
-        <p className="mb-[34px] mt-[10px] text-sm text-sub-purple">
+        <p className="mb-[34px] mt-[10px] text-sm text-secondary">
           스터디 시작일이 모집 마감일로 설정돼요
         </p>
       </div>
