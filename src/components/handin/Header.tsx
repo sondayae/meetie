@@ -1,3 +1,5 @@
+'use client';
+
 import { twMerge } from 'tailwind-merge';
 import BackArrowIcon from '../icons/BackArrowIcon';
 
@@ -14,7 +16,7 @@ function Header({ label, leftIcon, rightIcon, useBorderBottom = true }: HeaderTy
     <div className={twMerge('py-2', useBorderBottom && 'border-b')}>
     <div className={`flex items-center justify-between h-[40px] ${px} border-[#E6E6E6]`}>
       {leftIcon &&
-        <span className='flex items-center justify-center hover:cursor-pointer w-[40px] h-[40px]'>
+        <span className='flex items-center justify-center hover:cursor-pointer w-[40px] h-[40px]' onClick={() => window.history.back()}>
           <BackArrowIcon />
         </span>
       }
