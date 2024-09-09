@@ -47,7 +47,6 @@ export default function ProfileSuccess() {
   };
 
   return (
-
     <div className="mx-auto flex h-screen max-w-[600px] flex-col items-center justify-between">
       {/* Header and Description */}
       <div className="mt-12 px-4 text-left">
@@ -78,15 +77,14 @@ export default function ProfileSuccess() {
                   {profile?.job}
                 </p>
                 <p className="text-xs text-gray-500">
-
                   {profile?.personality.join(' · ')}
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <SuccessShadow />
-
+      </div>
+      <SuccessShadow />
 
       {/* Button */}
       <div className="w-full px-4 pb-4">
@@ -100,22 +98,20 @@ export default function ProfileSuccess() {
         </div>
       </div>
 
-
-        <style jsx>{`
-          @keyframes moveCard {
-            0%,
-            100% {
-              transform: translateY(0) rotate(0deg);
-            }
-            50% {
-              transform: translateY(10px) rotate(3deg);
-            }
+      <style jsx>{`
+        @keyframes moveCard {
+          0%,
+          100% {
+            transform: translateY(0) rotate(0deg);
           }
-          .animate-moveCard {
-            animation: moveCard 3s ease-in-out infinite;
+          50% {
+            transform: translateY(10px) rotate(3deg);
           }
-        `}</style>
-      </div>
+        }
+        .animate-moveCard {
+          animation: moveCard 3s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }
