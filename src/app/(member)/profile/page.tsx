@@ -5,7 +5,6 @@ import Button from '@/components/common/Button';
 import { useUser } from '@/stores/user/user';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import ProfileImg from '@/components/common/ProfileImg';
 
 import ProfileAvatar from '@/components/common/ProfileAvatar';
 import Header from '@/components/handin/Header';
@@ -48,11 +47,9 @@ export default function UserProfile() {
     router.push('/'); // 홈 화면으로 이동
   };
 
-
   const handleBackClick = () => {
     router.push('/profile/success');
   };
-
 
   return (
     <>
