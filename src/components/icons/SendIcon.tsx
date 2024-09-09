@@ -1,4 +1,4 @@
-const SendIcon = () => {
+export default function SendIcon() {
   return (
     <svg
       width="24"
@@ -32,4 +32,3 @@ const SendIcon = () => {
     </svg>
   );
 };
-export default SendIcon;
