@@ -98,7 +98,9 @@ export default function ProfileForm({
               value={nickname}
               placeholder="닉네임을 입력해주세요"
               onChange={handleNicknameChange}
+
               className="w-full flex-initial truncate rounded-lg border bg-white py-[14px] pl-4 pr-14 outline-none transition-all focus:border-primary"
+
             />
           </div>
           <div className="">
@@ -113,7 +115,9 @@ export default function ProfileForm({
               value={introduction}
               placeholder="자신을 나타낼 수 있는 소개글을 작성해주세요"
               onChange={handleIntroductionChange}
+
               className="w-full flex-initial truncate rounded-lg border bg-white py-[14px] pl-4 pr-14 outline-none transition-all focus:border-primary"
+
             />
           </div>
         </form>

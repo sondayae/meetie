@@ -10,7 +10,6 @@ import SelectBox from '@/components/studyRoom/SelectBox';
 import ImageFrame from '@/components/handin/ImageFrame';
 import ImageInput from '@/components/handin/ImageInput';
 import Button from '@/components/common/Button';
-import { createHandin } from '@/lib/actions/handin';
 import SelectModal from '@/components/handin/SelectModal';
 
 const MAX_LENGTH = 500;
@@ -45,10 +44,10 @@ const page = ({ params }: { params: { id: string } }) => {
   }, [selected]);
 
   const formAction = async (formData: FormData) => {
-    const { success } = await createHandin(formData);
-    if (success) {
-      router.push('./complete');
-    }
+    // const { success } = await createHandin(formData);
+    // if (success) {
+    //   router.push('./complete');
+    // }
   };
 
   const handleFileClick = () => {
@@ -94,7 +93,7 @@ const page = ({ params }: { params: { id: string } }) => {
           <Mark label={'진행중'} />
         </div>
         <div className="pb-[24px]">
-          <SelectBox selected={selected} setShowModal={setShowModal} />
+          <SelectBox selected={selected} handleClick={setShowModal} />
         </div>
         <div onClick={handleFileClick} className="mb-[40px]">
           {previews ? (

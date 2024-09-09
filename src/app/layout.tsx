@@ -1,6 +1,7 @@
 import localFont from 'next/font/local';
 
 import '@/css/globals.css';
+import ReactQueryClientProvider from '@/config/ReactQueryClientProvider';
 import InitUser from '@/stores/user/InitUser';
 import supabaseServer from '@/utils/supabase/server';
 
@@ -44,13 +45,17 @@ export default async function RootLayout({
   const { data } = await supabase.auth.getUser();
 
   return (
-    <html lang="ko">
-      <body className={`${pretendard.className}`}>
-        <div id='wrapper' className='max-w-[600px] h-[100dvh] m-auto'>
+
+    <ReactQueryClientProvider>
+      <html lang="ko">
+        <body className={`${pretendard.className}`}>
+          <div id="wrapper" className="m-auto h-[100dvh] max-w-[600px] flex flex-col">
             {children}
             <InitUser user={data.user} />
-        </div>
-      </body>
-    </html>
+          </div>
+        </body>
+      </html>
+    </ReactQueryClientProvider>
+
   );
 }

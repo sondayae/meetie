@@ -65,6 +65,11 @@ export default function StudyInput<T extends FieldValues>({
           readOnly={readOnly}
         />
       </div>
+      {hasError && (
+        <span className="text-sm text-red-400">
+          {errors[name]?.message as string}
+        </span>
+      )}
     </div>
   );
 }
