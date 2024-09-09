@@ -1,6 +1,7 @@
 import { getSchedule, getUpcomingSchedule } from '@/apis/calendar';
-import Calendar from '@/components/schedulePage/Calendar';
-import UpcomingSchedule from '@/components/schedulePage/UpcomingSchedule';
+import Calendar from '@/components/calendarPage/Calendar';
+import UpcomingSchedule from '@/components/calendarPage/UpcomingSchedule';
+import TabMenu from '@/components/studyRoom/TabMenu';
 
 export default async function Schedule({ params }: { params: { id: number } }) {
   const schedule = await getSchedule(new Date(), params.id);
@@ -56,24 +57,27 @@ export default async function Schedule({ params }: { params: { id: number } }) {
   //   return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   // };
   return (
-    <div className="mb-28">
-      <div className="px-4 pb-5 pt-10">
-        <p className="text-lg font-bold">🤙 팀원과의 약속</p>
-        <span className="text-sm text-muted-foreground">
-          #이번 주의 과제와 회의 시간을 확인해보세요
-        </span>
+    <>
+      <TabMenu />
+      <div className="mb-28">
+        <div className="px-4 pb-5 pt-10">
+          <p className="text-lg font-bold">🤙 팀원과의 약속</p>
+          <span className="text-sm text-muted-foreground">
+            #이번 주의 과제와 회의 시간을 확인해보세요
+          </span>
+        </div>
+
+        <Calendar initialSchedule={schedule} studyRoomId={params.id} />
+
+        <div className="px-4 pb-5 pt-10">
+          <p className="text-lg font-bold">✍ 다가오는 일정</p>
+          <span className="text-sm text-muted-foreground">
+            #이번 주의 과제와 회의 시간을 확인해보세요
+          </span>
+        </div>
+
+        <UpcomingSchedule upcomingSchedule={upcomingSchedule} />
       </div>
-
-      <Calendar initialSchedule={schedule} studyRoomId={params.id} />
-
-      <div className="px-4 pb-5 pt-10">
-        <p className="text-lg font-bold">✍ 다가오는 일정</p>
-        <span className="text-sm text-muted-foreground">
-          #이번 주의 과제와 회의 시간을 확인해보세요
-        </span>
-      </div>
-
-      <UpcomingSchedule upcomingSchedule={upcomingSchedule} />
-    </div>
+    </>
   );
 }
