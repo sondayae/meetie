@@ -12,9 +12,9 @@ import ImageFrame from '@/components/handin/ImageFrame';
 import ImageInput from '@/components/handin/ImageInput';
 import SelectModal from '@/components/handin/SelectModal';
 import SelectBox from '@/components/studyRoom/SelectBox';
-import { getHandin, updateHandin } from '@/lib/actions/handin';
 import { getHomeworks } from '@/lib/actions/homework';
 import { getImgUrl } from '@/utils/supabase/storage';
+import { getFeedback, updateHandin } from '@/actions/studyroom/handinActions';
 
 const MAX_LENGTH = 500;
 
@@ -34,7 +34,7 @@ const page = ({ params }: { params: { id: string; editId: string } }) => {
     const { data: homeworks }: any = await getHomeworks(studyRoomId);
     console.log(homeworks);
 
-    const { data: handin }: any = await getHandin(handinId);
+    const { data: handin }: any = await getFeedback(handinId);
     console.log(handin);
 
     setHomeworkList(homeworks);
@@ -86,6 +86,7 @@ const page = ({ params }: { params: { id: string; editId: string } }) => {
 
   return (
     <>
+      {/* 헤더 영역 */}
       {showModal && (
         <SelectModal selectList={homeworkList} setSelected={setSelected} />
       )}
@@ -99,7 +100,7 @@ const page = ({ params }: { params: { id: string; editId: string } }) => {
           <Mark label="진행중" />
         </div>
         <div className="pb-[24px]">
-          <SelectBox selected={selected} setShowModal={setShowModal} />
+          <SelectBox selected={selected} handleClick={setShowModal} />
         </div>
         <div onClick={handleFileClick} className="mb-[40px]">
           {previews ? (
