@@ -15,9 +15,9 @@ export const getSchedule = async (date: Date, id: number) => {
   }
 };
 
-export const getUpcomingSchedule = async () => {
+export const getUpcomingSchedule = async (id: number) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/calendar/upcoming`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/calendar/${id}/upcoming`,
   );
 
   if (!response.ok) {

@@ -4,12 +4,16 @@ import { format, nextMonday } from 'date-fns';
 
 import supabaseServer from '@/utils/supabase/server';
 
-export async function GET() {
+export async function GET(
+  request: Request,
+  { params }: { params: { id: number } },
+) {
   try {
     const supabase = supabaseServer();
     const { data, error } = await supabase
       .from('schedule')
       .select('*')
+      .eq('study_room_id', params.id)
       .gte('event_date', format(new Date(), 'yyyy-MM-dd'))
       .lt('event_date', format(nextMonday(new Date()), 'yyyy-MM-dd'))
       .order('event_date', { ascending: true });
