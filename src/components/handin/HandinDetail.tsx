@@ -1,3 +1,5 @@
+'use client';
+
 import useConfirm from '@/hooks/use-confirm';
 import NewCheckSignIcon from '../icons/NewCheckSignIcon';
 import ImageFrame from './ImageFrame';
@@ -10,7 +12,7 @@ import CustomDropDownMenu from '../common/CustomDropdownMenu';
 import Separator from '../common/Separator';
 
 export default function HandinDetail({
-  handin
+  data
 }: any) {
   const { ConfirmModal, confirm } = useConfirm({
     title: '삭제',
@@ -35,7 +37,7 @@ export default function HandinDetail({
         <div className="flex justify-between p-5 bg-white">
           <div className="flex flex-shrink-0 flex-grow items-center">
             <ProfileAvatar />
-            <span className="ml-[8px] font-bold">{handin.user.name}</span>
+            <span className="ml-[8px] font-bold">{data.user.name}</span>
           </div>
           <div className="relative flex w-full items-center justify-end gap-6">
             <div className="flex items-center">
@@ -48,7 +50,7 @@ export default function HandinDetail({
                 checkClassName="fill-white"
               />
             </div>
-            {loginUser?.id === handin.user.id && (
+            {loginUser?.id === data.user.id && (
               <CustomDropDownMenu 
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
@@ -58,8 +60,8 @@ export default function HandinDetail({
         </div>
         {/* 과제 영역 */}
         <div className='flex flex-col border-y p-4 gap-4 bg-[#FAFAFA]'>
-            <span className="block break-all text-sm mt-10">{handin.text}</span>
-            {handin.images.map((image: { url: string }) => {
+            <span className="block break-all text-sm mt-10">{data.text}</span>
+            {data.images.map((image: { url: string }) => {
               return (
                 <ImageFrame
                   key={image.url}
@@ -69,11 +71,11 @@ export default function HandinDetail({
               );
             })}
           <div className="flex gap-1 items-center text-xs text-[#636363] mt-10">
-            <span>{timeFormatter(handin.created_at)}</span>
+            <span>{timeFormatter(data.created_at)}</span>
             <Separator type='cirlce'/>
-            <span>{dateFormatter(handin.created_at)}</span>
+            <span>{dateFormatter(data.created_at)}</span>
             <Separator type='cirlce'/>
-            <span>{handin.homework.title}</span>
+            <span>{data.homework.title}</span>
           </div>
         </div>
       </div>

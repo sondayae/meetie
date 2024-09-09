@@ -12,8 +12,7 @@ import CustomDropDownMenu from '../common/CustomDropdownMenu';
 import { useRouter } from 'next/navigation';
 import useConfirm from '@/hooks/use-confirm';
 
-export default function data({data} : {data: any}) {
-  
+export default function Handin({data} : {data: any}) {
   const router = useRouter();
   const handleEdit = (e: any) => {
     e.stopPropagation();
