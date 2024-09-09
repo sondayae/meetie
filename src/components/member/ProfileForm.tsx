@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import ProfileAvatar from '../common/ProfileAvatar';
 import { useUser } from '@/stores/user/user';
+import My from '../icons/Navigator/My';
 
 interface ProfileFormProps {
   onFileChange: (file: File | null) => void;
@@ -69,10 +70,11 @@ export default function ProfileForm({
 
       <div className="mb-[138px] flex flex-col items-center">
         <ProfileAvatar
-          src={profileImage || 'https://images.unsplash.com/broken'}
+          src={profileImage || undefined}
           alt="Profile"
           onClick={handleAvatarClick}
           className="mb-8 h-24 w-24 cursor-pointer"
+          fallback={<My className="h-12 w-12" />}
         />
 
         {/* 숨겨진 파일 입력 요소 */}
@@ -98,9 +100,7 @@ export default function ProfileForm({
               value={nickname}
               placeholder="닉네임을 입력해주세요"
               onChange={handleNicknameChange}
-
               className="w-full flex-initial truncate rounded-lg border bg-white py-[14px] pl-4 pr-14 outline-none transition-all focus:border-primary"
-
             />
           </div>
           <div className="">
@@ -115,9 +115,7 @@ export default function ProfileForm({
               value={introduction}
               placeholder="자신을 나타낼 수 있는 소개글을 작성해주세요"
               onChange={handleIntroductionChange}
-
               className="w-full flex-initial truncate rounded-lg border bg-white py-[14px] pl-4 pr-14 outline-none transition-all focus:border-primary"
-
             />
           </div>
         </form>
