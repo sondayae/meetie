@@ -55,7 +55,7 @@ export default function UserProfile() {
     <>
       <Header
         label="오픈 프로필"
-        leftIcon=<Link href={'/profile/success'}></Link>
+        leftIcon={<Link href={'/profile/success'} />}
         rightIcon
       />
       <div className="flex flex-col items-center">

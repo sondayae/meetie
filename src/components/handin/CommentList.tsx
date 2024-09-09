@@ -7,7 +7,7 @@ import Comment from './Comment';
 import { useState } from 'react';
 import { getComments } from '@/actions/studyroom/commentActions';
 
-export default function CommentList({targetId}) {
+export default function CommentList({targetId}: {targetId: string}) {
 
 
   const getCommentList = useQuery({
@@ -19,8 +19,7 @@ export default function CommentList({targetId}) {
   });
 
   return (
-    <>
-    <div className='bg-[#fafafa]'>
+    <div className='bg-[#FAFAFA] bg-opacity-45'>
       {getCommentList.data?.map(comment => (
           <Comment
             key={comment.id}
@@ -28,6 +27,5 @@ export default function CommentList({targetId}) {
           />
       ))}
     </div>
-  </>
   )
 }

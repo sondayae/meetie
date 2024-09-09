@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 export default function WavingHand() {
-  const handImg = 'https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/hand.png';
+  const handImg = 'https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/waving-hand-blue.png';
   return (
   <>
   <Image 

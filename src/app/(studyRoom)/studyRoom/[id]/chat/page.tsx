@@ -37,7 +37,7 @@ export default function page({ params }: { params: { id: string } }) {
     }
   });
 
-  const handleClick = (member: object) => {
+  const handleClick = (member: {id: string, participantId: string}) => {
     setSelectedUserId(member.participantId);
     router.push(`./chat/${member.id}`);
   }

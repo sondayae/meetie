@@ -36,7 +36,7 @@ export default function Navigator() {
     },
   ];
   return (
-    <div className="flex justify-around bg-white py-2 drop-shadow">
+    <div className="flex bg-white p-2 drop-shadow m-w-[600px] justify-between sticky bottom-0">
       {menus.map((menu) => {
         return (
           <Link key={menu.name} href={menu.path}>
@@ -44,10 +44,10 @@ export default function Navigator() {
               className={twMerge(
                 'flex flex-col items-center justify-center gap-1 text-xs',
                 path.includes(menu.path)
-                  ? 'text-primary'
-                  : 'text-muted-foreground',
+                ? 'text-primary'
+                : 'text-muted-foreground',
               )}
-            >
+              >
               <span>{menu.icon}</span>
               <span>{menu.name}</span>
             </div>

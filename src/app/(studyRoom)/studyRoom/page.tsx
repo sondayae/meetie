@@ -43,7 +43,7 @@ export default function StudyPage() {
         <Header label='스터디룸' rightIcon={<Question />}/>
       </div>
       {/* 콘텐츠 영역 */}
-      <div className='flex-grow bg-muted p-4'>
+      <div className='flex-1 p-4 bg-muted'>
         <div className='mb-8'>
           <h1 className='font-bold text-lg mb-2'>아직 스터디룸이<br/>존재하지 않아요!</h1>
           <p className='text-sm text-muted-foreground'>#원하는 스터디 룸을 탐색해볼까요?</p>
@@ -59,11 +59,12 @@ export default function StudyPage() {
             </div>
             <div>
               <Image 
-                src='https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/thinking-face.gif'
+                src='https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/thinking-face-blue-bg-white.gif'
                 width={80}
                 height={80}
                 alt='생각하는 이미지'
                 priority
+                unoptimized
               />
             </div>
           </div>

@@ -8,7 +8,7 @@ import useConfirm from '@/hooks/use-confirm';
 import { dateFormatter } from '@/utils/common/dateFormatter';
 import ProfileAvatar from '../common/ProfileAvatar';
 import { useMutation } from '@tanstack/react-query';
-import { updateComment } from '@/actions/studyroom/handinActions';
+import { deleteComment, updateComment } from '@/actions/studyroom/commentActions';
 import { queryClient } from '@/config/ReactQueryClientProvider';
 import AddReaction from '../icons/AddReaction';
 import Picker from '@emoji-mart/react'
@@ -26,8 +26,8 @@ export default function Comment({
   const [isEdit, setIsEdit] = useState(false);
   const [text, setText] = useState(comment.comment);
   const [showEmoji, setShowEmoji] = useState(false);
-  const reactionListWithCount = comment.reactions.reduce((acc, current) => {
-    const existingEntry = acc.find(item => item.emoji === current.emoji);
+  const reactionListWithCount = comment.reactions.reduce((acc: any, current: any) => {
+    const existingEntry = acc.find((item: any) => item.emoji === current.emoji);
   
     if (existingEntry) {
       // 이미 해당 value가 존재하면 count를 증가
@@ -80,22 +80,19 @@ export default function Comment({
         targetId: comment.id,
         emoji: emoji,
       }),
-      onSuccess: (data) => {
-        console.log(data);
-        
+      onSuccess: (data) => {        
         setShowEmoji(false);
         queryClient.invalidateQueries({queryKey: ['comments']});
       }
   });
 
-  const handleEmojiSelect = (emoji) => {
+  const handleEmojiSelect = (emoji: string) => {
     createReactionMutation.mutate(emoji);
-    console.log(emoji);
   }
 
-  const handleEmojiPicketSelect = (e) => {
+  const handleEmojiPicketSelect = (e: any) => {
     const sym = '0x' + e.unified;
-    const emoji = String.fromCodePoint(sym);
+    const emoji = String.fromCodePoint(Number(sym));
     handleEmojiSelect(emoji);
   }
 
@@ -104,7 +101,7 @@ export default function Comment({
       <ConfirmModal />
       <div
         key={comment.id}
-        className="border-x border-b border-[#efefef] bg-[#FAFAFA] bg-opacity-45 p-[18px]"
+        className="border-x border-b border-[#efefef] p-[18px]"
       >
         <div className="flex gap-[12px]">
           <div>
@@ -139,41 +136,44 @@ export default function Comment({
             </div>
           )}
           {!isEdit && (
-            <div className="flex w-full flex-col gap-[4px]">
-              <div className="relative flex flex-nowrap justify-between">
-                <div className="flex items-center">
-                  <span className="mr-[7px] font-bold">
-                    {comment.user?.name}
-                  </span>
-                  <span className="text-xs text-[#898989]">
-                    {dateFormatter(comment.created_at)}
-                  </span>
+            <div className="flex w-full flex-col gap-5">
+              <div className='flex flex-col gap-1'>
+                <div className="relative flex flex-nowrap justify-between">
+                  <div className="flex items-center">
+                    <span className="mr-[7px] font-bold">
+                      {comment.user?.name}
+                    </span>
+                    <span className="text-xs text-[#898989]">
+                      {dateFormatter(comment.created_at)}
+                    </span>
+                  </div>
+                  <DropDownMenu
+                    handleEdit={() => setIsEdit(true)}
+                    handleDelete={handleDelete}
+                    />
                 </div>
-                <DropDownMenu
-                  handleEdit={() => setIsEdit(true)}
-                  handleDelete={handleDelete}
-                />
+                <span className="break-all text-sm">
+                  {comment.comment}
+                  {!!comment.sending && <small>(Sending...)</small>}
+                </span>
               </div>
-              <span className="break-all text-sm">
-                {comment.comment}
-                {!!comment.sending && <small>(Sending...)</small>}
-              </span>
-              <div className='flex relative items-center gap-1'>
-                <span className='p-2 border border-[#DDDDDD] rounded-lg bg-[#F3F3F3]' onClick={() => setShowEmoji(!showEmoji)}>
+              <div className='flex relative items-center gap-2'>
+                <span className='p-2 border border-[#DDDDDD] rounded-lg bg-[#F3F3F3] cursor-pointer' onClick={() => setShowEmoji(!showEmoji)}>
                   <AddReaction />
                 </span>
-                {reactionListWithCount.map((reaction, idx) => 
-                  <span
+                {reactionListWithCount.map((reaction: {emoji: string, count: string}, idx: string) => 
+                  <div
                     key={idx} 
-                    className='py-1 px-2 border border-[#DDDDDD] rounded-lg bg-[#F3F3F3]'
+                    className='py-1 px-2 border border-[#DDDDDD] rounded-lg bg-[#F3F3F3] cursor-pointer flex gap-2 items-center'
                     onClick={() => handleEmojiSelect(reaction.emoji)}
                   >
-                    {reaction.emoji} {reaction.count}
-                  </span>
+                    <span>{reaction.emoji}</span>
+                    <span className='text-xs'>{reaction.count}</span>
+                  </div>
                 )}
                 {showEmoji &&
                   <div className='absolute bottom-10'>
-                    <Picker onEmojiSelect={(e) => handleEmojiPicketSelect(e)} locale={'ko'}/>
+                    <Picker onEmojiSelect={(e: any) => handleEmojiPicketSelect(e)} locale={'ko'}/>
                   </div>
                 }
               </div>

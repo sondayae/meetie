@@ -27,3 +27,13 @@ export const useMessageStore = create<MessageStore>((set) => ({
   message: '',
   setMessage: (message) => set(() => ({ message: message })),
 }));
+
+type ChatPresenceStore = {
+  presence: any;
+  setPresence: (presence: any) => void;
+};
+
+export const useChatPresenceStore = create<ChatPresenceStore>((set) => ({
+  presence: null,
+  setPresence: (presence) => set(() => ({ presence: presence })),
+}));

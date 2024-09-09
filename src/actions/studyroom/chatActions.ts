@@ -15,7 +15,7 @@ import supabaseServer, { adminAuthClient } from '@/utils/supabase/server';
 //   return users.slice(0,5);
 // }
 
-export async function getUserById(userId: string) {
+export async function getUserById(userId: string|null) {
   if (!userId) {
     return null;
   }
@@ -49,7 +49,7 @@ export async function getMembers(studyId: string) {
   return data;
 }
 
-export async function sendMessage({message, chatUserId}) {
+export async function sendMessage({message, chatUserId}: {message: string, chatUserId: string|null}) {
   const supabase = supabaseServer();
   const userId = await getServerUserId();
 
@@ -62,7 +62,7 @@ export async function sendMessage({message, chatUserId}) {
   return data;
 }
 
-export async function getAllMessages({chatUserId}: {chatUserId: string}) {
+export async function getAllMessages({chatUserId}: {chatUserId: string|null}) {
   const supabase = supabaseServer();
   const userId = await getServerUserId();
 
