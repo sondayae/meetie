@@ -169,30 +169,6 @@ export async function getFeedback(handinId: string) {
   }
 }
 
-export async function getFeedbacks(studyId: string) {
-  const supabase = supabaseServer();
-  try {
-    if (!studyId) {
-      throw new Error('studyRoom id is required');
-    }
-
-    const { data, error } = await supabase
-      .from('handin')
-      .select(
-        'id, text, created_at, homework(id, title), user(id, name, images(url)), images(url), comments(count), feedback_reactions(*)',
-      )
-      .order('created_at', { ascending: false })
-      .eq('study_id', studyId);
-
-    handleError(error);
-    
-    return data;
-
-  } catch (err: any) {
-    return err.message;
-  }
-}
-
 export async function getJoinedStudyRoomList() {
   const supabase = supabaseServer();
   const userId = await getServerUserId();

@@ -7,20 +7,13 @@ import Plus from '@/components/icons/Header/Plus';
 import SelectBox from '@/components/studyRoom/SelectBox';
 import TabMenu from '@/components/studyRoom/TabMenu';
 import supabaseServer from '@/utils/supabase/server';
-import { PlusCircleIcon } from 'lucide-react';
 import Navigator from '@/components/common/Navigator';
+import AddFeedbackBtn from '@/components/handin/AddFeedbackBtn';
+import { getFeedbacks } from '@/actions/studyroom/feedbackActions';
+import { Feedback } from '@/types/feedbacks';
 
 export default async function page({ params }: { params: { id: string } }) {
-  const supabase = supabaseServer();
-  let { data } = await supabase
-    .from('handin')
-    .select('*, homework(*), user(*, images(*)), images(*), comments(count)')
-    .order('created_at', {ascending: false})
-    .eq('study_id', params.id);
-
-  console.log(data);
-  
-
+  const data: Feedback[] = await getFeedbacks(params.id);
   // TODO 가입된 스터디룸 정보 가져와서 selectBox 에 표기
 
   return (
@@ -54,7 +47,7 @@ export default async function page({ params }: { params: { id: string } }) {
         </div>
         <div className="p-4">
           <div className="mb-6 flex justify-between">
-            <span className="font-semibold">6월</span>
+            <span className="font-semibold">9월</span>
             <span>
               <EventCalendarIcon />
             </span>
@@ -63,7 +56,7 @@ export default async function page({ params }: { params: { id: string } }) {
         {/* 콘텐츠 영역 - 과제 인증 리스트 */}
         <div className="rounded-t-xl bg-white drop-shadow-md">
           <div className="flex flex-col gap-1 border-b p-8">
-            <h1 className="text-lg font-semibold">✏️ 6월 4일 화요일</h1>
+            <h1 className="text-lg font-semibold">✏️ 9월 4일 화요일</h1>
             <p className="text-sm text-muted-foreground">
               과제를 인증한 팀원들을 확인해 보세요.
             </p>
@@ -72,12 +65,7 @@ export default async function page({ params }: { params: { id: string } }) {
             {data?.map((item) => <Handin key={item.id} data={item} />)}
             {!data && <SkeletonFeedback />}
           </div>
-          <div className="bg-white p-8">
-            <button className="flex w-full justify-center gap-2 rounded-lg border-2 border-dotted border-border px-4 py-3.5 text-muted-foreground">
-              <PlusCircleIcon />
-              과제 인증하기
-            </button>
-          </div>
+          <AddFeedbackBtn />
         </div>
       </div>
       <Navigator />

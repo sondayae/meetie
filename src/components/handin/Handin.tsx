@@ -11,8 +11,9 @@ import { getImgUrl } from '@/utils/supabase/storage';
 import CustomDropDownMenu from '../common/CustomDropdownMenu';
 import { useRouter } from 'next/navigation';
 import useConfirm from '@/hooks/use-confirm';
+import { Feedback } from '@/types/feedbacks';
 
-export default function Handin({data} : {data: any}) {
+export default function Handin({ data }: {data : Feedback}) {
   const router = useRouter();
   const handleEdit = (e: any) => {
     e.stopPropagation();
@@ -58,7 +59,7 @@ export default function Handin({data} : {data: any}) {
           </div>
           <div>
             <ImageFrame
-              src={getImgUrl(data.images[0].url)}
+              src={getImgUrl(data.images?.[0].url)}
               alt="data_image"
               />
           </div>
@@ -73,13 +74,13 @@ export default function Handin({data} : {data: any}) {
                 <span>
                   <EmojiIcon />
                 </span>
-                <span className="text-xs text-[#636363]">{data.emojiCount}</span>
+                <span className="text-xs text-[#636363]">{data.feedback_reactions.length}</span>
               </div>
               <div className="flex items-center gap-1">
                 <span>
                   <CommentIcon />
                 </span>
-                <span className="text-xs text-[#636363]">{data.commentCount}</span>
+                <span className="text-xs text-[#636363]">{data.comments.length}</span>
               </div>
             </div>
           </div>
