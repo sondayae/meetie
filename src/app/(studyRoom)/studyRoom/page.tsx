@@ -38,6 +38,7 @@ export default function StudyPage() {
 
   return (
     <>
+
       {/* 헤더 영역 */}
       <div className='bg-muted'>
         <Header label='스터디룸' rightIcon={<Question />}/>
@@ -83,6 +84,7 @@ export default function StudyPage() {
       </div>
       {/* 푸터 영역 */}
       <Navigator />
+
     </>
   );
 }

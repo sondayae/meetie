@@ -1,4 +1,6 @@
+
 import ProfileAvatar from '../common/ProfileAvatar';
+
 
 interface SuccessCrownProps {
   avatarSrc?: string;
@@ -6,9 +8,11 @@ interface SuccessCrownProps {
 
 export default function SuccessCrown({ avatarSrc }: SuccessCrownProps) {
   return (
+
     <div className="relative h-28 w-28">
       <div className="absolute inset-0 z-20 flex translate-y-2 items-center justify-center">
         <ProfileAvatar
+
           src={avatarSrc}
           className="clip-path-circle mt-4 h-20 w-20 object-cover"
         />

@@ -91,6 +91,7 @@ export default function Calendar({
           ref={datePickerRef}
           locale={ko}
           dateFormat={'YYYY.MM.dd (eee)'}
+          dateFormatCalendar={'yyyy년 MMMM'}
           selectsRange
           selected={startDate}
           startDate={startDate}
@@ -105,8 +106,8 @@ export default function Calendar({
           
           [&>*:last-child>:first-child]:!bg-white
           [&>*:last-child>:first-child]:!pt-4
-          [&>*:last-child>:first-child]:!border-b-[#e2e2e2]
-          [&>*:last-child>:first-child>*]:!text-base
+          [&>*:last-child>:first-child]:!border-b-[#f1f1f1]
+          [&>*:last-child>:first-child>*]:!text-base !rounded-lg
           [&>*:last-child>:first-child>*]:!font-normal
 
 
@@ -116,28 +117,39 @@ export default function Calendar({
            [&>button>*:before]:!w-4 
            [&>button>*:before]:!h-4
            
-           [&>button:first-child]:!left-[16px] 
            [&>button]:!top-[10px]
            [&>button:last-of-type]:!right-[16px] 
-           [&>+button:first-of-type +button]:!left-[10px]
-           [&>:last-child>div:last-child>div>div.react-datepicker__day--in-selecting-range]:!bg-light-gray
+         
            "
           // header - [&>*:nth-child(4)>:first-child]
 
           dayClassName={(date: Date) => {
             let classes = '';
 
-            if (date > startDate && date < endDate) {
-              classes +=
-                ' !bg-light-gray !text-dark-gray !rounded-full  hover:!bg-middle-gray focus:!bg-middle-gray ';
+            // 토요일인 경우
+            if (date.getDay() === 6) {
+              classes += '!text-blue-500';
             }
 
+            // 일요일인 경우
+            if (date.getDay() === 0) {
+              classes += '!text-red-500 ';
+            }
+
+            // 선택된 날짜인 경우
+            if (date > startDate && date < endDate) {
+              classes +=
+                ' !bg-accent !text-black !rounded-full hover:!bg-[#E3E3E3] focus:!bg-border ';
+            }
+
+            // 시작일, 종료일인 경우
             if (
               `${date.getFullYear()}${date.getMonth()}${date.getDate()}` ===
               `${startDate.getFullYear()}${startDate.getMonth()}${startDate.getDate()}`
             ) {
               classes = ' !bg-primary !rounded-full';
             }
+            // 종료일인 경우
             if (
               `${date.getFullYear()}${date.getMonth()}${date.getDate()}` ===
               `${endDate?.getFullYear()}${endDate?.getMonth()}${endDate?.getDate()}`
@@ -147,9 +159,14 @@ export default function Calendar({
 
             return classes;
           }}
-          weekDayClassName={(date: Date) => {
-            return date ? '!text-[#777] text-sm' : '';
-          }}
+          // 요일 스타일
+          weekDayClassName={(date: Date) =>
+            date && date.getDay() === 6
+              ? '!text-blue-500 text-sm'
+              : date && date.getDay() === 0
+                ? '!text-red-500 text-sm'
+                : '!text-[#777] text-sm'
+          }
         />
         {/* 캘린더 선택 결과 표시 */}
         <div
@@ -186,7 +203,7 @@ export default function Calendar({
           </div>
         </div>
         {/* 안내문구 */}
-        <p className="mb-[34px] mt-[10px] text-sm text-sub-purple">
+        <p className="mb-[34px] mt-[10px] text-sm text-secondary">
           스터디 시작일이 모집 마감일로 설정돼요
         </p>
       </div>

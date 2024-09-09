@@ -6,7 +6,7 @@ import MoreIcon from '../icons/MoreIcon';
 import { useState } from 'react';
 import BackArrowIcon from '../icons/BackArrowIcon';
 import ToggleMenu from './ToggleMenu';
-import StudyButton from '../common/StudyButton';
+import StudyButton from './write/StudyButton';
 
 export default function NavLink({
   pathName,

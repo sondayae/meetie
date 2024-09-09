@@ -45,6 +45,7 @@ export default async function RootLayout({
   const { data } = await supabase.auth.getUser();
 
   return (
+
     <ReactQueryClientProvider>
       <html lang="ko">
         <body className={`${pretendard.className}`}>
@@ -55,5 +56,6 @@ export default async function RootLayout({
         </body>
       </html>
     </ReactQueryClientProvider>
+
   );
 }

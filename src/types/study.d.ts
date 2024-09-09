@@ -27,4 +27,8 @@ export type Study = {
   //
   viewCount?: Number;
   isRecruiting?: boolean;
+  // 작성자
+  author: string;
+  //
+  scraped?: boolean;
 };

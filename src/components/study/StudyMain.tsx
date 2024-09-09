@@ -17,7 +17,7 @@ interface Study {
   };
 }
 
-export default function StudyDetail({
+export default function StudyMain({
   title,
   endDate,
   startDate,
@@ -35,19 +35,21 @@ export default function StudyDetail({
 
   return (
     <>
-      <div className="flex flex-col gap-8 p-4">
-        <header className="flex flex-col gap-2 border-b-2 border-light-gray pb-4">
+      <main className="flex flex-col gap-8 p-4">
+        <header className="border-light-gray flex flex-col gap-2 border-b-2 pb-4">
+          {/* title, d-day */}
           <div className="mb-2 flex w-full items-center gap-4">
-            <p className="text-[24px] font-bold">{title}</p>
-            <span className="rounded-full border-[1px] border-sub-purple px-2 py-1 text-[14px] text-sub-purple">
-              {`D - ${ddays}`}
+            <p className="text-[24px] font-semibold">{title}</p>
+            <span className="rounded-full border-[1px] border-secondary px-2 py-1 text-[14px] text-secondary">
+              {ddays > 0 ? `D - ${ddays}` : `D + ${Math.abs(ddays)}`}
             </span>
           </div>
+
           <div className="mb-2 w-full overflow-hidden">
             {tags?.map((tag, idx) => (
               <span
                 key={idx}
-                className="mr-2 rounded-lg bg-[#f5f1ff] px-2 py-2 text-[14px] text-[#434343]"
+                className="text-text-primary mr-2 rounded-lg bg-[#f5f1ff] px-[10px] py-[5px] text-[14px]"
               >
                 {tag}
               </span>
@@ -102,7 +104,7 @@ export default function StudyDetail({
             </p>
           </div>
         </main>
-      </div>
+      </main>
     </>
   );
 }

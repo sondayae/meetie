@@ -46,8 +46,6 @@ export async function PATCH(
       .eq('id', params.studyId)
       .single();
 
-    console.log(`studyData: ${studyData}`);
-    console.log(studyData);
 
     // Update the study status in the database
     const { data, error } = await supabase

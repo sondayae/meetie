@@ -1,7 +1,7 @@
 import { useState } from 'react';
 // import CheckSign from '../handin/CheckSign';
-import UnCheckedIcon from '../icons/UncheckedIcon';
-import CheckedIcon from '../icons/CheckedIcon';
+import UnCheckedIcon from '../../icons/UncheckedIcon';
+import CheckedIcon from '../../icons/CheckedIcon';
 
 type BottomSheetProps = {
   title: string;
