@@ -1,88 +1,41 @@
-'use client';
-import { fetchStudyList } from '@/actions/studyList.action';
-import BookmarkIcon from '@/components/icons/Bookmark';
+// 'use client';
 import CalendarSmallIcon from '@/components/icons/CalendarSmallIcon';
 import EyeIcon from '@/components/icons/EyeIcon';
 import ScrapIcon from '@/components/icons/Scrap';
-import { Study } from '@/types/study';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import SearchSkeleton from './SearchSkeleton';
 import { Checkbox } from '@/components/ui/checkbox';
-import Select from '@/components/form/Select';
+import { Study } from '@/types/study';
+import { useFilterStore } from '@/stores/search/useFilterStore';
+import { useEffect } from 'react';
 
-export default function StudyList() {
-  const [loading, setLoading] = useState(true);
-  const [studyList, setStudyList] = useState<Study[]>([]);
-  const [selectedFilter, setSelectedFilter] = useState<string>('desc');
+type StudyListProps = {
+  loading: boolean;
+};
 
-  function sortStudiesByDate(studyList: Study[], order: string) {
-    return studyList.sort((a, b) => {
-      return order === 'asc'
-        ? new Date(String(a.created_at)).getTime() -
-            new Date(String(b.created_at)).getTime()
-        : new Date(String(b.created_at)).getTime() -
-            new Date(String(a.created_at)).getTime();
-    });
-  }
-  function sortStudiesByViewCount(studyList: Study[]) {
-    return studyList.sort((a, b) => Number(b.viewCount) - Number(a.viewCount));
-  }
+export default function StudyList({ loading }: StudyListProps) {
+  const { filteredList, isRecruiting, setIsRecruiting, setStudyList } =
+    useFilterStore();
 
-  useEffect(() => {
-    const fetchStudies = async () => {
-      try {
-        const studies = await fetchStudyList();
-        const sortedStudies = await (selectedFilter === 'desc'
-          ? sortStudiesByDate(studies, selectedFilter)
-          : sortStudiesByViewCount(studies));
-        setStudyList(sortedStudies);
-        setLoading(false);
-      } catch (error) {
-        console.error('스터디 목록을 가져오는 중 오류가 발생했습니다', error);
-      }
-    };
-
-    fetchStudies();
-  }, [selectedFilter]);
-
+  // 스터디 스크랩 토글
   const handleToggleScrap = (id: string) => {
-    setStudyList((prevStudyList) =>
-      prevStudyList.map((study) =>
-        study.id === id ? { ...study, scraped: !study.scraped } : study,
-      ),
-    );
+    if (setStudyList)
+      setStudyList(
+        filteredList.map((study: Study) =>
+          study.id === id ? { ...study, scraped: !study.scraped } : study,
+        ),
+      );
   };
 
   return (
     <>
-      <div className={'my-5 flex justify-between text-xs text-[#555555]'}>
-        {loading ? (
-          <div
-            className={'my-5 h-4 w-9 animate-pulse rounded-sm bg-[#efefef]'}
-          ></div>
-        ) : (
-          `총 ${studyList.length}건`
-        )}
-        <div>
-          <select onChange={(e) => setSelectedFilter(e.target.value)}>
-            <option value="desc">최신순</option>
-            <option value="viewCount">조회수순</option>
-          </select>
-          <select className="ml-4">
-            <option>등록일 전체</option>
-            <option>최근 1주일</option>
-            <option>최근 1개월</option>
-          </select>
-        </div>
-      </div>
       <div className="flex min-h-dvh w-full flex-col gap-4 bg-[#fafafa] px-4 pb-[100px] pt-4">
         <div className={'flex items-center gap-2 text-sm'}>
           {loading ? (
             <div
-              className={'h-5 w-24 animate-pulse rounded-sm bg-[#efefef]'}
+              className={'h-5 w-24 animate-pulse rounded-sm bg-[#f1f1f1]'}
             ></div>
           ) : (
             <>
@@ -91,15 +44,19 @@ export default function StudyList() {
                 className={
                   'h-4 w-4 border-[#999999] data-[state=checked]:bg-[#837486]'
                 }
+                onClick={() => setIsRecruiting(!isRecruiting)}
               />
-              <label htmlFor={'isRecruting'}> 모집중만 보기</label>
+              <label htmlFor={'isRecruting'} className={'text-[#777777]'}>
+                {' '}
+                모집중만 보기
+              </label>
             </>
           )}
         </div>
         {loading ? (
           <SearchSkeleton />
         ) : (
-          studyList?.map((study) => (
+          filteredList?.map((study) => (
             // 스터디 카드
             <Link
               href={`/study/${study.id}`}

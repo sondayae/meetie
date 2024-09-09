@@ -46,9 +46,9 @@ export default async function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.className}`}>
-        <div id='wrapper' className='max-w-[600px] h-[100dvh] m-auto'>
-            {children}
-            <InitUser user={data.user} />
+        <div id="wrapper" className="m-auto h-[100dvh] max-w-[600px]">
+          {children}
+          <InitUser user={data.user} />
         </div>
       </body>
     </html>

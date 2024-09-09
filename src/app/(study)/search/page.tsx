@@ -5,10 +5,7 @@ import SearchHeader from '@/components/study/search/SearchHeader';
 import UserSearch from '@/components/study/search/UserSearch';
 
 import Navigator from '@/components/common/Navigator';
-import WritingIcon from '@/components/icons/WritingIcon';
-import SearchIcon from '@/components/icons/Navigator/Search';
-import Link from 'next/link';
-import StudyList from '@/components/study/search/StudyList';
+import StudySearch from '@/components/study/search/StudySearch';
 
 const ParentComponent: React.FC = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -39,7 +36,7 @@ const ParentComponent: React.FC = () => {
   return (
     <>
       <div className={'relative h-dvh'}>
-        <h1 className={'my-4 text-lg font-bold'}>탐색하기</h1>
+        <h1 className={'m-4 text-lg font-bold'}>탐색하기</h1>
         <div>
           <SearchHeader
             activeTabIndex={activeTabIndex}
@@ -49,13 +46,9 @@ const ParentComponent: React.FC = () => {
           />
 
           <div className="mt-4">
-            {activeTabIndex === 0 ? <StudyList /> : <UserSearch />}
+            {activeTabIndex === 0 ? <StudySearch /> : <UserSearch />}
           </div>
         </div>
-        {/* 스터디 만들기 바로가기 아이콘 */}
-        <Link href="../study/write">
-          <WritingIcon className="max-w-[600px]:right-6 fixed bottom-[100px] md:right-[24px]" />
-        </Link>
       </div>
       {/* 네비게이션바 */}
       <div className="fixed bottom-0 w-full max-w-[600px]">

@@ -43,11 +43,11 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-gray-200 text-sm text-gray-500">
+      <div className="mb-6 mt-10 flex border-b border-gray-200 text-base text-gray-500">
         <button
           className={`flex-1 px-4 py-2 ${
             activeTabIndex === 0
-              ? 'border-main-purple text-main-purple border-b-2 font-bold'
+              ? 'border-b-2 border-primary font-medium text-black'
               : 'text-gray-300'
           }`}
           onClick={() => onTabChange(0)}
@@ -57,7 +57,7 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
         <button
           className={`flex-1 px-4 py-2 ${
             activeTabIndex === 1
-              ? 'border-main-purple text-main-purple border-b-2 font-bold'
+              ? 'border-b-2 border-primary font-medium text-black'
               : 'text-gray-300'
           }`}
           onClick={() => onTabChange(1)}
