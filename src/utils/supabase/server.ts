@@ -29,17 +29,3 @@ export default function supabaseServer() {
     },
   );
 }
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_SUPABASE_SERVICE_ROLE!,
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  },
-);
-
-// Access auth admin api
-export const adminAuthClient = supabase.auth.admin;
