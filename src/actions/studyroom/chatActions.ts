@@ -1,8 +1,7 @@
 'use server';
 
 import { getServerUserId } from '@/lib/actions/getServerUserId';
-import supabaseServer, { adminAuthClient } from '@/utils/supabase/server';
-
+import supabaseServer from '@/utils/supabase/server';
 
 // export async function getAllUsers() {
 //   const {
@@ -15,12 +14,16 @@ import supabaseServer, { adminAuthClient } from '@/utils/supabase/server';
 //   return users.slice(0,5);
 // }
 
-export async function getUserById(userId: string|null) {
+export async function getUserById(userId: string | null) {
   if (!userId) {
     return null;
   }
   const supabase = supabaseServer();
-  const {data, error} = await supabase.from('user').select('*').eq('id', userId).single();
+  const { data, error } = await supabase
+    .from('user')
+    .select('*')
+    .eq('id', userId)
+    .single();
 
   if (error) {
     return null;
@@ -42,38 +45,54 @@ export async function getUser() {
 
 export async function getMembers(studyId: string) {
   const supabase = supabaseServer();
-  const {data, error} = await supabase.from('studymember').select('*, user(name)').eq('studyId', studyId);
+  const { data, error } = await supabase
+    .from('studymember')
+    .select('*, user(name)')
+    .eq('studyId', studyId);
   if (error) {
     return null;
   }
   return data;
 }
 
-export async function sendMessage({message, chatUserId}: {message: string, chatUserId: string|null}) {
+export async function sendMessage({
+  message,
+  chatUserId,
+}: {
+  message: string;
+  chatUserId: string | null;
+}) {
   const supabase = supabaseServer();
   const userId = await getServerUserId();
 
-  const {data, error} = await supabase.from('message').insert({ message: message, receiver: chatUserId, sender: userId});
-  
+  const { data, error } = await supabase
+    .from('message')
+    .insert({ message: message, receiver: chatUserId, sender: userId });
+
   if (error) {
     return null;
   }
-  
+
   return data;
 }
 
-export async function getAllMessages({chatUserId}: {chatUserId: string|null}) {
+export async function getAllMessages({
+  chatUserId,
+}: {
+  chatUserId: string | null;
+}) {
   const supabase = supabaseServer();
   const userId = await getServerUserId();
 
-  const {data, error} = await supabase.from('message')
-  .select('*')
-  .or(`receiver.eq.${chatUserId}, receiver.eq.${userId}`)
-  .or(`sender.eq.${chatUserId}, sender.eq.${userId}`)
-  .order('created_at', {ascending: true});
+  const { data, error } = await supabase
+    .from('message')
+    .select('*')
+    .or(`receiver.eq.${chatUserId}, receiver.eq.${userId}`)
+    .or(`sender.eq.${chatUserId}, sender.eq.${userId}`)
+    .order('created_at', { ascending: true });
 
   if (error) {
-    return []
+    return [];
   }
   return data;
 }
