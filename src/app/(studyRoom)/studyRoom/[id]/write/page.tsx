@@ -40,7 +40,7 @@ export default function Page() {
 
       if (error) throw error;
 
-      router.push(`../${pathID}/handin`);
+      router.push(`../${pathID}/schedule`);
     } catch (error) {
       console.error('Error during form submission:', error);
     }

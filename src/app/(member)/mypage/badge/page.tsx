@@ -30,7 +30,7 @@ export default function page() {
             <span>
               <AlramIcon />
             </span>
-            <span className="text-xs text-gray-purple">업데이트 매일 오전</span>
+            <span className="text-xs text-muted-foreground">업데이트 매일 오전</span>
           </div>
         </div>
           <div>

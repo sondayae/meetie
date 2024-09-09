@@ -6,7 +6,6 @@ import {
   deleteStudy,
   editStudy,
 } from '@/app/(study)/study/[studyId]/studyAction';
-import { useStudyStore } from '@/app/stores/studyStore';
 
 type ToggleMenuProps = {
   toggleMenu: boolean;

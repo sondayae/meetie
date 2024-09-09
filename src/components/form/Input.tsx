@@ -46,7 +46,7 @@ export default function Input<T extends FieldValues>({
         className={`flex items-center overflow-hidden rounded-lg border ${background === 'white' ? 'bg-white' : 'bg-[#F9F9F9]'} ${hasError ? 'border-red-400' : 'border-[#e9e9e9] focus-within:border-main-purple hover:border-sub-purple'} tab`}
       >
         <Comp
-          className={`w-full flex-initial border-none px-4 py-[14px] placeholder:text-gray-purple focus:outline-none ${background === 'white' ? 'bg-white' : 'bg-[#F9F9F9]'}`}
+          className={`w-full flex-initial border-none px-4 py-[14px] placeholder:text-muted-foreground focus:outline-none ${background === 'white' ? 'bg-white' : 'bg-[#F9F9F9]'}`}
           id={id}
           type={as === 'input' ? type : undefined}
           placeholder={placeholder}

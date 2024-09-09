@@ -2,20 +2,22 @@ import { Icon } from '@/types/icon';
 
 const HomeIcon = (props: Icon) => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
-      <g fill="none" fillRule="evenodd">
-        <path d="M0 0h24v24H0z" stroke="none" />
-        <path
-          strokeLinecap="round"
-          strokeWidth="2"
-          d="M5 10v9c0 .5523.44772 1 1 1h12c.5523 0 1-.4477 1-1v-9"
-        />
-        <path
-          strokeLinecap="round"
-          strokeWidth="2"
-          d="m21 11-8.693-6.76125c-.1806-.14043-.4334-.14043-.614 0L3 11"
-        />
-      </g>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 28 28"
+      fill="none"
+      {...props}
+    >
+      <path
+        strokeLinecap="round"
+        strokeWidth="2"
+        d="M5.83203 11.668v10.5c0 .6443.52234 1.1666 1.16667 1.1666h14c.6443 0 1.1667-.5223 1.1667-1.1666v-10.5"
+      />
+      <path
+        strokeLinecap="round"
+        strokeWidth="2"
+        d="M24.5 12.8352 14.3582 4.9471c-.2107-.16384-.5057-.16384-.7164 0L3.5 12.8352"
+      />
     </svg>
   );
 };

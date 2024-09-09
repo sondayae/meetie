@@ -1,15 +1,25 @@
-export default function ScrapIcon({ fill }: { fill: string }) {
+export default function ScrapIcon({
+  fill,
+  stroke,
+  className,
+}: {
+  fill?: string;
+  stroke?: string;
+  className?: string;
+}) {
   return (
     <svg
-      width="12"
-      height="15"
-      viewBox="0 0 12 15"
-      fill={"none"}
       xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="25"
+      fill="none"
+      className={className}
     >
       <path
-        d="M10 0H1.66667C0.75 0 0 0.75 0 1.66667V15L5.83333 12.5L11.6667 15V1.66667C11.6667 0.75 10.9167 0 10 0ZM10 12.5L5.83333 10.6833L1.66667 12.5V1.66667H10V12.5Z"
         fill={fill}
+        stroke={stroke}
+        strokeWidth={1.4}
+        d="m19 21.5-7-5-7 5v-16c0-.53043.21071-1.03914.58579-1.41421C5.96086 3.71071 6.46957 3.5 7 3.5h10c.5304 0 1.0391.21071 1.4142.58579C18.7893 4.46086 19 4.96957 19 5.5v16Z"
       />
     </svg>
   );

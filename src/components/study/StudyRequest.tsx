@@ -6,14 +6,15 @@ import StudyRequestItem from '@/components/study/StudyRequestItem';
 const groupByDate = (data: any[]) => {
   return data.reduce(
     (acc, item) => {
-      if (item.status === 'wating') {
-        const date = new Date(item.created_at).toISOString().split('T')[0];
-        if (!acc[date]) {
-          acc[date] = [];
-        }
-
-        acc[date].push(item);
+      // 대기중만 표시 => 취소
+      // if (item.status === 'waiting') {
+      const date = new Date(item.created_at).toISOString().split('T')[0];
+      if (!acc[date]) {
+        acc[date] = [];
       }
+
+      acc[date].push(item);
+      // }
       return acc;
     },
     {} as Record<string, any[]>,
@@ -32,35 +33,31 @@ interface PageProps {
   };
   acceptedStudy: number;
   recruitNum: number;
+  applyData: StudyRequestItem[];
 }
 
-export default function Page({ params, acceptedStudy, recruitNum }: PageProps) {
+export default function Page({
+  applyData,
+  params,
+  acceptedStudy,
+  recruitNum,
+}: PageProps) {
   const [data, setData] = useState<StudyRequestItem[]>([]);
   const [groupedData, setGroupedData] = useState<
     Record<string, StudyRequestItem[]>
   >({});
-
-  console.log(params);
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const [acceptedReqStudy, setacceptedReqStudy] = useState(acceptedStudy);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(
-        new URL(`/api/studyrequest/${params.studyId}`, baseUrl).toString(),
-      );
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Error occurred while fetching data');
-      }
-
-      setData(result);
-      setGroupedData(groupByDate(result)); // 데이터를 시간별로 그룹핑
+      setData(applyData);
+      setGroupedData(groupByDate(applyData)); // 데이터를 시간별로 그룹핑
     };
 
     fetchData();
-  }, [params.studyId, baseUrl]);
+  }, [params.studyId]);
+
+  console.log(data);
 
   return (
     <>
@@ -69,12 +66,13 @@ export default function Page({ params, acceptedStudy, recruitNum }: PageProps) {
           <>
             {Object.entries(groupedData).map(([date, items]) => (
               <div key={date}>
-                <div className="font mb-4 text-sm font-medium text-dark-gray">
+                <div className="font text-dark-gray mb-4 text-sm font-medium">
                   {date}
                 </div>
                 <ul className="mb-4 flex flex-col gap-4">
                   {items.map((item: any) => (
                     <StudyRequestItem
+                    setacceptedReqStudy={setacceptedReqStudy}
                       params={params.studyId}
                       key={item.id}
                       item={item}

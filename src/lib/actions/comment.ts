@@ -4,10 +4,8 @@ import supabase from '@/utils/supabase/client';
 import { getServerUserId } from './getServerUserId';
 
 
-export async function createComment(formData: FormData) {
+export async function createComment({comment, targetId}: {comment:string, targetId: string}) {
   const userId = await getServerUserId();
-  const comment = formData.get('comment');
-  const targetId = formData.get('targetId');
 
   try {
     if (!userId) {
