@@ -2,19 +2,23 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Chip from '@/components/html/Chip';
-import ProgressBar from '@/components/html/ProgressBar';
+
 import { steps } from '@/lib/profileConstants';
-import { createStepsConfig } from '@/lib/profileStepsConfig';
 import ProfileForm from '@/components/member/ProfileForm';
-import { addProfile, saveImageUrl, uploadImage } from '@/utils/member/profile';
+import ProgressBar from '@/components/html/ProgressBar';
 import Button from '@/components/common/Button';
+import { useUser } from '@/stores/user/user';
+import { addProfile, saveImageUrl, uploadImage } from '@/utils/member/profile';
+import StudySpanStep from '@/components/member/StudySpanStep';
+import PersonalityStep from '@/components/member/PersonalityStep';
+import PurposeStep from '@/components/member/PurposeStep';
+import JobStep from '@/components/member/JobStep';
 
 export default function Profile() {
   const router = useRouter();
   const [step, setStep] = useState<string>(steps[0]);
   const [nickname, setNickname] = useState<string>('');
-  const [imageId, setImageId] = useState<number | null>(null); // 상태로 관리
+  const [imageId, setImageId] = useState<number | null>(null);
   const [introduction, setIntroduction] = useState<string>('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [selectedJob, setSelectedJob] = useState<string>('');
@@ -24,41 +28,8 @@ export default function Profile() {
   );
   const [selectedStudySpan, setSelectedStudySpan] = useState<string>('');
 
-  const handleJobClick = (job: string) => {
-    setSelectedJob((prev) => (prev === job ? '' : job));
-  };
-
-  const handlePurposeClick = (purpose: string) => {
-    setSelectedPurposes((prevPurposes) =>
-      prevPurposes.includes(purpose)
-        ? prevPurposes.filter((g) => g !== purpose)
-        : [...prevPurposes, purpose],
-    );
-  };
-
-  const handlePersonalityClick = (personality: string) => {
-    setSelectedPersonalities((prevPersonalities) =>
-      prevPersonalities.includes(personality)
-        ? prevPersonalities.filter((i) => i !== personality)
-        : [...prevPersonalities, personality],
-    );
-  };
-
-  const handleStudySpanClick = (studySpan: string) => {
-    setSelectedStudySpan((prev) => (prev === studySpan ? '' : studySpan));
-  };
-
-  const handleFileChange = (file: File | null) => {
-    setImageFile(file);
-  };
-
-  const handleNicknameChange = (nickname: string) => {
-    setNickname(nickname);
-  };
-
-  const handleIntroductionChange = (introduction: string) => {
-    setIntroduction(introduction);
-  };
+  const user = useUser();
+  const userName = user.user?.user_metadata.name;
 
   const handleNextClick = async () => {
     if (step === 'initial') {
@@ -125,7 +96,6 @@ export default function Profile() {
 
   const handlePreviousClick = () => {
     const currentStepIndex = steps.indexOf(step);
-
     if (currentStepIndex > 0) {
       const previousStep = steps[currentStepIndex - 1];
       setStep(previousStep);
@@ -133,43 +103,87 @@ export default function Profile() {
   };
 
   const handleSkipClick = async () => {
-    if (step !== 'job') {
-      await addProfile(
-        {
-          nickname,
-          introduction,
-          job: selectedJob,
-          purposes: selectedPurposes,
-          personalities: selectedPersonalities,
-          studySpan: selectedStudySpan,
-        },
-        imageId,
-      );
-
-      router.push('/profile/success');
-    }
+    // 프로필을 완성하고 성공 페이지로 이동
+    await addProfile(
+      {
+        nickname,
+        introduction,
+        job: selectedJob,
+        purposes: selectedPurposes,
+        personalities: selectedPersonalities,
+        studySpan: selectedStudySpan,
+      },
+      imageId,
+    );
+    router.push('/profile/success');
   };
 
-  const currentStepIndex = steps.indexOf(step);
-
-  const stepsConfig = createStepsConfig(
-    selectedJob,
-    selectedPurposes,
-    selectedPersonalities,
-    selectedStudySpan,
-    handleJobClick,
-    handlePurposeClick,
-    handlePersonalityClick,
-    handleStudySpanClick,
-  );
-
-  const renderStep = stepsConfig[step];
+  const renderStepContent = () => {
+    switch (step) {
+      case 'job':
+        return (
+          <JobStep
+            selectedJob={selectedJob}
+            handleJobClick={(job) => setSelectedJob(job)}
+            userName={userName || ''}
+          />
+        );
+      case 'purpose':
+        return (
+          <PurposeStep
+            selectedPurposes={selectedPurposes}
+            handlePurposeClick={(purpose) =>
+              setSelectedPurposes((prev) =>
+                prev.includes(purpose)
+                  ? prev.filter((p) => p !== purpose)
+                  : [...prev, purpose],
+              )
+            }
+            userName={userName || ''}
+          />
+        );
+      case 'personality':
+        return (
+          <PersonalityStep
+            selectedPersonalities={selectedPersonalities}
+            handlePersonalityClick={(personality) =>
+              setSelectedPersonalities((prev) =>
+                prev.includes(personality)
+                  ? prev.filter((p) => p !== personality)
+                  : [...prev, personality],
+              )
+            }
+            userName={userName || ''}
+          />
+        );
+      case 'studySpan':
+        return (
+          <StudySpanStep
+            selectedStudySpan={selectedStudySpan}
+            handleStudySpanClick={(studySpan) =>
+              setSelectedStudySpan(studySpan)
+            }
+            userName={userName || ''}
+          />
+        );
+      default:
+        return (
+          <ProfileForm
+            onFileChange={(file) => setImageFile(file)}
+            onIntroductionChange={(introduction) =>
+              setIntroduction(introduction)
+            }
+            onNicknameChange={(nickname) => setNickname(nickname)}
+          />
+        );
+    }
+  };
 
   return (
     <>
       <div className="relative mb-20">
         <ProgressBar
-          currentStepIndex={currentStepIndex}
+          currentStepIndex={steps.indexOf(step)}
           totalSteps={steps.length}
         />
 
@@ -178,70 +192,35 @@ export default function Profile() {
             onClick={handleSkipClick}
             className="absolute right-0 top-0 mb-8 mr-4 mt-2 text-[#82829B]"
           >
-            skip
+            Skip
           </button>
         )}
       </div>
 
-      <div id={step} className="text-left">
-        {step === 'initial' ? (
-          <ProfileForm
-            onFileChange={handleFileChange}
-            onIntroductionChange={handleIntroductionChange}
-            onNicknameChange={handleNicknameChange}
-          />
-        ) : (
-          <div>
-            <div className="mb-5 text-2xl font-semibold">
-              {renderStep.title.split('\n').map((line, index) => (
-                <span key={index}>
-                  {line}
-                  <br />
-                </span>
-              ))}
-            </div>
-            <div className="mb-[60px] text-[14px]">
-              {renderStep.description}
-            </div>
+      <div className="px-4 sm:px-5">{renderStepContent()}</div>
 
-            <div className="mb-[138px] flex flex-col items-start gap-y-3">
-              {renderStep.options.map((option) => (
-                <Chip
-                  key={option}
-                  label={option}
-                  selected={
-                    Array.isArray(renderStep.selectedOptions)
-                      ? renderStep.selectedOptions.includes(option)
-                      : renderStep.selectedOptions === option
-                  }
-                  onClick={() => renderStep.handleClick(option)}
-                />
-              ))}
-            </div>
+      <div className="fixed bottom-0 left-0 w-full bg-white p-4">
+        <div className="mx-auto w-full max-w-[600px]">
+          <div className="mb-3 text-xs text-border">
+            내용은 다시 수정할 수 있어요!
           </div>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-y-[13px]">
-        <div className="text-xs text-middle-gray">
-          내용은 다시 수정할 수 있어요!
-        </div>
-        <div className="flex w-full gap-x-5">
-          {step !== 'initial' && (
+          <div className="flex w-full gap-x-3">
+            {step !== 'initial' && (
+              <Button
+                label="이전"
+                size="small"
+                borderStyle="w-full min-w-[100px] rounded-[8px] border h-[49px]"
+                onClick={handlePreviousClick}
+              />
+            )}
             <Button
-              label="이전"
-              size="medium"
-              borderStyle="flex-[2] rounded-[8px] border h-[49px] w-[124px]"
-              onClick={handlePreviousClick}
+              label={step === 'studySpan' ? '프로필 추가' : '다음'}
+              type="primary"
+              size="small"
+              borderStyle="w-full min-w-[100px] rounded-[8px] h-[49px]"
+              onClick={handleNextClick}
             />
-          )}
-          <Button
-            label={step === 'studySpan' ? '프로필 추가' : '다음'}
-            type="primary"
-            size="medium"
-            borderStyle="flex-[3] rounded-[8px] h-[49px] w-[206px]"
-            onClick={handleNextClick}
-          />
+          </div>
         </div>
       </div>
     </>

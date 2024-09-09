@@ -1,19 +1,20 @@
-import CustomAvatar from '../common/ProfileAvatar';
+import ProfileAvatar from '../common/ProfileAvatar';
 
 interface SuccessCrownProps {
-  avatarSrc?: string | null;
+  avatarSrc?: string;
 }
 
 export default function SuccessCrown({ avatarSrc }: SuccessCrownProps) {
   return (
-    <div className="relative h-24 w-24">
-      <CustomAvatar
-        src={avatarSrc}
-        alt="Profile"
-        className="h-15 absolute inset-x-0 bottom-1 z-10 mx-auto w-16 object-cover"
-      />
+    <div className="relative h-28 w-28">
+      <div className="absolute inset-0 z-20 flex translate-y-2 items-center justify-center">
+        <ProfileAvatar
+          src={avatarSrc}
+          className="clip-path-circle mt-4 h-20 w-20 object-cover"
+        />
+      </div>
       <svg
-        className="absolute left-0 top-0 h-full w-full"
+        className="absolute left-0 top-0 z-10 h-full w-full"
         viewBox="0 0 78 77"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

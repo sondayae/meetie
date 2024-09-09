@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import ProfileAvatar from '../common/ProfileAvatar';
 import { useUser } from '@/stores/user/user';
 
 interface ProfileFormProps {
@@ -14,6 +15,7 @@ export default function ProfileForm({
 }: ProfileFormProps) {
   const user = useUser();
   const userName = user.user?.user_metadata.name;
+  console.log(user);
 
   const [nickname, setNickname] = useState<string>('');
   const [introduction, setIntroduction] = useState<string>('');
@@ -57,21 +59,21 @@ export default function ProfileForm({
     <>
       <div>
         <div className="mb-5 text-2xl font-semibold">
-          {`${userName}님의 프로필을 작성해주세요!`}
+          {`${userName}님의 `} <br />
+          프로필을 작성해주세요!
         </div>
-        <div className="mb-[60px] text-[14px]">
+        <div className="mb-[60px] text-[14px] text-[#82829B]">
           작성하신 내용은 공개 프로필에 사용됩니다.
         </div>
       </div>
 
-      <div className="mb-[138px] flex flex-col items-center gap-y-3">
-        {/* <Avatar
-          showFallback
+      <div className="mb-[138px] flex flex-col items-center">
+        <ProfileAvatar
           src={profileImage || 'https://images.unsplash.com/broken'}
           alt="Profile"
           onClick={handleAvatarClick}
-          className="h-24 w-24 cursor-pointer"
-        /> */}
+          className="mb-8 h-24 w-24 cursor-pointer"
+        />
 
         {/* 숨겨진 파일 입력 요소 */}
         <input
@@ -83,27 +85,35 @@ export default function ProfileForm({
         />
 
         <form className="w-full space-y-3">
-          <div>
-            <label htmlFor="nickname" className="block text-lg font-semibold">
+          <div className="mb-[34px]">
+            <label
+              htmlFor="nickname"
+              className="mb-[10px] block text-base font-semibold"
+            >
               닉네임
             </label>
             <input
               id="nickname"
               type="text"
               value={nickname}
+              placeholder="닉네임을 입력해주세요"
               onChange={handleNicknameChange}
-              className="mt-1 block w-full rounded border border-gray-300 p-2"
+              className="w-full flex-initial truncate rounded-lg border bg-white py-[14px] pl-4 pr-14 outline-none transition-all focus:border-primary"
             />
           </div>
-          <div>
-            <label htmlFor="introduction" className="">
-              한줄 소개
+          <div className="">
+            <label
+              htmlFor="introduction"
+              className="mb-[10px] block text-base font-semibold"
+            >
+              자기 소개
             </label>
             <textarea
               id="introduction"
               value={introduction}
+              placeholder="자신을 나타낼 수 있는 소개글을 작성해주세요"
               onChange={handleIntroductionChange}
-              className="mt-1 block w-full rounded border border-gray-300 p-2"
+              className="w-full flex-initial truncate rounded-lg border bg-white py-[14px] pl-4 pr-14 outline-none transition-all focus:border-primary"
             />
           </div>
         </form>

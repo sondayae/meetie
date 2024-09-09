@@ -12,7 +12,7 @@ const Chip: React.FC<ChipProps> = ({ label, selected, onClick }) => {
       onClick={onClick}
       className={`cursor-pointer rounded-lg py-1.5 text-center transition duration-300 ${
         selected
-          ? 'border border-main-purple bg-[#EFE9FF]'
+          ? 'border border-primary bg-[#EFE9FF]'
           : 'border border-[#D9D9D9] bg-[#FFFFFF]'
       } inline-flex items-center justify-center px-3`}
     >
@@ -22,7 +22,7 @@ const Chip: React.FC<ChipProps> = ({ label, selected, onClick }) => {
         viewBox="0 0 20 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={`mr-2 ${selected ? 'fill-[#6224FD]' : 'fill-[#D9D9D9]'}`}
+        className={`mr-2 ${selected ? 'fill-primary' : 'fill-[#D9D9D9]'}`}
       >
         <circle cx="10" cy="10" r="10" />
         <path
