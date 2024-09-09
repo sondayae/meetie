@@ -13,9 +13,13 @@ import { ScheduleEvent } from '@/types/calendar';
 
 interface CalendarProps {
   initialSchedule: ScheduleEvent[];
+  studyRoomId: number;
 }
 
-export default function Calendar({ initialSchedule }: CalendarProps) {
+export default function Calendar({
+  initialSchedule,
+  studyRoomId,
+}: CalendarProps) {
   const today = new Date();
   const initialWeekDates = Array.from({ length: 7 }, (_, i) =>
     addDays(today, i),
@@ -38,7 +42,7 @@ export default function Calendar({ initialSchedule }: CalendarProps) {
   };
 
   const fetchScheduleForDate = async (date: Date) => {
-    const data = await getSchedule(date);
+    const data = await getSchedule(date, studyRoomId);
     setSelectedDate(date);
     setScheduleForSelectedDate(data);
   };

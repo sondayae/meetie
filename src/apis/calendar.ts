@@ -1,8 +1,8 @@
 import { format } from 'date-fns';
 
-export const getSchedule = async (date: Date) => {
+export const getSchedule = async (date: Date, id: number) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/calendar?date=${format(date, 'yyyy-MM-dd')}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/calendar/${id}?date=${format(date, 'yyyy-MM-dd')}`,
   );
 
   if (!response.ok) {
