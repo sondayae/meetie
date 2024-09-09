@@ -1,15 +1,15 @@
 'use client';
 
 import { getMembers, getUser } from '@/actions/studyroom/chatActions';
-import { useChatUserStore } from '@/app/stores/chatStore';
-import ChatPeopleList from '@/components/chat/ChatPeopleList';
+import { useChatPresenceStore, useChatUserStore } from '@/app/stores/chatStore';
 import Person from '@/components/chat/Person';
 import Header from '@/components/handin/Header';
-import BackArrowIcon from '@/components/icons/BackArrowIcon';
 import Plus from '@/components/icons/Header/Plus';
 import SelectBox from '@/components/studyRoom/SelectBox';
 import TabMenu from '@/components/studyRoom/TabMenu';
 import useBottomSheet from '@/hooks/use-bottomsheet';
+import { useUser } from '@/stores/user/user';
+import supabase from '@/utils/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -18,15 +18,21 @@ export default function page({ params }: { params: { id: string } }) {
   const router = useRouter();
   const studyId = params.id;
   const { BottomSheet, open, close } = useBottomSheet();
-  const { selectedUserId, setSelectedUserId } = useChatUserStore();
+  const { setSelectedUserId } = useChatUserStore();
+  const { presence, setPresence } = useChatPresenceStore();
 
+  const getUserQuery = useQuery({
+    queryKey: ['user'],
+    queryFn: async () => {
+      const data = await getUser();
+      return data;
+    }
+  })
 
   const getMemberList = useQuery({
     queryKey: ['members'],
     queryFn: async () => {
       const data = await getMembers(studyId);
-      console.log(data);
-
       return data;
     }
   });
@@ -35,6 +41,36 @@ export default function page({ params }: { params: { id: string } }) {
     setSelectedUserId(member.participantId);
     router.push(`./chat/${member.id}`);
   }
+
+  useEffect(() => {
+    const channel = supabase.channel("online_users", {
+      config: {
+        presence: {
+          key: getUserQuery.data?.id,
+        },
+      },
+    });
+
+    channel.on("presence", { event: "sync" }, () => {
+      const newState = channel.presenceState();
+      const newStateObj = JSON.parse(JSON.stringify(newState));
+      setPresence(newStateObj);
+    });
+
+    channel.subscribe(async (status) => {
+      if (status !== "SUBSCRIBED") {
+        return;
+      }
+
+      const newPresenceStatus = await channel.track({
+        onlinedAt: new Date().toISOString(),
+      });
+    });
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, []);
 
   return (
     <>
@@ -66,7 +102,12 @@ export default function page({ params }: { params: { id: string } }) {
         <TabMenu />
         <div className='p-4 bg-muted'>
           {getMemberList.data?.map(member => (
-              <Person key={member.id} name={member.user.name} onlinedAt={''} onClick={() => handleClick(member)} />
+              <Person 
+                key={member.id} 
+                name={member.user.name} 
+                onlinedAt={presence?.[member.participantId]?.[0].onlinedAt} 
+                onClick={() => handleClick(member)} 
+              />
           ))}
         </div>
     </div>

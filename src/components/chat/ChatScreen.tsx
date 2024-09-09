@@ -1,6 +1,6 @@
 'use client';
 
-import { useChatUserStore, useMessageStore } from '@/app/stores/chatStore'
+import { useChatPresenceStore, useChatUserStore, useMessageStore } from '@/app/stores/chatStore'
 import Message from './Message';
 import Person from './Person';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -13,6 +13,7 @@ import SendIcon from '../icons/SendIcon';
 export default function ChatScreen({}) {
   const { selectedUserId } = useChatUserStore();
   const { message, setMessage} = useMessageStore();
+  const { presence } = useChatPresenceStore();
 
   const getSelectedUserQuery = useQuery({
     queryKey: ['user',selectedUserId],
@@ -44,8 +45,6 @@ export default function ChatScreen({}) {
       table: 'message',
     },
     (payload) => {
-      console.log(payload);
-      
       if (payload.eventType === 'INSERT' && !payload.errors) {
         getAllMessagesQuery.refetch();
       }
@@ -60,7 +59,7 @@ export default function ChatScreen({}) {
 
   return (
     <>
-    <Person name={getSelectedUserQuery.data?.name} onlinedAt={''} />
+    <Person name={getSelectedUserQuery.data?.name} onlinedAt={presence?.[selectedUserId!]?.[0].onlinedAt} />
     {/* 콘텐츠 영역 */}
     <div className='flex flex-col flex-1 overflow-y-scroll p-2 bg-muted'>
         {
