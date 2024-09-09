@@ -6,80 +6,90 @@ import CommentIcon from '../icons/CommentIcon';
 import EmojiIcon from '../icons/EmojiIcon';
 import NewCheckSignIcon from '../icons/NewCheckSignIcon';
 import ImageFrame from './ImageFrame';
-
-import { useUser } from '@/stores/user/user';
 import { dateFormatter, timeFormatter } from '@/utils/common/dateFormatter';
 import { getImgUrl } from '@/utils/supabase/storage';
-import CustomDropDownMenu from '../common/DropdownMenu';
+import CustomDropDownMenu from '../common/CustomDropdownMenu';
+import { useRouter } from 'next/navigation';
+import useConfirm from '@/hooks/use-confirm';
 
-export default function Handin({
-  user,
-  handin,
-  commentsCount,
-}: {
-  user: any;
-  handin: any;
-  commentsCount: any;
-}) {
-  const loginUser = useUser((store) => store.user);
-  console.log(handin);
-  console.log(user);
+export default function data({data} : {data: any}) {
+  
+  const router = useRouter();
+  const handleEdit = (e: any) => {
+    e.stopPropagation();
+    router.push(`./handin/edit/${data.id}`);
+  }
+  const handleDelete = async (e: any) => {
+    e.stopPropagation();
+    const result = await confirm();
+  }
+
+  const { ConfirmModal, confirm } = useConfirm({
+    title: '삭제',
+    message: '댓글을 삭제하시겠습니까?',
+  });
   
   
 
   return (
-    <div className="grid grid-cols-[50px_1fr_45px] px-4 py-5 gap-2 border-b">
-      <div className='mx-auto'>
-        <ProfileAvatar src={user.images?.url}/>
-      </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex gap-2 items-center">
-          <span className="font-bold">{handin.user.name}</span>
-          <span>
-            <NewCheckSignIcon
-              sizeClassName='w-4 h-4'
-              circleClassName="fill-black"
-              checkClassName="fill-white"
-            />
-          </span>
-          <span className="text-xs text-[#898989]">
-            {handin.homework.title}
-          </span>
+    <>
+    {data && 
+    <div onClick={() => router.push(`./handin/${data.id}`)}>
+      <ConfirmModal />
+      <div className="grid grid-cols-[50px_1fr_45px] px-4 py-5 gap-2 border-b">
+        <div className='mx-auto'>
+          <ProfileAvatar src={data.user.images?.url}/>
         </div>
-        <div className='min-h-20'>
-          <p>{handin.text}</p>
-        </div>
-        <div>
-          <ImageFrame
-            src={getImgUrl(handin.images[0].url)}
-            alt="handin_image"
-          />
-        </div>
-        <div className="flex justify-between">
-          <div className="flex items-center gap-1 text-xs text-[#636363]">
-            <span>{timeFormatter(handin.created_at)}</span>
-            <Separator type="circle" />
-            <span>{dateFormatter(handin.created_at)}</span>
-          </div>
+        <div className="flex flex-col gap-2">
           <div className="flex gap-2 items-center">
-            <div className="flex items-center gap-1">
-              <span>
-                <EmojiIcon />
-              </span>
-              <span className="text-xs text-[#636363]">1</span>
+            <span className="font-bold">{data.user.name}</span>
+            <span>
+              <NewCheckSignIcon
+                sizeClassName='w-4 h-4'
+                circleClassName="fill-black"
+                checkClassName="fill-white"
+                />
+            </span>
+            <span className="text-xs text-[#898989]">
+              {data.homework.title}
+            </span>
+          </div>
+          <div className='min-h-20'>
+            <p>{data.text}</p>
+          </div>
+          <div>
+            <ImageFrame
+              src={getImgUrl(data.images[0].url)}
+              alt="data_image"
+              />
+          </div>
+          <div className="flex justify-between">
+            <div className="flex items-center gap-1 text-xs text-[#636363]">
+              <span>{timeFormatter(data.created_at)}</span>
+              <Separator type="circle" />
+              <span>{dateFormatter(data.created_at)}</span>
             </div>
-            <div className="flex items-center gap-1">
-              <span>
-                <CommentIcon />
-              </span>
-              <span className="text-xs text-[#636363]">{commentsCount}</span>
+            <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-1">
+                <span>
+                  <EmojiIcon />
+                </span>
+                <span className="text-xs text-[#636363]">{data.emojiCount}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span>
+                  <CommentIcon />
+                </span>
+                <span className="text-xs text-[#636363]">{data.commentCount}</span>
+              </div>
             </div>
           </div>
         </div>
+        <div className='mx-auto'>
+          <CustomDropDownMenu handleEdit={handleEdit} handleDelete={handleDelete}/>
+        </div>
       </div>
-      <div className='mx-auto'>
-        <CustomDropDownMenu />
-      </div>
-    </div>
+    </div>}
+            </>
   );
 }

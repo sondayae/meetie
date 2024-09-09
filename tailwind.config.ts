@@ -14,6 +14,7 @@ const config: Config = {
         'gradient-custom':
           'linear-gradient(191deg, #E4E4FF -7.98%, #FFF 44.59%)',
       },
+
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -57,46 +58,66 @@ const config: Config = {
           '5': 'hsl(var(--chart-5))',
         },
       },
-      keyframes: {
-        explosion: {
-          '0%': {
-            top: '100%',
-          },
-          '33%, 100%': {
-            top: '-50%',
-          },
-        },
-        rocketMove: {
-          '0%, 100%': {
-            transform: 'translate(5%, 15%)',
-          },
-          '50%': {
-            transform: 'translate(-5%, 0%)',
-          },
-        },
-        messageMove: {
-          '0%, 100%': {
-            transform: 'translateY(0%)',
-            'animation-timing-function': 'cubic-bezier(0.8,0,1,1)',
-          },
-          '50%': {
-            transform: 'translateY(-1%)',
-            'animation-timing-function': 'cubic-bezier(0,0,0.2,1)',
-          },
-        },
-      },
-      animation: {
-        rocketMove: 'rocketMove 3.5s linear infinite',
-        messageMove: 'messageMove 2s infinite',
-      },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
-    },
-  },
-  darkMode: ['class', 'class'],
-  plugins: [require('tailwindcss-animate')],
+
+			keyframes: {
+				explosion: {
+					'0%': {
+						top: '100%'
+					},
+					'33%, 100%': {
+						top: '-50%'
+					}
+				},
+				rocketMove: {
+					'0%, 100%': {
+						transform: 'translate(5%, 15%)'
+					},
+					'50%': {
+						transform: 'translate(-5%, 0%)'
+					}
+				},
+				messageMove: {
+					'0%, 100%': {
+						transform: 'translateY(0%)',
+						'animation-timing-function': 'cubic-bezier(0.8,0,1,1)'
+					},
+					'50%': {
+						transform: 'translateY(-1%)',
+						'animation-timing-function': 'cubic-bezier(0,0,0.2,1)'
+					}
+				},
+				wavingHand: {
+					'0%, 60%, 100%': {
+						transform: 'rotate(0deg)'
+					},
+					'10%, 30%': {
+						transform: 'rotate(14deg)'
+					},
+					'20%': {
+						transform: 'rotate(-8deg)'
+					},
+					'40%': {
+						transform: 'rotate(-4deg)'
+					},
+					'50%': {
+						transform: 'rotate(10deg)'
+					},
+				}
+			},
+			animation: {
+				rocketMove: 'rocketMove 3.5s linear infinite',
+				messageMove: 'messageMove 2s infinite',
+				wavingHand: 'wavingHand 2.5s infinite',
+			},
+			borderRadius: {
+				lg: 'var(--radius)',
+				md: 'calc(var(--radius) - 2px)',
+				sm: 'calc(var(--radius) - 4px)'
+			}
+		}
+	},
+	darkMode: ['class', 'class'],
+	plugins: [require("tailwindcss-animate")]
+
 };
 export default config;

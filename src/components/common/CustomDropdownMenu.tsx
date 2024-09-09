@@ -4,25 +4,21 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import MoreIcon from '../icons/MoreIcon';
 
 
 
-export default function CustomDropDownMenu() {
+export default function CustomDropDownMenu({handleEdit, handleDelete}: {handleEdit: any, handleDelete: any}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-          <MoreIcon className='w-5 h-5'/>
+          <MoreIcon className='stroke-black'/>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>수정하기</DropdownMenuItem>
-        <DropdownMenuItem>삭제하기</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleEdit}>수정하기</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleDelete}>삭제하기</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
