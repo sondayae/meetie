@@ -30,7 +30,19 @@ const FILTER_OPTIONS: Record<string, string[]> = {
   '스터디 기간': studySpans,
 };
 
-export default function UserFilter() {
+export type UserCardProps = {
+  name: string;
+  nickname?: string;
+  job: string;
+  personality?: string[];
+  imageUrl: string;
+};
+
+interface UserFilterProps {
+  onUsersUpdate: (users: UserCardProps[]) => void; // Update this type to User[] for consistency
+}
+
+export default function UserFilter({ onUsersUpdate }: UserFilterProps) {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
 
@@ -119,6 +131,7 @@ export default function UserFilter() {
 
       const data = await response.json();
       setUsers(data.users);
+      onUsersUpdate(data.users); // 필터링된 사용자 목록을 상위 컴포넌트에 전달
       console.log('Fetched Users:', data.users);
     } catch (error) {
       console.error('사용자 검색 중 오류 발생:', error);
@@ -168,19 +181,6 @@ export default function UserFilter() {
         bottomSheet={isBottomSheetOpen}
         onClick={handleClose}
       />
-
-      {/* 검색 결과 표시 */}
-      <div>
-        {users.length > 0 ? (
-          <ul>
-            {users.map((user) => (
-              <li key={user.id}>{user.name}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>검색 결과가 없습니다.</p>
-        )}
-      </div>
     </>
   );
 }

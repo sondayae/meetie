@@ -1,4 +1,51 @@
 import supabase from '@/utils/supabase/client';
+import supabaseServer from '@/utils/supabase/server';
+
+export async function GET() {
+  try {
+    // 1. `user` 테이블에서 모든 사용자 정보 가져오기
+    const { data: users, error: usersError } = await supabase.from('user')
+      .select(`
+        nickname,
+        name,
+        introduction,
+        job,
+        personality,
+        expected_study_span,
+        image_id
+      `); // `single()` 제거하여 모든 사용자 정보 가져오기
+
+    if (usersError) throw usersError;
+
+    // 2. 각 사용자의 `image_id`를 사용해 `images` 테이블에서 URL 가져오기
+    const usersWithImages = await Promise.all(
+      users.map(async (user) => {
+        let imageUrl = null;
+        if (user.image_id) {
+          const { data: image, error: imageError } = await supabase
+            .from('images')
+            .select('url')
+            .eq('id', user.image_id)
+            .single(); // 단일 이미지 가져오기 위해 `single()` 사용
+
+          if (imageError) throw imageError;
+          imageUrl = image?.url || null;
+        }
+
+        // 사용자 정보와 이미지 URL을 결합
+        return { ...user, imageUrl };
+      }),
+    );
+
+    // 3. 모든 사용자 정보와 이미지 URL을 반환
+    return new Response(JSON.stringify(usersWithImages), { status: 200 });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return new Response(JSON.stringify({ message: 'Failed to fetch users' }), {
+      status: 500,
+    });
+  }
+}
 
 export async function POST(request: Request) {
   try {
