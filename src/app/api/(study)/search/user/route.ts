@@ -6,12 +6,11 @@ export async function GET() {
     // 1. `user` 테이블에서 모든 사용자 정보 가져오기
     const { data: users, error: usersError } = await supabase.from('user')
       .select(`
+        id,
         nickname,
         name,
-        introduction,
         job,
         personality,
-        expected_study_span,
         image_id
       `); // `single()` 제거하여 모든 사용자 정보 가져오기
 

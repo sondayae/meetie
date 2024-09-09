@@ -49,11 +49,7 @@ const ParentComponent: React.FC = () => {
           />
 
           <div className="mt-4">
-            {activeTabIndex === 0 ? (
-              <StudyList />
-            ) : (
-              <UserSearch searchTerm={userSearchTerm} />
-            )}
+            {activeTabIndex === 0 ? <StudyList /> : <UserSearch />}
           </div>
         </div>
         {/* 스터디 만들기 바로가기 아이콘 */}

@@ -31,6 +31,7 @@ const FILTER_OPTIONS: Record<string, string[]> = {
 };
 
 export type UserCardProps = {
+  id: string;
   name: string;
   nickname?: string;
   job: string;

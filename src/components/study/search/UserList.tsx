@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import UserCard from './UserCard';
 
 type UserCardProps = {
+  id: string;
   name: string;
   nickname?: string;
   job: string;
@@ -61,9 +62,10 @@ export default function UserList({
       {/* 사용자 리스트 */}
       {users.length > 0 ? (
         <div className="grid grid-cols-2 gap-4">
-          {users.map((user, index) => (
+          {users.map((user) => (
             <UserCard
-              key={index}
+              id={user.id}
+              key={user.id}
               name={user.name}
               job={user.job}
               personality={user.personality}
