@@ -60,7 +60,7 @@ export default function StudyPage() {
             </div>
             <div>
               <Image 
-                src='https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/thinking-face-blue-bg-white.gif'
+                src='https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/thinking-face.gif'
                 width={80}
                 height={80}
                 alt='생각하는 이미지'
