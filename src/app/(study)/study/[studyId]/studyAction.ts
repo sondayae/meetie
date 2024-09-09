@@ -13,7 +13,7 @@ export const addStudy = async (study: Study) => {
   if (data) {
     // id 값 가져오기
     const { id } = data[0];
-    alert('스터디 등록이 완료되었습니다!');
+    // alert('스터디 등록이 완료되었습니다!');
     return { id };
   }
 };

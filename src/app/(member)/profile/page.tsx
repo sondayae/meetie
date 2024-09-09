@@ -11,6 +11,7 @@ import Header from '@/components/handin/Header';
 import Link from 'next/link';
 
 interface UserProfileData {
+  name: string;
   nickname: string;
   introduction: string;
   job: string;
@@ -58,7 +59,7 @@ export default function UserProfile() {
         leftIcon={<Link href={'/profile/success'} />}
         rightIcon
       />
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center pb-20">
         <ProfileAvatar
           src={profile?.imageUrl}
           className="mb-2 mt-6 h-24 w-24"
@@ -66,7 +67,7 @@ export default function UserProfile() {
 
         <div className="mb-10 flex flex-col items-center">
           <div className="mb-2.5 text-xl font-semibold">
-            {profile?.nickname}
+            {profile?.nickname || profile?.name}
           </div>
           <div className="text-sm">{profile?.job}</div>
         </div>
@@ -104,15 +105,17 @@ export default function UserProfile() {
             {/* </div> */}
             {/* <div> */}
             <div className="mb-2 text-base font-semibold">예상 스터디 기간</div>
-            <Tag>{profile?.expected_study_span}</Tag>
+            {profile?.expected_study_span && (
+              <Tag>{profile.expected_study_span}</Tag>
+            )}
           </div>
         </div>
-        <div className="mt-7">
+        <div className="fixed bottom-0 left-0 flex w-full justify-center px-4 py-4">
           <Button
             label="홈으로 가기"
             type="primary"
             size="large"
-            borderStyle="flex-[3] rounded-[8px] h-[49px] w-[206px] w-full"
+            borderStyle="flex-[3] rounded-[8px] h-[49px] max-w-[600px] w-full"
             onClick={handleGoHome}
           />
         </div>

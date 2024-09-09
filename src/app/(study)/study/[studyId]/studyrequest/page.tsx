@@ -1,7 +1,13 @@
-import StudyDetail from '@/components/study/StudyDetail';
 import supabaseServer from '@/utils/supabase/server';
-import StatusDisplay from '@/components/study/StatusDisplay';
+import StatusDisplay2 from '@/components/study/studyDetail/StatusDisplay2';
 import StudyRequest from '@/components/study/StudyRequest';
+
+import { getStudyDetails } from '@/actions/study.action';
+import Header from '@/components/handin/Header';
+import { createStudyRoom } from '@/actions/studyroom.action';
+import CreateStudyRoom from '@/components/studyRoom/CreateStudyRoom';
+import { getStudyMember } from '@/actions/studymember.action';
+import { getStudyApply } from '@/actions/studyrequest.action';
 
 export default async function Page({
   params,
@@ -13,41 +19,38 @@ export default async function Page({
     data: { session },
   } = await supabase.auth.getSession();
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const response = await fetch(
-    new URL(`/api/study/${params.studyId}`, baseUrl).toString(),
-  );
+  const data = await getStudyDetails(params.studyId);
 
-  const data = await response.json();
+  const applyData = await getStudyApply(params.studyId);
 
-  console.log(data.study);
-
-  if (!response.ok) {
-    throw new Error(data.error || 'Error occurred while updating profile');
-  }
-
-  // 작성자 여부 확인
-  const isAuthor = session?.user.id === data.study.user.id;
-  console.log(`작성자 여부 확인: ${isAuthor}`);
+  const memberData = await getStudyMember(params.studyId);
 
   return (
-    <div className="flex flex-col">
-      {/* <StudyDetail {...data.study} /> */}
+    <div className="flex flex-col pb-24">
+      <Header label="대기중인요청" leftIcon rightIcon />
+
+      <CreateStudyRoom params={params.studyId} />
+
       <StudyRequest
+        applyData={applyData}
         params={params}
         acceptedStudy={data.acceptedStudy}
-        recruitNum={data.study.recruitNum}
+        recruitNum={data.recruitNum}
       />
       {/* 로그인 === 작성자  */}
-      <div className="flex-1">
-        <StatusDisplay
-          userId={session?.user.id || ''}
-          isAuthor={isAuthor}
-          params={params.studyId}
-          acceptedStudy={data.acceptedStudy}
-          recruitNum={data.study.recruitNum}
-          children={null}
-        />
+      <div className="flex w-full items-center justify-center">
+        <div className="fixed bottom-0 mx-auto w-full bg-white pt-8">
+          <div className="flex items-center justify-center">
+            <StatusDisplay2
+              userId={session?.user.id || ''}
+              params={params.studyId}
+              acceptedStudy={memberData.length}
+              recruitNum={data.recruitNum}
+              isRecruiting={data.isRecruiting}
+              children={null}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

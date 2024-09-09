@@ -1,9 +1,11 @@
+'use client'
 import BookIcon from '../icons/Book';
 import BookmarkIcon from '../icons/Bookmark';
 import RightArrowIcon from '../icons/RightArrowIcon';
 import ScrapIcon from '../icons/Scrap';
 import StudyItem from './StudyItem';
 import Link from 'next/link';
+import Logout from '@/components/mypage/Logout';
 
 export default function MypageSection() {
   return (
@@ -124,7 +126,7 @@ export default function MypageSection() {
               <RightArrowIcon className="m-auto h-4 w-4" />
             </p>
           </li>
-          <li className="flex items-center justify-between">
+          {/* <li className="flex items-center justify-between">
             <Link
               className="flex w-full items-center justify-between"
               href="/mypage/deleteUser"
@@ -136,8 +138,9 @@ export default function MypageSection() {
                 <RightArrowIcon className="m-auto h-4 w-4" />
               </p>
             </Link>
-          </li>
+          </li> */}
         </ul>
+        <Logout/>
       </section>
     </div>
   );

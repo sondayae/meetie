@@ -9,7 +9,7 @@ import {
 import ErrorMessage from '@/components/form/ErrorMessage';
 import { emailPattern, passwordPattern } from '@/constants/validationPatterns';
 import { FormData } from '@/app/(member)/mypage/editAccount/page';
-import StudyButton from '../common/StudyButton';
+import StudyButton from '../study/write/StudyButton';
 import InputField from '../common/InputField';
 import EmailIcon from '../icons/EmailIcon';
 import PasswordIcon from '../icons/PasswordIcon';
