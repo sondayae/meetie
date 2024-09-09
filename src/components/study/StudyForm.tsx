@@ -604,7 +604,7 @@ export default function StudyForm({
             <label className="mb-2.5 font-semibold" htmlFor="tags">
               관련 태그
             </label>
-            <div className="focus:border-main-purple flex min-h-[52px] w-full flex-initial flex-wrap gap-2 rounded-lg border bg-white py-2 pl-4 pr-14 outline-none transition-all">
+            <div className="focus:border-main-purple flex min-h-[52px] w-full flex-initial flex-wrap gap-2 rounded-lg border border-[#c4c4c4] bg-white py-2 pl-4 pr-14 outline-none transition-all">
               {/* 작성한 태그 리스트 */}
               {tags.map((tag, index) => (
                 <span
@@ -642,9 +642,6 @@ export default function StudyForm({
             <p>{user?.name} 님, 이런 태그는 어떠세요?</p>
             <ul className="mt-2.5 flex gap-2">
               <li className="inline-flex w-auto rounded-lg bg-accent px-2 py-[5px] text-sm">
-                자바스크립트
-              </li>
-              <li className="inline-flex w-auto rounded-lg bg-accent px-2 py-[5px] text-sm">
                 리액트
               </li>
               <li className="inline-flex w-auto rounded-lg bg-accent px-2 py-[5px] text-sm">
@@ -652,6 +649,15 @@ export default function StudyForm({
               </li>
               <li className="inline-flex w-auto rounded-lg bg-accent px-2 py-[5px] text-sm">
                 모각코
+              </li>
+              <li className="inline-flex w-auto rounded-lg bg-accent px-2 py-[5px] text-sm">
+                프론트엔드
+              </li>
+              <li className="inline-flex w-auto rounded-lg bg-accent px-2 py-[5px] text-sm">
+                백엔드
+              </li>
+              <li className="inline-flex w-auto rounded-lg bg-accent px-2 py-[5px] text-sm">
+                풀스택
               </li>
             </ul>
           </>
@@ -668,6 +674,7 @@ export default function StudyForm({
               }
               size="large"
               onClick={() => setStudyStep(2)}
+              buttonStyle="px-4"
             />
           ) : (
             <div className="flex w-full max-w-[600px] gap-2 px-4">

@@ -29,4 +29,6 @@ export type Study = {
   isRecruiting?: boolean;
   // 작성자
   author: string;
+  //
+  scraped?: boolean;
 };

@@ -36,9 +36,9 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
             value={searchTerm}
             onChange={onSearchChange}
             placeholder={getPlaceholder()}
-            className="w-full rounded-lg border border-gray-300 p-3 pl-10 text-sm"
+            className="w-full rounded-lg border border-[#DDDDDD] bg-muted p-3 pl-11 placeholder:text-[#444444]"
           />
-          <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 transform stroke-current" />
         </div>
       </div>
 
@@ -47,7 +47,7 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
         <button
           className={`flex-1 px-4 py-2 ${
             activeTabIndex === 0
-              ? 'border-b-2 border-main-purple font-bold text-main-purple'
+              ? 'border-main-purple text-main-purple border-b-2 font-bold'
               : 'text-gray-300'
           }`}
           onClick={() => onTabChange(0)}
@@ -57,7 +57,7 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
         <button
           className={`flex-1 px-4 py-2 ${
             activeTabIndex === 1
-              ? 'border-b-2 border-main-purple font-bold text-main-purple'
+              ? 'border-main-purple text-main-purple border-b-2 font-bold'
               : 'text-gray-300'
           }`}
           onClick={() => onTabChange(1)}
