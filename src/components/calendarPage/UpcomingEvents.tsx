@@ -7,7 +7,7 @@ interface UpcomingScheduleProps {
   upcomingSchedule: ScheduleEvent[];
 }
 
-export default function UpcomingSchedule({
+export default function UpcomingEvents({
   upcomingSchedule,
 }: UpcomingScheduleProps) {
   return (

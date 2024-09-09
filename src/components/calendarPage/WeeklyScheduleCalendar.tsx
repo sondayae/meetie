@@ -16,7 +16,7 @@ interface CalendarProps {
   studyRoomId: number;
 }
 
-export default function Calendar({
+export default function WeeklyScheduleCalendar({
   initialSchedule,
   studyRoomId,
 }: CalendarProps) {

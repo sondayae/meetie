@@ -1,9 +1,9 @@
 import { getSchedule, getUpcomingSchedule } from '@/apis/calendar';
-import Calendar from '@/components/calendarPage/Calendar';
-import UpcomingSchedule from '@/components/calendarPage/UpcomingSchedule';
+import UpcomingEvents from '@/components/calendarPage/UpcomingEvents';
+import WeeklyScheduleCalendar from '@/components/calendarPage/WeeklyScheduleCalendar';
 import TabMenu from '@/components/studyRoom/TabMenu';
 
-export default async function Schedule({ params }: { params: { id: number } }) {
+export default async function Calendar({ params }: { params: { id: number } }) {
   const schedule = await getSchedule(new Date(), params.id);
   const upcomingSchedule = await getUpcomingSchedule(params.id);
   // const [dueSoonTasks, setDueSoonTasks] = useState<ScheduleEvent[] | null>(
@@ -67,7 +67,10 @@ export default async function Schedule({ params }: { params: { id: number } }) {
           </span>
         </div>
 
-        <Calendar initialSchedule={schedule} studyRoomId={params.id} />
+        <WeeklyScheduleCalendar
+          initialSchedule={schedule}
+          studyRoomId={params.id}
+        />
 
         <div className="px-4 pb-5 pt-10">
           <p className="text-lg font-bold">✍ 다가오는 일정</p>
@@ -76,7 +79,7 @@ export default async function Schedule({ params }: { params: { id: number } }) {
           </span>
         </div>
 
-        <UpcomingSchedule upcomingSchedule={upcomingSchedule} />
+        <UpcomingEvents upcomingSchedule={upcomingSchedule} />
       </div>
     </>
   );
