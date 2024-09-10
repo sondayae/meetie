@@ -28,7 +28,7 @@ export default function LoginForm() {
     try {
       const user = await postLogin(formData);
       useUser.setState({ user });
-      router.replace(ROUTE_PATH.STUDY_ROOM.MAIN);
+      router.replace('/walkthrough');
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
