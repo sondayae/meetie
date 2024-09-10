@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import ProfileAvatar from '../common/ProfileAvatar';
+import ProfileAvatar from '@/components/common/ProfileAvatar';
+
 
 export default function SimpleCard({ userdata }: { userdata: any }) {
   return (
@@ -8,13 +9,18 @@ export default function SimpleCard({ userdata }: { userdata: any }) {
       <section className="mb-4">
         <div className="flex h-16 w-full items-end justify-between px-4">
           <div className="flex items-center justify-center gap-4">
-            <div className="relative h-16 w-16 overflow-hidden rounded-full object-cover">
-              {/* <ProfileAvatar
-                src={userdata?.images.url}
-                alt="user profile img"
-              /> */}
-              <Image alt="user profile img" src={userdata?.images.url} fill />
-            </div>
+            <ProfileAvatar
+              src={userdata?.images?.url}
+              alt="user profile img"
+              className="relative h-16 w-16 overflow-hidden rounded-full object-cover"
+              fallback={
+                <Image
+                  alt="user profile img"
+                  src={userdata?.images?.url}
+                  fill
+                />
+              }
+            />
             <div className="flex flex-col items-start justify-start gap-1">
               <div className="text-base font-medium text-[#474747]">
                 {userdata?.job || '직업정보가 없어요'}
@@ -34,6 +40,7 @@ export default function SimpleCard({ userdata }: { userdata: any }) {
           </div>
         </div>
       </section>
+      
     </>
   );
 }
