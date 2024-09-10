@@ -17,22 +17,22 @@ export default function Navigator() {
     {
       icon: <Lamp className="stroke-current" />,
       name: '스터디룸',
-      path: 'studyroom',
+      path: '/studyroom',
     },
     {
       icon: <Search className="stroke-current" />,
       name: '탐색',
-      path: 'search',
+      path: '/search',
     },
     {
       icon: <Chat className="stroke-current" />,
       name: '채팅',
-      path: 'chat',
+      path: '/chat',
     },
     {
       icon: <My className="stroke-current" />,
       name: '마이페이지',
-      path: 'mypage',
+      path: '/mypage',
     },
   ];
   return (
@@ -43,7 +43,7 @@ export default function Navigator() {
             <div
               className={twMerge(
                 'flex flex-col items-center justify-center gap-1 text-xs',
-                path.includes(menu.path)
+                menu.path.includes(path)
                 ? 'text-primary'
                 : 'text-muted-foreground',
               )}
