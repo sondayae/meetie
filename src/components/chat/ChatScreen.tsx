@@ -6,7 +6,7 @@ import Person from './Person';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAllMessages, getUserById, sendMessage } from '@/actions/studyroom/chatActions';
 import { LoaderIcon } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import supabase from '@/utils/supabase/client';
 import SendIcon from '../icons/SendIcon';
 
@@ -14,6 +14,20 @@ export default function ChatScreen({}) {
   const { selectedUserId } = useChatUserStore();
   const { message, setMessage} = useMessageStore();
   const { presence } = useChatPresenceStore();
+
+  const sendRef = useRef<HTMLButtonElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [selectedUserId]);
+
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.nativeEvent.isComposing || e.keyCode === 229) return; 
+    if (e.key === "Enter") {
+      sendRef.current?.click();
+    }
+  }
 
   const getSelectedUserQuery = useQuery({
     queryKey: ['user',selectedUserId],
@@ -68,26 +82,29 @@ export default function ChatScreen({}) {
               key={message.id}
               message={message.message}
               isMine={message.receiver === selectedUserId}
-            />
+              />
           ))
         }
+        <div ref={scrollRef}></div>
       </div>
       <div className="flex items-center relative p-3 border">
-            <input
-              type="text"
-              value={message}
-              placeholder="메세지 보내기"
-              className="w-full rounded-lg border border-[#E9E9E9] bg-[#f3f3f3] p-3.5 py-3 text-sm placeholder-gray-purple focus:outline-none"
-              onChange={(e) => setMessage(e.target.value)}
-              />
-              <button
-                type='button'
-                className="absolute right-5"
-                onClick={() => sendMessageMutation.mutate()}
-                >
-                {sendMessageMutation.isPending ? <LoaderIcon /> : <SendIcon />}
-              </button>
-        </div>
+        <input
+          type="text"
+          value={message}
+          placeholder="메세지 보내기"
+          className="w-full rounded-lg border border-[#E9E9E9] bg-[#f3f3f3] p-3.5 py-3 text-sm placeholder-gray-purple focus:outline-none"
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => handleEnter(e)}
+          />
+          <button
+            type='button'
+            className="absolute right-5"
+            onClick={() => sendMessageMutation.mutate()}
+            ref={sendRef}
+            >
+            {sendMessageMutation.isPending ? <LoaderIcon /> : <SendIcon />}
+          </button>
+      </div>
     </>
   )
 }
