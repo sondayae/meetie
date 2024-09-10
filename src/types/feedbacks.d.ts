@@ -3,13 +3,7 @@ export interface Feedback {
   text: string;
   created_at: string;
   homework?: Homework | Homework[]
-  user: {
-    id: string;
-    name: string;
-    images?: {
-      url: string;
-    }[];
-  }[];
+  user: User | User[]
   images: {
     url: string;
   }[];
@@ -21,4 +15,12 @@ type Homework = {
   id: string;
   title: string;
   subtitle: string;
+};
+
+type User = {
+  id: string;
+  name: string;
+  images?: {
+    url: string;
+  }[]
 };
