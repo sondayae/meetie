@@ -1,9 +1,7 @@
-import Image from 'next/image';
-
+import WavingHand from '@/components/common/WavingHand';
 import AccountRecoveryLinks from '@/components/loginPage/AccountRecoveryLinks';
 import LoginForm from '@/components/loginPage/LoginForm';
 import SocialButtons from '@/components/loginPage/SocialButtons';
-import WavingHand from '@/components/common/WavingHand';
 
 export default function Login() {
   return (
