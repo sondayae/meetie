@@ -41,7 +41,7 @@ export default function StudyPage() {
 
       {/* 헤더 영역 */}
       <div className='bg-muted'>
-        <Header label='스터디룸' rightIcon={<Question />}/>
+        <Header label='스터디룸' leftIcon={false} rightIcon={<Question />}/>
       </div>
       {/* 콘텐츠 영역 */}
       <div className='flex-1 p-4 bg-muted'>
