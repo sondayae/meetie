@@ -7,8 +7,12 @@ import { fetchStudiesTags, fetchStudyList } from '@/actions/studyList.action';
 import { useFilterStore } from '@/stores/search/useFilterStore';
 import StudyFilter from './StudyFilter';
 
-export default function StudySearch() {
-  const { setStudyList, setSelectedFilter } = useFilterStore();
+export default function StudySearch({
+  studySearchTerm,
+}: {
+  studySearchTerm: string;
+}) {
+  const { setStudyList, setSelectedFilter, originalList } = useFilterStore();
   const [loading, setLoading] = useState(true);
   const [allTags, setAllTags] = useState<string[]>([]);
 
@@ -45,7 +49,11 @@ export default function StudySearch() {
       />
 
       {/*  모집중 필터링, 스터디 리스트 */}
-      <StudyList loading={loading} />
+      <StudyList
+        studySearchTerm={studySearchTerm}
+        loading={loading}
+        originalList={originalList}
+      />
 
       {/* 스터디 만들기 아이콘 */}
       <Link href="../study/write">
