@@ -49,34 +49,34 @@ export default function UserList({
   }, [filteredUsers]);
 
   return (
-    <div className="px-4">
-      {/* 상단에 "총 X명" 및 "인기순" 추가 */}
-      <div className="mb-4 flex items-center justify-between">
-        <span className="text-sm text-gray-600">총 {users.length}명</span>
-        <div className="flex items-center space-x-2 text-sm text-gray-600">
-          <span>인기순</span>
-          <span className="text-xs">⇧</span>
-        </div>
+    <>
+      {/* "총 X명"을 표시하는 독립적인 div */}
+      <div className="mx-4 my-5 flex justify-between">
+        <span className="text-xs text-[#555555]">총 {users.length}명</span>
       </div>
 
       {/* 사용자 리스트 */}
-      {users.length > 0 ? (
-        <div className="grid grid-cols-2 gap-4">
-          {users.map((user) => (
-            <UserCard
-              id={user.id}
-              key={user.id}
-              name={user.name}
-              job={user.job}
-              personality={user.personality}
-              nickname={user.nickname}
-              imageUrl={user.imageUrl}
-            />
-          ))}
-        </div>
-      ) : (
-        <p className="text-center text-gray-600">찾으시는 사용자가 없습니다.</p>
-      )}
-    </div>
+      <div className="min-h-dvh bg-[#F5F5FF] px-4 pb-[100px] pt-4">
+        {users.length > 0 ? (
+          <div className="grid grid-cols-2 gap-x-[14px] gap-y-[10px]">
+            {users.map((user) => (
+              <UserCard
+                id={user.id}
+                key={user.id}
+                name={user.name}
+                job={user.job}
+                personality={user.personality}
+                nickname={user.nickname}
+                imageUrl={user.imageUrl}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-600">
+            찾으시는 사용자가 없습니다.
+          </p>
+        )}
+      </div>
+    </>
   );
 }
