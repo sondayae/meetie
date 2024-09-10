@@ -5,10 +5,7 @@ import RightArrowIcon from '../icons/RightArrowIcon';
 import ScrapIcon from '../icons/Scrap';
 import StudyItem from './StudyItem';
 import Link from 'next/link';
-import Logout from '@/components/mypage/Logout';
-import BadgeCard from '../badge/BadgeCard';
 import Button from '../common/Button';
-import StudyCard from './StudyCard';
 import Image from 'next/image';
 
 export default function MypageSection() {
@@ -42,6 +39,7 @@ export default function MypageSection() {
               alt={badge.title}
               width={100}
               height={100}
+              priority
             />
             <span className='font-semibold text-xs'>{badge.title}</span>
           </div>
@@ -53,7 +51,7 @@ export default function MypageSection() {
       <p className="text-lg font-bold">내 스터디</p>
         <ul className="flex flex-col gap-5">
           {listItem.map(item => (
-            <Link href={`/mypage${item.path}`}>
+            <Link key={item.label} href={`/mypage${item.path}`}>
               <StudyItem 
                 label={item.label}
                 num={item.num}
