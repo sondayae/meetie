@@ -1,3 +1,5 @@
+'use client';
+
 interface ButtonProps {
   label: string;
   buttonType?: 'button' | 'submit';
@@ -7,14 +9,14 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-const Button = ({
+function Button({
   type,
   buttonType = 'button',
   label,
   size,
   borderStyle = 'none',
   onClick,
-}: ButtonProps) => {
+}: ButtonProps) {
   const getSize = () => {
     switch (size) {
       case 'small':
@@ -50,5 +52,5 @@ const Button = ({
       {label}
     </button>
   );
-};
+}
 export default Button;
