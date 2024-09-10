@@ -38,11 +38,11 @@ export default function Handin({ data }: {data : Feedback}) {
       <ConfirmModal />
       <div className="grid grid-cols-[50px_1fr_45px] px-4 py-5 gap-2 border-b">
         <div className='mx-auto'>
-          <ProfileAvatar src={data.user?.[0].images?.[0].url}/>
+          <ProfileAvatar src={!Array.isArray(data.user) ? data.user.images?.[0].url : ''}/>
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex gap-2 items-center">
-            <span className="font-bold">{data.user?.[0].name}</span>
+            <span className="font-bold">{!Array.isArray(data.user) && data.user.name}</span>
             <span>
               <NewCheckSignIcon
                 sizeClassName='w-4 h-4'
