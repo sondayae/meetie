@@ -45,7 +45,7 @@ interface UserFilterProps {
 
 export default function UserFilter({ onUsersUpdate }: UserFilterProps) {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [selectedFilter, setSelectedFilter] = useState<string>('직무'); // 초기값을 '직무'로 설정
 
   // 실제 적용된 필터 태그 (필터 아이콘 옆에 표시)
   const [filterTags, setFilterTags] = useState<FilterTags>({
@@ -145,9 +145,9 @@ export default function UserFilter({ onUsersUpdate }: UserFilterProps) {
 
   return (
     <>
-      <div className="mb-4 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         {/* 선택된 태그들 (필터 아이콘 옆에 표시) */}
-        <div className="flex flex-grow flex-nowrap overflow-x-auto whitespace-nowrap">
+        <div className="flex flex-grow flex-nowrap gap-2 overflow-x-auto whitespace-nowrap">
           {[
             filterTags.job,
             filterTags.studySpan,

@@ -2,6 +2,8 @@
 
 import Button from '@/components/common/Button';
 import Tag from '@/components/common/Tag';
+import CheckIcon from '@/components/icons/CheckIcon';
+import { useState } from 'react';
 
 type BottomSheetProps = {
   title: string;
@@ -37,6 +39,13 @@ export default function UserFilterBottomSheet({
   onClick,
   bottomSheet,
 }: BottomSheetProps) {
+  const [activeOption, setActiveOption] = useState();
+
+  const handleOptionClick = (option: any) => {
+    setActiveOption(option);
+    onOptionClick(option);
+  };
+
   return (
     <>
       {/* scrim */}
@@ -55,11 +64,11 @@ export default function UserFilterBottomSheet({
         >
           <div className="flex">
             {/* 왼쪽 필터 항목 */}
-            <div className="w-1/3 border-r border-gray-300 p-2">
+            <div className="w-2/5 min-w-28 border-r border-[#eeeeee] p-2">
               {filterLabels.map((label) => (
                 <button
                   key={label}
-                  className={`block w-full p-2 text-left ${selectedFilter === label ? 'bg-gray-200' : ''}`}
+                  className={`block w-full p-2 text-left ${selectedFilter === label ? 'rounded-lg bg-muted font-medium text-primary' : ''}`}
                   onClick={() => onFilterClick(label)}
                 >
                   {label}
@@ -69,14 +78,21 @@ export default function UserFilterBottomSheet({
             {/* 오른쪽 필터 옵션 */}
             <div className="max-h-[170px] w-2/3 overflow-y-auto p-2">
               {filterOptions.length > 0 ? (
-                <ul className="list-disc pl-5">
+                <ul className="pl-2">
                   {filterOptions.map((option) => (
                     <li
                       key={option}
-                      className="mb-1 cursor-pointer"
-                      onClick={() => onOptionClick(option)}
+                      className={`flex cursor-pointer items-center rounded-lg p-2 ${
+                        activeOption === option
+                          ? 'bg-muted font-medium text-primary'
+                          : ''
+                      }`}
+                      onClick={() => handleOptionClick(option)}
                     >
                       {option}
+                      {activeOption === option && (
+                        <CheckIcon className="ml-2 h-4 w-4 stroke-primary" />
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -87,8 +103,8 @@ export default function UserFilterBottomSheet({
           </div>
           {/* 태그 영역 */}
 
-          <div className="mb-4 overflow-x-auto whitespace-nowrap">
-            <div className="inline-flex">
+          <div className="my-4">
+            <div className="flex flex-wrap gap-2">
               {[
                 filterTags.job,
                 filterTags.studySpan,
@@ -99,7 +115,7 @@ export default function UserFilterBottomSheet({
                 .map((tag) => (
                   <Tag
                     key={tag}
-                    className="border-primary bg-accent px-[11px] py-[2px] text-primary"
+                    className="mr-0 flex items-center border-primary bg-accent px-[11px] py-[2px] text-primary"
                   >
                     {tag}
                     <button
