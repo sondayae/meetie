@@ -11,28 +11,28 @@ import My from '../icons/Navigator/My';
 import Search from '../icons/Navigator/Search';
 
 export default function Navigator() {
-  const path = usePathname();
+  const path = usePathname().split('/')[1];
 
   const menus = [
     {
       icon: <Lamp className="stroke-current" />,
       name: '스터디룸',
-      path: '/studyroom',
+      path: 'studyroom',
     },
     {
       icon: <Search className="stroke-current" />,
       name: '탐색',
-      path: '/search',
+      path: 'search',
     },
     {
       icon: <Chat className="stroke-current" />,
       name: '채팅',
-      path: '/chat',
+      path: 'chat',
     },
     {
       icon: <My className="stroke-current" />,
       name: '마이페이지',
-      path: '/mypage',
+      path: 'mypage',
     },
   ];
   return (
