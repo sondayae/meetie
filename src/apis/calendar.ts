@@ -29,3 +29,18 @@ export const getUpcomingSchedule = async (id: number) => {
     return data;
   }
 };
+
+export const getDueSoon = async (id: number) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/calendar/${id}/due-soon`,
+  );
+
+  if (!response.ok) {
+    const { error } = await response.json();
+    throw new Error(error.message);
+  } else {
+    const data = await response.json();
+
+    return data;
+  }
+};

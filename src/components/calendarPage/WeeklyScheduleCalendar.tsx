@@ -8,7 +8,7 @@ import { ko } from 'date-fns/locale';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import { getSchedule } from '@/apis/calendar';
-import DatePickerCustomInput from '@/components/schedulePage/DatePickerCustomInput';
+import DatePickerCustomInput from '@/components/calendarPage/DatePickerCustomInput';
 import { ScheduleEvent } from '@/types/calendar';
 
 interface CalendarProps {
@@ -16,7 +16,7 @@ interface CalendarProps {
   studyRoomId: number;
 }
 
-export default function Calendar({
+export default function WeeklyScheduleCalendar({
   initialSchedule,
   studyRoomId,
 }: CalendarProps) {
