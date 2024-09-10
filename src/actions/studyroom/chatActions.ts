@@ -43,14 +43,17 @@ export async function getUser() {
   return user;
 }
 
-export async function getMembers(studyId: string) {
+export async function getChatMembers(studyId: string) {
   const supabase = supabaseServer();
+  const userId = await getServerUserId();
   const { data, error } = await supabase
     .from('studymember')
     .select('*, user(name)')
-    .eq('studyId', studyId);
+    .eq('studyId', studyId)
+    .not('participantId', 'eq', userId);
+
   if (error) {
-    return null;
+    throw new Error(`There is an error ${error.message}`);
   }
   return data;
 }
