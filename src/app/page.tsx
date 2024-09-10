@@ -7,12 +7,12 @@ import ROUTE_PATH from '@/constants/route';
 
 export default async function Home() {
   return (
-    <div className="bg-gradient-custom py-16">
+    <div className="flex-1 bg-gradient-custom py-16">
       <div className="flex flex-col items-center justify-center gap-2">
         <p className="text-dark-gray text-lg font-semibold">
           같은 목표로 공부중인 유저
         </p>
-        <span className="text-sub-purple text-center text-2xl font-extrabold">
+        <span className="font-extrabold text-2xl text-[#7677FF]">
           123명
         </span>
       </div>
@@ -32,7 +32,6 @@ export default async function Home() {
           이메일로 로그인
         </Link>
       </div>
-
       <AccountRecoveryLinks />
     </div>
   );
