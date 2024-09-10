@@ -21,8 +21,20 @@ export const useFilterStore = create<FilterState>((set, get) => ({
   filteredList: [],
 
   // 전체 스터디 목록 필터링 및 정렬
-  setStudyList: (studies) =>
+  setStudyList: (studies, searchTerm = '') =>
     set((state) => {
+      const originalStudies =
+        state.originalList.length === 0 ? studies : state.originalList;
+
+      let filteredStudies = studies;
+
+      // 검색
+      if (searchTerm.length > 0) {
+        filteredStudies = studies.filter((study) =>
+          study.title.toLowerCase().includes(searchTerm.toLowerCase()),
+        );
+      }
+
       const filteredByRecruiting = state.isRecruiting
         ? studies.filter((study) => study.isRecruiting)
         : studies;
@@ -46,31 +58,37 @@ export const useFilterStore = create<FilterState>((set, get) => ({
             );
 
       return {
-        originalList: studies,
+        originalList: originalStudies,
         filteredList: sortedStudies,
       };
     }),
 
-  // 모집 중 필터링
+  // 모집 중
   setIsRecruiting: (value) =>
     set((state) => {
-      const filteredByRecruiting = value
-        ? state.originalList.filter((study) => study.isRecruiting)
-        : state.originalList;
+      const { originalList, filteredList, activeTag, selectedFilter } = state;
 
-      const filteredByTag =
-        state.activeTag === '전체'
-          ? filteredByRecruiting
-          : filteredByRecruiting.filter((study) =>
-              study.tags.includes(state.activeTag),
-            );
+      let baseList = filteredList.length > 0 ? filteredList : originalList;
+
+      let filteredStudies = baseList;
+      if (value) {
+        filteredStudies = filteredStudies.filter((study) => study.isRecruiting);
+      } else {
+        filteredStudies = baseList;
+      }
+
+      if (activeTag !== '전체') {
+        filteredStudies = filteredStudies.filter((study) =>
+          study.tags.includes(activeTag),
+        );
+      }
 
       const sortedStudies =
-        state.selectedFilter === 'viewCount'
-          ? filteredByTag.sort(
+        selectedFilter === 'viewCount'
+          ? filteredStudies.sort(
               (a, b) => Number(b.viewCount) - Number(a.viewCount),
             )
-          : filteredByTag.sort(
+          : filteredStudies.sort(
               (a, b) =>
                 new Date(String(b.created_at)).getTime() -
                 new Date(String(a.created_at)).getTime(),

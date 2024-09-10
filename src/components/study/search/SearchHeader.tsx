@@ -7,6 +7,7 @@ interface SearchHeaderProps {
   onTabChange: (index: number) => void;
   searchTerm: string;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const SearchHeader: React.FC<SearchHeaderProps> = ({
@@ -14,6 +15,7 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
   onTabChange,
   searchTerm,
   onSearchChange,
+  onKeyDown,
 }) => {
   const getPlaceholder = () => {
     switch (activeTabIndex) {
@@ -35,6 +37,7 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
             type="text"
             value={searchTerm}
             onChange={onSearchChange}
+            onKeyDown={onKeyDown}
             placeholder={getPlaceholder()}
             className="w-full rounded-lg border border-[#DDDDDD] bg-muted p-3 pl-11 placeholder:text-[#444444]"
           />
