@@ -5,7 +5,7 @@ interface FilterIconProps {
 export default function FilterIcon({ onClick }: any) {
   return (
     <>
-      <button onClick={onClick} className="ml-4">
+      <button onClick={onClick} className="mx-4">
         <svg
           width="18"
           height="16"

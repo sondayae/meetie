@@ -10,6 +10,7 @@ import StudySearch from '@/components/study/search/StudySearch';
 const ParentComponent: React.FC = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [studySearchTerm, setStudySearchTerm] = useState('');
+  const [studySearchTermEnter, setStudySearchTermEnter] = useState('');
   const [userSearchTerm, setUserSearchTerm] = useState('');
 
   const handleTabChange = (index: number) => {
@@ -29,6 +30,12 @@ const ParentComponent: React.FC = () => {
     }
   };
 
+  const handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      setStudySearchTermEnter(studySearchTerm);
+    }
+  };
+
   const getSearchTerm = () => {
     return activeTabIndex === 0 ? studySearchTerm : userSearchTerm;
   };
@@ -43,10 +50,15 @@ const ParentComponent: React.FC = () => {
             onTabChange={handleTabChange}
             searchTerm={getSearchTerm()}
             onSearchChange={handleSearchChange}
+            onKeyDown={handleKeyPress}
           />
 
           <div className="mt-4">
-            {activeTabIndex === 0 ? <StudySearch /> : <UserSearch />}
+            {activeTabIndex === 0 ? (
+              <StudySearch studySearchTerm={studySearchTermEnter} />
+            ) : (
+              <UserSearch />
+            )}
           </div>
         </div>
       </div>

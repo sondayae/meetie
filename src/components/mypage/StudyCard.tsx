@@ -1,34 +1,32 @@
 export default function StudyCard({
   icon,
-  text,
+  label,
   num,
 }: {
   icon: React.ReactNode;
-  text: string;
+  label: string;
   num: number;
 }) {
   return (
-    <>
-      <div className="flex flex-col items-center justify-start gap-4">
+    <div className='flex flex-col gap-3 items-center'>
         {/* icon */}
-        <div className="h-10 w-10">
-          <div className="left-0 top-0 h-10 w-10 rounded-full border border-[#dfd8ff] bg-[#f5f1ff]">
-            <div className="flex h-10 w-10 items-center justify-center">
-              {icon}
-            </div>
-          </div>
+        <div className="flex items-center h-10 w-10 rounded-full border border-[#dfd8ff] bg-[#f5f1ff]">
+          <span className='mx-auto'>
+            {icon}
+          </span>
         </div>
         {/* text */}
+        <div className='flex flex-col gap-2'>
         <div className="flex flex-col items-center justify-center gap-3">
           <div className="flex flex-col items-center justify-center gap-2">
             <div className="text-4 text-center font-normal text-muted-foreground">
-              {text}
+              {label}
             </div>
           </div>
         </div>
         {/* num */}
         <div className="text-center text-lg font-bold text-black">{num}</div>
-      </div>
-    </>
+        </div>
+    </div>
   );
 }

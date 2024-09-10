@@ -13,9 +13,15 @@ import { useEffect } from 'react';
 
 type StudyListProps = {
   loading: boolean;
+  studySearchTerm: string;
+  originalList: Study[];
 };
 
-export default function StudyList({ loading }: StudyListProps) {
+export default function StudyList({
+  loading,
+  studySearchTerm,
+  originalList,
+}: StudyListProps) {
   const { filteredList, isRecruiting, setIsRecruiting, setStudyList } =
     useFilterStore();
 
@@ -28,6 +34,17 @@ export default function StudyList({ loading }: StudyListProps) {
         ),
       );
   };
+  console.log('originalList', originalList);
+  useEffect(() => {
+    if (studySearchTerm.length > 0) {
+      const filteredStudies = originalList.filter((study) =>
+        study.title.toLowerCase().includes(studySearchTerm.toLowerCase()),
+      );
+      setStudyList(filteredStudies);
+    } else {
+      setStudyList(originalList); // 검색어가 없을 때는 전체 리스트로 복구
+    }
+  }, [studySearchTerm]);
 
   return (
     <>
@@ -55,8 +72,8 @@ export default function StudyList({ loading }: StudyListProps) {
         </div>
         {loading ? (
           <SearchSkeleton />
-        ) : (
-          filteredList?.map((study) => (
+        ) : filteredList.length > 0 ? (
+          filteredList.map((study) => (
             // 스터디 카드
             <Link
               href={`/study/${study.id}`}
@@ -64,7 +81,6 @@ export default function StudyList({ loading }: StudyListProps) {
               className="cursor-pointer rounded-lg border border-muted bg-white px-4 py-5 shadow-[0_4px_4px_rgb(0,0,0,0.03)]"
             >
               <div className={'mb-1 flex justify-between text-[#777777]'}>
-                {/* {study.created_at} */}
                 {/* 모집 직군 */}
                 <ul className={'flex gap-1 text-xs'}>
                   {study.roles?.map((role, index) => (
@@ -95,7 +111,11 @@ export default function StudyList({ loading }: StudyListProps) {
               </div>
               <div className={'flex flex-col gap-2'}>
                 <div
-                  className={`w-fit rounded-full border px-2 py-0.5 text-xs ${study.isRecruiting ? 'border-[#ba9fff] bg-accent text-secondary' : 'bg-muted text-[#aaaaaa]'} `}
+                  className={`w-fit rounded-full border px-2 py-0.5 text-xs ${
+                    study.isRecruiting
+                      ? 'border-[#ba9fff] bg-accent text-secondary'
+                      : 'bg-muted text-[#aaaaaa]'
+                  } `}
                 >
                   {study.isRecruiting ? '모집 중' : '모집 완료'}
                 </div>
@@ -117,7 +137,6 @@ export default function StudyList({ loading }: StudyListProps) {
               )}
               <div className={'mt-6 flex'}>
                 {/* 디데이 */}
-
                 <div className={'mr-3 text-xs font-semibold text-primary'}>
                   {`D${
                     Number(new Date(study.endDate)) - Number(new Date()) > 0
@@ -133,7 +152,6 @@ export default function StudyList({ loading }: StudyListProps) {
                     ),
                   )}`}
                 </div>
-
                 {/* 기간 */}
                 <div
                   className={'flex items-center gap-1 text-xs text-[#777777]'}
@@ -155,6 +173,8 @@ export default function StudyList({ loading }: StudyListProps) {
               </div>
             </Link>
           ))
+        ) : (
+          <p className="text-center text-[#777777]">검색 결과가 없습니다.</p>
         )}
       </div>
     </>
