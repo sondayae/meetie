@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import BookIcon from '../icons/Book';
 import BookmarkIcon from '../icons/Bookmark';
 import RightArrowIcon from '../icons/RightArrowIcon';
@@ -28,7 +28,7 @@ export default function MypageSection() {
           <li>뱃지3</li>
         </ul>
       </section>
-      <p className="border-t-4 border-light-gray text-lg font-bold"></p>
+      <p className="border-light-gray border-t-4 text-lg font-bold"></p>
       <section className="py-4">
         <p className="pb-4 text-lg font-bold">내 스터디</p>
         <ul className="flex flex-col gap-5 px-2 text-base">
@@ -55,7 +55,7 @@ export default function MypageSection() {
           </Link>
         </ul>
       </section>
-      <p className="border-t-4 border-light-gray text-lg font-bold"></p>
+      <p className="border-light-gray border-t-4 text-lg font-bold"></p>
       <section>
         <p className="py-4 text-lg font-bold">고객센터</p>
         <ul className="flex flex-col gap-5 px-2 text-base">
@@ -93,7 +93,7 @@ export default function MypageSection() {
           </Link>
         </ul>
       </section>
-      <p className="border-t-4 border-light-gray text-lg font-bold"></p>
+      <p className="border-light-gray border-t-4 text-lg font-bold"></p>
       <section>
         <p className="py-4 text-lg font-bold">계정 정보</p>
         <ul className="flex flex-col gap-5 px-2 text-base">
@@ -139,8 +139,10 @@ export default function MypageSection() {
               </p>
             </Link>
           </li> */}
+          <li className='p-8'>
+            <Logout />
+          </li>
         </ul>
-        <Logout/>
       </section>
     </div>
   );

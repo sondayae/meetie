@@ -28,7 +28,7 @@ export default function LoginForm() {
     try {
       const user = await postLogin(formData);
       useUser.setState({ user });
-      router.replace(ROUTE_PATH.STUDY_ROOM.MAIN);
+      router.replace('/walkthrough');
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
@@ -41,8 +41,8 @@ export default function LoginForm() {
   }, [setFocus]);
 
   return (
-    <form className="flex flex-col gap-3 px-4">
-      <div>
+    <form className="flex flex-col gap-[60px]">
+      <div className='flex flex-col gap-3'>
         <Input<LoginFormData>
           id="email"
           name="email"
@@ -56,9 +56,6 @@ export default function LoginForm() {
           }}
         />
         {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
-      </div>
-
-      <div>
         <Input<LoginFormData>
           id="password"
           name="password"
@@ -83,5 +80,6 @@ export default function LoginForm() {
         />
       </div>
     </form>
+    
   );
 }

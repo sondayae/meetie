@@ -1,19 +1,18 @@
 import Link from 'next/link';
 
 import HomeSVG from '@/components/icons/HomeSVG';
-import MoreIcon from '@/components/icons/MoreIcon';
 import AccountRecoveryLinks from '@/components/loginPage/AccountRecoveryLinks';
 import SocialButtons from '@/components/loginPage/SocialButtons';
 import ROUTE_PATH from '@/constants/route';
 
 export default async function Home() {
   return (
-    <div className="bg-gradient-custom py-16">
+    <div className="flex-1 bg-gradient-custom py-16">
       <div className="flex flex-col items-center justify-center gap-2">
-        <p className="text-lg font-semibold text-dark-gray">
+        <p className="text-dark-gray text-lg font-semibold">
           같은 목표로 공부중인 유저
         </p>
-        <span className="text-center text-2xl font-extrabold text-sub-purple">
+        <span className="font-extrabold text-2xl text-[#7677FF]">
           123명
         </span>
       </div>
@@ -22,16 +21,17 @@ export default async function Home() {
         <HomeSVG className="h-full w-auto pr-11" />
       </div>
 
-      <div className="flex justify-center gap-6">
-        <SocialButtons />
+      <div className="flex flex-col items-center justify-center">
+        <div className="flex justify-center gap-6">
+          <SocialButtons />
+        </div>
         <Link
           href={ROUTE_PATH.AUTH.LOGIN}
-          className="flex h-11 w-11 items-center justify-center rounded bg-dark-gray shadow"
+          className="after:contents-[''] text-dark-gray after:bg-dark-gray relative mt-6 px-2 py-1 text-sm font-medium after:absolute after:bottom-1 after:left-2 after:right-2 after:h-px"
         >
-          <MoreIcon className="h-7 w-7 stroke-white" />
+          이메일로 로그인
         </Link>
       </div>
-
       <AccountRecoveryLinks />
     </div>
   );
