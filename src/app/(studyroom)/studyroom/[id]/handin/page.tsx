@@ -1,0 +1,74 @@
+import NoticeBox from '@/components/common/NoticeBox';
+import Handin from '@/components/handin/Handin';
+import Header from '@/components/handin/Header';
+import { SkeletonFeedback } from '@/components/handin/SkeletonFeedback';
+import EventCalendarIcon from '@/components/icons/EventCalendarIcon';
+import Plus from '@/components/icons/Header/Plus';
+import SelectBox from '@/components/studyRoom/SelectBox';
+import TabMenu from '@/components/studyRoom/TabMenu';
+import supabaseServer from '@/utils/supabase/server';
+import Navigator from '@/components/common/Navigator';
+import AddFeedbackBtn from '@/components/handin/AddFeedbackBtn';
+import { getFeedbacks } from '@/actions/studyroom/feedbackActions';
+import { Feedback } from '@/types/feedbacks';
+
+export default async function page({ params }: { params: { id: string } }) {
+  const data: Feedback[] = await getFeedbacks(params.id);
+  // TODO 가입된 스터디룸 정보 가져와서 selectBox 에 표기
+
+  return (
+    <div>
+      {/* 헤더 영역 */}
+      <div className="bg-[#E3E3FA] p-4">
+        <Header leftIcon={false} label="스터디룸" rightIcon={<Plus />} useBorderBottom={false} />
+        <div className="mt-4 flex flex-col gap-5">
+          <div className="flex items-center justify-end text-xs">
+            <span className="rounded-l-lg border border-transparent bg-primary px-2 py-1 text-white">
+              진행중 3
+            </span>
+            <span className="rounded-r-lg border border-primary bg-white px-2 py-1 text-muted-foreground">
+              진행완료
+            </span>
+          </div>
+          {/* <SelectBox /> */}
+        </div>
+      </div>
+      <TabMenu />
+      {/* 콘텐츠 영역 - 과제 일정 및 캘린더 부분*/}
+      <div className="bg-muted">
+        <div className="border-b-2 px-4 py-7">
+          <div className="mb-[20px] flex flex-col gap-1">
+            <h1 className="text-lg font-bold">📚 과제 일정</h1>
+            <p className="text-sm text-muted-foreground">
+              주차별 과제 현황을 확인하고 소통해요.
+            </p>
+          </div>
+          <NoticeBox />
+        </div>
+        <div className="p-4">
+          <div className="mb-6 flex justify-between">
+            <span className="font-semibold">9월</span>
+            <span>
+              <EventCalendarIcon />
+            </span>
+          </div>
+        </div>
+        {/* 콘텐츠 영역 - 과제 인증 리스트 */}
+        <div className="rounded-t-xl bg-white drop-shadow-md">
+          <div className="flex flex-col gap-1 border-b p-8">
+            <h1 className="text-lg font-semibold">✏️ 9월 4일 화요일</h1>
+            <p className="text-sm text-muted-foreground">
+              과제를 인증한 팀원들을 확인해 보세요.
+            </p>
+          </div>
+          <div>
+            {data?.map((item) => <Handin key={item.id} data={item} />)}
+            {!data && <SkeletonFeedback />}
+          </div>
+          <AddFeedbackBtn />
+        </div>
+      </div>
+      <Navigator />
+    </div>
+  );
+}
