@@ -159,6 +159,7 @@ export async function getFeedback(handinId: string) {
       .from('handin')
       .select('id, text, created_at, homework(id, title, subtitle), user(id, name, images(url)), images(url)')
       .eq('id', handinId)
+      .single();
 
     handleError(error);
     
