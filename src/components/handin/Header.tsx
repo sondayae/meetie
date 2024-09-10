@@ -10,7 +10,7 @@ type HeaderType = {
   useBorderBottom?: boolean;
 }
 
-function Header({ label, leftIcon, rightIcon, useBorderBottom = true }: HeaderType) {
+function Header({ label, leftIcon = true, rightIcon, useBorderBottom = true }: HeaderType) {
   const px = leftIcon && rightIcon ? 'px-2' : 'px-4';
   return (
     <div className={twMerge('py-2', useBorderBottom && 'border-b')}>
