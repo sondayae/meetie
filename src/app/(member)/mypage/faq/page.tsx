@@ -50,7 +50,7 @@ export default function page() {
         {/* 1 */}
         <div className="flex h-12 flex-col items-start justify-start gap-2">
           <p className="text-lg font-bold text-dark-gray">❓ 자주 묻는 질문</p>
-          <p className="text-sm font-normal text-gray-purple">
+          <p className="text-sm font-normal text-muted-foreground">
             아래에서 자주 묻는 질문과 답변을 확인하세요.
           </p>
         </div>
@@ -58,7 +58,7 @@ export default function page() {
 
         {/* 3 */}
         {DUMMY.map((item) => (
-          <div className="w-full rounded-lg border border-light-gray bg-light-gray px-4 py-3">
+          <div className="w-full rounded-lg border border-light-gray bg-muted px-4 py-3">
             <div className="flex flex-col gap-2">
               <div className="text-lg font-normal text-dark-gray">
                 {item.question}

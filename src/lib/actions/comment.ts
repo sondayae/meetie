@@ -3,10 +3,9 @@
 import supabase from '@/utils/supabase/client';
 import { getServerUserId } from './getServerUserId';
 
-export async function createComment(formData: FormData) {
+
+export async function createComment({comment, targetId}: {comment:string, targetId: string}) {
   const userId = await getServerUserId();
-  const comment = formData.get('comment');
-  const targetId = formData.get('targetId');
 
   try {
     if (!userId) {
@@ -74,35 +73,37 @@ export async function deleteComment(commentId: string) {
       throw new Error('comment id is required');
     }
     const { error } = await supabase
-    .from('comments')
-    .delete()
-    .eq('id', commentId);
+      .from('comments')
+      .delete()
+      .eq('id', commentId);
 
     if (error) {
       throw new Error(`${error.message}`);
     }
-    return {success: true};
+    return { success: true };
   } catch (err: any) {
     return { success: false, error: err.message };
   }
 }
 
 export async function getComments(targetId: string) {
-  
   try {
     if (!targetId) {
       throw new Error('comment id is required');
     }
-    const { data, error } = 
-    await supabase.from('comments').select(`
+    const { data, error } = await supabase
+      .from('comments')
+      .select(
+        `
       id,
       comment,
       created_at,
       user(id, name, images(url))
-    `)
-    .eq('target_id', targetId)
-    .order('created_at', { ascending: false });
-  
+    `,
+      )
+      .eq('target_id', targetId)
+      .order('created_at', { ascending: false });
+
     if (error) {
       throw new Error(`${error.message}`);
     }

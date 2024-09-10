@@ -1,33 +1,21 @@
-// components/CustomAvatar.tsx
 'use client';
 
-import { Avatar as NextUIAvatar } from '@nextui-org/avatar';
-import React from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { AvatarProps } from '@/types/common';
+import My from '../icons/Navigator/My';
 
-interface CustomAvatarProps {
-  src?: string | null; // `null`을 허용
-  alt?: string;
-  className?: string;
-}
-
-const CustomAvatar: React.FC<CustomAvatarProps> = ({
+export default function ProfileAvatar({
   src,
-  alt = 'Profile',
-  className = '',
-}) => {
-  const fallbackImage = 'https://images.unsplash.com/broken';
-
-  // `src`가 `null`일 때 `fallbackImage`를 사용
-  const imageSrc = src || fallbackImage;
-
+  alt,
+  fallback = <My />,
+  className,
+  onClick,
+}: AvatarProps) {
   return (
-    <NextUIAvatar
-      showFallback
-      src={imageSrc}
-      alt={alt}
-      className={`h-24 w-24 ${className}`}
-    />
+    <Avatar className={className} onClick={onClick}>
+      <AvatarImage src={src} alt={alt} />
+      {/* 폴백으로 이미지 또는 이름 사용 가능 */}
+      {!src && <AvatarFallback>{fallback}</AvatarFallback>}
+    </Avatar>
   );
-};
-
-export default CustomAvatar;
+}

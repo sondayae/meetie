@@ -1,15 +1,17 @@
 'use client';
 import Button from '@/components/common/Button';
+import FireWork from '@/components/common/Firework';
 import SuccessShadow from '@/components/icons/SuccessShadow';
 import SucessCrown from '@/components/icons/SucessCrown';
 import { useUser } from '@/stores/user/user';
+
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 interface UserProfileData {
   job: string;
   personality: string[];
-  imageUrl: string | null;
+  imageUrl: string;
 }
 
 export default function ProfileSuccess() {
@@ -18,6 +20,8 @@ export default function ProfileSuccess() {
   const [profile, setProfile] = useState<UserProfileData | null>(null);
 
   const { user } = useUser();
+  console.log(user);
+
   const userName = user?.user_metadata.name;
 
   const router = useRouter();
@@ -43,8 +47,9 @@ export default function ProfileSuccess() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-white px-6">
-      <div className="text-left">
+    <div className="mx-auto flex h-screen max-w-[600px] flex-col items-center justify-between">
+      {/* Header and Description */}
+      <div className="mt-12 px-4 text-left">
         <h1 className="text-2xl font-bold">
           {`${userName}님의`} <br />
           공개 프로필이 생성되었어요 🎉
@@ -54,27 +59,27 @@ export default function ProfileSuccess() {
         </p>
       </div>
 
-      <div className="relative mt-10 h-[300px] w-[200px]">
-        {/* Back Card */}
-        <div className="absolute inset-0 h-full rounded-xl bg-gradient-to-tr from-[#B8B9FF] to-[#7273FF]"></div>
-
-        {/* Front Card */}
-        <div
-          className={`absolute inset-0 rounded-xl bg-white p-6 shadow-lg transition-transform ${
-            animate ? 'animate-moveCard opacity-80' : 'opacity-90'
-          } h-full`}
-        >
-          <div className="flex h-full flex-col items-center justify-center pb-10">
-            <SucessCrown avatarSrc={profile?.imageUrl} />
-
-            <div className="mt-6">
-              <p className="mt-4 text-center text-sm font-bold">김서희</p>
-              <p className="text-center text-[10px] text-gray-700">
-                {profile?.job}
-              </p>
-              <p className="mt-2 text-center text-xs text-gray-500">
-                {profile?.personality.join(' · ')}
-              </p>
+      {/* Card */}
+      <div className="relative h-[260px] w-[180px]">
+        <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-[#B8B9FF] to-[#7273FF]"></div>
+        <div className="relative h-full w-full">
+          <FireWork />
+          <div
+            className={`absolute inset-0 rounded-xl bg-white p-4 shadow-lg transition-transform ${
+              animate ? 'animate-moveCard opacity-80' : 'opacity-90'
+            }`}
+          >
+            <div className="flex h-full flex-col items-center">
+              <SucessCrown avatarSrc={profile?.imageUrl} />
+              <div className="mt-4 text-center">
+                <p className="text-sm font-bold">{userName}</p>
+                <p className="mb-[15px] text-[10px] font-semibold">
+                  {profile?.job}
+                </p>
+                <p className="text-xs text-[#393953]">
+                  {profile?.personality.slice(0, 5).join(' · ') || '-'}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -82,13 +87,15 @@ export default function ProfileSuccess() {
       <SuccessShadow />
 
       {/* Button */}
-      <div className="relative mt-10">
-        <Button
-          label="확인하러 가기"
-          type="primary"
-          size="large"
-          onClick={handleGoProfile}
-        />
+      <div className="w-full px-4 pb-4">
+        <div className="mx-auto max-w-[600px]">
+          <Button
+            label="확인하러 가기"
+            type="primary"
+            size="medium"
+            onClick={handleGoProfile}
+          />
+        </div>
       </div>
 
       <style jsx>{`

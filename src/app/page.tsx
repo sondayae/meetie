@@ -28,7 +28,7 @@ export default async function Home() {
           href={ROUTE_PATH.AUTH.LOGIN}
           className="flex h-11 w-11 items-center justify-center rounded bg-dark-gray shadow"
         >
-          <MoreIcon stroke="white" className="h-7 w-7" />
+          <MoreIcon className="h-7 w-7 stroke-white" />
         </Link>
       </div>
 

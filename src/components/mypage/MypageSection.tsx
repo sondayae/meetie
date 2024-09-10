@@ -1,9 +1,11 @@
+'use client';
 import BookIcon from '../icons/Book';
 import BookmarkIcon from '../icons/Bookmark';
 import RightArrowIcon from '../icons/RightArrowIcon';
 import ScrapIcon from '../icons/Scrap';
 import StudyItem from './StudyItem';
 import Link from 'next/link';
+import Logout from '@/components/mypage/Logout';
 
 export default function MypageSection() {
   return (
@@ -26,7 +28,7 @@ export default function MypageSection() {
           <li>뱃지3</li>
         </ul>
       </section>
-      <p className="border-t-4 border-light-gray text-lg font-bold"></p>
+      <p className="border-light-gray border-t-4 text-lg font-bold"></p>
       <section className="py-4">
         <p className="pb-4 text-lg font-bold">내 스터디</p>
         <ul className="flex flex-col gap-5 px-2 text-base">
@@ -53,7 +55,7 @@ export default function MypageSection() {
           </Link>
         </ul>
       </section>
-      <p className="border-t-4 border-light-gray text-lg font-bold"></p>
+      <p className="border-light-gray border-t-4 text-lg font-bold"></p>
       <section>
         <p className="py-4 text-lg font-bold">고객센터</p>
         <ul className="flex flex-col gap-5 px-2 text-base">
@@ -91,17 +93,22 @@ export default function MypageSection() {
           </Link>
         </ul>
       </section>
-      <p className="border-t-4 border-light-gray text-lg font-bold"></p>
+      <p className="border-light-gray border-t-4 text-lg font-bold"></p>
       <section>
         <p className="py-4 text-lg font-bold">계정 정보</p>
         <ul className="flex flex-col gap-5 px-2 text-base">
           <li className="flex items-center justify-between">
-            <p className="flex gap-2">
-              <span>회원 정보 수정</span>
-            </p>
-            <p>
-              <RightArrowIcon className="m-auto h-4 w-4" />
-            </p>
+            <Link
+              className="flex w-full items-center justify-between"
+              href="/mypage/editAccount"
+            >
+              <p className="flex gap-2">
+                <span>회원 정보 수정</span>
+              </p>
+              <p>
+                <RightArrowIcon className="m-auto h-4 w-4" />
+              </p>
+            </Link>
           </li>
           <li className="flex items-center justify-between">
             <p className="flex gap-2">
@@ -119,13 +126,21 @@ export default function MypageSection() {
               <RightArrowIcon className="m-auto h-4 w-4" />
             </p>
           </li>
-          <li className="flex items-center justify-between">
-            <p className="flex gap-2">
-              <span>회원탈퇴</span>
-            </p>
-            <p>
-              <RightArrowIcon className="m-auto h-4 w-4" />
-            </p>
+          {/* <li className="flex items-center justify-between">
+            <Link
+              className="flex w-full items-center justify-between"
+              href="/mypage/deleteUser"
+            >
+              <p className="flex gap-2">
+                <span>회원탈퇴</span>
+              </p>
+              <p>
+                <RightArrowIcon className="m-auto h-4 w-4" />
+              </p>
+            </Link>
+          </li> */}
+          <li className='p-8'>
+            <Logout />
           </li>
         </ul>
       </section>

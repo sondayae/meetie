@@ -6,6 +6,7 @@ export default function SuccessShadow() {
       viewBox="0 0 198 51"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="my-[34px]"
     >
       <g filter="url(#filter0_f_2_4832)">
         <ellipse

@@ -1,37 +1,56 @@
+'use client';
+
 interface ButtonProps {
-  label: string,
-  buttonType?: 'button' | 'submit',
-  type?: 'primary' | 'secondary' | 'disabled',
-  size?: 'small' | 'medium' | 'large',
-  borderStyle?: string,
+  label: string;
+  buttonType?: 'button' | 'submit';
+  type?: 'primary' | 'secondary' | 'disabled';
+  size?: 'small' | 'medium' | 'large';
+  borderStyle?: string;
   onClick?: () => void;
 }
 
-
-const Button = ({type, buttonType = 'button', label, size, borderStyle='none', onClick}: ButtonProps) => {
-
+function Button({
+  type,
+  buttonType = 'button',
+  label,
+  size,
+  borderStyle = 'none',
+  onClick,
+}: ButtonProps) {
   const getSize = () => {
-    switch(size) {
-      case 'small': return 'min-w-[124px] w-full';
-      case 'medium': return 'min-w-[254px] w-full';
-      case 'large': return 'min-w-[340px] w-full';
-      default: return 'min-w-[250px] w-full'
+    switch (size) {
+      case 'small':
+        return 'min-w-[124px] w-full';
+      case 'medium':
+        return 'min-w-[254px] w-full';
+      case 'large':
+        return 'min-w-[340px] w-full';
+      default:
+        return 'min-w-[250px] w-full';
     }
-  }
+  };
 
   const getColor = () => {
-    switch(type) {
-      case 'primary': return 'bg-main-purple border-main-purple text-white';
-      case 'secondary': return 'border-main-purple text-main-purple';
-      case 'disabled': return 'bg-disabled border-disabled text-white';
-      default: return 'border-middle-gray text-gray-purple';
+    switch (type) {
+      case 'primary':
+        return 'bg-primary border-main-purple text-white';
+      case 'secondary':
+        return 'border-main-purple text-primary';
+      case 'disabled':
+        return 'bg-disabled border-disabled text-white';
+      default:
+        return 'border-middle-gray text-muted-foreground';
     }
   };
 
   return (
-    <button type={buttonType} className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`} onClick={() => onClick?.()}>
+    <button
+      type={buttonType}
+      className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`}
+      onClick={() => onClick?.()}
+    >
       {label}
     </button>
   );
-};
+}
 export default Button;

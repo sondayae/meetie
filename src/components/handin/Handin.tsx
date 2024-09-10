@@ -1,85 +1,95 @@
 'use client';
 
+import ProfileAvatar from '../common/ProfileAvatar';
+import Separator from '../common/Separator';
+import CommentIcon from '../icons/CommentIcon';
+import EmojiIcon from '../icons/EmojiIcon';
+import NewCheckSignIcon from '../icons/NewCheckSignIcon';
+import ImageFrame from './ImageFrame';
+import { dateFormatter, timeFormatter } from '@/utils/common/dateFormatter';
+import { getImgUrl } from '@/utils/supabase/storage';
+import CustomDropDownMenu from '../common/CustomDropdownMenu';
 import { useRouter } from 'next/navigation';
+import useConfirm from '@/hooks/use-confirm';
+import { Feedback } from '@/types/feedbacks';
 
-import ProfileImg from '../common/ProfileImg';
-export type HandinType = {
-  id: string;
-  userName: string;
-  text: string;
-  handinImg: string;
-  date: string;
-  onEdit: () => void;
-  onDelete: () => void;
-};
-
-const dateFormatter = (timestamp: string) => {
-  const date = new Date(timestamp).toLocaleString().slice(0, -3);
-  return date;
-};
-
-function Handin({
-  id,
-  userName,
-  handinImg,
-  text,
-  date,
-  onEdit,
-  onDelete,
-}: HandinType) {
+export default function Handin({ data }: {data : Feedback}) {
   const router = useRouter();
-  const showHandinDetail = (handinId: string) => {
-    router.push(`./handin/${handinId}`);
-  };
-  const handleTypeFunc = (type: string) => {
-    if (type === 'edit') {
-      onEdit();
-    }
-    if (type === 'delete') {
-      onDelete();
-    }
-  };
+  const handleEdit = (e: any) => {
+    e.stopPropagation();
+    router.push(`./handin/edit/${data.id}`);
+  }
+  const handleDelete = async (e: any) => {
+    e.stopPropagation();
+    const result = await confirm();
+  }
+
+  const { ConfirmModal, confirm } = useConfirm({
+    title: '삭제',
+    message: '댓글을 삭제하시겠습니까?',
+  });
+  
+  
 
   return (
-    <div
-      key={id}
-      className="border-b-2 border-b-middle-gray bg-light-purple p-[15px]"
-      onClick={() => showHandinDetail(id)}
-    >
-      <div className="grid grid-cols-[1fr_7fr_1fr] gap-2">
-        <ProfileImg />
-        <div className="">
-          <div className="pb-[16px]">
-            <span className="pr-[30px]">{userName}</span>
-            <span>14일차 과제</span>
+    <>
+    {data && 
+    <div onClick={() => router.push(`./handin/${data.id}`)}>
+      <ConfirmModal />
+      <div className="grid grid-cols-[50px_1fr_45px] px-4 py-5 gap-2 border-b">
+        <div className='mx-auto'>
+          <ProfileAvatar src={data.user?.[0].images?.[0].url}/>
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-2 items-center">
+            <span className="font-bold">{data.user?.[0].name}</span>
+            <span>
+              <NewCheckSignIcon
+                sizeClassName='w-4 h-4'
+                circleClassName="fill-black"
+                checkClassName="fill-white"
+                />
+            </span>
+            <span className="text-xs text-[#898989]">
+              {!Array.isArray(data.homework) ? data.homework?.title : data.homework?.[0].title}
+            </span>
           </div>
-          <div className="pb-[10px]">
-            <span>{text}</span>
-          </div>
-          <div className="aspect-video overflow-hidden rounded-lg bg-black">
-            <img
-              src={handinImg}
-              alt="과제 인증 사진"
-              className="h-full w-full object-cover"
-            />
+          <div className='min-h-20'>
+            <p>{data.text}</p>
           </div>
           <div>
-            <span>{dateFormatter(date)}</span>
+            <ImageFrame
+              src={getImgUrl(data.images?.[0].url)}
+              alt="data_image"
+              />
+          </div>
+          <div className="flex justify-between">
+            <div className="flex items-center gap-1 text-xs text-[#636363]">
+              <span>{timeFormatter(data.created_at)}</span>
+              <Separator type="circle" />
+              <span>{dateFormatter(data.created_at)}</span>
+            </div>
+            <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-1">
+                <span>
+                  <EmojiIcon />
+                </span>
+                <span className="text-xs text-[#636363]">{data.feedback_reactions?.length}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span>
+                  <CommentIcon />
+                </span>
+                <span className="text-xs text-[#636363]">{data.comments?.length}</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div>
-          {/* <ToggleMenu
-            menus={[
-              { icon: 'edit', label: '수정하기' },
-              { icon: 'delete', label: '삭제하기' },
-            ]}
-            onClick={(item: string) => {
-              handleTypeFunc(item);
-            }}
-          /> */}
+        <div className='mx-auto'>
+          <CustomDropDownMenu handleEdit={handleEdit} handleDelete={handleDelete}/>
         </div>
       </div>
-    </div>
+    </div>}
+            </>
   );
 }
-export default Handin;

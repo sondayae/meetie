@@ -18,7 +18,7 @@ export default function DropDownMenu({handleEdit, handleDelete}: DropDownMenuPro
         aria-label="moreActions"
       >
         <span id="svgContainer">
-          <MoreIcon />
+          <MoreIcon className='stroke-black'/>
         </span>
       </button>
       {showMenu &&
