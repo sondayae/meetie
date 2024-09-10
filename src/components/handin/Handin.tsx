@@ -59,7 +59,7 @@ export default function Handin({ data }: {data : Feedback}) {
           </div>
           <div>
             <ImageFrame
-              src={getImgUrl(data.images?.[0].url)}
+              src={data.images ? getImgUrl(data.images?.[0].url) : ''}
               alt="data_image"
               />
           </div>
