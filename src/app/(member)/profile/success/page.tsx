@@ -73,11 +73,11 @@ export default function ProfileSuccess() {
               <SucessCrown avatarSrc={profile?.imageUrl} />
               <div className="mt-4 text-center">
                 <p className="text-sm font-bold">{userName}</p>
-                <p className="mb-[15px] text-[10px] text-gray-700">
+                <p className="mb-[15px] text-[10px] font-semibold">
                   {profile?.job}
                 </p>
-                <p className="text-xs text-gray-500">
-                  {profile?.personality.join(' · ')}
+                <p className="text-xs text-[#393953]">
+                  {profile?.personality.slice(0, 5).join(' · ') || '-'}
                 </p>
               </div>
             </div>

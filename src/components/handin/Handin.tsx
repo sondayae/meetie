@@ -11,9 +11,9 @@ import { getImgUrl } from '@/utils/supabase/storage';
 import CustomDropDownMenu from '../common/CustomDropdownMenu';
 import { useRouter } from 'next/navigation';
 import useConfirm from '@/hooks/use-confirm';
+import { Feedback } from '@/types/feedbacks';
 
-export default function data({data} : {data: any}) {
-  
+export default function Handin({ data }: {data : Feedback}) {
   const router = useRouter();
   const handleEdit = (e: any) => {
     e.stopPropagation();
@@ -38,11 +38,11 @@ export default function data({data} : {data: any}) {
       <ConfirmModal />
       <div className="grid grid-cols-[50px_1fr_45px] px-4 py-5 gap-2 border-b">
         <div className='mx-auto'>
-          <ProfileAvatar src={data.user.images?.url}/>
+          <ProfileAvatar src={data.user?.[0].images?.[0].url}/>
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex gap-2 items-center">
-            <span className="font-bold">{data.user.name}</span>
+            <span className="font-bold">{data.user?.[0].name}</span>
             <span>
               <NewCheckSignIcon
                 sizeClassName='w-4 h-4'
@@ -51,7 +51,7 @@ export default function data({data} : {data: any}) {
                 />
             </span>
             <span className="text-xs text-[#898989]">
-              {data.homework.title}
+              {!Array.isArray(data.homework) ? data.homework?.title : data.homework?.[0].title}
             </span>
           </div>
           <div className='min-h-20'>
@@ -59,7 +59,7 @@ export default function data({data} : {data: any}) {
           </div>
           <div>
             <ImageFrame
-              src={getImgUrl(data.images[0].url)}
+              src={getImgUrl(data.images?.[0].url)}
               alt="data_image"
               />
           </div>
@@ -74,13 +74,13 @@ export default function data({data} : {data: any}) {
                 <span>
                   <EmojiIcon />
                 </span>
-                <span className="text-xs text-[#636363]">{data.emojiCount}</span>
+                <span className="text-xs text-[#636363]">{data.feedback_reactions?.length}</span>
               </div>
               <div className="flex items-center gap-1">
                 <span>
                   <CommentIcon />
                 </span>
-                <span className="text-xs text-[#636363]">{data.commentCount}</span>
+                <span className="text-xs text-[#636363]">{data.comments?.length}</span>
               </div>
             </div>
           </div>
