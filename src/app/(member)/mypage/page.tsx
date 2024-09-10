@@ -9,6 +9,7 @@ import Link from 'next/link';
 import supabaseServer from '@/utils/supabase/server';
 
 import Navigator from '@/components/common/Navigator';
+import Header from '@/components/handin/Header';
 
 export default async function page() {
   const supabaseAuth = supabaseServer();
@@ -17,52 +18,51 @@ export default async function page() {
   const userdata = await getUser({ id: data?.user?.id });
 
   return (
-    <div className="flex h-full min-h-dvh flex-col">
-      <div className="m-auto flex w-full max-w-[600px] flex-col px-4">
-        {!userdata && <p className='text-center'>로그인 정보가 없습니다</p>}
-        {userdata && (
-          <>
-            <header className="mb-11">
-              <h1 className="text-xl font-bold">마이페이지</h1>
-            </header>
-            {/* 프로필 */}
-            <SimpleCard userdata={userdata} />
-            {/* 내정보 */}
-            <p className="py-4 text-lg font-bold">내정보</p>
-
-            <section className="border-1 flex items-center justify-center gap-[60px] rounded-lg border-[#E0D8F] bg-[#FDFBFF] px-8 py-6">
-              {/* <StudyCard text="참여스터디" num={userdata. || 0} />
-        <StudyCard text="관심스터디" num={userdata. || 0} />
-        <StudyCard text="스터디친구" num={userdata. || 0} /> */}
-
-              
+    <>
+    {/* 헤더 영역 */}
+    <Header leftIcon={false} label='마이페이지'/>
+    {/* 콘텐츠 영역 */}
+    { userdata &&
+      <div className='flex flex-col flex-1 overflow-y-scroll px-4 gap-10'>
+        <div className='mt-10'>
+          <SimpleCard userdata={userdata} />
+        </div>
+        <div>
+          <div className='mb-8'>
+            <p className="text-lg font-bold mb-3">내정보</p>
+            <div className='flex justify-center items-center gap-20 p-6 rounded-lg bg-[#FDFBFF] border border-[#E0D8FF] text-muted-foreground'>
               <Link href="/mypage/study">
                 <StudyCard
                   icon={<ScrapIcon fill="#8655FF" />}
                   text="관심스터디"
                   num={3}
-                />
+                  />
               </Link>
               <Link href="/mypage/bookmark">
                 <StudyCard
                   icon={<BookmarkIcon fill="#8655FF" />}
                   text="참여스터디"
                   num={1}
-                />
+                  />
               </Link>
               <Link href="/mypage/friend">
                 <StudyCard
                   icon={<FriendsIcon fill="#8655FF" />}
                   text="스터디친구"
                   num={5}
-                />
+                  />
               </Link>
-            </section>
-            <MypageSection />
-          </>
-        )}
+            </div>
+          </div>
+          <MypageSection />
+        </div>
       </div>
+    }
+    {!userdata && <p className='text-center'>로그인 정보가 없습니다</p>}
       <Navigator />
-    </div>
+      {/* <StudyCard text="참여스터디" num={userdata. || 0} />
+      <StudyCard text="관심스터디" num={userdata. || 0} />
+      <StudyCard text="스터디친구" num={userdata. || 0} /> */}
+    </>
   );
 }
