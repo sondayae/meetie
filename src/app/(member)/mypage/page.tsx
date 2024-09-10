@@ -14,8 +14,12 @@ import Header from '@/components/handin/Header';
 export default async function page() {
   const supabaseAuth = supabaseServer();
   const { data, error } = await supabaseAuth.auth.getUser();
-
   const userdata = await getUser({ id: data?.user?.id });
+  const studyCardItem = [
+    {label: '관심스터디', num: 3, icon: <ScrapIcon stroke='#A180F4' className='fill-none'/>, path: '/study'},
+    {label: '참여스터디', num: 3, icon: <BookmarkIcon className='fill-[#A180F4]' />, path: '/bookmark'},
+    {label: '스터디친구', num: 3, icon: <FriendsIcon className='fill-[#A180F4]'/>, path: '/friend'},
+  ]
 
   return (
     <>
@@ -23,39 +27,23 @@ export default async function page() {
     <Header leftIcon={false} label='마이페이지'/>
     {/* 콘텐츠 영역 */}
     { userdata &&
-      <div className='flex flex-col flex-1 overflow-y-scroll px-4 gap-10'>
-        <div className='mt-10'>
-          <SimpleCard userdata={userdata} />
-        </div>
-        <div>
+      <div className='flex flex-col flex-1 overflow-y-scroll px-4 py-10 gap-10'>
+        <SimpleCard userdata={userdata} />
           <div className='mb-8'>
             <p className="text-lg font-bold mb-3">내정보</p>
             <div className='flex justify-center items-center gap-20 p-6 rounded-lg bg-[#FDFBFF] border border-[#E0D8FF] text-muted-foreground'>
-              <Link href="/mypage/study">
-                <StudyCard
-                  icon={<ScrapIcon fill="#8655FF" />}
-                  text="관심스터디"
-                  num={3}
+              {studyCardItem.map(item => (
+                <Link key={item.path} href={`/mypage${item.path}`}>
+                  <StudyCard 
+                    icon={item.icon}
+                    label={item.label}
+                    num={item.num}
                   />
-              </Link>
-              <Link href="/mypage/bookmark">
-                <StudyCard
-                  icon={<BookmarkIcon fill="#8655FF" />}
-                  text="참여스터디"
-                  num={1}
-                  />
-              </Link>
-              <Link href="/mypage/friend">
-                <StudyCard
-                  icon={<FriendsIcon fill="#8655FF" />}
-                  text="스터디친구"
-                  num={5}
-                  />
-              </Link>
+                </Link>
+              ))}
             </div>
           </div>
           <MypageSection />
-        </div>
       </div>
     }
     {!userdata && <p className='text-center'>로그인 정보가 없습니다</p>}
