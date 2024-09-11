@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import UserCard from './UserCard';
+import UserSkeleton from './UserSkeleton';
 
 type UserCardProps = {
   id: string;
@@ -19,9 +20,11 @@ export default function UserList({
 }) {
   const [users, setUsers] = useState<UserCardProps[]>([]);
   const [allUsers, setAllUsers] = useState<UserCardProps[]>([]);
+  const [loading, setLoading] = useState<boolean>(true); // 로딩 상태 추가
 
   useEffect(() => {
     const fetchProfiles = async () => {
+      setLoading(true); // 데이터 로딩 시작
       try {
         const response = await fetch('/api/search/user');
         if (!response.ok) {
@@ -32,6 +35,8 @@ export default function UserList({
         setUsers(data); // 초기에는 모든 사용자로 설정
       } catch (error) {
         console.error('Failed to fetch profiles:', error);
+      } finally {
+        setLoading(false); // 데이터 로딩 완료
       }
     };
 
@@ -55,9 +60,10 @@ export default function UserList({
         <span className="text-xs text-[#555555]">총 {users.length}명</span>
       </div>
 
-      {/* 사용자 리스트 */}
       <div className="min-h-dvh bg-[#F5F5FF] px-4 pb-[100px] pt-4">
-        {users.length > 0 ? (
+        {loading ? (
+          <UserSkeleton /> // 로딩 중일 때 UserSkeleton 표시
+        ) : users.length > 0 ? (
           <div className="grid grid-cols-2 gap-x-[14px] gap-y-[10px]">
             {users.map((user) => (
               <UserCard
