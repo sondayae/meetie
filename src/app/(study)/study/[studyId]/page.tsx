@@ -23,6 +23,7 @@ export default async function Page({
 
   // 스터디 정보 가져오기
   const data = await getStudyDetails(params.studyId);
+  console.log(data)
 
   // 스터티 신청 정보 가져오기
   const applyData = await getStudyApply(params.studyId);
@@ -41,9 +42,7 @@ export default async function Page({
   return (
     <>
       <div className="flex flex-col pb-24">
-        <header>
-          <Header leftIcon rightIcon={isAuthor ? <KebabMenuIcon /> : ''} />
-        </header>
+        <Header leftIcon rightIcon={isAuthor ? <KebabMenuIcon /> : ''} />
         <StudyMain {...data} />
         <footer>
           <StatusDisplay

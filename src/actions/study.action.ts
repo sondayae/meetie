@@ -4,7 +4,7 @@ export async function getStudyDetails(studyId: string) {
   try {
     const { data, error } = await supabase
       .from('study')
-      .select(`*, user(*)`)
+      .select('*, user(*, images(url))')
       .eq('id', studyId)
       .single();
 

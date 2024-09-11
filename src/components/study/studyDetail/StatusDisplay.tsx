@@ -106,6 +106,7 @@ export default function StatusDisplay({
                   {!isAuthor && (
                     <Button
                       type={btnisApply ? 'disabled' : 'primary'}
+                      size="large"
                       label={!btnisApply ? '신청하기' : '신청취소'}
                       onClick={!btnisApply ? postApply : deleteApply}
                     />
@@ -115,11 +116,19 @@ export default function StatusDisplay({
             )}
 
             {!isRecruiting && (
-              <div className="flex w-full min-w-[600px] items-center justify-center py-8">
-                <div className="text-text-primary border-disabled bg-disabled flex w-full max-w-[343px] items-center justify-center rounded-lg border-2 p-4">
-                  <p>모집이 마감되었습니다.</p>
-                </div>
-              </div>
+              <>
+                <Button
+                  type="disabled"
+                  buttonType="submit"
+                  label="모집이 마감되었습니다."
+                ></Button>
+
+                {/* <div className="flex w-full min-w-[600px] items-center justify-center py-8">
+                  <div className="text-text-primary flex w-full max-w-[343px] items-center justify-center rounded-lg border-2 border-disabled bg-disabled p-4">
+                    <p>모집이 마감되었습니다.</p>
+                  </div>
+                </div> */}
+              </>
             )}
           </div>
         </div>
