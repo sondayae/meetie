@@ -21,11 +21,9 @@ function Header({ label, leftIcon = true, rightIcon, useBorderBottom = true }: H
         </span>
       }
       <span className='text-lg font-bold text-center'>{label}</span>
-      {rightIcon &&
-        <div className='flex items-center justify-center hover:cursor-pointer w-[40px] h-[40px]'>
-            {rightIcon}
-        </div>
-      }
+      <div className='flex items-center justify-center hover:cursor-pointer w-[40px] h-[40px]'>
+          {rightIcon}
+      </div>
     </div>
     </div>
   );
