@@ -99,3 +99,15 @@ export async function getAllMessages({
   }
   return data;
 }
+
+export async function getChatRoomList() {
+  const supabase = supabaseServer();
+  const userId = await getServerUserId();
+
+  const { data, error } = await supabase.from('chat_room').select().eq('sender', userId);
+
+  if (error) {
+    return null;
+  }
+  return data;
+}

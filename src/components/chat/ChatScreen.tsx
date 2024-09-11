@@ -4,7 +4,7 @@ import { useChatPresenceStore, useChatUserStore, useMessageStore } from '@/app/s
 import Message from './Message';
 import Person from './Person';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { getAllMessages, getUserById, sendMessage } from '@/actions/studyroom/chatActions';
+import { getAllMessages, getUserById, sendMessage } from '@/actions/chatActions';
 import { LoaderIcon } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import supabase from '@/utils/supabase/client';
