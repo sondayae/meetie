@@ -1,13 +1,11 @@
 import StudyMain from '@/components/study/StudyMain';
-import StatusDisplay from '@/components/study/studyDetail/StatusDisplay';
 import supabaseServer from '@/utils/supabase/server';
 import { getStudyDetails } from '@/actions/study.action';
 import Header from '@/components/handin/Header';
 import KebabMenuIcon from '@/components/icons/KebabMenuIcon';
 import { getStudyMember } from '@/actions/studymember.action';
 import { getStudyApply } from '@/actions/studyrequest.action';
-import ToggleMenu from '@/components/study/ToggleMenu';
-// import { useRouter } from 'next/navigation';
+import { getUser } from '@/actions/mypage.action';
 
 export default async function Page({
   params,
@@ -15,46 +13,42 @@ export default async function Page({
   params: { studyId: string };
 }) {
   // const router = useRouter();
+  const supabaseAuth = supabaseServer();
+  const { data, error } = await supabaseAuth.auth.getUser();
 
-  const supabase = supabaseServer();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  // 로그인 유저  정보
+  const userdata = await getUser({ id: data?.user?.id });
+  // console.log(userdata);
 
   // 스터디 정보 가져오기
-  const data = await getStudyDetails(params.studyId);
+  const studydata = await getStudyDetails(params.studyId);
 
   // 스터티 신청 정보 가져오기
   const applyData = await getStudyApply(params.studyId);
 
   // 로그인 유저 신청 여부 확인
-  const isApply = applyData.find(
-    (item: any) => item.userId === session?.user.id,
-  );
+  const isApply = applyData.some((item: any) => item.userId === userdata?.id);
 
-  // 스터티 멤버 정보 가져오기
-  const memberData = await getStudyMember(params.studyId);
+  const detaildata = { userdata, isApply, params, ...studydata };
 
-  // 작성자 여부 확인
-  const isAuthor = session?.user.id === data.user.id;
+  // 작성자 여부 확인 => 작성자일 경우 kebabMenuIcon 표시
+  const isAuthor = userdata === studydata.user.id;
 
   return (
     <>
-      <div className="flex flex-col pb-24">
-        <header>
-          <Header leftIcon rightIcon={isAuthor ? <KebabMenuIcon /> : ''} />
-        </header>
-        <StudyMain {...data} />
+      <div className="flex min-h-dvh max-w-[600px] flex-col pb-24">
+        <Header leftIcon rightIcon={isAuthor ? <KebabMenuIcon /> : ''} />
+        <StudyMain {...detaildata} />
         <footer>
-          <StatusDisplay
-            isRecruiting={data.isRecruiting}
-            userId={session?.user.id || ''}
+          {/* <StatusDisplay
+            isRecruiting={studydata.isRecruiting}
+            recruitNum={studydata.recruitNum}
+            userId={userdata}
             isAuthor={isAuthor}
             isApply={isApply}
             params={params.studyId}
             acceptedStudy={memberData.length}
-            recruitNum={data.recruitNum}
-          />
+          /> */}
         </footer>
       </div>
     </>
