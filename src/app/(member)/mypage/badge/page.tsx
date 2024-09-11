@@ -39,7 +39,7 @@ export default function page() {
               {badgeList?.comment.map((item: any) => {
                 return (
                   <div key={item.id}>
-                    <BadgeCard badge={item} type='댓'/>
+                    {/* <BadgeCard badge={item} type='댓'/> */}
                   </div>
                 );
               })}
@@ -51,7 +51,7 @@ export default function page() {
               {badgeList?.feedback.map((item: any) => {
                 return (
                   <div key={item.id}>
-                    <BadgeCard badge={item} type='피드'/>
+                    {/* <BadgeCard badge={item} type='피드'/> */}
                   </div>
                 );
               })}
@@ -63,7 +63,7 @@ export default function page() {
               {badgeList?.study.map((item: any) => {
                 return (
                   <div key={item.id}>
-                    <BadgeCard badge={item} type='스터디'/>
+                    {/* <BadgeCard badge={item} type='스터디'/> */}
                   </div>
                 );
               })}
@@ -75,7 +75,7 @@ export default function page() {
               {badgeList?.meett.map((item: any) => {
                 return (
                   <div key={item.id}>
-                    <BadgeCard badge={item} type='밋티'/>
+                    {/* <BadgeCard badge={item} type='밋티'/> */}
                   </div>
                 );
               })}
