@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import ProfileAvatar from '../common/ProfileAvatar';
 import { useUser } from '@/stores/user/user';
 import My from '../icons/Navigator/My';
+import { EditIcon } from 'lucide-react';
 
 interface ProfileFormProps {
   onFileChange: (file: File | null) => void;
@@ -69,14 +70,16 @@ export default function ProfileForm({
       </div>
 
       <div className="mb-[138px] flex flex-col items-center">
-        <ProfileAvatar
-          src={profileImage || undefined}
-          alt="Profile"
-          onClick={handleAvatarClick}
-          className="mb-8 h-24 w-24 cursor-pointer"
-          fallback={<My className="h-12 w-12" />}
-        />
-
+        <div className={'relative'}>
+          <ProfileAvatar
+            src={profileImage || undefined}
+            alt="Profile"
+            onClick={handleAvatarClick}
+            className="mb-8 h-24 w-24 cursor-pointer"
+            fallback={<My className="h-12 w-12" />}
+          />
+          <EditIcon className="absolute bottom-9 right-[-6px] mr-[10px] rounded-lg bg-border p-1" />
+        </div>
         {/* 숨겨진 파일 입력 요소 */}
         <input
           type="file"
@@ -85,7 +88,6 @@ export default function ProfileForm({
           onChange={handleImageChange}
           style={{ display: 'none' }}
         />
-
         <form className="w-full space-y-3">
           <div className="mb-[34px]">
             <label
