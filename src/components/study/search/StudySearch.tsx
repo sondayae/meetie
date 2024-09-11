@@ -1,36 +1,46 @@
+'use client';
+
 import Link from 'next/link';
 import StudyList from './StudyList';
 import WritingIcon from '@/components/icons/WritingIcon';
 import StudySearchSort from './StudySearchSort';
 import { useEffect, useState } from 'react';
-import { fetchStudiesTags, fetchStudyList } from '@/actions/studyList.action';
+import { fetchStudyList } from '@/actions/studyList.action';
 import { useFilterStore } from '@/stores/search/useFilterStore';
 import StudyFilter from './StudyFilter';
 
-export default function StudySearch() {
-  const { setStudyList, setSelectedFilter } = useFilterStore();
+export default function StudySearch({
+  studySearchTerm,
+}: {
+  studySearchTerm: string;
+}) {
+  const { setStudyList, setSelectedFilter, originalList } = useFilterStore();
   const [loading, setLoading] = useState(true);
   const [allTags, setAllTags] = useState<string[]>([]);
 
   // 스터디 목록 불러오기
   useEffect(() => {
-    const fetchStudies = async () => {
+    const fetchData = async () => {
       try {
         const studies = await fetchStudyList();
         setStudyList(studies);
+
+        const allTags = Array.from(new Set(studies.flatMap((study) => study.tags)));
+        setAllTags(allTags);
+        
+        
         setLoading(false);
       } catch (error) {
         console.error('스터디 목록을 가져오는 중 오류가 발생했습니다', error);
       }
     };
-    fetchStudies();
+    fetchData();
 
-    const fetchTags = async () => {
-      const allTags = await fetchStudiesTags();
-      //   console.log('allTags', allTags);
-      setAllTags(allTags);
-    };
-    fetchTags();
+    // const fetchTags = async () => {
+    //   const allTags = await fetchStudiesTags();
+    //   setAllTags(allTags);
+    // };
+    // fetchTags();
   }, [setStudyList]);
 
   return (
@@ -45,7 +55,11 @@ export default function StudySearch() {
       />
 
       {/*  모집중 필터링, 스터디 리스트 */}
-      <StudyList loading={loading} />
+      <StudyList
+        studySearchTerm={studySearchTerm}
+        loading={loading}
+        originalList={originalList}
+      />
 
       {/* 스터디 만들기 아이콘 */}
       <Link href="../study/write">

@@ -1,3 +1,5 @@
+'use client';
+
 interface ButtonProps {
   label: string;
   buttonType?: 'button' | 'submit';
@@ -7,14 +9,14 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-const Button = ({
+function Button({
   type,
   buttonType = 'button',
   label,
   size,
   borderStyle = 'none',
   onClick,
-}: ButtonProps) => {
+}: ButtonProps) {
   const getSize = () => {
     switch (size) {
       case 'small':
@@ -31,13 +33,13 @@ const Button = ({
   const getColor = () => {
     switch (type) {
       case 'primary':
-        return 'bg-primary border-main-purple text-white';
+        return 'bg-primary border-primary text-white';
       case 'secondary':
-        return 'border-main-purple text-primary';
+        return 'border-primary text-primary';
       case 'disabled':
         return 'bg-disabled border-disabled text-white';
       default:
-        return 'border-middle-gray text-muted-foreground';
+        return 'border-foreground text-muted-foreground';
     }
   };
 
@@ -50,5 +52,5 @@ const Button = ({
       {label}
     </button>
   );
-};
+}
 export default Button;

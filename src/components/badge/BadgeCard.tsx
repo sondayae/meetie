@@ -6,8 +6,14 @@ type Badge = {
   src: string;
 }
 
-export default function BadgeCard({ badge, type }: {badge: Badge, type: string}) {
-  const title = badge.name;
+import {
+  Card
+} from "@/components/ui/card"
+
+
+export default function BadgeCard() {
+  // { badge, type }: {badge: Badge, type: string}
+  // const title = badge.name;
   
   function getDisplayName(title: string) {
     if (title.includes('beginner')) {
@@ -21,19 +27,11 @@ export default function BadgeCard({ badge, type }: {badge: Badge, type: string})
     }
   }
   return (
-    <></>
-    // <Card className="py-4">
-    //   <CardBody className="overflow-visible py-2">
-    //     <Image
-    //       alt="Card background"
-    //       className="rounded-xl object-cover"
-    //       src={badge.src}
-    //       width={270}
-    //     />
-    //   </CardBody>
-    //   <CardFooter>
-    //     <small>{type} {getDisplayName(title)}</small>
-    //   </CardFooter>
-    // </Card>
+    <Card>
+      <div className='flex flex-col'>
+        <span>뱃지 이미지</span>
+        <span>뱃지 이름</span>
+      </div>
+    </Card>
   );
 }

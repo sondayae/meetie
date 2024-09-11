@@ -1,15 +1,14 @@
 'use client';
 import React, { useState } from 'react';
 import SearchHeader from '@/components/study/search/SearchHeader';
-
 import UserSearch from '@/components/study/search/UserSearch';
-
 import Navigator from '@/components/common/Navigator';
 import StudySearch from '@/components/study/search/StudySearch';
 
-const ParentComponent: React.FC = () => {
+export default function SearchPage() {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [studySearchTerm, setStudySearchTerm] = useState('');
+  const [studySearchTermEnter, setStudySearchTermEnter] = useState('');
   const [userSearchTerm, setUserSearchTerm] = useState('');
 
   const handleTabChange = (index: number) => {
@@ -29,6 +28,12 @@ const ParentComponent: React.FC = () => {
     }
   };
 
+  const handleKeyPress = (e: any) => {
+    if (e.key === 'Enter') {
+      setStudySearchTermEnter(studySearchTerm);
+    }
+  };
+
   const getSearchTerm = () => {
     return activeTabIndex === 0 ? studySearchTerm : userSearchTerm;
   };
@@ -43,10 +48,15 @@ const ParentComponent: React.FC = () => {
             onTabChange={handleTabChange}
             searchTerm={getSearchTerm()}
             onSearchChange={handleSearchChange}
+            onKeyDown={handleKeyPress}
           />
 
           <div className="mt-4">
-            {activeTabIndex === 0 ? <StudySearch /> : <UserSearch />}
+            {activeTabIndex === 0 ? (
+              <StudySearch studySearchTerm={studySearchTermEnter} />
+            ) : (
+              <UserSearch userSearchTerm={userSearchTerm} />
+            )}
           </div>
         </div>
       </div>
@@ -57,5 +67,3 @@ const ParentComponent: React.FC = () => {
     </>
   );
 };
-
-export default ParentComponent;
