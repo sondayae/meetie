@@ -91,8 +91,8 @@ export default function Comment({
   }
 
   const handleEmojiPicketSelect = (e: any) => {
-    const sym = '0x' + e.unified;
-    const emoji = String.fromCodePoint(Number(sym));
+    const sym: any = '0x' + e.unified;
+    const emoji = String.fromCodePoint(sym);
     handleEmojiSelect(emoji);
   }
 
