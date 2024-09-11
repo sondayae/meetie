@@ -39,17 +39,6 @@ export default async function Page({
       <div className="flex min-h-dvh max-w-[600px] flex-col pb-24">
         <Header leftIcon rightIcon={isAuthor ? <KebabMenuIcon /> : ''} />
         <StudyMain {...detaildata} />
-        <footer>
-          {/* <StatusDisplay
-            isRecruiting={studydata.isRecruiting}
-            recruitNum={studydata.recruitNum}
-            userId={userdata}
-            isAuthor={isAuthor}
-            isApply={isApply}
-            params={params.studyId}
-            acceptedStudy={memberData.length}
-          /> */}
-        </footer>
       </div>
     </>
   );

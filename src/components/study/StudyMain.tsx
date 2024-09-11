@@ -33,7 +33,6 @@ export default function StudyMain({
   );
 
   const isAuthor = userdata?.id === user?.id;
-  console.log(isAuthor)
 
   const handleApply = async (type: boolean) => {
     if (type) {
@@ -45,9 +44,11 @@ export default function StudyMain({
     }
   };
 
+  console.log(!user?.images?.url)
+
   return (
-    <>
-      <section className="flex flex-col justify-center border-b-2 border-[#F1F2F6] px-4 pb-[14px] pt-6">
+    <div className='min-h-dvh relative h-full flex flex-col'>
+      <section className="flex flex-col justify-center border-b-2 border-[#F1F2F6] px-4 pb-[14px] pt-6 ">
         {/* 1 */}
         <div className="mb-5 flex items-center gap-[14px]">
           {/* title */}
@@ -77,16 +78,16 @@ export default function StudyMain({
         <div className="flex gap-2">
           <Link href={`/profile/${user.id}`}>
             <ProfileAvatar
-              src={user?.images?.url || ''}
+              src={user?.images?.url}
               alt="user profile img"
               className="relative h-10 w-10 overflow-hidden rounded-full object-cover"
-              fallback={
-                <Image
-                  alt="user profile img"
-                  src={user?.images?.url || ''}
-                  fill
-                />
-              }
+              // fallback={
+              //   <Image
+              //     alt="user profile img"
+              //     src={user?.images?.url || ''}
+              //     fill
+              //   />
+              // }
             />
           </Link>
           <div className="flex h-[42px] w-full flex-col gap-1">
@@ -110,7 +111,7 @@ export default function StudyMain({
         </div>
       </section>
 
-      <main className="flex flex-col gap-8 p-4">
+      <main className="flex flex-col gap-8 p-4 h-full">
         {/* <main className="flex flex-col gap-8"> */}
         <div className="flex flex-col gap-4 text-[#434343]">
           <p className="font-semibold">스터디 주제</p>
@@ -206,6 +207,6 @@ export default function StudyMain({
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
