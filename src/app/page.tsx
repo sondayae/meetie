@@ -13,7 +13,7 @@ export default async function Home() {
           같은 목표로 공부중인 유저
         </p>
         <span className="font-extrabold text-2xl text-[#7677FF]">
-          123명
+          6,438명
         </span>
       </div>
 
@@ -21,18 +21,20 @@ export default async function Home() {
         <HomeSVG className="h-full w-auto pr-11" />
       </div>
 
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center gap-10">
         <div className="flex justify-center gap-6">
           <SocialButtons />
         </div>
-        <Link
-          href={ROUTE_PATH.AUTH.LOGIN}
-          className="after:contents-[''] text-dark-gray after:bg-dark-gray relative mt-6 px-2 py-1 text-sm font-medium after:absolute after:bottom-1 after:left-2 after:right-2 after:h-px"
-        >
-          이메일로 로그인
-        </Link>
+        <div className='flex flex-col items-center gap-7'>
+          <Link
+            href={ROUTE_PATH.AUTH.LOGIN}
+            className="after:contents-[''] text-foreground after:bg-foreground relative px-2 py-1 text-sm font-medium after:absolute after:bottom-1 after:left-2 after:right-2 after:h-px"
+            >
+            이메일로 로그인
+          </Link>
+          <AccountRecoveryLinks />
+        </div>
       </div>
-      <AccountRecoveryLinks />
     </div>
   );
 }

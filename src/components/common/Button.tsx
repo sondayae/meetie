@@ -33,13 +33,13 @@ function Button({
   const getColor = () => {
     switch (type) {
       case 'primary':
-        return 'bg-primary border-main-purple text-white';
+        return 'bg-primary border-primary text-white';
       case 'secondary':
-        return 'border-main-purple text-primary';
+        return 'border-primary text-primary';
       case 'disabled':
         return 'bg-disabled border-disabled text-white';
       default:
-        return 'border-middle-gray text-muted-foreground';
+        return 'border-foreground text-muted-foreground';
     }
   };
 
