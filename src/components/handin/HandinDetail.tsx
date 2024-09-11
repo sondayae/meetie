@@ -33,7 +33,7 @@ export default function HandinDetail({
     }
   };
 
-  const loginUser = useUser((store) => store.user);
+  const { user } = useUser();
 
   return (
     <>
@@ -56,7 +56,7 @@ export default function HandinDetail({
                 checkClassName="fill-white"
               />
             </div>
-            {loginUser?.id === data.user.id && (
+            {user?.id === data.user.id && (
               <CustomDropDownMenu 
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}

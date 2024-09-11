@@ -12,6 +12,7 @@ import CustomDropDownMenu from '../common/CustomDropdownMenu';
 import { useRouter } from 'next/navigation';
 import useConfirm from '@/hooks/use-confirm';
 import { Feedback } from '@/types/feedbacks';
+import { useUser } from '@/stores/user/user';
 
 export default function Handin({ data }: {data : Feedback}) {
   const router = useRouter();
@@ -28,6 +29,8 @@ export default function Handin({ data }: {data : Feedback}) {
     title: '삭제',
     message: '댓글을 삭제하시겠습니까?',
   });
+
+  const { user } = useUser();
 
   return (
     <>
@@ -88,10 +91,13 @@ export default function Handin({ data }: {data : Feedback}) {
           </div>
         </div>
         <div className='mx-auto'>
-          <CustomDropDownMenu handleEdit={handleEdit} handleDelete={handleDelete}/>
+          {
+            !Array.isArray(data.user) &&
+            user?.id === data.user.id && <CustomDropDownMenu handleEdit={handleEdit} handleDelete={handleDelete}/>
+          }
         </div>
       </div>
     </div>}
-            </>
+    </>
   );
 }
