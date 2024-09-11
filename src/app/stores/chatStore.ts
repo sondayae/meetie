@@ -5,8 +5,6 @@ type ChatUserStore = {
   selectedUserId: string|null;
   setSelectedUserId: (selectedUserId: string) => void;
 };
-
-
 export const useChatUserStore = create(persist<ChatUserStore>(
   (set) => ({
   selectedUserId: null,
@@ -22,7 +20,6 @@ type MessageStore = {
   message: string;
   setMessage: (message: string) => void;
 };
-
 export const useMessageStore = create<MessageStore>((set) => ({
   message: '',
   setMessage: (message) => set(() => ({ message: message })),
@@ -32,8 +29,16 @@ type ChatPresenceStore = {
   presence: any;
   setPresence: (presence: any) => void;
 };
-
 export const useChatPresenceStore = create<ChatPresenceStore>((set) => ({
   presence: null,
   setPresence: (presence) => set(() => ({ presence: presence })),
+}));
+
+type ChatRoomStore = {
+  chatroomList: any;
+  setChatroomList: (chatroomList: any) => void;
+}
+export const useChatroomStore = create<ChatRoomStore>((set) => ({
+  chatroomList: [],
+  setChatroomList: (chatroomList: []) => set(() => ({ chatroomList: chatroomList })),
 }));

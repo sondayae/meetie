@@ -12,9 +12,10 @@ import Navigator from '@/components/common/Navigator';
 import Header from '@/components/handin/Header';
 
 export default async function page() {
-  const supabaseAuth = supabaseServer();
-  const { data, error } = await supabaseAuth.auth.getUser();
-  const userdata = await getUser({ id: data?.user?.id });
+  const supabase = supabaseServer();
+  const { data: {user} } = await supabase.auth.getUser();
+  const userdata = await getUser({ id: user?.id });
+
   const studyCardItem = [
     {label: '관심스터디', num: 3, icon: <ScrapIcon stroke='#A180F4' className='fill-none'/>, path: '/study'},
     {label: '참여스터디', num: 3, icon: <BookmarkIcon className='fill-[#A180F4]' />, path: '/bookmark'},

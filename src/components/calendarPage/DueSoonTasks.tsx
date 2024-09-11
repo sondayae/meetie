@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import RemainingTime from './RemainingTime';
+import Button from '../common/Button';
 
 type Thandin = {
   id: number;
@@ -88,11 +89,8 @@ export default function DueSoonTasks({ dueSoonSchedule }: DueSoonTasksProps) {
                     </div>
                   </div>
                 </div>
-                <Link
-                  className="border-main-purple w-full min-w-[250px] rounded-lg border-2 bg-primary p-3 text-white"
-                  href={`/studyRoom/${task.study_id}/handin/add`}
-                >
-                  인증하기
+                <Link href={`/studyRoom/${task.study_id}/handin/add`}>
+                  <Button type='primary' label='인증하기'/>
                 </Link>
               </div>
             );

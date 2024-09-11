@@ -10,8 +10,8 @@ export default function SimpleCard({ userdata }: { userdata: any }) {
         <div className='flex gap-4'>
           <ProfileAvatar className='w-[60px] h-[60px]'/>
           <div>
-            <p className='text-lg font-medium'>디자이너</p>
-            <p className='text-xl font-bold'>김서희님</p>
+            <p className='text-lg font-medium'>{userdata.job}</p>
+            <p className='text-xl font-bold'>{userdata.name}님</p>
           </div>
         </div>
         <button className='text-xs p-2 text-[#645294] border border-[#EEEAFF] bg-[#EEEAFF] rounded-lg self-end'>공개용 프로필</button>

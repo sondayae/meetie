@@ -11,7 +11,7 @@ import My from '../icons/Navigator/My';
 import Search from '../icons/Navigator/Search';
 
 export default function Navigator() {
-  const path = usePathname();
+  const path = usePathname().split('/')[1];
 
   const menus = [
     {
@@ -43,7 +43,7 @@ export default function Navigator() {
             <div
               className={twMerge(
                 'flex flex-col items-center justify-center gap-1 text-xs',
-                path.includes(menu.path)
+                menu.path.includes(path)
                 ? 'text-primary'
                 : 'text-muted-foreground',
               )}
