@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import ProfileAvatar from '@/components/common/ProfileAvatar';
 import Header from '@/components/handin/Header';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface UserProfileData {
   name: string;
@@ -52,6 +53,25 @@ export default function UserProfile() {
     router.push('/profile/success');
   };
 
+  const dummyBadges = [
+    {
+      title: '지식뉴비',
+      src: 'https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/badge/study/1-beginner.svg',
+    },
+    {
+      title: '피드러너',
+      src: 'https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/badge/feedback/2-runner.svg',
+    },
+    {
+      title: '댓뉴비',
+      src: 'https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/badge/comment/1-beginner.svg',
+    },
+    {
+      title: '밋티러너',
+      src: 'https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/badge/meett/2-runner.svg',
+    },
+  ];
+
   return (
     <>
       <Header
@@ -70,7 +90,7 @@ export default function UserProfile() {
           <div className="text-sm">{profile?.job}</div>
         </div>
 
-        <div className="w-full px-4 text-left">
+        <div className="mb-[20px] w-full px-4 text-left">
           <div className="mb-5">
             <div className="mb-2 text-base font-bold">한줄 자기 소개</div>
             <div>{profile?.introduction}</div>
@@ -82,7 +102,23 @@ export default function UserProfile() {
               마스터 레벨을 2개 보유하고 있는 열정 밋티!
             </div>
 
-            <div className="h-[145px] w-[128px]">뱃지 표시</div>
+            <div className="flex justify-between gap-3">
+              {dummyBadges.map((badge) => (
+                <div
+                  key={badge.title}
+                  className="flex flex-col items-center gap-3 rounded-lg border-2 border-[#8D79DE] bg-[#FEFBFF] px-[11px] pb-[9px]"
+                >
+                  <Image
+                    src={badge.src}
+                    alt={badge.title}
+                    width={100}
+                    height={100}
+                    priority
+                  />
+                  <span className="text-xs font-semibold">{badge.title}</span>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="mt-8">
             <div className="mb-2 text-base font-bold">스터디 목적</div>
