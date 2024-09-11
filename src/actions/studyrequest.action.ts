@@ -8,9 +8,10 @@ export async function getStudyApply(studyId: string) {
   try {
     const { data, error } = await supabase
       .from('study_apply')
-      .select(`*`)
-      // .select(`*, user (*)`)
-      .eq('studyId', studyId);
+      // .select(`*`)
+      .select(`*, user (*)`)
+      .eq('studyId', studyId)
+      .order('created_at', { ascending: false });
 
     if (error) {
       console.error('Error fetching study details:', error);

@@ -44,7 +44,7 @@ export default function StudyMain({
     }
   };
 
-  console.log(!user?.images?.url)
+  // console.log(!user?.images?.url)
 
   return (
     <div className='min-h-dvh relative h-full flex flex-col'>
