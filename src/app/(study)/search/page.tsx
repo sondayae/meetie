@@ -1,13 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import SearchHeader from '@/components/study/search/SearchHeader';
-
 import UserSearch from '@/components/study/search/UserSearch';
-
 import Navigator from '@/components/common/Navigator';
 import StudySearch from '@/components/study/search/StudySearch';
 
-const ParentComponent: React.FC = () => {
+export default function SearchPage() {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [studySearchTerm, setStudySearchTerm] = useState('');
   const [studySearchTermEnter, setStudySearchTermEnter] = useState('');
@@ -69,5 +67,3 @@ const ParentComponent: React.FC = () => {
     </>
   );
 };
-
-export default ParentComponent;

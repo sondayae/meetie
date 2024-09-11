@@ -1,5 +1,5 @@
 export type Study = {
-  id?: string;
+  id: string;
   // 모집 직군
   roles: string[];
   // 스킬
@@ -30,5 +30,7 @@ export type Study = {
   // 작성자
   author: string;
   //
-  scraped?: boolean;
+  bookmark: {
+    user_id: string;
+  }[];
 };
