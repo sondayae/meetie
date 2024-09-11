@@ -27,7 +27,7 @@ export default function CompleteModal({ label, studyId }: CompleteModalProps) {
           <Button type="primary" label="스터디 상세보기" size="large" />
         </Link>
         <Link href={'../search'}>
-          <Button label="돌아가기" size="large" />
+          <Button label="돌아가기" size="large" type={'secondary'} />
         </Link>
       </div>
     </div>

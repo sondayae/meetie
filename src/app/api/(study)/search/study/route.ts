@@ -65,7 +65,9 @@ export async function POST(request: Request) {
 
       if (selectedRange) {
         query = query
+          // 크거나 같은 조건으로 필터링
           .gte('recruitNum', selectedRange[0])
+          // 작거나 같은 조건으로 필터링
           .lte('recruitNum', selectedRange[1]);
       }
     }

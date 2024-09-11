@@ -1,11 +1,7 @@
 import { useParams, useRouter } from 'next/navigation';
-import CopyIcon from '../icons/CopyIcon';
 import DeleteIcon from '../icons/DeleteIcon';
 import EditIcon from '../icons/EditIcon';
-import {
-  deleteStudy,
-  editStudy,
-} from '@/app/(study)/study/[studyId]/studyAction';
+import { deleteStudy } from '@/app/(study)/study/[studyId]/studyAction';
 
 type ToggleMenuProps = {
   toggleMenu: boolean;
@@ -25,7 +21,7 @@ export default function ToggleMenu({ toggleMenu, onClose }: ToggleMenuProps) {
     if (confirm('스터디를 삭제하시겠습니까?')) {
       try {
         await deleteStudy(studyId);
-        router.back();
+        router.push('/search');
       } catch (error) {
         console.error('스터디 삭제 중 에러가 발생했습니다:', error);
       }
@@ -33,7 +29,7 @@ export default function ToggleMenu({ toggleMenu, onClose }: ToggleMenuProps) {
   };
   return (
     <>
-      <div className="absolute right-0 mr-0 w-[114px] rounded-lg border border-[#eee] bg-white text-sm">
+      <div className="absolute right-[-8px] top-12 z-50 mr-0 w-[114px] rounded-lg border border-[#eee] bg-white text-sm">
         <ul>
           {/* <li
             className="border-b-1 flex items-center border-b-[1px] border-[#eee]"

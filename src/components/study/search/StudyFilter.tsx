@@ -95,6 +95,27 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
     }));
   };
 
+  const handleResetFilters = () => {
+    setTempFilterTags({
+      roles: null,
+      purposes: [],
+      studySpan: null,
+      recruitNum: null,
+    });
+    setFilterTags({
+      roles: null,
+      purposes: [],
+      studySpan: null,
+      recruitNum: null,
+    });
+    fetchStudies({
+      roles: null,
+      purposes: [],
+      studySpan: null,
+      recruitNum: null,
+    });
+  };
+
   const fetchStudies = async (filters: FilterTags) => {
     try {
       const tags = [
@@ -177,6 +198,7 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
           onOptionClick={handleOptionClick}
           bottomSheet={isBottomSheetOpen}
           onClick={handleClose}
+          onResetFilters={handleResetFilters}
         />
       </div>
     </>
