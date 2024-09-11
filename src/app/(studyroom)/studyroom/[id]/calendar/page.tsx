@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { getDueSoon, getSchedule, getUpcomingSchedule } from '@/apis/calendar';
 import DueSoonTasks from '@/components/calendarPage/DueSoonTasks';
 import UpcomingEvents from '@/components/calendarPage/UpcomingEvents';
@@ -19,7 +21,11 @@ export default async function Calendar({ params }: { params: { id: number } }) {
         <Header
           label="스터디룸"
           leftIcon={false}
-          rightIcon={<Plus />}
+          rightIcon={
+            <Link href="/studyroom/103/calendar/add">
+              <Plus />
+            </Link>
+          }
           useBorderBottom={false}
         />
         <div className="mt-4 flex flex-col gap-5">
