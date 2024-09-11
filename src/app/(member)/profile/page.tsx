@@ -66,9 +66,7 @@ export default function UserProfile() {
         />
 
         <div className="mb-10 flex flex-col items-center">
-          <div className="mb-2.5 text-xl font-semibold">
-            {profile?.nickname || profile?.name}
-          </div>
+          <div className="mb-2.5 text-xl font-semibold">{profile?.name}</div>
           <div className="text-sm">{profile?.job}</div>
         </div>
 
@@ -83,7 +81,8 @@ export default function UserProfile() {
             <div className="mb-6">
               마스터 레벨을 2개 보유하고 있는 열정 밋티!
             </div>
-            <div>뱃지 표시</div>
+
+            <div className="h-[145px] w-[128px]">뱃지 표시</div>
           </div>
           <div className="mt-8">
             <div className="mb-2 text-base font-bold">스터디 목적</div>

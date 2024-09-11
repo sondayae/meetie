@@ -5,9 +5,12 @@ import Button from '@/components/common/Button';
 import { useUser } from '@/stores/user/user';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Header from '@/components/handin/Header';
+import ProfileAvatar from '@/components/common/ProfileAvatar';
 // import ProfileImg from '@/components/common/ProfileImg';
 
 interface UserProfileData {
+  name: string;
   nickname: string;
   introduction: string;
   job: string;
@@ -51,56 +54,58 @@ export default function UserProfile({
   };
 
   return (
-    <div className="flex flex-col items-center">
-      {/* <ProfileImg size="lg" src={profile?.imageUrl} className="mb-2" /> */}
-
-      <div className="mb-10 flex flex-col items-center">
-        <div className="mb-2.5 text-xl font-semibold">{profile?.nickname}</div>
-        <div className="text-sm">{profile?.job}</div>
-      </div>
-
-      <div className="space-y-4 text-left">
-        <div>
-          <div className="mb-2 text-base font-bold">한줄 자기 소개</div>
-          <div>{profile?.introduction}</div>
-        </div>
-        <hr className="my-4 w-full" />
-        <div>
-          <div className="mb-2 text-base font-bold">하이라이트 뱃지</div>
-          <div>뱃지</div>
-        </div>
-        <div>
-          <div className="mb-2 text-base font-bold">스터디 목적</div>
-          <div>
-            {profile?.purpose &&
-              profile?.purpose.map((item, index) => (
-                <Tag key={index}>{item}</Tag>
-              ))}
-          </div>
-        </div>
-        <div>
-          <div className="mb-2 text-base font-bold">키워드</div>
-          <div>
-            {profile?.personality &&
-              profile?.personality.map((item, index) => (
-                <Tag key={index}>{item}</Tag>
-              ))}
-          </div>
-        </div>
-        <div>
-          <div className="mb-2 text-base font-semibold">예상 스터디 기간</div>
-          <div>{profile?.expected_study_span}</div>
-        </div>
-      </div>
-      <div className="mt-7">
-        <Button
-          label="홈으로 가기"
-          type="primary"
-          size="large"
-          borderStyle="flex-[3] rounded-[8px] h-[49px] w-[206px]"
-          onClick={handleGoHome}
+    <>
+      <Header label="오픈 프로필" leftIcon rightIcon />
+      <div className="flex flex-col items-center pb-20">
+        <ProfileAvatar
+          src={profile?.imageUrl}
+          className="mb-2 mt-6 h-24 w-24"
         />
+
+        <div className="mb-10 flex flex-col items-center">
+          <div className="mb-2.5 text-xl font-semibold">{profile?.name}</div>
+          <div className="text-sm">{profile?.job}</div>
+        </div>
+
+        <div className="w-full px-4 text-left">
+          <div className="mb-5">
+            <div className="mb-2 text-base font-bold">한줄 자기 소개</div>
+            <div>{profile?.introduction}</div>
+          </div>
+          <hr className="w-full" />
+          <div className="mt-5">
+            <div className="mb-2 text-base font-bold">하이라이트 뱃지</div>
+            <div className="mb-6">
+              마스터 레벨을 2개 보유하고 있는 열정 밋티!
+            </div>
+            <div>뱃지 표시</div>
+          </div>
+          <div className="mt-8">
+            <div className="mb-2 text-base font-bold">스터디 목적</div>
+            <div className="mb-5 flex flex-wrap gap-2">
+              {profile?.purpose &&
+                profile?.purpose.map((item, index) => (
+                  <Tag key={index}>{item}</Tag>
+                ))}
+            </div>
+            {/* </div> */}
+            {/* <div> */}
+            <div className="mb-2 text-base font-bold">키워드</div>
+            <div className="mb-5 flex flex-wrap gap-2">
+              {profile?.personality &&
+                profile?.personality.map((item, index) => (
+                  <Tag key={index}>{item}</Tag>
+                ))}
+            </div>
+            {/* </div> */}
+            {/* <div> */}
+            <div className="mb-2 text-base font-semibold">예상 스터디 기간</div>
+            {profile?.expected_study_span && (
+              <Tag>{profile.expected_study_span}</Tag>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

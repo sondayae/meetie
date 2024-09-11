@@ -8,7 +8,8 @@ export async function getStudyApply(studyId: string) {
   try {
     const { data, error } = await supabase
       .from('study_apply')
-      .select(`*, user (*)`)
+      .select(`*`)
+      // .select(`*, user (*)`)
       .eq('studyId', studyId);
 
     if (error) {
@@ -16,6 +17,7 @@ export async function getStudyApply(studyId: string) {
       throw new Error('Failed to fetch study details');
     }
 
+    console.log(data)
     return data;
   } catch (error) {
     console.error('Error in server action:', error);

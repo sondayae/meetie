@@ -32,21 +32,21 @@ export default async function page() {
               <Link href="/mypage/study">
                 <StudyCard
                   icon={<ScrapIcon fill="#8655FF" />}
-                  text="관심스터디"
+                  label="관심스터디"
                   num={3}
                 />
               </Link>
               <Link href="/mypage/bookmark">
                 <StudyCard
-                  icon={<BookmarkIcon fill="#8655FF" />}
-                  text="참여스터디"
+                  icon={<BookmarkIcon className={'fill-[#8655FF]'} />}
+                  label="참여스터디"
                   num={1}
                 />
               </Link>
               <Link href="/mypage/friend">
                 <StudyCard
-                  icon={<FriendsIcon fill="#8655FF" />}
-                  text="스터디친구"
+                  icon={<FriendsIcon className={'fill-[#8655FF]'} />}
+                  label="스터디친구"
                   num={5}
                 />
               </Link>

@@ -2,6 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import UserCard from './UserCard';
+import UserSkeleton from './UserSkeleton';
+import { addFriend } from '@/actions/study/friendActions';
+import { getUsers } from '@/actions/study/searchActions';
 
 type UserCardProps = {
   id: string;
@@ -17,22 +20,33 @@ export default function UserList({
 }: {
   filteredUsers: UserCardProps[];
 }) {
-  const [users, setUsers] = useState<UserCardProps[]>([]);
-  const [allUsers, setAllUsers] = useState<UserCardProps[]>([]);
+  // const [users, setUsers] = useState<UserCardProps[]>([]);
+  const [users, setUsers] = useState<any>([]);
+  const [allUsers, setAllUsers] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchProfiles = async () => {
-      try {
-        const response = await fetch('/api/search/user');
-        if (!response.ok) {
-          throw new Error('Failed to fetch user profiles');
-        }
-        const data: UserCardProps[] = await response.json();
-        setAllUsers(data);
-        setUsers(data); // 초기에는 모든 사용자로 설정
-      } catch (error) {
-        console.error('Failed to fetch profiles:', error);
-      }
+      setLoading(true); // 데이터 로딩 시작
+      const data = await getUsers();
+      setAllUsers(data);
+      setUsers(data);
+      setLoading(false);
+
+      // 기존 로직
+      // try {
+      //   const response = await fetch('/api/search/user');
+      //   if (!response.ok) {
+      //     throw new Error('Failed to fetch user profiles');
+      //   }
+      //   const data: UserCardProps[] = await response.json();
+      //   setAllUsers(data);
+      //   setUsers(data); // 초기에는 모든 사용자로 설정
+      // } catch (error) {
+      //   console.error('Failed to fetch profiles:', error);
+      // } finally {
+      //   setLoading(false); // 데이터 로딩 완료
+      // }
     };
 
     fetchProfiles();
@@ -48,6 +62,24 @@ export default function UserList({
     }
   }, [filteredUsers]);
 
+  const handleAddFriend = async (receiverId: string) => {
+    const data = await addFriend(receiverId);
+    if (data) {
+      const newUsers = users.map((item: any) => {
+        let newUser = item;
+        if (item.id === receiverId) {
+          if (item.friend.length === 0) {
+            newUser = {...item, friend: data};
+          } else {
+            newUser = {...item, friend: []};
+          }
+        }
+        return newUser;
+      });
+      setUsers(newUsers);
+    }
+  }
+
   return (
     <>
       {/* "총 X명"을 표시하는 독립적인 div */}
@@ -55,26 +87,22 @@ export default function UserList({
         <span className="text-xs text-[#555555]">총 {users.length}명</span>
       </div>
 
-      {/* 사용자 리스트 */}
       <div className="min-h-dvh bg-[#F5F5FF] px-4 pb-[100px] pt-4">
-        {users.length > 0 ? (
-          <div className="grid grid-cols-2 gap-x-[14px] gap-y-[10px]">
-            {users.map((user) => (
-              <UserCard
-                id={user.id}
-                key={user.id}
-                name={user.name}
-                job={user.job}
-                personality={user.personality}
-                nickname={user.nickname}
-                imageUrl={user.imageUrl}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className="text-center text-gray-600">
-            찾으시는 사용자가 없습니다.
-          </p>
+        {loading && <UserSkeleton />}
+        {
+          users.length > 0 ?
+          (
+            <div className="grid grid-cols-2 gap-x-[14px] gap-y-[10px]">
+              {users.map((user: any) => (
+                <UserCard
+                  key={user.id}
+                  user={user}
+                  addFriend={handleAddFriend}
+                />
+              ))}
+            </div>
+          ) : (
+          <p className="text-center text-gray-600">찾으시는 사용자가 없습니다.</p>
         )}
       </div>
     </>

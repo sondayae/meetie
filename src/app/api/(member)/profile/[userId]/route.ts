@@ -12,6 +12,7 @@ export async function GET(
       .from('user')
       .select(
         `
+        name,
         nickname,
         introduction,
         job,
