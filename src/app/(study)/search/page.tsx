@@ -57,7 +57,7 @@ const ParentComponent: React.FC = () => {
             {activeTabIndex === 0 ? (
               <StudySearch studySearchTerm={studySearchTermEnter} />
             ) : (
-              <UserSearch />
+              <UserSearch userSearchTerm={userSearchTerm} />
             )}
           </div>
         </div>

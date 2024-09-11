@@ -22,7 +22,7 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
       case 0:
         return '스터디를 검색하세요';
       case 1:
-        return '찾고 싶은 팀원의 이름이나 닉네임을 적어주세요';
+        return '찾고 싶은 팀원의 이름을 검색하세요';
       default:
         return '';
     }
