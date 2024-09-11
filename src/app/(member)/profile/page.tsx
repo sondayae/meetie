@@ -45,7 +45,7 @@ export default function UserProfile() {
   }, []);
 
   const handleGoHome = () => {
-    router.push('/'); // 홈 화면으로 이동
+    router.push('/studyroom'); // 홈 화면으로 이동
   };
 
   const handleBackClick = () => {
