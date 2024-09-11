@@ -48,6 +48,9 @@ export default async function RootLayout({
 
     <ReactQueryClientProvider>
       <html lang="ko">
+        <head>
+        <link rel="icon" href="https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/logo.png" sizes='any' />
+        </head>
         <body className={`${pretendard.className}`}>
           <div id="wrapper" className="m-auto h-[100dvh] max-w-[600px] flex flex-col">
             {children}
