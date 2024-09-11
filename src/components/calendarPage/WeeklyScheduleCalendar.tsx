@@ -32,13 +32,15 @@ export default function WeeklyScheduleCalendar({
     ScheduleEvent[] | null
   >(initialSchedule);
 
-  const updateDateRange = (date: Date | null) => {
+  const updateDateRange = async (date: Date | null) => {
+    const data = await getSchedule(date!, studyRoomId);
     setSelectedDate(date);
     const range = date
       ? Array.from({ length: 7 }, (_, i) => addDays(date, i))
       : [];
 
     setCurrentWeekDates(range);
+    setScheduleForSelectedDate(data);
   };
 
   const fetchScheduleForDate = async (date: Date) => {
@@ -60,7 +62,7 @@ export default function WeeklyScheduleCalendar({
         minDate={new Date()}
       />
       {currentWeekDates.length > 0 && (
-        <div className="mt-6 flex items-center justify-between">
+        <div className="my-6 flex items-center justify-between">
           {currentWeekDates.map((date) => (
             <button
               key={date.toDateString()}
@@ -82,18 +84,18 @@ export default function WeeklyScheduleCalendar({
           ))}
         </div>
       )}
-      {scheduleForSelectedDate &&
+      {scheduleForSelectedDate && (
         <div className="flex flex-col gap-4">
           {scheduleForSelectedDate?.map((schedule) => (
             <div
-            key={schedule.id}
-            className="relative mx-4 rounded bg-[#3f3fff1f] px-2 after:absolute after:left-0 after:top-0 after:h-full after:w-0.5 after:rounded-[32px] after:bg-[#7876E3] after:content-['']"
+              key={schedule.id}
+              className="relative mx-4 rounded bg-[#3f3fff1f] px-2 after:absolute after:left-0 after:top-0 after:h-full after:w-0.5 after:rounded-[32px] after:bg-[#7876E3] after:content-['']"
             >
               {schedule.event_type}
             </div>
           ))}
         </div>
-      }
+      )}
     </div>
   );
 }
