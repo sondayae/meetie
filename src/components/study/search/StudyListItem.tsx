@@ -15,20 +15,26 @@ type Bookmark = {
   user_id: string;
 };
 
-export default function StudyListItem({study}: {study: Study}) {
+export default function StudyListItem({
+  study,
+  className,
+}: {
+  study: Study;
+  className?: string;
+}) {
   const { filteredList, setStudyList } = useFilterStore();
 
   // 스터디 북마크
   const handleToggleScrap = async () => {
-    const data: Bookmark[]|null = await bookmarkStudy(study.id);
+    const data: Bookmark[] | null = await bookmarkStudy(study.id);
     if (data) {
-      const newList = filteredList.map(item => {
+      const newList = filteredList.map((item) => {
         let newStudy = item;
         if (item.id === study.id) {
           if (item.bookmark.length > 0) {
-            newStudy = {...item, bookmark: []};
+            newStudy = { ...item, bookmark: [] };
           } else {
-            newStudy = {...item, bookmark: [{user_id: data?.[0].user_id}]};
+            newStudy = { ...item, bookmark: [{ user_id: data?.[0].user_id }] };
           }
         }
         return newStudy;
@@ -37,20 +43,34 @@ export default function StudyListItem({study}: {study: Study}) {
     }
   };
 
-  const formattedStartDate = format(new Date(study.startDate), 'yyyy.MM.dd (EE)', { locale: ko,});
-  const formattedEndDate = format(new Date(study.endDate), 'yyyy.MM.dd (EE)', { locale: ko,});
+  const formattedStartDate = format(
+    new Date(study.startDate),
+    'yyyy.MM.dd (EE)',
+    { locale: ko },
+  );
+  const formattedEndDate = format(new Date(study.endDate), 'yyyy.MM.dd (EE)', {
+    locale: ko,
+  });
 
   const getDday = () => {
     const today = new Date();
     const startDate = new Date(study.startDate);
 
-    const dday = Math.abs(Math.round((Number(new Date(study.endDate)) - Number(new Date())) / 1000 / 60 / 60 / 24));
+    const dday = Math.abs(
+      Math.round(
+        (Number(new Date(study.endDate)) - Number(new Date())) /
+          1000 /
+          60 /
+          60 /
+          24,
+      ),
+    );
     if (today > startDate) {
       return '-' + dday;
     } else {
       return '+' + dday;
     }
-  }
+  };
 
   // {`D${
   //   Number(new Date(study.endDate)) - Number(new Date()) > 0
@@ -66,13 +86,11 @@ export default function StudyListItem({study}: {study: Study}) {
   //   ),
   // )}`}
 
-
-
   return (
     <Link
       href={`/study/${study.id}`}
       key={study.id}
-      className="cursor-pointer rounded-lg border border-muted bg-white px-4 py-5 shadow-[0_4px_4px_rgb(0,0,0,0.03)]"
+      className={`cursor-pointer rounded-lg border border-muted bg-white px-4 py-5 shadow-[0_4px_4px_rgb(0,0,0,0.03)] ${className}`}
     >
       <div className={'mb-1 flex justify-between text-[#777777]'}>
         {/* 모집 직군 */}
@@ -98,8 +116,8 @@ export default function StudyListItem({study}: {study: Study}) {
         >
           <ScrapIcon
             className="transition-all duration-300 ease-in-out"
-            stroke={study.bookmark.length > 0 ? '' : '#bbbbbb'}
-            fill={study.bookmark.length > 0 ? '#6224FD' : 'transparent'}
+            stroke={study.bookmark?.length > 0 ? '' : '#bbbbbb'}
+            fill={study.bookmark?.length > 0 ? '#6224FD' : 'transparent'}
           />
         </button>
       </div>
@@ -146,5 +164,5 @@ export default function StudyListItem({study}: {study: Study}) {
         </div>
       </div>
     </Link>
-  )
+  );
 }

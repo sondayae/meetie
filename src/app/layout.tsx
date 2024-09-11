@@ -45,17 +45,18 @@ export default async function RootLayout({
   const { data } = await supabase.auth.getUser();
 
   return (
-
     <ReactQueryClientProvider>
       <html lang="ko">
         <body className={`${pretendard.className}`}>
-          <div id="wrapper" className="m-auto h-[100dvh] max-w-[600px] flex flex-col">
+          <div
+            id="wrapper"
+            className="m-auto flex h-full min-h-[100dvh] max-w-[600px] flex-col"
+          >
             {children}
             <InitUser user={data.user} />
           </div>
         </body>
       </html>
     </ReactQueryClientProvider>
-
   );
 }

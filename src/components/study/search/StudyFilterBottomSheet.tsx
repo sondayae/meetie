@@ -17,7 +17,7 @@ type BottomSheetProps = {
   onFilterClick: (filter: string) => void;
   filterTags: {
     roles: string | null;
-    purpose: string[];
+    purposes: string[];
     studySpan: string | null;
     recruitNum: string | null;
   };
@@ -107,7 +107,7 @@ export default function StudyFilterBottomSheet({
             <div className="flex flex-wrap gap-2">
               {[
                 filterTags.roles,
-                ...filterTags.purpose,
+                ...filterTags.purposes,
                 filterTags.studySpan,
                 filterTags.recruitNum,
               ]

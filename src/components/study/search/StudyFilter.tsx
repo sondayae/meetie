@@ -3,7 +3,6 @@ import { useFilterStore } from '@/stores/search/useFilterStore';
 import { useState } from 'react';
 import { purposes, studySpans } from '@/lib/profileConstants';
 import StudyFilterBottomSheet from './StudyFilterBottomSheet';
-import { Study } from '@/types/study';
 
 export default function StudyFilter({ allTags }: { allTags: string[] }) {
   const { activeTag, setActiveTag } = useFilterStore();
@@ -17,7 +16,7 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
     // 모집 직군
     roles: string | null;
     // 스터디 목적
-    purpose: string[];
+    purposes: string[];
     // 스터디 기간
     studySpan: string | null;
     // 모집 인원
@@ -38,7 +37,7 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
   // 실제 적용된 필터 태그 (필터 아이콘 옆에 표시)
   const [filterTags, setFilterTags] = useState<FilterTags>({
     roles: null,
-    purpose: [],
+    purposes: [],
     studySpan: null,
     recruitNum: null,
   });
@@ -46,7 +45,7 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
   // 임시로 선택된 필터 태그 (바텀시트 안에서 선택 중인 상태)
   const [tempFilterTags, setTempFilterTags] = useState<FilterTags>({
     roles: null,
-    purpose: [],
+    purposes: [],
     studySpan: null,
     recruitNum: null,
   });
@@ -70,7 +69,7 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
       selectedFilter === '모집 직군'
         ? 'roles'
         : selectedFilter === '스터디 목적'
-          ? 'purpose'
+          ? 'purposes'
           : selectedFilter === '스터디 기간'
             ? 'studySpan'
             : 'recruitNum';
@@ -90,7 +89,7 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
     setTempFilterTags((prevTags) => ({
       ...prevTags,
       roles: prevTags.roles === tag ? null : prevTags.roles,
-      purpose: prevTags.purpose.filter((t) => t !== tag),
+      purposes: prevTags.purposes.filter((t) => t !== tag),
       studySpan: prevTags.studySpan === tag ? null : prevTags.studySpan,
       recruitNum: prevTags.recruitNum === tag ? null : prevTags.recruitNum,
     }));
@@ -100,7 +99,7 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
     try {
       const tags = [
         filters.roles,
-        ...filters.purpose,
+        ...filters.purposes,
         filters.studySpan,
         filters.recruitNum,
       ].filter((tag): tag is string => tag !== null);
@@ -133,9 +132,9 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
 
   return (
     <>
-      <div className={'flex items-center justify-between'}>
+      <div className={'flex items-baseline justify-between'}>
         {/* 필터 아이콘 */}
-        <div className="w-full overflow-x-auto">
+        <div className="ml-4 w-full overflow-x-auto">
           <ul className="flex gap-2 whitespace-nowrap">
             {allTags?.length > 0
               ? ['전체', ...allTags].map((tag, index) => (
@@ -162,7 +161,10 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
           </ul>
         </div>
 
-        <FilterIcon onClick={() => setIsBottomSheetOpen(true)} />
+        <FilterIcon
+          onClick={() => setIsBottomSheetOpen(true)}
+          className={'mt-1 self-start'}
+        />
         <StudyFilterBottomSheet
           title="검색 조건을 선택해주세요"
           onConfirm={handleConfirm} // 결과보기 클릭 시 임시 태그를 실제 태그로 적용
