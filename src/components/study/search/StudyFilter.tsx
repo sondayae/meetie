@@ -125,7 +125,7 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
         filters.recruitNum,
       ].filter((tag): tag is string => tag !== null);
 
-      console.log('스터디 페치:', tags);
+      // console.log('스터디 페치:', tags);
 
       const response = await fetch('/api/search/study', {
         method: 'POST',
@@ -141,7 +141,7 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
 
       const data = await response.json();
       setStudyList(data.studies);
-      console.log('페치 스터디:', data.studies);
+      // console.log('페치 스터디:', data.studies);
     } catch (error) {
       console.error('사용자 검색 중 오류 발생:', error);
     }
