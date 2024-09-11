@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { getDueSoon, getSchedule, getUpcomingSchedule } from '@/apis/calendar';
 import DueSoonTasks from '@/components/calendarPage/DueSoonTasks';
 import UpcomingEvents from '@/components/calendarPage/UpcomingEvents';
@@ -16,7 +18,16 @@ export default async function Calendar({ params }: { params: { id: number } }) {
     <>
       {/* 헤더 영역 */}
       <div className="bg-[#E3E3FA] p-4">
-        <Header label="스터디룸" leftIcon={false} rightIcon={<Plus />} useBorderBottom={false} />
+        <Header
+          label="스터디룸"
+          leftIcon={false}
+          rightIcon={
+            <Link href="/studyroom/103/calendar/add">
+              <Plus />
+            </Link>
+          }
+          useBorderBottom={false}
+        />
         <div className="mt-4 flex flex-col gap-5">
           <div className="flex items-center justify-end text-xs">
             <span className="rounded-l-lg border border-transparent bg-primary px-2 py-1 text-white">
@@ -31,7 +42,7 @@ export default async function Calendar({ params }: { params: { id: number } }) {
       </div>
       <TabMenu />
       {/* 콘텐츠 영역 */}
-      <div className="pb-28">
+      <div className="mb-28 flex-1">
         <div className="flex flex-col gap-1 px-4 py-7">
           <p className="text-lg font-bold">🤙 팀원과의 약속</p>
           <span className="text-sm text-muted-foreground">
@@ -43,7 +54,7 @@ export default async function Calendar({ params }: { params: { id: number } }) {
           studyRoomId={params.id}
         />
         <div className="flex flex-col gap-6 px-4 pb-5 pt-9">
-          <div className='flex flex-col gap-1'>
+          <div className="flex flex-col gap-1">
             <p className="text-lg font-bold">✍ 다가오는 일정</p>
             <span className="text-sm text-muted-foreground">
               #이번 주의 과제와 회의 시간을 확인해보세요
