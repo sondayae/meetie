@@ -47,9 +47,9 @@ export default function ProfileSuccess() {
   };
 
   return (
-    <div className="mx-auto flex h-screen max-w-[600px] flex-col items-center justify-between">
+    <div className="mx-auto flex h-screen max-w-[600px] flex-col items-center">
       {/* Header and Description */}
-      <div className="mt-12 px-4 text-left">
+      <div className="mb-[76px] mt-12 px-4 text-left">
         <h1 className="text-2xl font-bold">
           {`${userName}님의`} <br />
           공개 프로필이 생성되었어요 🎉
