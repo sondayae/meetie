@@ -48,7 +48,8 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { filters } = await request.json();
+    const body = await request.json();
+    const { filters, searchTerm, searchField } = body;
 
     let query = supabase.from('user').select('*');
 
@@ -62,20 +63,28 @@ export async function POST(request: Request) {
       query = query.eq('expected_study_span', filters.studySpan);
     }
 
-    // 스터디 목적 필터 적용
-    if (filters.purpose.length > 0) {
+    // 스터디 목적 필터 적용 (빈 배열로 초기화)
+    if (filters.purpose && filters.purpose.length > 0) {
       query = query.contains('purpose', filters.purpose);
     }
 
-    // 작업 스타일 필터 적용
-    if (filters.personality.length > 0) {
+    // 작업 스타일 필터 적용 (빈 배열로 초기화)
+    if (filters.personality && filters.personality.length > 0) {
       query = query.contains('personality', filters.personality);
+    }
+
+    // 검색어 필터 적용
+    if (searchTerm) {
+      if (searchField === 'name') {
+        query = query.ilike('name', `%${searchTerm}%`); // nickname에서 검색어 포함된 부분 일치
+      }
     }
 
     // 쿼리 실행
     const { data: users, error } = await query;
 
     if (error) {
+      console.error('Query error:', error);
       throw error;
     }
 
