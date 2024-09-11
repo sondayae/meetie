@@ -20,7 +20,7 @@ type Homework = {
 type User = {
   id: string;
   name: string;
-  images?: {
+  images: {
     url: string;
-  }[]
+  }
 };

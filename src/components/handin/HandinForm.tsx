@@ -13,7 +13,7 @@ import { redirect } from 'next/navigation';
 
 const MAX_LENGTH = 500;
 
-export default function HandinForm({data}: {data: Feedback}) {
+export default function HandinForm({data}: {data: any}) {
   const src = getImgUrl(data.images?.[0].url);
   console.log(data);
   
