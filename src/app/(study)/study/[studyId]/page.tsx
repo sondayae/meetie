@@ -29,6 +29,9 @@ export default async function Page({
   // 로그인 유저 신청 여부 확인
   const isApply = applyData.some((item: any) => item.userId === userdata?.id);
 
+  // 스터디 멤버 정보 가져오기
+  const memberData = await getStudyMember(params.studyId);
+
   const detaildata = { userdata, isApply, params, ...studydata };
 
   // 작성자 여부 확인 => 작성자일 경우 kebabMenuIcon 표시
@@ -39,17 +42,6 @@ export default async function Page({
       <div className="flex min-h-dvh max-w-[600px] flex-col pb-24">
         <Header leftIcon rightIcon={isAuthor ? <KebabMenuIcon /> : ''} />
         <StudyMain {...detaildata} />
-        <footer>
-          {/* <StatusDisplay
-            isRecruiting={studydata.isRecruiting}
-            recruitNum={studydata.recruitNum}
-            userId={userdata}
-            isAuthor={isAuthor}
-            isApply={isApply}
-            params={params.studyId}
-            acceptedStudy={memberData.length}
-          /> */}
-        </footer>
       </div>
     </>
   );

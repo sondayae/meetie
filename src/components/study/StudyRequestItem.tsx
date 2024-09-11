@@ -50,8 +50,8 @@ export default function StudyRequestItem({
     <>
       <li key={item.id}>
         {/* {item.status === 'waiting' && ( */}
-        <div className="flex w-full flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 p-5">
-          <div className="flex w-full items-start justify-between gap-4 p-5">
+        <div className="flex h-[191px] w-full flex-col items-center justify-center gap-2 rounded-lg border border-gray-200">
+          <div className="flex w-full items-start justify-between gap-4 px-[19px] pb-[9px] pt-5">
             <div className="flex items-start justify-start gap-2.5">
               <div className="flex flex-col items-end justify-start">
                 <Link href={`/profile/read/${item.user.id}`}>
@@ -92,18 +92,20 @@ export default function StudyRequestItem({
                     onClick={() =>
                       modApply(item.studyId, item.user.id, 'refused')
                     }
-                    className="bg-light-gray text-dark-gray flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium"
+                    className="flex h-8 items-center justify-center gap-2 rounded-full bg-[#f1f1f1] px-4 py-2"
                   >
-                    거절
+                    <div className="text-sm font-medium text-[#434343]">
+                      거절
+                    </div>
                   </button>
                   <button
                     type="button"
                     onClick={() =>
                       modApply(item.studyId, item.user.id, 'accepted')
                     }
-                    className="text-dark-gray flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-white"
+                    className="flex h-8 items-center justify-center gap-2 rounded-full bg-[#7f4cff] px-4 py-2"
                   >
-                    수락
+                    <div className="text-sm font-medium text-white">수락</div>
                   </button>
                 </>
               )}
@@ -122,13 +124,14 @@ export default function StudyRequestItem({
               )}
             </div>
           </div>
-          <div className="flex w-full flex-col items-start justify-start gap-4">
-            <div className="text-dark-gray h-10 w-full px-6 text-sm font-normal leading-tight">
+          <div className="flex w-full flex-col items-start justify-start gap-[13px] px-[26px] pb-5">
+            <div className="w-72 text-sm font-normal leading-tight text-[#434343]">
               {item.user.introduce
                 ? item.user.introduce
                 : '자기소개가 없습니다.'}
             </div>
-            <div className="flex items-start justify-start gap-2.5 px-6">
+
+            <div className="flex items-start justify-start gap-2.5">
               {item.user.personality?.map((tag: string, idx: number) => (
                 <span
                   key={idx}

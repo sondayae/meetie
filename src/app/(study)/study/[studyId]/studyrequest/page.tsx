@@ -25,19 +25,16 @@ export default async function Page({
 
   const memberData = await getStudyMember(params.studyId);
 
+  const detaildata = { applyData, params, ...data };
+
   return (
-    <div className="flex flex-col pb-24">
+    <div className="flex min-h-dvh max-w-[600px] flex-col pb-24">
       <Header label="대기중인요청" leftIcon rightIcon />
 
-      <CreateStudyRoom params={params.studyId} />
+      {/* <CreateStudyRoom params={params.studyId} /> */}
 
-      <StudyRequest
-        applyData={applyData}
-        params={params}
-        acceptedStudy={data.acceptedStudy}
-        recruitNum={data.recruitNum}
-      />
-      {/* 로그인 === 작성자  */}
+      <StudyRequest {...detaildata} />
+      {/* 로그인 === 작성자 
       <div className="flex w-full items-center justify-center">
         <div className="fixed bottom-0 mx-auto w-full bg-white pt-8">
           <div className="flex items-center justify-center">
@@ -51,7 +48,7 @@ export default async function Page({
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
