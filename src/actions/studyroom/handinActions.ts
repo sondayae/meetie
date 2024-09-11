@@ -157,13 +157,11 @@ export async function getFeedback(handinId: string) {
 
     const { data, error } = await supabase
       .from('handin')
-      .select('id, text, created_at, homework(id, title, subtitle), user(id, name, images(url)), images(url)')
+      .select('id, text, created_at, homework(id, title, subtitle), user(id, name, images(url)), images(url), comments(*)')
       .eq('id', handinId)
       .single();
 
     handleError(error);
-    
-
     return data;
   } catch (err: any) {
     handleError(err);
@@ -211,9 +209,11 @@ export async function getJoinedStudyRoom(studyId: string) {
   }
 }
 
-export async function createComment({comment, targetId}: {comment: string, targetId: string}) {
+export async function createComment(formData: FormData) {
   const supabase = supabaseServer();
   const userId = await getServerUserId();
+  const comment = formData.get('comment');
+  const targetId = formData.get('target_id');
   try {
     if (!userId) {
       throw new Error('There is no User');
@@ -239,3 +239,31 @@ export async function createComment({comment, targetId}: {comment: string, targe
     return { success: false, error: err.message };
   }
 }
+// export async function createComment({comment, targetId}: {comment: string, targetId: string}) {
+//   const supabase = supabaseServer();
+//   const userId = await getServerUserId();
+//   try {
+//     if (!userId) {
+//       throw new Error('There is no User');
+//     }
+//     if (comment === '') {
+//       throw new Error('comment is required');
+//     }
+//     const { data, error } = await supabase
+//       .from('comments')
+//       .insert({
+//         target_id: targetId,
+//         user_id: userId,
+//         comment,
+//       })
+//       .select('id, user(name), comment');
+
+//     if (error) {
+//       throw new Error(`${error}`);
+//     }
+//     return { success: true, data: data};
+//   } catch (err: any) {
+//     // TODO 에러 타입
+//     return { success: false, error: err.message };
+//   }
+// }
