@@ -39,20 +39,18 @@ function Header({
           </span>
         )}
         <span className="text-center text-lg font-bold">{label}</span>
-        {rightIcon && (
           <div
             className="relative flex h-[40px] w-[40px] items-center justify-center hover:cursor-pointer"
             onClick={!label ? handleToggleMenu : undefined}
           >
-            {rightIcon}
-            {toggleMenu && (
-              <ToggleMenu
-                toggleMenu={toggleMenu}
-                onClose={() => setToggleMenu(false)}
-              />
-            )}
-          </div>
-        )}
+          {rightIcon}
+          {toggleMenu && (
+            <ToggleMenu
+              toggleMenu={toggleMenu}
+              onClose={() => setToggleMenu(false)}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

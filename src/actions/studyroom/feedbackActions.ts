@@ -13,9 +13,9 @@ export async function getFeedbacks(studyId: string) {
     }
 
     const { data, error } = await supabase
-      .from('handin')
+      .from('feedback')
       .select(
-        'id, text, created_at, homework(id, title), user(id, name, images(url)), images(url), comments(*), feedback_reactions(*)',
+        'id, text, created_at, homework(id, title), user(id, name, images(url)), images(url), comment(*), feedback_reactions(*)',
       )
       .order('created_at', { ascending: false })
       .eq('study_id', studyId);
@@ -25,6 +25,28 @@ export async function getFeedbacks(studyId: string) {
       }
 
       return data;
+  } catch (err: any) {
+    return err.message;
+  }
+}
+
+export async function getFeedback(id: string) {
+  const supabase = supabaseServer();
+  try {
+    if (!id) {
+      throw new Error('handin id is required');
+    }
+
+    const { data, error } = await supabase
+      .from('feedback')
+      .select('*, homework(*), user(id, name, images(url)), images(url), comment(*)')
+      .eq('id', id)
+      .single();
+
+      if (error) {
+        throw new Error(`There is an error, ${error.message}`);
+      }
+    return data;
   } catch (err: any) {
     return err.message;
   }

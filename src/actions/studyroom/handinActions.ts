@@ -149,18 +149,17 @@ export async function updateHandin(formData: FormData) {
   }
 }
 
-export async function getFeedback(handinId: string) {
+export async function getFeedback(id: string) {
   const supabase = supabaseServer();
   try {
-    if (!handinId) {
+    if (!id) {
       throw new Error('handin id is required');
     }
 
     const { data, error } = await supabase
       .from('handin')
-      .select('id, text, created_at, homework(id, title, subtitle), user(id, name, images(url)), images(url), comments(*)')
-      .eq('id', handinId)
-      .single();
+      .select('*, homework(id, title, subtitle), user(id, name, images(url)), images(url), comments(*)')
+      .eq('id', id);
 
     handleError(error);
     return data;

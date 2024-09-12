@@ -6,9 +6,14 @@ import { createComment } from '@/actions/studyroom/commentActions';
 import { useRef, useState } from 'react';
 import { queryClient } from '@/config/ReactQueryClientProvider';
 import { useMutation } from '@tanstack/react-query';
+import { useUser } from '@/stores/user/user';
 
 export default function CommentForm({ targetId }: { targetId: string}) {
   const [comment, setComment] = useState('');
+  // const { user } = useUser();
+  // console.log(user);
+  // TODO 유저 정보 -> userid, name, email, token, image 필요
+  
 
   const createCommentMutation = useMutation({
     mutationFn: () =>

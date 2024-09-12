@@ -122,9 +122,12 @@ const config: Config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      dropShadow: {
+        'navbarShadow': '0 -25px 25px rgb(0 0 0 / 0.15)',
+      }
     },
   },
   darkMode: ['class', 'class'],
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require("tailwind-scrollbar-hide")],
 };
 export default config;

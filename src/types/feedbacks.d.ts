@@ -1,26 +1,34 @@
-export interface Feedback {
-  id: string;
-  text: string;
+type Image = {
+  url: string;
+};
+
+type Comment = {
+  id: number;
+  comment: string;
+  user_id: string;
+  target_id: number;
   created_at: string;
-  homework?: Homework | Homework[]
-  user: User | User[]
-  images: {
-    url: string;
-  }[];
-  comments?: [];
-  feedback_reactions?: [];
 };
 
 type Homework = {
-  id: string;
+  id: number;
   title: string;
-  subtitle: string;
 };
 
 type User = {
   id: string;
   name: string;
-  images: {
-    url: string;
-  }
+  images: Image | null;
 };
+
+type Feedback = {
+  id: number;
+  text: string;
+  created_at: string;
+  homework: Homework;
+  user: User;
+  images: Image[];
+  comment: Comment[] | null;
+  feedback_reactions: any[]; // feedback_reactions는 비어있으므로 타입을 any[]로 설정
+};
+

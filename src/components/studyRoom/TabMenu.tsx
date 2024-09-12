@@ -11,7 +11,7 @@ export default function TabMenu() {
   
 
   return (
-    <ul className='grid grid-cols-3 bg-white'>
+    <ul className='grid grid-cols-3 bg-white drop-shadow-md'>
       {menus.map((menu) => {
         return (
           <Link key={menu.id} href={`./${menu.path}`} className='text-center font-semibold'>
