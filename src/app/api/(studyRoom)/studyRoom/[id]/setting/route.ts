@@ -29,7 +29,7 @@ export async function GET(
     return Response.json('Forbidden', { status: 403 });
   }
 
-  const studyId = leaderStudyData.studyId;
+  const studyId = leaderStudyData.study_id;
 
   try {
     // `studymember`와 `user` 테이블을 조인하여 사용자 정보를 조회
