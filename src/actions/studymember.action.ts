@@ -7,7 +7,7 @@ export async function getStudyMember(studyId: string) {
       .from('studymember')
       .select(`*, user(*)`)
       // .select(`*, user(*), images(url)`)
-      .eq('studyId', studyId);
+      .eq('study_id', studyId);
 
     if (error) {
       console.error('Error fetching study details:', error);
