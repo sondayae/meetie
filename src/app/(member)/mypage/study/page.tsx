@@ -1,11 +1,22 @@
-export default function page() {
+import { getJoinInfo, getUser } from '@/actions/mypage.action';
+import Header from '@/components/handin/Header';
+import supabaseServer from '@/utils/supabase/server';
+
+export default async function page() {
+  const supabase = supabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const joindata = await getJoinInfo({ id: user?.id });
+
   return (
-    <>
-      <div className="m-auto flex w-full max-w-[600px] flex-col px-4">
-        <h1>진행중인스터디</h1>
-        <div className="flex flex-col rounded-lg border-2 border-middle-gray">
-          {[1, 2, 3, 4, 5].map(() => (
-            <div className="flex items-center gap-2 border-b-2 border-middle-gray p-2">
+    <div className="relative h-full">
+      <Header leftIcon={false} label="북마크 스터디" />
+
+      <div className="m-auto flex w-full max-w-[600px] flex-col px-4 pt-7">
+        <div className="border-middle-gray flex flex-col rounded-lg border-2">
+          {joindata.bookmark.map(() => (
+            <div className="border-middle-gray flex items-center gap-2 border-b-2 p-2">
               <img
                 className="h-[38px] w-[38px] rounded-lg"
                 src="https://th.bing.com/th/id/OIG3.6Q6JSjGGulke2mGv6MPj?pid=ImgGn"
@@ -28,6 +39,6 @@ export default function page() {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }

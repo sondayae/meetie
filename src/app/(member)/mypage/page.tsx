@@ -1,4 +1,4 @@
-import { getUser } from '@/actions/mypage.action';
+import { getUser, getJoinInfo } from '@/actions/mypage.action';
 import SimpleCard from '@/components/mypage/SimpleCard';
 import StudyCard from '@/components/mypage/StudyCard';
 import BookmarkIcon from '@/components/icons/Bookmark';
@@ -17,23 +17,25 @@ export default async function page() {
     data: { user },
   } = await supabase.auth.getUser();
   const userdata = await getUser({ id: user?.id });
+  const joindata = await getJoinInfo({ id: user?.id });
+  console.log(joindata.bookmark.length);
 
   const studyCardItem = [
     {
       label: '관심 스터디',
-      num: 3,
+      num: joindata.bookmark.length,
       icon: <ScrapIcon stroke="#A180F4" className="fill-none" />,
       path: '/study',
     },
     {
       label: '참여 스터디',
-      num: 3,
+      num: joindata.studymember.length,
       icon: <BookmarkIcon className="fill-[#A180F4]" />,
       path: '/bookmark',
     },
     {
       label: '스터디 친구',
-      num: 3,
+      num: joindata.friend.length,
       icon: <FriendsIcon className="fill-[#A180F4]" />,
       path: '/friend',
     },
