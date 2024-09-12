@@ -58,8 +58,8 @@ export default function StudyPage() {
   return (
     <>
       {/* 헤더 영역 */}
-      <div className='bg-muted'>
-        <Header label='스터디룸' leftIcon={false} rightIcon={<Question />}/>
+      <div className="bg-muted">
+        <Header label="스터디룸" leftIcon={false} rightIcon={<Question />} />
       </div>
       {/* 콘텐츠 영역 */}
       <div className="flex-1 bg-muted p-4">
@@ -118,7 +118,7 @@ export default function StudyPage() {
           {/* 스터디 리스트 영역 */}
           <h2 className="mb-2 mt-6 text-lg font-semibold leading-6">
             지금 떠오르고 있는 <br />
-            스터디룸
+            스터디
           </h2>
           <div className={'flex flex-col gap-4'}>
             {loading

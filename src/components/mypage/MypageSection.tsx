@@ -12,13 +12,15 @@ import Logout from './Logout';
 export default function MypageSection() {
   const listItem = [
     {
-      label: '관심스터디',
+      label: '관심 스터디',
       num: 12,
-      icon: <ScrapIcon className="h-4 w-4" />,
+      icon: (
+        <ScrapIcon className="h-5 w-5" fill={'transparent'} stroke={'black'} />
+      ),
       path: '/bookmark',
     },
     {
-      label: '참여스터디',
+      label: '참여 스터디',
       num: 34,
       icon: <BookmarkIcon className="h-4 w-4" />,
       path: '/study',
@@ -59,14 +61,14 @@ export default function MypageSection() {
             <RightArrowIcon className="h-4 w-4" />
           </div>
         </Link>
-        <div className="flex justify-between gap-3">
+        <div className="flex justify-start gap-3">
           {dummyBadges.map((badge) => (
             <div key={badge.title} className="flex flex-col items-center gap-3">
               <Image
                 src={badge.src}
                 alt={badge.title}
-                width={100}
-                height={100}
+                width={80}
+                height={80}
                 priority
               />
               <span className="text-xs font-semibold">{badge.title}</span>

@@ -15,7 +15,7 @@ export default async function page() {
   return (
     <div className="flex h-full min-h-dvh flex-col">
       <div className="m-auto flex w-full max-w-[600px] flex-col px-4">
-        {!userdata && <p className='text-center'>로그인 정보가 없습니다</p>}
+        {!userdata && <p className="text-center">로그인 정보가 없습니다</p>}
         {userdata && (
           <>
             <header className="mb-11">
@@ -32,21 +32,21 @@ export default async function page() {
               <Link href="/mypage/study">
                 <StudyCard
                   icon={<ScrapIcon fill="#8655FF" />}
-                  label="관심스터디"
+                  label="관심 스터디"
                   num={3}
                 />
               </Link>
               <Link href="/mypage/bookmark">
                 <StudyCard
                   icon={<BookmarkIcon className={'fill-[#8655FF]'} />}
-                  label="참여스터디"
+                  label="참여 스터디"
                   num={1}
                 />
               </Link>
               <Link href="/mypage/friend">
                 <StudyCard
                   icon={<FriendsIcon className={'fill-[#8655FF]'} />}
-                  label="스터디친구"
+                  label="스터디 친구"
                   num={5}
                 />
               </Link>
