@@ -40,7 +40,6 @@ const page = ({ params }: { params: { id: string } }) => {
   }, []);
 
   useEffect(() => {
-    console.log(selected);
     setShowModal(false);
   }, [selected]);
 
@@ -104,6 +103,12 @@ const page = ({ params }: { params: { id: string } }) => {
           )}
         </div>
         <form action={formAction} ref={formRef}>
+          <input
+            type="text"
+            name="studyId"
+            className="hidden"
+            defaultValue={studyRoomId}
+          />
           <input
             type="text"
             name="homeworkId"

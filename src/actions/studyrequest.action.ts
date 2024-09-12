@@ -18,7 +18,7 @@ export async function getStudyApply(studyId: string) {
       throw new Error('Failed to fetch study details');
     }
 
-    console.log(data)
+    // console.log(data)
     return data;
   } catch (error) {
     console.error('Error in server action:', error);
@@ -61,7 +61,7 @@ export async function updateStudyApplyStatus(
     // 스터디 멤버 추가
     const { data: insertData, error: insertError } = await supabase
       .from('studymember')
-      .insert([{ studyId: studyId, isLeader: false, participantId: userId }])
+      .insert([{ study_id: studyId, isLeader: false, participantId: userId }])
       .select();
 
     if (insertError) {

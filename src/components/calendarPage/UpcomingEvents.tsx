@@ -12,7 +12,7 @@ export default function UpcomingEvents({
 }: UpcomingScheduleProps) {
   return (
     <div className="mx-4 flex flex-col gap-3">
-      {upcomingSchedule.length < 0 ? (
+      {upcomingSchedule.length > 0 ? (
         upcomingSchedule?.map((schedule) => (
           <div
             key={schedule.id}

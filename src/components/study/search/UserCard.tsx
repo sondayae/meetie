@@ -15,18 +15,15 @@ type UserCardProps = {
   user: any;
   addFriend: (id: string) => void;
 };
-export default function UserCard({
-  user,
-  addFriend,
-}: UserCardProps) {
-
+export default function UserCard({ user, addFriend }: UserCardProps) {
   const router = useRouter();
   const handleViewProfile = () => {
     router.push(`/profile/${user.id}`);
   };
 
   return (
-    <div className="relative flex flex-col items-center rounded-lg border border-[#F6F6F6] bg-white p-4 text-center"
+    <div
+      className="relative flex cursor-pointer flex-col items-center rounded-lg border border-[#F6F6F6] bg-white p-4 text-center"
       onClick={handleViewProfile}
     >
       <UserProfileIcon onClick={handleViewProfile} />
@@ -44,17 +41,23 @@ export default function UserCard({
         {user.personality?.slice(0, 3).join(' · ') || '-'}
       </p>
       {user.friend?.length > 0 ? (
-        <button className='w-full rounded-lg border border-primary px-[24px] py-1 text-xs bg-primary text-white' onClick={(e) => {
-          e.stopPropagation();
-          addFriend(user.id)
-        }}>
+        <button
+          className="w-full rounded-lg border border-primary bg-primary px-[24px] py-1 text-xs text-white"
+          onClick={(e) => {
+            e.stopPropagation();
+            addFriend(user.id);
+          }}
+        >
           친구 추가됨
         </button>
       ) : (
-        <button className='w-full rounded-lg border border-primary px-[24px] py-1 text-xs text-primary' onClick={(e) => {
-          e.stopPropagation();
-          addFriend(user.id)
-        }}>
+        <button
+          className="w-full rounded-lg border border-primary px-[24px] py-1 text-xs text-primary"
+          onClick={(e) => {
+            e.stopPropagation();
+            addFriend(user.id);
+          }}
+        >
           친구 추가하기 +
         </button>
       )}

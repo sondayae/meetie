@@ -10,7 +10,7 @@ export async function getHomeworks(studyRoomId: string) {
     const { data, error } = await supabase
       .from('homework')
       .select()
-      .eq('studyId', studyRoomId)
+      .eq('study_id', studyRoomId)
       .order('created_at', { ascending: false });
 
     if (error) {

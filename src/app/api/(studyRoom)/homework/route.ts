@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = req.nextUrl;
     const id = searchParams.get('id');
     if (id) {
-      query = query.eq('studyId', id);
+      query = query.eq('study_id', id);
     }
 
     const { data, error } = await query;

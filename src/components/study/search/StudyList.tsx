@@ -18,8 +18,8 @@ export default function StudyList({
   studySearchTerm,
   originalList,
 }: StudyListProps) {
-
-  const { filteredList, isRecruiting, setIsRecruiting, setStudyList } = useFilterStore();
+  const { filteredList, isRecruiting, setIsRecruiting, setStudyList } =
+    useFilterStore();
 
   useEffect(() => {
     if (studySearchTerm.length > 0) {
@@ -37,7 +37,11 @@ export default function StudyList({
       <div className="flex min-h-dvh w-full flex-col gap-4 bg-[#fafafa] px-4 pb-[100px] pt-4">
         <div className={'flex items-center gap-2 text-sm'}>
           {loading ? (
-            <div className={'h-5 w-24 animate-pulse rounded-sm bg-[#f1f1f1]'} />
+            <div
+              className={
+                'h-5 w-24 animate-pulse rounded-sm bg-[#f1f1f1] shadow-[0_4px_4px_rgb(0,0,0,0.03)]'
+              }
+            />
           ) : (
             <>
               <Checkbox
@@ -57,7 +61,7 @@ export default function StudyList({
         {loading && <SearchSkeleton />}
         {filteredList.length > 0 ? (
           filteredList.map((study) => (
-            <StudyListItem key={study.id} study={study}/>
+            <StudyListItem key={study.id} study={study} />
           ))
         ) : (
           <p className="text-center text-[#777777]">검색 결과가 없습니다.</p>

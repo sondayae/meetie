@@ -1,12 +1,14 @@
-'use client';
 import { getStudyDetails } from '@/actions/study.action';
-import { getStudyMember } from '@/actions/studymember.action';
+import ProfileAvatar from '@/components/common/ProfileAvatar';
+import { getStudyMemberImage } from '@/actions/studymember.action';
 import Button from '@/components/common/Button';
 
 import Link from 'next/link';
 
 export default async function page({ params }: { params: any }) {
-  const memberData = await getStudyMember(params.studyId);
+  const memberData = await getStudyMemberImage(params.studyId);
+  console.log(memberData)
+
 
   return (
     <>
@@ -24,17 +26,17 @@ export default async function page({ params }: { params: any }) {
       {/* swiper */}
 
       <main className="flex items-center justify-center scroll-smooth py-16">
-        <div className="scroll animate-testScroll  flex min-w-max gap-12 scroll-smooth px-6">
+        <div className="animate-motionScroll flex min-w-max gap-12 scroll-smooth px-6">
           {memberData.map((member: any, index: number) => (
             <div
               key={index}
               className="scroll-snap-align-center flex flex-col items-center justify-center gap-12 py-16"
             >
-              <div className="h-52 animate-rocketMove w-36 origin-top-left rotate-[0.66deg] rounded-xl border border-[#f2f2f2] bg-gradient-to-r from-[#fafaff] to-[#eaeaff] backdrop-blur-sm">
+              <div className="h-52 w-36 origin-top-left rotate-[0.66deg] animate-rocketMove rounded-xl border border-[#f2f2f2] bg-gradient-to-r from-[#fafaff] to-[#eaeaff] backdrop-blur-sm">
                 <div className="flex flex-col items-center justify-center">
-                  {/* <img src={member.user.image_id} alt="user" /> */}
                   <div className="h-20 w-20 rounded-full bg-[#eaeaff] blur-lg" />
                   <div className="flex flex-col items-center justify-center gap-2">
+                    <ProfileAvatar src={member?.user?.image_id} />
                     <p className="text-lg font-semibold leading-tight text-[#464646]">
                       {member.user.name}
                     </p>
@@ -54,7 +56,7 @@ export default async function page({ params }: { params: any }) {
         <div className="flex w-full items-center justify-center">
           <div className="fixed bottom-0 mx-auto w-full bg-white pt-8">
             <div className="flex items-center justify-center">
-              <Link href={`/studyRoom/${params.studyId}/calendar`}>
+              <Link href={`/studyroom/${params.studyId}/handin`}>
                 <Button label="스터디룸 보러가기" />
               </Link>
             </div>

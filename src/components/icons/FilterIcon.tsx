@@ -1,11 +1,12 @@
 interface FilterIconProps {
   onClick: () => void;
+  className?: string;
 }
 
-export default function FilterIcon({ onClick }: any) {
+export default function FilterIcon({ onClick, className }: FilterIconProps) {
   return (
     <>
-      <button onClick={onClick} className="mx-4">
+      <button onClick={onClick} className={`mx-4 ${className}`}>
         <svg
           width="18"
           height="16"

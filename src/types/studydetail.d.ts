@@ -1,4 +1,5 @@
 export interface StudyDetail {
+  memberData: any,
   userdata: any;
 
   isApply: boolean;

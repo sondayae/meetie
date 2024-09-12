@@ -24,10 +24,11 @@ import ProgressBar from './write/ProgressBar';
 import LoadingModal from './write/LoadingModal';
 import CloseIcon from '../icons/CloseIcon';
 import CompleteModal from './write/CompleteModal';
+import EnterIcon from '../icons/EnterIcon';
 
 type studyFormProps = {
   isEditMode: boolean;
-  userId?: string;
+  userId?: string | undefined;
   user?: any;
 };
 
@@ -111,6 +112,7 @@ export default function StudyForm({
 
   // 로그인 체크
   if (!userId) {
+    console.log('userId', userId);
     redirect('/login');
     return null;
   }
@@ -300,7 +302,7 @@ export default function StudyForm({
       )}
       {loading && <LoadingModal label="모집글 발행 중" />}
       <Header
-        label={'스터디 만들기'}
+        label={isEditMode ? '스터디 수정하기' : '스터디 만들기'}
         leftIcon={<LeftArrowIcon />}
         rightIcon={<HomeIcon className="h-7 w-7 stroke-[#777777]" />}
       />
@@ -604,12 +606,12 @@ export default function StudyForm({
             <label className="mb-2.5 font-semibold" htmlFor="tags">
               관련 태그
             </label>
-            <div className="focus:border-main-purple flex min-h-[52px] w-full flex-initial flex-wrap gap-2 rounded-lg border border-[#c4c4c4] bg-white py-2 pl-4 pr-14 outline-none transition-all">
+            <div className="focus:border-main-purple relative flex min-h-[52px] w-full flex-wrap justify-start gap-2 rounded-lg border border-[#c4c4c4] bg-white py-2 pl-4 pr-10 outline-none transition-all">
               {/* 작성한 태그 리스트 */}
               {tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center rounded-lg bg-accent px-2 py-[5px] text-sm"
+                  className="inline-flex flex-shrink-0 items-center rounded-lg bg-accent px-2 py-[5px] text-sm"
                 >
                   {tag}
                   <button
@@ -630,9 +632,10 @@ export default function StudyForm({
                 onChange={handleTagsInputChange}
                 onKeyDown={handleKeyDown}
                 value={tagsInput}
-                placeholder="관련 태그를 입력해주세요 (최대 10개)"
-                className="flex-grow p-1 outline-none"
+                // placeholder="관련 태그를 입력해주세요 (최대 10개)"
+                className="flex-1 p-1 outline-none"
               />
+              <EnterIcon className="absolute right-3 top-[calc(50%-12px)]" />
             </div>
 
             <p className="mb-[34px] mt-2.5 text-sm text-[#999999]">

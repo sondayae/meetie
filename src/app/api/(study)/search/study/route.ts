@@ -46,12 +46,12 @@ export async function POST(request: Request) {
     }
 
     // 스터디 목적 필터 적용
-    if (filters.purpose.length > 0) {
-      query = query.contains('purpose', filters.purpose);
+    if (filters.purposes?.length > 0) {
+      query = query.contains('purposes', filters.purposes);
     }
 
     // 모집 인원 필터 적용
-    if (filters.recruitNum.length > 0) {
+    if (filters.recruitNum?.length > 0) {
       const recruitNum = filters.recruitNum as string;
       const ranges: Record<string, [number, number]> = {
         '1-2명': [1, 2],
@@ -65,7 +65,9 @@ export async function POST(request: Request) {
 
       if (selectedRange) {
         query = query
+          // 크거나 같은 조건으로 필터링
           .gte('recruitNum', selectedRange[0])
+          // 작거나 같은 조건으로 필터링
           .lte('recruitNum', selectedRange[1]);
       }
     }

@@ -17,7 +17,7 @@ type BottomSheetProps = {
   onFilterClick: (filter: string) => void;
   filterTags: {
     roles: string | null;
-    purpose: string[];
+    purposes: string[];
     studySpan: string | null;
     recruitNum: string | null;
   };
@@ -25,6 +25,7 @@ type BottomSheetProps = {
   onOptionClick: (option: string) => void;
   bottomSheet: boolean;
   onClick: () => void;
+  onResetFilters: () => void;
 };
 
 export default function StudyFilterBottomSheet({
@@ -40,12 +41,18 @@ export default function StudyFilterBottomSheet({
   onOptionClick,
   onClick,
   bottomSheet,
+  onResetFilters,
 }: BottomSheetProps) {
   const [activeOption, setActiveOption] = useState();
 
   const handleOptionClick = (option: any) => {
     setActiveOption(option);
     onOptionClick(option);
+  };
+
+  const handleResetFilters = () => {
+    onResetFilters();
+    setActiveOption(undefined);
   };
   return (
     <>
@@ -107,7 +114,7 @@ export default function StudyFilterBottomSheet({
             <div className="flex flex-wrap gap-2">
               {[
                 filterTags.roles,
-                ...filterTags.purpose,
+                ...filterTags.purposes,
                 filterTags.studySpan,
                 filterTags.recruitNum,
               ]
@@ -131,6 +138,7 @@ export default function StudyFilterBottomSheet({
               className={
                 'ml-auto mt-5 flex items-center gap-1 text-sm text-[#999999]'
               }
+              onClick={handleResetFilters}
             >
               <ResetIcon className={'h-4 w-4 fill-[#999999]'} />
               초기화

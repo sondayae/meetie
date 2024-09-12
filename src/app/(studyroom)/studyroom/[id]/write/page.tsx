@@ -34,13 +34,13 @@ export default function Page() {
           subtitle,
           startDate,
           endDate,
-          studyId: pathID, // studyroomID
+          study_id: pathID, // studyroomID
         },
       ]);
 
       if (error) throw error;
 
-      router.push(`../${pathID}/schedule`);
+      router.push(`../${pathID}/calendar`);
     } catch (error) {
       console.error('Error during form submission:', error);
     }

@@ -2,29 +2,58 @@
 
 import { twMerge } from 'tailwind-merge';
 import BackArrowIcon from '../icons/BackArrowIcon';
+import { useState } from 'react';
+import ToggleMenu from '../study/ToggleMenu';
 
 type HeaderType = {
   label?: string;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   useBorderBottom?: boolean;
-}
+};
 
-function Header({ label, leftIcon = true, rightIcon, useBorderBottom = true }: HeaderType) {
+function Header({
+  label,
+  leftIcon = true,
+  rightIcon,
+  useBorderBottom = true,
+}: HeaderType) {
   const px = leftIcon && rightIcon ? 'px-2' : 'px-4';
+
+  const [toggleMenu, setToggleMenu] = useState<boolean>(false);
+
+  const handleToggleMenu = () => {
+    setToggleMenu((prev) => !prev);
+  };
   return (
     <div className={twMerge('py-2', useBorderBottom && 'border-b')}>
-    <div className={`flex items-center justify-between h-[40px] ${px} border-[#E6E6E6]`}>
-      {leftIcon &&
-        <span className='flex items-center justify-center hover:cursor-pointer w-[40px] h-[40px]' onClick={() => window.history.back()}>
-          <BackArrowIcon />
-        </span>
-      }
-      <span className='text-lg font-bold text-center'>{label}</span>
-      <div className='flex items-center justify-center hover:cursor-pointer w-[40px] h-[40px]'>
-          {rightIcon}
+      <div
+        className={`flex h-[40px] items-center justify-between ${px} border-[#E6E6E6]`}
+      >
+        {leftIcon && (
+          <span
+            className="flex h-[40px] w-[40px] items-center justify-center hover:cursor-pointer"
+            onClick={() => window.history.back()}
+          >
+            <BackArrowIcon />
+          </span>
+        )}
+        <span className="text-center text-lg font-bold">{label}</span>
+        {rightIcon && (
+          <div
+            className="relative flex h-[40px] w-[40px] items-center justify-center hover:cursor-pointer"
+            onClick={!label ? handleToggleMenu : undefined}
+          >
+            {rightIcon}
+            {toggleMenu && (
+              <ToggleMenu
+                toggleMenu={toggleMenu}
+                onClose={() => setToggleMenu(false)}
+              />
+            )}
+          </div>
+        )}
       </div>
-    </div>
     </div>
   );
 }

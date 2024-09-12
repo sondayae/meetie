@@ -11,3 +11,14 @@ export async function getUser({ id }: { id: any }) {
 
   return data;
 }
+
+export async function getJoinInfo({ id }: { id: any }) {
+  // console.log(id);
+  const { data, count, error } = await supabase
+    .from('user')
+    .select(`*, bookmark (*), friend!friend_requester_fkey(*), studymember (*)`)
+    .eq('id', id)
+    .maybeSingle();
+
+  return data;
+}

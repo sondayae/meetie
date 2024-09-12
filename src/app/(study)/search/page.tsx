@@ -40,8 +40,14 @@ export default function SearchPage() {
 
   return (
     <>
-      <div className={'relative h-dvh'}>
-        <h1 className={'m-4 text-lg font-bold'}>탐색하기</h1>
+      <div className={'relative h-full min-h-dvh'}>
+        <h1
+          className={
+            'sticky top-0 z-50 bg-white p-4 text-lg font-bold shadow-sm'
+          }
+        >
+          탐색하기
+        </h1>
         <div>
           <SearchHeader
             activeTabIndex={activeTabIndex}
@@ -66,4 +72,4 @@ export default function SearchPage() {
       </div>
     </>
   );
-};
+}

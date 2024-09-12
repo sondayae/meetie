@@ -6,14 +6,35 @@ export async function getStudyMember(studyId: string) {
     const { data, error } = await supabase
       .from('studymember')
       .select(`*, user(*)`)
-      // .select(`*, user(*), images(url)`)
-      .eq('studyId', studyId);
+      .eq('study_id', studyId);
 
     if (error) {
       console.error('Error fetching study details:', error);
       throw new Error('Failed to fetch study details');
     }
 
+    return data;
+  } catch (error) {
+    console.error('Error in server action:', error);
+    throw new Error('Failed to fetch study applies');
+  }
+}
+
+export async function getStudyMemberImage(studyId: string) {
+  try {
+    const { data, error } = await supabase
+      .from('studymember')
+      .select(`*, user(*)`)
+      // .select(`*, user(*), images(url)`)
+      // .select(`*,user (*,images (image_id))`)
+      .eq('study_id', studyId);
+
+    if (error) {
+      console.error('Error fetching study details:', error);
+      throw new Error('Failed to fetch study details');
+    }
+
+    console.log(data);
     return data;
   } catch (error) {
     console.error('Error in server action:', error);

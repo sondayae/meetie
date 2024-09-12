@@ -94,9 +94,11 @@ export async function GET(
   // 사용자가 리더인지 확인
   const { data: leaderStudyData, error: leaderStudyError } = await supabase
     .from('studymember')
+
     .select('study_id, isLeader')
     .eq('participantId', userId)
     .eq('study_id', id)
+
     .single();
 
   // 스터디 멤버가 아닌 경우 또는 리더가 아닌 경우 접근 불가
@@ -108,11 +110,13 @@ export async function GET(
     return Response.json('Forbidden', { status: 403 });
   }
 
+
   // 리더가 아닌 경우 접근 불가
   if (!leaderStudyData.isLeader) {
     console.error('User is not the leader of the study');
     return Response.json('Forbidden', { status: 403 });
   }
+
 
   try {
     // 스터디 멤버 정보 조회
@@ -131,8 +135,10 @@ export async function GET(
         )
       `,
       )
+
       .eq('study_id', id)
       .neq('participantId', userId); // 리더 제외
+
 
     if (membersError) {
       console.error('스터디 멤버 조회 오류:', membersError);

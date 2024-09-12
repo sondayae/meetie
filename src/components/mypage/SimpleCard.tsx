@@ -2,19 +2,31 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ProfileAvatar from '@/components/common/ProfileAvatar';
 
-
 export default function SimpleCard({ userdata }: { userdata: any }) {
   return (
     <>
-      <div className='flex justify-between items-center gap-15'>
-        <div className='flex gap-4'>
-          <ProfileAvatar className='w-[60px] h-[60px]'/>
+      <div className="gap-15 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          {userdata?.images ? (
+            <img
+              src={userdata?.images?.url}
+              className="h-[60px] w-[60px] rounded-full"
+            />
+          ) : (
+            <ProfileAvatar className="h-[60px] w-[60px]" />
+          )}
           <div>
-            <p className='text-lg font-medium'>{userdata.job}</p>
-            <p className='text-xl font-bold'>{userdata.name}님</p>
+            <p className="text-base font-medium">{userdata.job}</p>
+            <p className="text-xl font-bold">{userdata.name}님</p>
           </div>
         </div>
-        <button className='text-xs p-2 text-[#645294] border border-[#EEEAFF] bg-[#EEEAFF] rounded-lg self-end'>공개용 프로필</button>
+
+        <Link
+          href={`/profile`}
+          className="self-end rounded-lg border border-[#EEEAFF] bg-[#FDFBFF] p-2 text-xs text-[#645294]"
+        >
+          공개용 프로필
+        </Link>
       </div>
       {/* <div className="flex h-16 w-full items-end justify-between px-4">
         <div className="flex items-center justify-center gap-4">
@@ -41,13 +53,12 @@ export default function SimpleCard({ userdata }: { userdata: any }) {
           </div>
           <div className="relative h-8 w-20">
           <div className="absolute left-0 top-0 h-8 w-20 rounded border border-[#ede9ff] bg-[#fdfbff]" />
-          <Link href={`/profile`}>
           <div className="absolute left-[9px] top-[7px] text-center text-xs font-medium text-[#645294]">
           공개용 프로필
           </div>
           </Link>
           </div>
           </div> */}
-          </>
+    </>
   );
 }

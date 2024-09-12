@@ -1,7 +1,6 @@
 import { getUser } from '@/actions/mypage.action';
 import StudyForm from '@/components/study/StudyForm';
 import { getServerUserId } from '@/lib/actions/getServerUserId';
-import { get } from 'http';
 
 export default async function StudyWrite() {
   const userId = await getServerUserId();

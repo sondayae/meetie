@@ -49,7 +49,7 @@ export async function getChatMembers(studyId: string) {
   const { data, error } = await supabase
     .from('studymember')
     .select('*, user(name)')
-    .eq('studyId', studyId)
+    .eq('study_id', studyId)
     .not('participantId', 'eq', userId);
 
   if (error) {
