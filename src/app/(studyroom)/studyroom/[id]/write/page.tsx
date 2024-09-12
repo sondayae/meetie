@@ -40,7 +40,7 @@ export default function Page() {
 
       if (error) throw error;
 
-      router.push(`../${pathID}/schedule`);
+      router.push(`../${pathID}/calendar`);
     } catch (error) {
       console.error('Error during form submission:', error);
     }
