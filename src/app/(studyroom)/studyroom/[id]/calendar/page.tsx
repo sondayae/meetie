@@ -22,7 +22,7 @@ export default async function Calendar({ params }: { params: { id: number } }) {
           label="스터디룸"
           leftIcon={false}
           rightIcon={
-            <Link href="/studyroom/103/calendar/add">
+            <Link href={`/studyroom/${params.id}/calendar/add`}>
               <Plus />
             </Link>
           }

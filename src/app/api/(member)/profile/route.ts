@@ -45,6 +45,7 @@ export async function POST(request: Request) {
           personality: personalities,
           expected_study_span: studySpan,
           image_id,
+          onboarding: true,
         })
         .select();
 
@@ -54,12 +55,11 @@ export async function POST(request: Request) {
         message: '프로필이 추가되거나 업데이트되었습니다.',
         data,
       });
-    } else {
-      return Response.json(
-        { error: '해당 사용자 ID에 대한 프로필이 존재하지 않습니다.' },
-        { status: 404 },
-      );
     }
+    return Response.json(
+      { error: '해당 사용자 ID에 대한 프로필이 존재하지 않습니다.' },
+      { status: 404 },
+    );
   } catch (error) {
     console.error('error adding or updating profile', error);
     return Response.json(
