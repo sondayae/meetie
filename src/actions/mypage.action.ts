@@ -20,7 +20,5 @@ export async function getJoinInfo({ id }: { id: any }) {
     .eq('id', id)
     .maybeSingle();
 
-  console.log(data);
-
   return data;
 }

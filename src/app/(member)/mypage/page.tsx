@@ -18,7 +18,6 @@ export default async function page() {
   } = await supabase.auth.getUser();
   const userdata = await getUser({ id: user?.id });
   const joindata = await getJoinInfo({ id: user?.id });
-  console.log(joindata)
 
   type StudyCardItem = {
     label: string;

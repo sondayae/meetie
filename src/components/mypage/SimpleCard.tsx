@@ -20,9 +20,13 @@ export default function SimpleCard({ userdata }: { userdata: any }) {
             <p className="text-xl font-bold">{userdata.name}님</p>
           </div>
         </div>
-        <button className="self-end rounded-lg border border-[#EEEAFF] bg-[#FDFBFF] p-2 text-xs text-[#645294]">
+
+        <Link
+          href={`/profile`}
+          className="self-end rounded-lg border border-[#EEEAFF] bg-[#FDFBFF] p-2 text-xs text-[#645294]"
+        >
           공개용 프로필
-        </button>
+        </Link>
       </div>
       {/* <div className="flex h-16 w-full items-end justify-between px-4">
         <div className="flex items-center justify-center gap-4">
@@ -49,7 +53,6 @@ export default function SimpleCard({ userdata }: { userdata: any }) {
           </div>
           <div className="relative h-8 w-20">
           <div className="absolute left-0 top-0 h-8 w-20 rounded border border-[#ede9ff] bg-[#fdfbff]" />
-          <Link href={`/profile`}>
           <div className="absolute left-[9px] top-[7px] text-center text-xs font-medium text-[#645294]">
           공개용 프로필
           </div>
