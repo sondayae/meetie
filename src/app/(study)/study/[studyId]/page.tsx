@@ -44,7 +44,7 @@ export default async function Page({
 
   return (
     <>
-      <div className="flex h-full max-w-[600px] flex-col pb-24">
+      <div className="flex h-full max-w-[600px] flex-col">
         <Header leftIcon rightIcon={isAuthor ? <KebabMenuIcon /> : ''} />
         <StudyMain {...detaildata} />
       </div>
