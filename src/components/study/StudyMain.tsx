@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { postApply, deleteApply } from '@/actions/studyapply.action';
 
 export default function StudyMain({
+  memberData,
   userdata,
   isApply,
   params,
@@ -47,8 +48,8 @@ export default function StudyMain({
   // console.log(!user?.images?.url)
 
   return (
-    <div className='min-h-dvh relative h-full flex flex-col'>
-      <section className="flex flex-col justify-center border-b-2 border-[#F1F2F6] px-4 pb-[14px] pt-6 ">
+    <div className="relative flex h-full min-h-dvh flex-col">
+      <section className="flex flex-col justify-center border-b-2 border-[#F1F2F6] px-4 pb-[14px] pt-6">
         {/* 1 */}
         <div className="mb-5 flex items-center gap-[14px]">
           {/* title */}
@@ -111,7 +112,7 @@ export default function StudyMain({
         </div>
       </section>
 
-      <main className="flex flex-col gap-8 p-4 h-full">
+      <main className="flex h-full flex-col gap-8 p-4">
         {/* <main className="flex flex-col gap-8"> */}
         <div className="flex flex-col gap-4 text-[#434343]">
           <p className="font-semibold">스터디 주제</p>
@@ -151,7 +152,7 @@ export default function StudyMain({
       <div className="sticky bottom-0 flex min-h-[104px] max-w-[600px] justify-between border-t-[1px] border-[#DDDDDD] bg-white p-2 px-4 py-7">
         {/* 신청마감 */}
         {!isRecruiting && (
-          <Button type="disabled" label="모집이 마감되었습니다."></Button>
+          <Button type="disabled" label="모집이 마감되었습니다."/>
         )}
         {/* 신청중 => 로그인x */}
         {isRecruiting && !userdata?.id && (
@@ -168,7 +169,7 @@ export default function StudyMain({
               </div>
               <div>
                 <span className="text-lg font-medium leading-normal text-[#6224fd]">
-                  2명
+                  {memberData?.length || 0}
                 </span>
                 <span className="text-lg font-medium leading-normal text-[#9d9d9d]">
                   {' '}
@@ -182,7 +183,10 @@ export default function StudyMain({
             </div>
             {/* 신청여부확인 => 로그인O => 작성자*/}
             {isAuthor && (
-              <Link className="w-full" href={`/study/${params.studyId}/studyrequest`}>
+              <Link
+                className="w-full"
+                href={`/study/${params.studyId}/studyrequest`}
+              >
                 <Button
                   type="primary"
                   label="대기 중인 요청 확인"
@@ -193,7 +197,6 @@ export default function StudyMain({
             {!isAuthor && (
               <Button
                 type={btnisApply ? 'disabled' : 'primary'}
-                size="large"
                 label={!btnisApply ? '신청하기' : '신청취소'}
                 onClick={async () => {
                   if (!btnisApply) {

@@ -18,26 +18,26 @@ export default function StudyPage() {
 
   // 스터디룸 유무확인
   // TODO: display 개선
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     try {
-  //       const res = await fetch('/api/studyRoom');
-  //       const data = await res.json();
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await fetch('/api/studyRoom');
+        const data = await res.json();
 
-  //       if (!res.ok) {
-  //         throw new Error('Error fetching user data');
-  //       }
+        if (!res.ok) {
+          throw new Error('Error fetching user data');
+        }
 
-  //       if (data && data.length > 0 && data[0]?.participating_study) {
-  //         router.push(`/studyRoom/${data[0].participating_study}/handin`);
-  //       }
-  //     } catch (error) {
-  //       console.error('error:', error);
-  //     }
-  //   };
+        if (data && data.length > 0 && data[0]?.participating_study) {
+          router.push(`/studyRoom/${data[0].participating_study}/handin`);
+        }
+      } catch (error) {
+        console.error('error:', error);
+      }
+    };
 
-  //   fetchUserData();
-  // }, [router]);
+    fetchUserData();
+  }, [router]);
 
   const [loading, setLoading] = useState(true);
   const [studyList, setStudyList] = useState<Study[]>([]);
