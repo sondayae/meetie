@@ -34,7 +34,7 @@ export default function Page() {
           subtitle,
           startDate,
           endDate,
-          studyId: pathID, // studyroomID
+          study_id: pathID, // studyroomID
         },
       ]);
 
