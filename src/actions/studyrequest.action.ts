@@ -18,7 +18,7 @@ export async function getStudyApply(studyId: string) {
       throw new Error('Failed to fetch study details');
     }
 
-    console.log(data)
+    // console.log(data)
     return data;
   } catch (error) {
     console.error('Error in server action:', error);

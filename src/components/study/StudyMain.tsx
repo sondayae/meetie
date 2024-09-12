@@ -2,7 +2,7 @@
 import { format } from 'date-fns';
 import Link from 'next/link';
 import ProfileAvatar from '@/components/common/ProfileAvatar';
-import Image from 'next/image';
+// import Image from 'next/image';
 import EyeIcon from '../icons/EyeIcon';
 import Button from '@/components/common/Button';
 
@@ -45,114 +45,113 @@ export default function StudyMain({
     }
   };
 
-  // console.log(!user?.images?.url)
-
   return (
-    <div className="relative flex h-full min-h-dvh flex-col">
-      <section className="flex flex-col justify-center border-b-2 border-[#F1F2F6] px-4 pb-[14px] pt-6">
-        {/* 1 */}
-        <div className="mb-5 flex items-center gap-[14px]">
-          {/* title */}
-          <p className="overflow-hidden text-ellipsis whitespace-nowrap text-[24px] font-semibold">
-            {title}
-          </p>
+    <>
+      <div className="flex h-full min-h-dvh flex-col">
+        <section className="flex flex-col justify-center border-b-2 border-[#F1F2F6] px-4 pb-[14px] pt-6">
+          {/* 1 */}
+          <div className="mb-5 flex items-center gap-[14px]">
+            {/* title */}
+            <p className="overflow-hidden text-ellipsis whitespace-nowrap text-[24px] font-semibold">
+              {title}
+            </p>
 
-          {/* d-day */}
-          <div className="flex h-6 w-14 items-center justify-center gap-2 rounded-full border border-[#8346ff] bg-white p-1.5">
-            <div className="text-xs font-medium text-[#8346ff]">
-              {ddays > 0 ? `D-${ddays}` : `D+${Math.abs(ddays)}`}
+            {/* d-day */}
+            <div className="flex h-6 w-14 items-center justify-center gap-2 rounded-full border border-[#8346ff] bg-white p-1.5">
+              <div className="text-xs font-medium text-[#8346ff]">
+                {ddays > 0 ? `D-${ddays}` : `D+${Math.abs(ddays)}`}
+              </div>
             </div>
           </div>
-        </div>
-        {/* 2 tags */}
-        <div className="mb-6 flex overflow-hidden whitespace-nowrap">
-          {tags?.map((tag, idx) => (
-            <span
-              key={idx}
-              className="text-text-primary mr-2 rounded-lg bg-[#f5f1ff] px-[10px] py-[5px] text-[14px]"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-        {/* 3 */}
-        <div className="flex gap-2">
-          <Link href={`/profile/${user.id}`}>
-            <ProfileAvatar
-              src={user?.images?.url}
-              alt="user profile img"
-              className="relative h-10 w-10 overflow-hidden rounded-full object-cover"
-              // fallback={
-              //   <Image
-              //     alt="user profile img"
-              //     src={user?.images?.url || ''}
-              //     fill
-              //   />
-              // }
-            />
-          </Link>
-          <div className="flex h-[42px] w-full flex-col gap-1">
-            {/* name */}
-            <Link href={`/profile/read/${user?.id}`}>
-              <p className="flex text-[13px] font-bold">{user.name}</p>
-            </Link>
-            <div className="flex justify-between text-xs font-normal text-[#81819b]">
-              <span className="flex gap-1">
-                <span>작성일</span>
-                <span>{format(created_at, 'yyyy-MM-dd')}</span>
-                <span>&#124;</span>
-                <span>{format(startDate, 'hh:mm')}</span>
+          {/* 2 tags */}
+          <div className="mb-6 flex overflow-hidden whitespace-nowrap">
+            {tags?.map((tag, idx) => (
+              <span
+                key={idx}
+                className="text-text-primary mr-2 rounded-lg bg-[#f5f1ff] px-[10px] py-[5px] text-[14px]"
+              >
+                {tag}
               </span>
-              <div className="flex gap-1">
-                <EyeIcon />
-                <span>{viewCount}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <main className="flex h-full flex-col gap-8 p-4">
-        {/* <main className="flex flex-col gap-8"> */}
-        <div className="flex flex-col gap-4 text-[#434343]">
-          <p className="font-semibold">스터디 주제</p>
-          <div className="whitespace-pre-line text-[15px]">
-            {info.split('\n').map((line, idx) => (
-              <div key={idx}>
-                {line.includes('https') ? (
-                  <Link className="underline" href={line} target="_black">
-                    {line}
-                  </Link>
-                ) : (
-                  line
-                )}
-              </div>
             ))}
           </div>
-        </div>
-        <div className="flex flex-col gap-4 text-[#434343]">
-          <p className="whitespace-break-spaces font-semibold">스터디 목표</p>
-          <p className="text-[15px]">{goal}</p>
-        </div>
-        <div className="flex flex-col gap-4 text-[#434343]">
-          <p className="font-semibold">스터디 인원</p>
-          <p className="text-[15px]">{recruitNum} 명</p>
-        </div>
-        <div className="flex flex-col gap-4 text-[#434343]">
-          <p className="font-semibold">스터디 기간</p>
-          <p className="text-[15px]">
-            <span>{format(startDate, 'yyyy-MM-dd')}</span>
-            <span>&nbsp;~ &nbsp;</span>
-            <span>{format(endDate, 'yyyy-MM-dd')}</span>
-          </p>
-        </div>
-      </main>
-      {/* </main> */}
+          {/* 3 */}
+          <div className="flex gap-2">
+            <Link href={`/profile/${user.id}`}>
+              <ProfileAvatar
+                src={user?.images?.url}
+                alt="user profile img"
+                className="relative h-10 w-10 overflow-hidden rounded-full object-cover"
+                // fallback={
+                //   <Image
+                //     alt="user profile img"
+                //     src={user?.images?.url || ''}
+                //     fill
+                //   />
+                // }
+              />
+            </Link>
+            <div className="flex h-[42px] w-full flex-col gap-1">
+              {/* name */}
+              <Link href={`/profile/read/${user?.id}`}>
+                <p className="flex text-[13px] font-bold">{user.name}</p>
+              </Link>
+              <div className="flex justify-between text-xs font-normal text-[#81819b]">
+                <span className="flex gap-1">
+                  <span>작성일</span>
+                  <span>{format(created_at, 'yyyy-MM-dd')}</span>
+                  <span>&#124;</span>
+                  <span>{format(startDate, 'hh:mm')}</span>
+                </span>
+                <div className="flex gap-1">
+                  <EyeIcon />
+                  <span>{viewCount}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <div className="sticky bottom-0 flex min-h-[104px] max-w-[600px] justify-between border-t-[1px] border-[#DDDDDD] bg-white p-2 px-4 py-7">
+        <main className="flex h-full flex-col gap-8 p-4">
+          {/* <main className="flex flex-col gap-8"> */}
+          <div className="flex flex-col gap-4 text-[#434343]">
+            <p className="font-semibold">스터디 주제</p>
+            <div className="whitespace-pre-line text-[15px]">
+              {info.split('\n').map((line, idx) => (
+                <div key={idx}>
+                  {line.includes('https') ? (
+                    <Link className="underline" href={line} target="_black">
+                      {line}
+                    </Link>
+                  ) : (
+                    line
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col gap-4 text-[#434343]">
+            <p className="whitespace-break-spaces font-semibold">스터디 목표</p>
+            <p className="text-[15px]">{goal}</p>
+          </div>
+          <div className="flex flex-col gap-4 text-[#434343]">
+            <p className="font-semibold">스터디 인원</p>
+            <p className="text-[15px]">{recruitNum} 명</p>
+          </div>
+          <div className="flex flex-col gap-4 text-[#434343]">
+            <p className="font-semibold">스터디 기간</p>
+            <p className="text-[15px]">
+              <span>{format(startDate, 'yyyy-MM-dd')}</span>
+              <span>&nbsp;~ &nbsp;</span>
+              <span>{format(endDate, 'yyyy-MM-dd')}</span>
+            </p>
+          </div>
+        </main>
+      </div>
+
+      <div className="sticky bottom-16 flex min-h-[104px] max-w-[600px] justify-between border-t-[1px] border-[#DDDDDD] bg-white p-2 px-4 py-7">
         {/* 신청마감 */}
         {!isRecruiting && (
-          <Button type="disabled" label="모집이 마감되었습니다."/>
+          <Button type="disabled" label="모집이 마감되었습니다." />
         )}
         {/* 신청중 => 로그인x */}
         {isRecruiting && !userdata?.id && (
@@ -210,6 +209,6 @@ export default function StudyMain({
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }

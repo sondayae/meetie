@@ -13,23 +13,24 @@ const CreateStudyRoom = ({ params }: { params: any }) => {
 
   return (
     <>
-      <header className="px-4 pb-8 pt-20 text-2xl font-semibold leading-tight text-neutral-800">
-        <h1 className="flex justify-between">
-          <div>
-            <p>팀원이 모이지 않아도</p>
-            <p>스터디룸을 생성할 수 있어요!</p>
+      <header className="flex items-center justify-between px-4 pb-4 pt-4 font-semibold text-neutral-800">
+        <>
+          <div className="text-lg font-bold leading-normal text-neutral-800">
+            <div>
+              <p>팀원이 모이지 않아도</p>
+              <p>스터디룸을 생성할 수 있어요!</p>
+            </div>
+            <div className="text-sm font-normal text-[#81819b]">
+              #바로 스터디 룸을 생성해 볼까요?
+            </div>
           </div>
-
-          <div className="px-16">
-            <Button
-              label="스터디룸 생성"
-              type="primary"
-              size="small"
-              onClick={() => handleCreateStudyRoom()}
-            ></Button>
-          </div>
-        </h1>
-        <h2></h2>
+        </>
+        <button
+          className="h-10 rounded-lg bg-[#E3E3FA] p-2 text-xs font-semibold w-24"
+          onClick={() => handleCreateStudyRoom()}
+        >
+          스터디룸 생성
+        </button>
       </header>
     </>
   );
