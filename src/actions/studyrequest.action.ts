@@ -61,7 +61,7 @@ export async function updateStudyApplyStatus(
     // 스터디 멤버 추가
     const { data: insertData, error: insertError } = await supabase
       .from('studymember')
-      .insert([{ studyId: studyId, isLeader: false, participantId: userId }])
+      .insert([{ study_id: studyId, isLeader: false, participantId: userId }])
       .select();
 
     if (insertError) {

@@ -20,7 +20,7 @@ export async function GET(
   // 리더인지 확인
   const { data: leaderStudyData, error: leaderStudyError } = await supabase
     .from('studymember')
-    .select('studyId')
+    .select('study_id')
     .eq('participantId', leaderId)
     .single();
 
@@ -48,7 +48,7 @@ export async function GET(
         )
       `,
       )
-      .eq('studyId', studyId) // 리더가 속한 스터디의 ID로 필터링
+      .eq('study_id', studyId) // 리더가 속한 스터디의 ID로 필터링
       .neq('participantId', leaderId); // 리더 제외
 
     if (membersError) {

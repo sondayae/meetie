@@ -554,7 +554,7 @@ export type Database = {
           id: number
           isLeader: boolean
           participantId: string | null
-          studyId: number | null
+          study_id: number | null
         }
         Insert: {
           id?: number
@@ -578,7 +578,7 @@ export type Database = {
           },
           {
             foreignKeyName: "studymember_studyId_fkey"
-            columns: ["studyId"]
+            columns: ["study_id"]
             isOneToOne: false
             referencedRelation: "study"
             referencedColumns: ["id"]

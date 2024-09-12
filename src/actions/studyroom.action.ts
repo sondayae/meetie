@@ -17,7 +17,7 @@ export async function createStudyRoom(studyId: string) {
         .from('studymember')
         .insert([
           {
-            studyId: studyId,
+            study_id: studyId,
             participantId: userId,
             isLeader: true,
           },
