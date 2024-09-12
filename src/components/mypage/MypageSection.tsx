@@ -105,7 +105,7 @@ export default function MypageSection({
             <Link href="/mypage/faq">FAQ</Link>
           </li>
           <li>
-            <Link href="/mypage/question">문의사항</Link>
+            <Link href="/mypage/qna">문의사항</Link>
           </li>
           <li>
             <Link href="/mypage/notice">공지사항</Link>
