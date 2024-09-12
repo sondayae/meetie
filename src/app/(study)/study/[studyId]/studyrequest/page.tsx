@@ -25,13 +25,13 @@ export default async function Page({
 
   const memberData = await getStudyMember(params.studyId);
 
-  const detaildata = { applyData, params, ...data };
+  const detaildata = { memberData, applyData, params, ...data };
 
   return (
     <div className="flex min-h-dvh max-w-[600px] flex-col pb-24">
       <Header label="대기중인요청" leftIcon rightIcon />
 
-      {/* <CreateStudyRoom params={params.studyId} /> */}
+      <CreateStudyRoom params={params.studyId} />
 
       <StudyRequest {...detaildata} />
       {/* 로그인 === 작성자 

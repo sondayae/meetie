@@ -21,7 +21,7 @@ export default function StudyPage() {
   // useEffect(() => {
   //   const fetchUserData = async () => {
   //     try {
-  //       const res = await fetch('/api/studyRoom');
+  //       const res = await fetch('/api/studyroom');
   //       const data = await res.json();
 
   //       if (!res.ok) {
