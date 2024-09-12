@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { UseFormSetValue } from 'react-hook-form';
 import 'react-datepicker/dist/react-datepicker.css';
+import CalendarIcon from '@/components/icons/CalendarIcon';
 
 type CalendarProps = {
   isEditMode: boolean;
@@ -178,28 +179,30 @@ export default function Calendar({
           }}
         >
           {/* 시작일 */}
-          <div className="w-full">
+          <div className="relative w-full cursor-pointer">
             <label
               className="mb-[10px] inline-block font-semibold [&+div]:h-0"
               htmlFor="startDate"
             >
               시작일
             </label>
-            <p className="min-h-[50px] w-full rounded-lg border border-[#c4c4c4] px-4 py-3">
+            <p className="min-h-[50px] w-full rounded-lg border border-[#c4c4c4] py-3 pl-4 pr-10">
               {start}
             </p>
+            <CalendarIcon className="absolute bottom-[-2px] right-4 h-7 w-7 -translate-y-1/2" />
           </div>
           {/* 종료일 */}
-          <div className="w-full">
+          <div className="relative w-full cursor-pointer">
             <label
               className="mb-[10px] inline-block font-semibold [&+div]:h-0"
               htmlFor="endDate"
             >
               종료일
             </label>
-            <p className="min-h-[50px] w-full rounded-lg border border-[#c4c4c4] px-4 py-3">
-              {end}
+            <p className="min-h-[50px] w-full rounded-lg border border-[#c4c4c4] py-3 pl-4 pr-10">
+              {end === 'undefined' ? '' : end}
             </p>
+            <CalendarIcon className="absolute bottom-[-2px] right-4 h-7 w-7 -translate-y-1/2" />
           </div>
         </div>
         {/* 안내문구 */}
