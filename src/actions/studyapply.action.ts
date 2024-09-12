@@ -8,7 +8,7 @@ export const postApply = async (params: string, userId: string) => {
     const { data, error } = await supabase
       .from('study_apply')
       .select('*')
-      .eq('studyId', params)
+      .eq('studyd', params)
       .eq('userId', userId);
 
     if (error) {
