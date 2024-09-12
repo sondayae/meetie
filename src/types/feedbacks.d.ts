@@ -31,6 +31,15 @@ type User = {
   images: Image | null;
 };
 
+type FeedReaction = {
+  id: number;
+  target_id: number;
+  user_id: string;
+  emoji: string;
+  created_at: string;
+  user?: User;
+}
+
 type Feedback = {
   id: number;
   text: string;
@@ -39,5 +48,5 @@ type Feedback = {
   user: User;
   images: Image[];
   comment: FeedComment[] | null;
-  feedback_reactions: any[]; // feedback_reactions는 비어있으므로 타입을 any[]로 설정
+  feedback_reactions: FeedReaction[]; // feedback_reactions는 비어있으므로 타입을 any[]로 설정
 };

@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 
-import { createComment } from '@/actions/studyroom/commentActions';
+import { upsertComment } from '@/actions/studyroom/commentActions';
 import { queryClient } from '@/config/ReactQueryClientProvider';
 import { useUser } from '@/stores/user/user';
 import SendIcon from '../icons/SendIcon';
@@ -18,17 +18,12 @@ export default function CommentForm({ targetId, user }: { targetId: string, user
   // console.log(user);
   // TODO 유저 정보 -> userid, name, email, token, image 필요
 
-  const createCommentMutation = useMutation({
-    mutationFn: () =>
-      createComment({
-        comment,
-        targetId,
-      }),
-    onSuccess: () => {
+  const handleSubmit = async () => {
+    const data = await upsertComment(targetId, comment);
+    if (data) {
       setComment('');
-      queryClient.invalidateQueries({ queryKey: ['comments'] });
-    },
-  });
+    }
+  }
 
   return (
     <div className="sticky bottom-0 shadow-md">
@@ -42,10 +37,10 @@ export default function CommentForm({ targetId, user }: { targetId: string, user
           value={comment}
         />
         <button
-          type="submit"
+          type="button"
           aria-label="commentSend"
           className="absolute bottom-2 right-6 top-2"
-          onClick={() => createCommentMutation.mutate()}
+          onClick={handleSubmit}
         >
           <SendIcon />
         </button>

@@ -15,36 +15,62 @@ export async function getComments(targetId: string) {
   return data;
 }
 
-export async function createComment({targetId, comment}: {targetId: string, comment: string}) {
+export async function upsertComment(targetId: string, comment: string) {
   const supabase = supabaseServer();
-  const userId = await getServerUserId();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id;
   try {
     if (!userId) {
       throw new Error('There is no User');
     }
-    if (comment === '') {
-      throw new Error('comment is required');
-    }
-    const { data, error } = await supabase
-      .from('comments')
-      .insert({
-        target_id: targetId,
-        user_id: userId,
-        comment,
-      })
-      .select('id, user(name), comment');
 
+    const { data, error } = await supabase
+    .from('comment')
+    .upsert({ user_id: userId, target_id: targetId, comment: comment })
+    .select()
     if (error) {
-      throw new Error(`${error}`);
+      throw new Error(`Insert Comment has an error. ${error.message}`);
     }
     revalidatePath('/');
-    return { success: true, data: data};
-  } catch (err: any) {
-    // TODO 에러 타입
-    console.log(err);
-    
-    return { success: false, error: err.message };
+    return data;
+  } catch (err) {
+    return err;
   }
+}
+
+export async function toggleReaction(targetId: number, emoji: string) {
+  const supabase = supabaseServer();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id;
+  try {
+    if (!userId) {
+      throw new Error('There is no user');
+    }
+    const {data: isExist} = await supabase.from('reactions').select().eq('target_id', targetId).eq('user_id', userId).eq('emoji', emoji);
+    if (isExist!.length === 0) {
+      const { data, error } = await supabase
+      .from('reactions')
+      .insert({ target_id: targetId, user_id: userId, emoji: emoji})
+      .select();
+      if (error) {
+        return new Error(`add Reaction has an error, ${error.message}`)
+      }
+
+      revalidatePath('/');
+      return data;
+    } else {
+      const {data, error} = await supabase.from('reactions').delete().eq('target_id',targetId).eq('emoji', emoji).select();
+      if (error) {
+        return new Error(`delete Reaction has an error, ${error.message}`)
+      }
+
+      revalidatePath('/');
+      return data;
+    }
+  } catch (err) {
+    return err;
+  }
+  
 }
 
 export async function createReaction({targetId, emoji}: {targetId: string, emoji: string}) {

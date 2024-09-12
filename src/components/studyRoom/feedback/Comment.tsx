@@ -26,7 +26,7 @@ export default async function Comment({ comment }: { comment: FeedComment }) {
   );
 
   return (
-    <div className="flex gap-2 bg-[#FAFAFA] bg-opacity-5 px-4 py-5">
+    <div className="flex gap-2 bg-[#FAFAFA] bg-opacity-50 px-4 py-5 border-b">
       <ProfileAvatar src={comment.user?.images?.url} />
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
@@ -37,7 +37,7 @@ export default async function Comment({ comment }: { comment: FeedComment }) {
         </div>
         <p className="text-sm">{comment.comment}</p>
         <div className="mt-9">
-          <CommentReaction reactions={reactionListWithCount} />
+          <CommentReaction targetId={comment.id} reactions={reactionListWithCount} />
         </div>
       </div>
       {comment.user_id === userId && (

@@ -5,9 +5,8 @@ import { MouseEvent } from 'react';
 
 import Picker from '@emoji-mart/react';
 
-export default function useEmojiPicker() {
+export default function useEmojiPicker(setSelectedEmoji: (emoji: string) => void) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedEmoji, setSelected] = useState('');
   const ref = useRef<HTMLDivElement>(null);
   const open = () => {
     setIsOpen(true);
@@ -15,10 +14,6 @@ export default function useEmojiPicker() {
   const close = () => {
     setIsOpen(false);
   };
-
-  useEffect(() => {
-    close();
-  }, [selectedEmoji]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleOutsideClick);
@@ -36,7 +31,7 @@ export default function useEmojiPicker() {
   function EmojiPicker() {
     return (
       <div className={`absolute bottom-10 ${isOpen ? '' : 'hidden'}`} ref={ref}>
-        <Picker onEmojiSelect={(e: any) => setSelected(e.native)} locale="ko"/>
+        <Picker onEmojiSelect={(e: any) => setSelectedEmoji(e.native)} locale="ko"/>
       </div>
     );
   }
@@ -44,6 +39,5 @@ export default function useEmojiPicker() {
     EmojiPicker,
     open,
     close,
-    selectedEmoji,
   };
 }

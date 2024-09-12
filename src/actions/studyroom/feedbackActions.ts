@@ -2,6 +2,7 @@
 
 import { getServerUserId } from '@/lib/actions/getServerUserId';
 import supabaseServer from '@/utils/supabase/server';
+import { revalidatePath } from 'next/cache';
 
 const FOLDER = 'handin';
 
@@ -40,9 +41,10 @@ export async function getFeedback(id: string) {
     const { data, error } = await supabase
       .from('feedback')
       .select(
-        '*, homework(*), user(id, name, images(url)), images(url), comment(*, user(name, images(url)), reactions(*))',
+        '*, homework(*), user(id, name, images(url)), images(url), comment(*, user(name, images(url)), reactions(*)), feedback_reactions(*, user(images(url)))',
       )
       .eq('id', id)
+      .order('created_at', { referencedTable: 'comment', ascending: false })
       .single();
 
     if (error) {
@@ -52,6 +54,43 @@ export async function getFeedback(id: string) {
   } catch (err: any) {
     return err.message;
   }
+}
+
+export async function toggleReaction(targetId: string, emoji: string) {
+  
+  const supabase = supabaseServer();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id;
+  try {
+    if (!userId) {
+      throw new Error('There is no user');
+    }
+    const {data: isExist} = await supabase.from('feedback_reactions').select().eq('target_id', targetId).eq('user_id', userId).eq('emoji', emoji);
+
+    if (isExist!.length === 0) {
+      const { data, error } = await supabase
+      .from('feedback_reactions')
+      .insert({ target_id: targetId, user_id: userId, emoji: emoji})
+      .select();
+      if (error) {
+        throw new Error(`add Reaction has an error, ${error.message}`)
+      }
+
+      revalidatePath('/');
+      return data;
+    } else {
+      const {data, error} = await supabase.from('feedback_reactions').delete().eq('id', isExist![0].id).select();
+      if (error) {
+        throw new Error(`delete Reaction has an error, ${error.message}`)
+      }
+
+      revalidatePath('/');
+      return data;
+    }
+  } catch (err: any) {
+    return err.message;
+  }
+  
 }
 
 export async function updateFeedback(formData: FormData) {

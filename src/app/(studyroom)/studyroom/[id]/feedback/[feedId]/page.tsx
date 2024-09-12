@@ -22,7 +22,8 @@ export default async function feedbackDetailPage({
       </section>
       <section className="bg-white">
         <FeedReaction
-          reactionLength={feedback.feedback_reactions?.length}
+          targetId={params.feedId}
+          feedReactions={feedback.feedback_reactions}
           commentLength={feedback.comment?.length}
         />
         <div>
