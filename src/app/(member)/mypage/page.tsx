@@ -1,4 +1,4 @@
-import { getUser } from '@/actions/mypage.action';
+import { getUser, getJoinInfo } from '@/actions/mypage.action';
 import SimpleCard from '@/components/mypage/SimpleCard';
 import StudyCard from '@/components/mypage/StudyCard';
 import BookmarkIcon from '@/components/icons/Bookmark';
@@ -17,25 +17,33 @@ export default async function page() {
     data: { user },
   } = await supabase.auth.getUser();
   const userdata = await getUser({ id: user?.id });
+  const joindata = await getJoinInfo({ id: user?.id });
 
-  const studyCardItem = [
+  type StudyCardItem = {
+    label: string;
+    num: number;
+    icon: JSX.Element;
+    path: string;
+  };
+
+  const studyCardItem: StudyCardItem[] = [
     {
       label: '관심 스터디',
-      num: 3,
+      num: joindata.bookmark.length,
       icon: <ScrapIcon stroke="#A180F4" className="fill-none" />,
-      path: '/study',
-    },
-    {
-      label: '참여 스터디',
-      num: 3,
-      icon: <BookmarkIcon className="fill-[#A180F4]" />,
       path: '/bookmark',
     },
     {
+      label: '참여 스터디',
+      num: joindata.studymember.length,
+      icon: <BookmarkIcon className="fill-[#A180F4]" />,
+      path: '/study',
+    },
+    {
       label: '스터디 친구',
-      num: 3,
+      num: joindata.friend.length,
       icon: <FriendsIcon className="fill-[#A180F4]" />,
-      path: '/friend',
+      path: '/friends',
     },
   ];
 
@@ -61,7 +69,7 @@ export default async function page() {
               ))}
             </div>
           </div>
-          <MypageSection />
+          <MypageSection {...joindata}/>
         </div>
       )}
       {!userdata && <p className="text-center">로그인 정보가 없습니다</p>}

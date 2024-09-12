@@ -9,11 +9,21 @@ import Button from '../common/Button';
 import Image from 'next/image';
 import Logout from './Logout';
 
-export default function MypageSection() {
+interface MypageSectionProps {
+  bookmark: any[];
+  studymember: any[];
+  friend: any[];
+}
+
+export default function MypageSection({
+  bookmark,
+  studymember,
+  friend,
+}: MypageSectionProps) {
   const listItem = [
     {
       label: '관심 스터디',
-      num: 12,
+      num: bookmark.length,
       icon: (
         <ScrapIcon className="h-5 w-5" fill={'transparent'} stroke={'black'} />
       ),
@@ -21,13 +31,13 @@ export default function MypageSection() {
     },
     {
       label: '참여 스터디',
-      num: 34,
+      num: studymember.length,
       icon: <BookmarkIcon className="h-4 w-4" />,
       path: '/study',
     },
     {
       label: '내 작성글',
-      num: 56,
+      num: friend.length,
       icon: <BookIcon className="h-4 w-4" />,
       path: '/myposts',
     },
@@ -95,7 +105,7 @@ export default function MypageSection() {
             <Link href="/mypage/faq">FAQ</Link>
           </li>
           <li>
-            <Link href="/mypage/question">문의사항</Link>
+            <Link href="/mypage/qna">문의사항</Link>
           </li>
           <li>
             <Link href="/mypage/notice">공지사항</Link>
