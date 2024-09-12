@@ -2,6 +2,7 @@
 
 import { getServerUserId } from '@/lib/actions/getServerUserId';
 import supabaseServer from '@/utils/supabase/server';
+import { revalidatePath } from 'next/cache';
 
 export async function getComments(targetId: string) {
   const supabase = supabaseServer();
@@ -12,6 +13,38 @@ export async function getComments(targetId: string) {
   }
 
   return data;
+}
+
+export async function createComment({targetId, comment}: {targetId: string, comment: string}) {
+  const supabase = supabaseServer();
+  const userId = await getServerUserId();
+  try {
+    if (!userId) {
+      throw new Error('There is no User');
+    }
+    if (comment === '') {
+      throw new Error('comment is required');
+    }
+    const { data, error } = await supabase
+      .from('comments')
+      .insert({
+        target_id: targetId,
+        user_id: userId,
+        comment,
+      })
+      .select('id, user(name), comment');
+
+    if (error) {
+      throw new Error(`${error}`);
+    }
+    revalidatePath('/');
+    return { success: true, data: data};
+  } catch (err: any) {
+    // TODO 에러 타입
+    console.log(err);
+    
+    return { success: false, error: err.message };
+  }
 }
 
 export async function createReaction({targetId, emoji}: {targetId: string, emoji: string}) {

@@ -10,24 +10,30 @@ import { getImgUrl } from '@/utils/supabase/storage';
 import ProfileAvatar from '../common/ProfileAvatar';
 import CustomDropDownMenu from '../common/CustomDropdownMenu';
 import Separator from '../common/Separator';
+import { deleteHandin } from '@/actions/studyroom/handinActions';
+import { useRouter } from 'next/navigation';
 
 export default function HandinDetail({
   data
 }: any) {
+  const router = useRouter();
   const { ConfirmModal, confirm } = useConfirm({
     title: '삭제',
     message: '삭제하시겠습니까?',
   });
 
   const handleEdit = () => {
-    console.log('edit');
-    
+    router.push(`./edit/${data.id}`);
   }
   const handleDelete = async () => {
     const result = await confirm();
+    if (result) {
+      await deleteHandin(data.id);
+      router.push('./');
+    }
   };
 
-  const loginUser = useUser((store) => store.user);
+  const { user } = useUser();
 
   return (
     <>
@@ -50,7 +56,7 @@ export default function HandinDetail({
                 checkClassName="fill-white"
               />
             </div>
-            {loginUser?.id === data.user.id && (
+            {user?.id === data.user.id && (
               <CustomDropDownMenu 
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}

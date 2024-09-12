@@ -17,10 +17,10 @@ export default async function page({ params }: { params: { id: string } }) {
   // TODO 가입된 스터디룸 정보 가져와서 selectBox 에 표기
 
   return (
-    <div>
+    <>
       {/* 헤더 영역 */}
       <div className="bg-[#E3E3FA] p-4">
-        <Header label="스터디룸" rightIcon={<Plus />} useBorderBottom={false} />
+        <Header label="스터디룸" leftIcon={false} rightIcon={<Plus />} useBorderBottom={false} />
         <div className="mt-4 flex flex-col gap-5">
           <div className="flex items-center justify-end text-xs">
             <span className="rounded-l-lg border border-transparent bg-primary px-2 py-1 text-white">
@@ -69,6 +69,6 @@ export default async function page({ params }: { params: { id: string } }) {
         </div>
       </div>
       <Navigator />
-    </div>
+    </>
   );
 }

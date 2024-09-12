@@ -39,7 +39,7 @@ function Button({
       case 'disabled':
         return 'bg-disabled border-disabled text-white';
       default:
-        return 'border-foreground text-muted-foreground';
+        return `${borderStyle || 'border-foreground'} text-muted-foreground`;
     }
   };
 

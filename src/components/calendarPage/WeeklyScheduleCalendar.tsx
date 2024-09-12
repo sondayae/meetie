@@ -32,13 +32,15 @@ export default function WeeklyScheduleCalendar({
     ScheduleEvent[] | null
   >(initialSchedule);
 
-  const updateDateRange = (date: Date | null) => {
+  const updateDateRange = async (date: Date | null) => {
+    const data = await getSchedule(date!, studyRoomId);
     setSelectedDate(date);
     const range = date
       ? Array.from({ length: 7 }, (_, i) => addDays(date, i))
       : [];
 
     setCurrentWeekDates(range);
+    setScheduleForSelectedDate(data);
   };
 
   const fetchScheduleForDate = async (date: Date) => {
@@ -48,7 +50,7 @@ export default function WeeklyScheduleCalendar({
   };
 
   return (
-    <div className="border-t-2 bg-muted py-4">
+    <div className="border-t bg-muted px-4 py-6">
       <DatePicker
         selected={selectedDate}
         onChange={(date) => updateDateRange(date)}
@@ -60,7 +62,7 @@ export default function WeeklyScheduleCalendar({
         minDate={new Date()}
       />
       {currentWeekDates.length > 0 && (
-        <div className="mt-8 flex items-center justify-evenly">
+        <div className="my-6 flex items-center justify-between">
           {currentWeekDates.map((date) => (
             <button
               key={date.toDateString()}
@@ -69,7 +71,7 @@ export default function WeeklyScheduleCalendar({
               onClick={() => fetchScheduleForDate(date)}
             >
               <span
-                className={`text-sm ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary' : 'text-[#000417]'}`}
+                className={`text-sm font-medium ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary' : 'text-[#000417]'}`}
               >
                 {format(date, 'EEE', { locale: ko })}
               </span>
@@ -82,17 +84,18 @@ export default function WeeklyScheduleCalendar({
           ))}
         </div>
       )}
-
-      <div className="my-6 flex flex-col gap-4">
-        {scheduleForSelectedDate?.map((schedule) => (
-          <div
-            key={schedule.id}
-            className="relative mx-4 rounded bg-[#3f3fff1f] px-2 after:absolute after:left-0 after:top-0 after:h-full after:w-0.5 after:rounded-[32px] after:bg-[#7876E3] after:content-['']"
-          >
-            {schedule.event_type}
-          </div>
-        ))}
-      </div>
+      {scheduleForSelectedDate && (
+        <div className="flex flex-col gap-4">
+          {scheduleForSelectedDate?.map((schedule) => (
+            <div
+              key={schedule.id}
+              className="relative mx-4 rounded bg-[#3f3fff1f] px-2 after:absolute after:left-0 after:top-0 after:h-full after:w-0.5 after:rounded-[32px] after:bg-[#7876E3] after:content-['']"
+            >
+              {schedule.event_type}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

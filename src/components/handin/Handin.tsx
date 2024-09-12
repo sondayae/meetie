@@ -12,6 +12,7 @@ import CustomDropDownMenu from '../common/CustomDropdownMenu';
 import { useRouter } from 'next/navigation';
 import useConfirm from '@/hooks/use-confirm';
 import { Feedback } from '@/types/feedbacks';
+import { useUser } from '@/stores/user/user';
 
 export default function Handin({ data }: {data : Feedback}) {
   const router = useRouter();
@@ -28,21 +29,25 @@ export default function Handin({ data }: {data : Feedback}) {
     title: '삭제',
     message: '댓글을 삭제하시겠습니까?',
   });
-  
-  
+
+  const { user } = useUser();
 
   return (
     <>
-    {data && 
+    {data &&
     <div onClick={() => router.push(`./handin/${data.id}`)}>
       <ConfirmModal />
       <div className="grid grid-cols-[50px_1fr_45px] px-4 py-5 gap-2 border-b">
         <div className='mx-auto'>
-          <ProfileAvatar src={!Array.isArray(data.user) ? data.user.images?.[0].url : ''}/>
+          {!Array.isArray(data.user) &&
+            <ProfileAvatar src={data.user.images?.url} />
+          }
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex gap-2 items-center">
-            <span className="font-bold">{!Array.isArray(data.user) && data.user.name}</span>
+            {!Array.isArray(data.user) &&
+              <span className="font-bold">{data.user.name}</span>
+            }
             <span>
               <NewCheckSignIcon
                 sizeClassName='w-4 h-4'
@@ -86,10 +91,13 @@ export default function Handin({ data }: {data : Feedback}) {
           </div>
         </div>
         <div className='mx-auto'>
-          <CustomDropDownMenu handleEdit={handleEdit} handleDelete={handleDelete}/>
+          {
+            !Array.isArray(data.user) &&
+            user?.id === data.user.id && <CustomDropDownMenu handleEdit={handleEdit} handleDelete={handleDelete}/>
+          }
         </div>
       </div>
     </div>}
-            </>
+    </>
   );
 }
