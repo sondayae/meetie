@@ -12,6 +12,7 @@ export interface StudyRequestItem {
 }
 
 interface PageProps {
+  memberData: any;
   params: {
     studyId: string;
   };
@@ -21,6 +22,7 @@ interface PageProps {
 }
 
 export default function Page({
+  memberData,
   applyData,
   params,
   acceptedStudy,
@@ -91,7 +93,7 @@ export default function Page({
             </div>
             <div>
               <span className="text-lg font-medium leading-normal text-[#6224fd]">
-                2명
+              {memberData?.length || 0}
               </span>
               <span className="text-lg font-medium leading-normal text-[#9d9d9d]">
                 {' '}

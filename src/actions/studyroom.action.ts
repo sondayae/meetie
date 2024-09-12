@@ -2,15 +2,27 @@
 
 import { redirect } from 'next/navigation';
 import supabase from '@/utils/supabase/client';
+import { getServerUserId } from '@/lib/actions/getServerUserId';
 
 export async function createStudyRoom(studyId: string) {
-
+  const userId = await getServerUserId();
   try {
     if (studyId) {
       const { data, error } = await supabase
         .from('study')
         .update({ isRecruiting: false })
         .eq('id', studyId);
+
+      const { data2, error2 } = await supabase
+        .from('studymember')
+        .insert([
+          {
+            studyId: studyId,
+            isLeader: false,
+            participantId: userId,
+            isLeader: true,
+          },
+        ]);
 
       if (error) {
         throw error;
