@@ -13,12 +13,11 @@ export async function createStudyRoom(studyId: string) {
         .update({ isRecruiting: false })
         .eq('id', studyId);
 
-      const { data2, error2 } = await supabase
+      const { data: data2, error: error2 } = await supabase
         .from('studymember')
         .insert([
           {
             studyId: studyId,
-            isLeader: false,
             participantId: userId,
             isLeader: true,
           },
