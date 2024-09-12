@@ -11,6 +11,7 @@ import ImageFrame from '@/components/handin/ImageFrame';
 import ImageInput from '@/components/handin/ImageInput';
 import Button from '@/components/common/Button';
 import SelectModal from '@/components/handin/SelectModal';
+import { createHandin } from '@/actions/studyroom/handinActions';
 
 const MAX_LENGTH = 500;
 
@@ -44,10 +45,10 @@ const page = ({ params }: { params: { id: string } }) => {
   }, [selected]);
 
   const formAction = async (formData: FormData) => {
-    // const { success } = await createHandin(formData);
-    // if (success) {
-    //   router.push('./complete');
-    // }
+    const { success } = await createHandin(formData);
+    if (success) {
+      router.push('./complete');
+    }
   };
 
   const handleFileClick = () => {
@@ -103,12 +104,11 @@ const page = ({ params }: { params: { id: string } }) => {
           )}
         </div>
         <form action={formAction} ref={formRef}>
-          <input type="text" name="id" className="hidden" />
           <input
             type="text"
             name="homeworkId"
             className="hidden"
-            value={selected?.id}
+            defaultValue={selected?.id}
           />
           <input
             type="file"
