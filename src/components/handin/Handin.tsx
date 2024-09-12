@@ -64,9 +64,9 @@ export default function Handin({ data }: {data : Feedback}) {
           </div>
           <div>
             <ImageFrame
-              src={getImgUrl(data.images?.[0].url)}
+              src={getImgUrl(data.images.length > 0 ? data.images[0].url : '')}
               alt="data_image"
-              />
+            />
           </div>
           <div className="flex justify-between">
             <div className="flex items-center gap-1 text-xs text-[#636363]">
