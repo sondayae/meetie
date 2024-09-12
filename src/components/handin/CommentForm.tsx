@@ -1,51 +1,54 @@
+/* eslint-disable simple-import-sort/imports */
+
 'use client';
 
+import { useState } from 'react';
+
+import { useMutation } from '@tanstack/react-query';
+
+import { createComment } from '@/actions/studyroom/commentActions';
+import { queryClient } from '@/config/ReactQueryClientProvider';
+import { useUser } from '@/stores/user/user';
 import SendIcon from '../icons/SendIcon';
 import ProfileAvatar from '../common/ProfileAvatar';
-import { createComment } from '@/actions/studyroom/commentActions';
-import { useRef, useState } from 'react';
-import { queryClient } from '@/config/ReactQueryClientProvider';
-import { useMutation } from '@tanstack/react-query';
-import { useUser } from '@/stores/user/user';
 
-export default function CommentForm({ targetId }: { targetId: string}) {
+export default function CommentForm({ targetId, user }: { targetId: string, user: any }) {
   const [comment, setComment] = useState('');
   // const { user } = useUser();
   // console.log(user);
   // TODO 유저 정보 -> userid, name, email, token, image 필요
-  
 
   const createCommentMutation = useMutation({
     mutationFn: () =>
       createComment({
-        comment: comment,
-        targetId: targetId,
+        comment,
+        targetId,
       }),
     onSuccess: () => {
       setComment('');
-      queryClient.invalidateQueries({queryKey: ['comments']});
+      queryClient.invalidateQueries({ queryKey: ['comments'] });
     },
   });
 
-
   return (
-    <div className='sticky bottom-0'>
+    <div className="sticky bottom-0 shadow-md">
       <div className="flex items-center gap-3 border border-[#efefef] bg-white px-4 py-5">
-        <ProfileAvatar />
-          <input
-            type="text"
-            placeholder="스터디원에게 응원의 메세지 보내기"
-            className="w-full rounded-lg border border-[#E9E9E9] bg-[#f3f3f3] p-3.5 py-3 text-sm placeholder-gray-purple focus:outline-none"
-            onChange={(e) => setComment(e.target.value)}
-            value={comment}
-          />
-          <button
-            type='submit'
-            className="absolute right-6 top-2 bottom-2"
-            onClick={() => createCommentMutation.mutate()}
-          >
-            <SendIcon />
-          </button>
+        <ProfileAvatar src={user.images?.url}/>
+        <input
+          type="text"
+          placeholder="스터디원에게 응원의 메세지 보내기"
+          className="placeholder-gray-purple w-full rounded-lg border border-[#E9E9E9] bg-[#f3f3f3] p-3.5 py-3 text-sm focus:outline-none"
+          onChange={(e) => setComment(e.target.value)}
+          value={comment}
+        />
+        <button
+          type="submit"
+          aria-label="commentSend"
+          className="absolute bottom-2 right-6 top-2"
+          onClick={() => createCommentMutation.mutate()}
+        >
+          <SendIcon />
+        </button>
       </div>
     </div>
   );

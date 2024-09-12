@@ -15,16 +15,16 @@ export async function getFeedbacks(studyId: string) {
     const { data, error } = await supabase
       .from('feedback')
       .select(
-        'id, text, created_at, homework(id, title), user(id, name, images(url)), images(url), comment(*), feedback_reactions(*)',
+        'id, text, created_at, homework(id, title), user(id, name, images(url)), images(url), comment(*, reactions(*)), feedback_reactions(*)',
       )
       .order('created_at', { ascending: false })
       .eq('study_id', studyId);
 
-      if (error) {
-        throw new Error(`There is an error, ${error.message}`);
-      }
+    if (error) {
+      throw new Error(`There is an error, ${error.message}`);
+    }
 
-      return data;
+    return data;
   } catch (err: any) {
     return err.message;
   }
@@ -39,13 +39,15 @@ export async function getFeedback(id: string) {
 
     const { data, error } = await supabase
       .from('feedback')
-      .select('*, homework(*), user(id, name, images(url)), images(url), comment(*)')
+      .select(
+        '*, homework(*), user(id, name, images(url)), images(url), comment(*, user(name, images(url)), reactions(*))',
+      )
       .eq('id', id)
       .single();
 
-      if (error) {
-        throw new Error(`There is an error, ${error.message}`);
-      }
+    if (error) {
+      throw new Error(`There is an error, ${error.message}`);
+    }
     return data;
   } catch (err: any) {
     return err.message;
@@ -60,10 +62,6 @@ export async function updateFeedback(formData: FormData) {
   const homeworkId = formData.get('homeworkId');
   const text = formData.get('text');
   const file = formData.get('file') as File;
-  console.log(file.size);
-  
-  
-  
 
   try {
     if (!userId) {
@@ -112,7 +110,7 @@ export async function updateFeedback(formData: FormData) {
     return { success: true, data: { handin: handinData } };
   } catch (error: any) {
     console.log(error.message);
-    
+
     return { success: false, error: error.message };
   }
 }

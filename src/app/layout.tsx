@@ -48,7 +48,11 @@ export default async function RootLayout({
     <ReactQueryClientProvider>
       <html lang="ko">
         <head>
-        <link rel="icon" href="https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/logo.png" sizes='any' />
+          <link
+            rel="icon"
+            href="https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/logo.png"
+            sizes="any"
+          />
         </head>
         <body className={`${pretendard.className}`}>
           <div

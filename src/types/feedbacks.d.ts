@@ -2,11 +2,21 @@ type Image = {
   url: string;
 };
 
-type Comment = {
+type FeedComment = {
   id: number;
   comment: string;
   user_id: string;
   target_id: number;
+  created_at: string;
+  user?: User;
+  reactions: Reaction[];
+};
+
+interface Reaction {
+  id: number;
+  user_id: string;
+  target_id: number;
+  emoji: string;
   created_at: string;
 };
 
@@ -28,7 +38,6 @@ type Feedback = {
   homework: Homework;
   user: User;
   images: Image[];
-  comment: Comment[] | null;
+  comment: FeedComment[] | null;
   feedback_reactions: any[]; // feedback_reactions는 비어있으므로 타입을 any[]로 설정
 };
-
