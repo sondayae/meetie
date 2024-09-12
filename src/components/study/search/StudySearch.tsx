@@ -25,22 +25,17 @@ export default function StudySearch({
         const studies = await fetchStudyList();
         setStudyList(studies);
 
-        const allTags = Array.from(new Set(studies.flatMap((study) => study.tags)));
+        const allTags = Array.from(
+          new Set(studies.flatMap((study) => study.tags)),
+        );
         setAllTags(allTags);
-        
-        
+
         setLoading(false);
       } catch (error) {
         console.error('스터디 목록을 가져오는 중 오류가 발생했습니다', error);
       }
     };
     fetchData();
-
-    // const fetchTags = async () => {
-    //   const allTags = await fetchStudiesTags();
-    //   setAllTags(allTags);
-    // };
-    // fetchTags();
   }, [setStudyList]);
 
   return (
@@ -63,7 +58,7 @@ export default function StudySearch({
 
       {/* 스터디 만들기 아이콘 */}
       <Link href="../study/write">
-        <WritingIcon className="max-w-[600px]:right-6 fixed bottom-[100px] md:right-[24px]" />
+        <WritingIcon className="fixed bottom-20 right-6 translate-x-0 sm:translate-x-[calc(-50dvw+306px)]" />
       </Link>
     </>
   );

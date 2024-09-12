@@ -10,7 +10,7 @@ export default function SuccessCrown({ avatarSrc }: SuccessCrownProps) {
       <div className="absolute inset-0 z-20 flex translate-y-2 items-center justify-center">
         <ProfileAvatar
           src={avatarSrc}
-          className="clip-path-circle mt-4 h-20 w-20 object-cover"
+          className="clipPath-circle mt-4 h-20 w-20 object-cover"
         />
       </div>
       <svg
