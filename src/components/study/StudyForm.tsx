@@ -28,14 +28,18 @@ import EnterIcon from '../icons/EnterIcon';
 
 type studyFormProps = {
   isEditMode: boolean;
+  userId?: string | undefined;
   user?: any;
 };
 
-export default function StudyForm({ isEditMode, user }: studyFormProps) {
+export default function StudyForm({
+  isEditMode,
+  userId,
+  user,
+}: studyFormProps) {
   const router = useRouter();
   const params = useParams();
   const { studyId } = params;
-  const userId = user?.id;
 
   const [tags, setTags] = useState<string[]>([]);
   const [tagsInput, setTagsInput] = useState(''); // 태그 인풋 상태
@@ -108,6 +112,7 @@ export default function StudyForm({ isEditMode, user }: studyFormProps) {
 
   // 로그인 체크
   if (!userId) {
+    console.log('userId', userId);
     redirect('/login');
     return null;
   }

@@ -76,13 +76,10 @@ export const useFilterStore = create<FilterState>((set, get) => ({
 
       let baseList = filteredList.length > 0 ? filteredList : originalList;
 
-      let filteredStudies = baseList;
-      if (value) {
-        filteredStudies = filteredStudies.filter((study) => study.isRecruiting);
-      }
-      if (!value && isRecruiting) {
-        filteredStudies = originalList;
-      }
+      // 모집 중 필터 적용
+      let filteredStudies = value
+        ? baseList.filter((study) => study.isRecruiting)
+        : baseList;
 
       if (activeTag !== '전체') {
         filteredStudies = filteredStudies.filter((study) =>

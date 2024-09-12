@@ -1,13 +1,16 @@
-'use client';
+// 'use client';
+import { getUser } from '@/actions/mypage.action';
 import StudyForm from '@/components/study/StudyForm';
-import { useUser } from '@/stores/user/user';
+import { getServerUserId } from '@/lib/actions/getServerUserId';
 
-export default function EditPage() {
-  const { user } = useUser();
+export default async function EditPage() {
+  const userId = await getServerUserId();
+  const user = await getUser({ id: userId });
+
   return (
     <>
       {/* 스터디 수정 폼 */}
-      <StudyForm isEditMode={true} user={user} />
+      <StudyForm isEditMode={true} userId={userId} user={user} />
     </>
   );
 }
