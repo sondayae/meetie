@@ -29,7 +29,7 @@ function Header({
     <div
       className={twMerge(
         'sticky top-0 z-50 bg-white py-2',
-        useBorderBottom && 'border-b',
+        useBorderBottom && 'shadow-sm',
       )}
     >
       <div
