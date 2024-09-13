@@ -26,7 +26,12 @@ function Header({
     setToggleMenu((prev) => !prev);
   };
   return (
-    <div className={twMerge('py-2', useBorderBottom && 'border-b')}>
+    <div
+      className={twMerge(
+        'sticky top-0 z-50 bg-white py-2',
+        useBorderBottom && 'border-b',
+      )}
+    >
       <div
         className={`flex h-[40px] items-center justify-between ${px} border-[#E6E6E6]`}
       >
