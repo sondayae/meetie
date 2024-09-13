@@ -43,8 +43,8 @@ export async function getFeedback(id: string) {
       .select(
         '*, homework(*), user(id, name, images(url)), images(url), comment(*, user(name, images(url)), reactions(*)), feedback_reactions(*, user(images(url)))',
       )
+      .order('created_at', { referencedTable: 'comment', ascending: true })
       .eq('id', id)
-      .order('created_at', { referencedTable: 'comment', ascending: false })
       .single();
 
     if (error) {
