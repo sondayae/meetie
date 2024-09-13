@@ -20,9 +20,9 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
   const getPlaceholder = () => {
     switch (activeTabIndex) {
       case 0:
-        return '스터디를 검색하세요';
+        return '찾고 싶은 스터디를 검색하세요';
       case 1:
-        return '찾고 싶은 팀원의 이름을 검색하세요';
+        return '찾고 싶은 팀원을 검색하세요';
       default:
         return '';
     }
@@ -30,7 +30,6 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
 
   return (
     <div className="bg-white">
-      {/* Search Input (탭 위에 위치) */}
       <div className="px-4 py-4">
         <div className="relative">
           <input
@@ -39,7 +38,7 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
             onChange={onSearchChange}
             onKeyDown={onKeyDown}
             placeholder={getPlaceholder()}
-            className="w-full rounded-lg border border-[#DDDDDD] bg-muted p-3 pl-11 placeholder:text-[#444444]"
+            className="w-full rounded-lg border border-[#DDDDDD] bg-muted p-3 pl-11 text-sm placeholder:text-[#41364A]"
           />
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 transform stroke-current" />
         </div>
@@ -50,8 +49,8 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
         <button
           className={`flex-1 px-4 py-2 ${
             activeTabIndex === 0
-              ? 'border-b-2 border-primary font-medium text-black'
-              : 'text-gray-300'
+              ? 'border-b-2 border-primary font-medium text-[#000417]'
+              : 'text-[#82829B]'
           }`}
           onClick={() => onTabChange(0)}
         >
@@ -60,8 +59,8 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({
         <button
           className={`flex-1 px-4 py-2 ${
             activeTabIndex === 1
-              ? 'border-b-2 border-primary font-medium text-black'
-              : 'text-gray-300'
+              ? 'border-b-2 border-primary font-medium text-[#000417]'
+              : 'text-[#82829B]'
           }`}
           onClick={() => onTabChange(1)}
         >

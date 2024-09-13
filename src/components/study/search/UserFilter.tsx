@@ -97,6 +97,24 @@ export default function UserFilter({
     }));
   };
 
+  const handleResetFilters = () => {
+    setTempFilterTags({
+      job: null,
+      purpose: [],
+      studySpan: null,
+      personality: [],
+    });
+    fetchUsers(
+      {
+        job: null,
+        purpose: [],
+        studySpan: null,
+        personality: [],
+      },
+      userSearchTerm,
+    );
+  };
+
   const fetchUsers = async (filters: FilterTags, searchTerm: string) => {
     try {
       const tags = [
@@ -164,6 +182,7 @@ export default function UserFilter({
         onOptionClick={handleOptionClick}
         bottomSheet={isBottomSheetOpen}
         onClick={handleClose}
+        onResetFilters={handleResetFilters}
       />
     </>
   );
