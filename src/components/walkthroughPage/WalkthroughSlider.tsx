@@ -81,7 +81,7 @@ export default function WalkthroughSlider() {
         {slides.map((slide) => (
           <div key={slide.id} className="mt-16 w-full flex-shrink-0 px-4">
             <div className="flex flex-col gap-6">
-              <h2 className="text-2xl font-semibold text-dark-gray">
+              <h2 className="text-dark-gray text-2xl font-semibold">
                 {slide.title}
               </h2>
               <p className="text-sm">{slide.description}</p>
@@ -105,7 +105,7 @@ export default function WalkthroughSlider() {
       <div className="my-11 w-full px-4">
         {currentIndex === 2 ? (
           <Link
-            className="inline-block w-full min-w-[340px] rounded-lg border-2 border-main-purple bg-primary p-3 text-center text-white"
+            className="border-main-purple inline-block w-full min-w-[340px] rounded-lg border-2 bg-primary p-3 text-center text-white"
             href={ROUTE_PATH.MEMBER.PROFILE.CREATE}
           >
             나와 비슷한 팀원 찾기

@@ -34,7 +34,7 @@ export default function StudyList({
 
   return (
     <>
-      <div className="flex min-h-dvh w-full flex-col gap-4 bg-[#fafafa] px-4 pb-[100px] pt-4">
+      <div className="flex w-full flex-col gap-4 bg-[#fafafa] px-4 pb-[100px] pt-4">
         <div className={'flex items-center gap-2 text-sm'}>
           {loading ? (
             <div

@@ -4,14 +4,27 @@ import supabase from '@/utils/supabase/client';
 export async function fetchStudyList(num?: number) {
   const userId = await getServerUserId();
 
-  let query = supabase
-    .from('study')
-    .select('*, bookmark(user_id)')
-    .or(`user_id.eq.${userId}`, { referencedTable: 'bookmark' })
-    .order('created_at', { ascending: false });
+  let query;
+
+  console.log('userId:', userId);
+
+  // 로그인 전
+  if (!userId) {
+    query = supabase
+      .from('study')
+      .select('*')
+      .order('created_at', { ascending: false });
+    // throw new Error('사용자 정보 data가 없습니다.');
+  } else {
+    query = supabase
+      .from('study')
+      .select('*, bookmark(user_id)')
+      .or(`user_id.eq.${userId}`, { referencedTable: 'bookmark' })
+      .order('created_at', { ascending: false });
+  }
 
   if (num) {
-    query = query.limit(num);
+    query = query?.limit(num);
   }
 
   const { data, error } = await query;
