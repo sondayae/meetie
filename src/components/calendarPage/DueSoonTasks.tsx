@@ -33,12 +33,21 @@ export default function DueSoonTasks({ dueSoonSchedule }: DueSoonTasksProps) {
   const now = new Date();
 
   // 마감 임박 과제 필터링
-  const filteredTasks = dueSoonSchedule.filter((task) => {
-    const endDate = new Date(task.endDate);
-    return (
-      endDate > now && endDate.getTime() - now.getTime() <= 24 * 60 * 60 * 1000
-    );
-  });
+  // const filteredTasks = dueSoonSchedule.filter((task) => {
+  //   const endDate = new Date(task.endDate);
+  //   return (
+  //     endDate > now && endDate.getTime() - now.getTime() <= 24 * 60 * 60 * 1000
+  //   );
+  // });
+  const filteredTasks = Array.isArray(dueSoonSchedule)
+    ? dueSoonSchedule.filter((task) => {
+        const endDate = new Date(task.endDate);
+        return (
+          endDate > now &&
+          endDate.getTime() - now.getTime() <= 24 * 60 * 60 * 1000
+        );
+      })
+    : []; // 배열이 아닌 경우 빈 배열을 반환
 
   return (
     <>
@@ -90,7 +99,7 @@ export default function DueSoonTasks({ dueSoonSchedule }: DueSoonTasksProps) {
                   </div>
                 </div>
                 <Link href={`/studyRoom/${task.study_id}/handin/add`}>
-                  <Button type='primary' label='인증하기'/>
+                  <Button type="primary" label="인증하기" />
                 </Link>
               </div>
             );

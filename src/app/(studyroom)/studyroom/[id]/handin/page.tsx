@@ -21,7 +21,7 @@ export default async function page({ params }: { params: { id: string } }) {
     <>
       {/* 헤더 영역 */}
       <div className="bg-[#E3E3FA] p-4">
-      <Header
+        <Header
           label="스터디룸"
           leftIcon={false}
           rightIcon={
@@ -72,8 +72,13 @@ export default async function page({ params }: { params: { id: string } }) {
             </p>
           </div>
           <div>
-            {data?.map((item) => <Handin key={item.id} data={item} />)}
-            {!data && <SkeletonFeedback />}
+            {/* {data?.map((item) => <Handin key={item.id} data={item} />)}
+            {!data && <SkeletonFeedback />} */}
+            {Array.isArray(data) && data.length > 0 ? (
+              data.map((item) => <Handin key={item.id} data={item} />)
+            ) : (
+              <SkeletonFeedback />
+            )}
           </div>
           <AddFeedbackBtn />
         </div>
