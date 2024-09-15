@@ -22,7 +22,12 @@ interface Reaction {
 
 type Homework = {
   id: number;
+  study_id: number;
   title: string;
+  subtitle: string;
+  startDate: string;
+  endDate: string;
+  created_at: string;
 };
 
 type User = {

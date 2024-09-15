@@ -57,7 +57,6 @@ export async function getFeedback(id: string) {
 }
 
 export async function toggleReaction(targetId: string, emoji: string) {
-  
   const supabase = supabaseServer();
   const { data: { user } } = await supabase.auth.getUser();
   const userId = user?.id;
@@ -90,66 +89,92 @@ export async function toggleReaction(targetId: string, emoji: string) {
   } catch (err: any) {
     return err.message;
   }
-  
 }
 
-export async function updateFeedback(formData: FormData) {
+export async function updateFeedback(id: number, newData: any, imgData: FormData) {
   const supabase = supabaseServer();
-  const userId = await getServerUserId();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id;
 
-  const id = formData.get('id');
-  const homeworkId = formData.get('homeworkId');
-  const text = formData.get('text');
-  const file = formData.get('file') as File;
+  console.log(newData);
+  console.log(imgData);
+  
 
+  // const { data, error } = await supabase
+  // .from('feedback')
+  // .update(newData)
+  // .eq('id', id)
+  // .select();
+
+  // try {
+  //   if (!userId) {
+  //     throw new Error('There is no user.');
+  //   }
+  //   // 파일이 있는 경우 스토리지 업로드
+
+  //   // 과제 업데이트
+  //   const { data: handinData, error: handinError }: { data: any; error: any } =
+  //     await supabase
+  //       .from('handin')
+  //       .update({ homework_id: homeworkId, text })
+  //       .eq('id', id)
+  //       .select();
+
+  //   if (handinError) {
+  //     throw new Error(`Failed to insert handin: ${handinError.message}`);
+  //   }
+
+  //   // 파일이 있는 경우 스토리지 업로드
+  //   if (file.size > 0) {
+  //     const fileName = `handin_${crypto.randomUUID()}`;
+  //     const filePath = `${FOLDER}/${fileName}`;
+  //     const { data: storageData, error: storageError } = await supabase.storage
+  //       .from(`${process.env.NEXT_PUBLIC_STORAGE_BUCKET}`)
+  //       .upload(filePath, file, {
+  //         upsert: true,
+  //       });
+
+  //     if (storageError) {
+  //       throw new Error(`Failed to upload storage: ${storageError.message}`);
+  //     }
+
+  //     // 이미지 테이블 업로드
+  //     const { data: imgData, error: imgError } = await supabase
+  //       .from('images')
+  //       .update({
+  //         url: storageData?.path,
+  //         target: 'handin',
+  //       })
+  //       .eq('target_id', id)
+  //       .select();
+  //     if (imgError) {
+  //       throw new Error(`Failed to upload images: ${imgError.message}`);
+  //     }
+  //     return { success: true, data: { handin: handinData, image: imgData } };
+  //   }
+  //   return { success: true, data: { handin: handinData } };
+  // } catch (error: any) {
+  //   console.log(error.message);
+
+  //   return { success: false, error: error.message };
+  // }
+}
+
+export async function deleteFeedback(id: number) {
+  const supabase = supabaseServer();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id;
   try {
-    if (!userId) {
-      throw new Error('There is no user.');
+    if (!userId || !id) {
+      throw new Error('There is an error');
     }
-    // 과제 업데이트
-    const { data: handinData, error: handinError }: { data: any; error: any } =
-      await supabase
-        .from('handin')
-        .update({ homework_id: homeworkId, text })
-        .eq('id', id)
-        .select();
-
-    if (handinError) {
-      throw new Error(`Failed to insert handin: ${handinError.message}`);
+    const { error } = await supabase.from('feedback').delete().eq('id', id);
+    if (error) {
+      throw error;
     }
-
-    // 파일이 있는 경우 스토리지 업로드
-    if (file.size > 0) {
-      const fileName = `handin_${crypto.randomUUID()}`;
-      const filePath = `${FOLDER}/${fileName}`;
-      const { data: storageData, error: storageError } = await supabase.storage
-        .from(`${process.env.NEXT_PUBLIC_STORAGE_BUCKET}`)
-        .upload(filePath, file, {
-          upsert: true,
-        });
-
-      if (storageError) {
-        throw new Error(`Failed to upload storage: ${storageError.message}`);
-      }
-
-      // 이미지 테이블 업로드
-      const { data: imgData, error: imgError } = await supabase
-        .from('images')
-        .update({
-          url: storageData?.path,
-          target: 'handin',
-        })
-        .eq('target_id', id)
-        .select();
-      if (imgError) {
-        throw new Error(`Failed to upload images: ${imgError.message}`);
-      }
-      return { success: true, data: { handin: handinData, image: imgData } };
-    }
-    return { success: true, data: { handin: handinData } };
-  } catch (error: any) {
-    console.log(error.message);
-
-    return { success: false, error: error.message };
+    revalidatePath('/');
+    return {success: true};
+  } catch (err: any) {
+    return {success: false, err: err.message};
   }
 }

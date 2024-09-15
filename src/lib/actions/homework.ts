@@ -2,23 +2,23 @@
 
 import supabase from '@/utils/supabase/client';
 
-export async function getHomeworks(studyRoomId: string) {
+export async function getHomeworks(id: string) {
   try {
-    if (!studyRoomId) {
+    if (!id) {
       throw new Error('id is required');
     }
     const { data, error } = await supabase
       .from('homework')
-      .select()
-      .eq('study_id', studyRoomId)
+      .select('*')
+      .eq('study_id', id)
       .order('created_at', { ascending: false });
 
     if (error) {
       throw new Error(`${error.message}`);
     }
 
-    return { success: true, data };
+    return data;
   } catch (err: any) {
-    return { success: false, error: err.message };
+    return err.message;
   }
 }

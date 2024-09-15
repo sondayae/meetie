@@ -58,7 +58,7 @@ export async function updateComment(id: number, comment: string) {
     }
     revalidatePath('/');
     return data;
-  } catch (err) {
+  } catch (err: any) {
     return err.message;
   }
 }

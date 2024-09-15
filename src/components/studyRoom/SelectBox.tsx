@@ -2,6 +2,7 @@
 
 
 import UpdownArrowIcon from '../icons/UpdownArrowIcon';
+import StudyroomDrawer from './StudyroomDrawer';
 
 function SelectBox({
   // selected,
@@ -11,24 +12,7 @@ function SelectBox({
   // handleClick: any;
 }) {
   return (
-    <div
-      className="b-[#E9E9E9] rounded-lg border bg-white p-[16px] shadow delay-75 hover:cursor-pointer hover:bg-[#efefef]"
-      // onClick={handleClick}
-    >
-      <div className="flex gap-[17px]">
-        <span className="rounded-xl border border-[#E9E9E9] bg-[#F7F3FF] py-[11.5px]">
-          <UpdownArrowIcon />
-        </span>
-        <div className="flex flex-col">
-          <span className="font-medium">스터디룸 제목</span>
-          {/* <span className="font-medium">{selected && selected.title}</span> */}
-          <span className="text-xs text-muted-foreground">
-            스터디룸 부제목
-            {/* {selected && selected.subtitle} */}
-          </span>
-        </div>
-      </div>
-    </div>
+    <StudyroomDrawer />
   );
 }
 export default SelectBox;
