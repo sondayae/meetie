@@ -136,7 +136,7 @@ export default function StudyFilterBottomSheet({
             </div>
             <button
               className={
-                'ml-auto mt-5 flex items-center gap-1 text-sm text-[#999999]'
+                'ml-auto mt-2 flex items-center gap-1 text-sm text-[#999999]'
               }
               onClick={handleResetFilters}
             >

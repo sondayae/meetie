@@ -3,6 +3,7 @@
 import Button from '@/components/common/Button';
 import Tag from '@/components/common/Tag';
 import CheckIcon from '@/components/icons/CheckIcon';
+import ResetIcon from '@/components/icons/ResetIcon';
 import { useState } from 'react';
 
 type BottomSheetProps = {
@@ -23,6 +24,7 @@ type BottomSheetProps = {
   onOptionClick: (option: string) => void;
   bottomSheet: boolean;
   onClick: () => void;
+  onResetFilters: () => void;
 };
 
 export default function UserFilterBottomSheet({
@@ -38,12 +40,18 @@ export default function UserFilterBottomSheet({
   onOptionClick,
   onClick,
   bottomSheet,
+  onResetFilters,
 }: BottomSheetProps) {
   const [activeOption, setActiveOption] = useState();
 
   const handleOptionClick = (option: any) => {
     setActiveOption(option);
     onOptionClick(option);
+  };
+
+  const handleResetFilters = () => {
+    onResetFilters();
+    setActiveOption(undefined);
   };
 
   return (
@@ -140,6 +148,15 @@ export default function UserFilterBottomSheet({
                   </Tag>
                 ))}
             </div>
+            <button
+              className={
+                'ml-auto mt-2 flex items-center gap-1 text-sm text-[#999999]'
+              }
+              onClick={handleResetFilters}
+            >
+              <ResetIcon className={'h-4 w-4 fill-[#999999]'} />
+              초기화
+            </button>
           </div>
           {/* 확인 및 취소 버튼 */}
           <div className="mt-4 flex gap-4">
