@@ -1,9 +1,9 @@
 'use client';
-import { updateStudyApplyStatus } from '@/actions/studyrequest.action';
+
 import { UUID } from 'crypto';
 import Link from 'next/link';
 import { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
+import ProfileAvatar from '../common/ProfileAvatar';
 
 type ItemType = {
   id: number;
@@ -15,14 +15,14 @@ type ItemType = {
     job: string;
     introduce?: string;
     personality?: string[];
+    images: { url: string };
   };
 };
 
 export default function StudyRequestItem({
-  params,
   item,
   acceptedStudy,
-  recruitNum,
+  modApply,
   setacceptedReqStudy,
 }: {
   params: string;
@@ -30,19 +30,18 @@ export default function StudyRequestItem({
   acceptedStudy: number;
   recruitNum: number;
   setacceptedReqStudy: (value: number) => void;
+  modApply: (studyId: number, userId: UUID, status: string) => void;
 }) {
   const [currentStatus, setCurrentStatus] = useState(item.status);
 
-  const modApply = async (studyid: number, userid: UUID, status: string) => {
-    try {
-      // 상태 업데이트 요청
-      await updateStudyApplyStatus(studyid, userid, status);
+  const handleApply = (status: string) => {
+    modApply(item.studyId, item.user.id, status);
+    // 버튼 상태
+    setCurrentStatus(status);
 
-      // 성공적으로 업데이트되면 상태를 변경
-      setCurrentStatus(status);
+    // 수락인 경우 수락된 스터디 수 증가
+    if (status === 'accepted') {
       setacceptedReqStudy(acceptedStudy + 1);
-    } catch (error) {
-      console.error('상태 업데이트 중 에러:', error);
     }
   };
 
@@ -55,9 +54,10 @@ export default function StudyRequestItem({
             <div className="flex items-start justify-start gap-2.5">
               <div className="flex flex-col items-end justify-start">
                 <Link href={`/profile/read/${item.user.id}`}>
-                  <img
-                    className="h-14 w-14 rounded-full"
-                    src="https://th.bing.com/th/id/OIG3.Z11n1VN6NRw.IXOddq9X?w=1024&h=1024&rs=1&pid=ImgDetMain"
+                  <ProfileAvatar
+                    src={item?.user?.images?.url}
+                    alt="user profile img"
+                    className="relative h-14 w-14 overflow-hidden rounded-full object-cover"
                   />
                 </Link>
               </div>
@@ -89,9 +89,7 @@ export default function StudyRequestItem({
                 <>
                   <button
                     type="button"
-                    onClick={() =>
-                      modApply(item.studyId, item.user.id, 'refused')
-                    }
+                    onClick={() => handleApply('refused')}
                     className="flex h-8 items-center justify-center gap-2 rounded-full bg-[#f1f1f1] px-4 py-2"
                   >
                     <div className="text-sm font-medium text-[#434343]">
@@ -100,9 +98,7 @@ export default function StudyRequestItem({
                   </button>
                   <button
                     type="button"
-                    onClick={() =>
-                      modApply(item.studyId, item.user.id, 'accepted')
-                    }
+                    onClick={() => handleApply('accepted')}
                     className="flex h-8 items-center justify-center gap-2 rounded-full bg-[#7f4cff] px-4 py-2"
                   >
                     <div className="text-sm font-medium text-white">수락</div>
@@ -110,7 +106,7 @@ export default function StudyRequestItem({
                 </>
               )}
 
-              {currentStatus === 'accepted' && (
+              {currentStatus !== 'waiting' && (
                 <>
                   <button
                     type="button"
