@@ -24,7 +24,7 @@ export async function getStudyMemberImage(studyId: string) {
   try {
     const { data, error } = await supabase
       .from('studymember')
-      .select(`*, user(*)`)
+      .select('*, user(*, images(url))')
       // .select(`*, user(*), images(url)`)
       // .select(`*,user (*,images (image_id))`)
       .eq('study_id', studyId);

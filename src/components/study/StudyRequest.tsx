@@ -12,6 +12,8 @@ import {
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { queryClient } from '@/config/ReactQueryClientProvider';
+import { useRouter } from 'next/navigation';
+import { createStudyRoom } from '@/actions/studyroom.action';
 
 export interface StudyRequestItem {
   id: number;
@@ -79,6 +81,7 @@ export default function Page({
   });
 
   const waitingNum = waiting?.length;
+  const router = useRouter();
 
   const acceptedNum = applyDatas.data?.filter(
     (item) => item.status === 'accepted',
@@ -106,8 +109,11 @@ export default function Page({
       alert(`인원이 초과되었습니다.
 수락가능인원: ${count} 대기중인인원: ${waitingNum ?? 0}`);
     } else {
-      alert('전체수락 가능');
+      // alert('전체수락 가능');
       modallacceptedMutation.mutate();
+    }
+    if (count === 0 && waitingNum === 0) {
+      router.push(`/study/${params.studyId}/studyover`);
     }
   };
 
@@ -125,10 +131,26 @@ export default function Page({
     } catch (error) {
       console.error('Error updating study apply status:', error);
     }
+
+    console.log(count);
+    if (count <= 1) {
+      createStudyRoom(params.studyId);
+      router.push(`/study/${params.studyId}/studyover`);
+    }
   };
 
   return (
     <>
+      {count === recruitNum && waitingNum === 0 && (
+        <div className="flex h-full items-center justify-center">
+          <div className="flex flex-col items-center">
+            <div className="text-lg font-medium text-[#434343]">
+              대기중인 요청이 없습니다.
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="flex h-full min-h-dvh flex-col">
         {/* <section className="flex flex-col justify-center border-b-2 border-[#F1F2F6] px-4 pb-[14px] pt-6"></section> */}
         <div className="flex h-full flex-col px-4 py-7">
