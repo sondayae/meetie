@@ -1,9 +1,10 @@
-import localFont from 'next/font/local';
 
+import localFont from 'next/font/local';
 import '@/css/globals.css';
 import ReactQueryClientProvider from '@/config/ReactQueryClientProvider';
 import InitUser from '@/stores/user/InitUser';
 import supabaseServer from '@/utils/supabase/server';
+import BadgeNotiCard from '@/components/notification/BadgeNotiCard';
 
 const pretendard = localFont({
   src: [
@@ -62,6 +63,7 @@ export default async function RootLayout({
             {children}
             <InitUser user={data.user} />
           </div>
+          <BadgeNotiCard />
         </body>
       </html>
     </ReactQueryClientProvider>

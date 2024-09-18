@@ -1,9 +1,11 @@
 import { getFeedback } from '@/actions/studyroom/feedbackActions';
 import { getUser } from '@/actions/userActions';
 import Header from '@/components/handin/Header';
+import CommentForm from '@/components/studyRoom/feedback/CommentForm';
 import CommentList from '@/components/studyRoom/feedback/CommentList';
 import FeedDetail from '@/components/studyRoom/feedback/FeedDetail';
 import FeedReaction from '@/components/studyRoom/feedback/FeedReaction';
+import userEventEmitter from '@/lib/EventEmitter';
 
 export default async function feedbackDetailPage({
   params,

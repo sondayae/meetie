@@ -27,7 +27,6 @@ export default function FeedbackDetailPage({ params }: { params: { handinId: str
       return feedback;
   }});
 
-
   const handleEditHandin = () => {
     router.push(`./edit/${handinId}`);
   };

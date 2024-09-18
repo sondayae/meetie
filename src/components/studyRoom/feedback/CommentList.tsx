@@ -1,11 +1,10 @@
 'use client';
 
-import CommentForm from '@/components/handin/CommentForm';
 import Comment from './Comment';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import CommentForm from './CommentForm';
 
 export default function CommentList({targetId, comments}: {targetId: string, comments: FeedComment[]|null}) {
-  const [user, setUser] = useState();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -13,7 +12,7 @@ export default function CommentList({targetId, comments}: {targetId: string, com
       {comments?.map((item: FeedComment) => (
         <Comment key={item.id} comment={item} />
       ))}
-      <CommentForm targetId={targetId} user={user} scrollRef={scrollRef}/>
+      <CommentForm targetId={targetId} scrollRef={scrollRef}/>
       <div ref={scrollRef}/>
     </>
   )

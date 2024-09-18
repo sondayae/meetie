@@ -12,7 +12,8 @@ function SelectBox({
   // handleClick: any;
 }) {
   return (
-    <StudyroomDrawer />
+    // <StudyroomDrawer />
+    <></>
   );
 }
 export default SelectBox;

@@ -1,6 +1,7 @@
 'use server';
 
 import { getServerUserId } from '@/lib/actions/getServerUserId';
+import activityEventEmitter from '@/lib/EventEmitter';
 import supabaseServer from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 
@@ -15,10 +16,14 @@ export async function getComments(targetId: string) {
   return data;
 }
 
-export async function insertComment(targetId: string, comment: string) {
+export async function insertComment(formData: FormData) {
+  const targetId = formData.get('targetId');
+  const comment = formData.get('comment');
+
   const supabase = supabaseServer();
   const { data: { user } } = await supabase.auth.getUser();
   const userId = user?.id;
+
   try {
     if (!userId) {
       throw new Error('There is no User');
@@ -31,12 +36,15 @@ export async function insertComment(targetId: string, comment: string) {
     if (error) {
       throw new Error(`Insert Comment has an error. ${error.message}`);
     }
+
+    activityEventEmitter.emit('comment', user);
     revalidatePath('/');
     return data;
   } catch (err) {
     return err;
   }
 }
+
 export async function updateComment(id: number, comment: string) {
   const supabase = supabaseServer();
   const { data: { user } } = await supabase.auth.getUser();
@@ -144,3 +152,16 @@ export async function deleteComment(id: number) {
     return { success: false, error: err.message };
   }
 }
+
+activityEventEmitter.on('comment', async (user) => {
+  console.log('comment on');
+  
+  const supabase = await supabaseServer();
+  const { data, error } = await supabase.rpc('upsert_user_activity', { _type: 'comment', _user_id: user.id });
+  if (error) {
+    console.log(error.message);
+    
+    return null;
+  }
+  console.log(data);
+});
