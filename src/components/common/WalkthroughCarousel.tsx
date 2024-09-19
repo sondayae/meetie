@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Carousel,
   CarouselContent,
@@ -10,28 +10,28 @@ import {
   CarouselNext,
   CarouselPrevious,
   type CarouselApi,
-} from "@/components/ui/carousel"
+} from '@/components/ui/carousel';
 import WalkthroughStepOne from '../icons/WalkthroughStepOne';
 import WalkthroughStepTwo from '../icons/WalkthroughStepTwo';
 import WalkthroughStepThree from '../icons/WalkthroughStepThree';
 
 export function WalkthroughCarousel() {
-  const [api, setApi] = useState<CarouselApi>()
-  const [current, setCurrent] = useState(0)
-  const [count, setCount] = useState(0)
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (!api) {
-      return
+      return;
     }
 
-    setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap() + 1)
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
 
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1)
-    })
-  }, [api])
+    api.on('select', () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
 
   const slides = [
     {
@@ -42,7 +42,7 @@ export function WalkthroughCarousel() {
         </>
       ),
       description: '다른 학습자들과 소통하며 함께 성장하세요!',
-      icon: <WalkthroughStepOne className="-ml-12 -mt-40" />,
+      icon: <WalkthroughStepOne className="-ml-10 -mt-40" />,
     },
     {
       id: 1,
@@ -72,30 +72,33 @@ export function WalkthroughCarousel() {
 
   return (
     <>
-      <Carousel setApi={setApi} className="w-full">
+      <Carousel setApi={setApi} className="relative w-full">
         <CarouselContent>
           {slides.map((slide, index) => (
             <CarouselItem key={index}>
-                <CardContent className="flex items-center justify-center p-6">
-                  <div key={slide.id} className="mt-16 w-full flex-shrink-0 px-4">
-                    <div className="flex flex-col gap-6">
-                      <h2 className="text-2xl font-semibold text-dark-gray">
-                        {slide.title}
-                      </h2>
-                      <p className="text-sm">{slide.description}</p>
-                    </div>
-                    {slide.icon}
+              <CardContent className="flex items-center justify-center px-4">
+                <div key={slide.id} className="mt-20 w-full flex-shrink-0">
+                  <div className="flex flex-col gap-6">
+                    <h2 className="text-dark-gray text-2xl font-semibold">
+                      {slide.title}
+                    </h2>
+                    <p className="text-sm">{slide.description}</p>
                   </div>
-                </CardContent>
+                  {slide.icon}
+                </div>
+              </CardContent>
             </CarouselItem>
           ))}
         </CarouselContent>
       </Carousel>
-      <div className='flex gap-4 justify-center'>
+      <div className="absolute bottom-14 left-1/2 flex translate-x-[-50%] justify-center gap-4">
         {Array.from({ length: slides.length }).map((_, index) => (
-          <span key={index} className={`rounded-full h-3 w-3 ${current === index+1 ? 'bg-secondary' : 'bg-disabled'}`} />
+          <span
+            key={index}
+            className={`h-2.5 w-2.5 rounded-full ${current === index + 1 ? 'bg-secondary' : 'bg-disabled'}`}
+          />
         ))}
       </div>
     </>
-  )
+  );
 }

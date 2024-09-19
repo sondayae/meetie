@@ -4,11 +4,10 @@ import ROUTE_PATH from '@/constants/route';
 import Link from 'next/link';
 
 export default function Walkthrough() {
-
   return (
-    <div className='flex-grow bg-gradient-custom'>
-      <div className='flex flex-col py-3 gap-10'>
-        <div className='flex flex-col gap-6'>
+    <div className="flex-grow bg-gradient-custom">
+      <div className="flex min-h-dvh flex-col">
+        <div className="relative flex flex-1 flex-col pt-6">
           <Link
             className="ml-auto pr-4 text-sm font-medium text-muted-foreground"
             href={ROUTE_PATH.MEMBER.PROFILE.CREATE}
@@ -17,8 +16,11 @@ export default function Walkthrough() {
           </Link>
           <WalkthroughCarousel />
         </div>
-        <Link href={ROUTE_PATH.MEMBER.PROFILE.CREATE} >
-          <Button type='primary' label='나와 비슷한 팀원 찾기'/>
+        <Link
+          href={ROUTE_PATH.MEMBER.PROFILE.CREATE}
+          className={'m-w-[600px] sticky bottom-0 px-4 py-2.5'}
+        >
+          <Button type="primary" label="나와 비슷한 팀원 찾기" />
         </Link>
       </div>
     </div>

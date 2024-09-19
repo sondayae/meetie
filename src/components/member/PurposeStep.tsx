@@ -14,7 +14,7 @@ const PurposeStep: React.FC<PurposeStepProps> = ({
 }) => {
   return (
     <div>
-      <div className="mb-5 text-2xl font-semibold">
+      <div className="mb-5 text-2xl font-semibold leading-9">
         {userName}님의
         <br />
         스터디 목적은 무엇인가요?

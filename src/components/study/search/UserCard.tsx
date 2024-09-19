@@ -33,7 +33,7 @@ export default function UserCard({ user, addFriend }: UserCardProps) {
         className="mb-3 mt-6 h-[60px] w-[60px] rounded-full"
       />
       <div className="mb-3">
-        <h3 className="text-sm font-medium">{user.nickname || user.name}</h3>
+        <h3 className="text-sm font-medium">{user.name}</h3>
         <p className="text-xs font-semibold text-[#82829B]">{user.job}</p>
       </div>
 

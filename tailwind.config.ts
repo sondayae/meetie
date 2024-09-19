@@ -11,7 +11,7 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        'gradient-custom': 'linear-gradient(204deg, #E4E4FF -7.98%, #FFF 50%)',
+        'gradient-custom': 'linear-gradient(204deg, #E5E3FF 0%, #FFFFFF 40%)',
       },
 
       colors: {

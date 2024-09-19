@@ -60,7 +60,7 @@ export default function ProfileForm({
   return (
     <>
       <div>
-        <div className="mb-5 text-2xl font-semibold">
+        <div className="mb-5 text-2xl font-semibold leading-9">
           {`${userName}님의 `} <br />
           프로필을 작성해주세요!
         </div>
@@ -117,7 +117,7 @@ export default function ProfileForm({
               value={introduction}
               placeholder="자신을 나타낼 수 있는 소개글을 작성해주세요"
               onChange={handleIntroductionChange}
-              className="w-full flex-initial truncate rounded-lg border bg-white py-[14px] pl-4 pr-14 outline-none transition-all focus:border-primary"
+              className="min-h-36 w-full flex-initial resize-none truncate rounded-lg border bg-white py-[14px] pl-4 pr-14 outline-none transition-all focus:border-primary"
             />
           </div>
         </form>

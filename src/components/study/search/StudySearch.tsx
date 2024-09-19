@@ -22,7 +22,7 @@ export default function StudySearch({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const studies = await fetchStudyList();
+        const { data: studies } = await fetchStudyList();
         setStudyList(studies);
 
         const allTags = Array.from(

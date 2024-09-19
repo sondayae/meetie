@@ -78,6 +78,8 @@ export default function UserProfile() {
         label="오픈 프로필"
         leftIcon={<Link href={'/profile/success'} />}
         rightIcon
+        sticky={true}
+        useBorderBottom={false}
       />
       <div className="flex flex-col items-center pb-20">
         <ProfileAvatar

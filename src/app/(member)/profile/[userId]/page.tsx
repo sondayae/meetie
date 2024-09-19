@@ -75,7 +75,13 @@ export default function UserProfile({
 
   return (
     <>
-      <Header label="오픈 프로필" leftIcon rightIcon />
+      <Header
+        label="오픈 프로필"
+        leftIcon
+        rightIcon
+        sticky={true}
+        useBorderBottom={false}
+      />
       <div className="flex flex-col items-center pb-20">
         <ProfileAvatar
           src={profile?.imageUrl}

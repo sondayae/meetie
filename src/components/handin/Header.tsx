@@ -10,6 +10,8 @@ type HeaderType = {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   useBorderBottom?: boolean;
+  sticky?: boolean;
+  bgColor?: string;
 };
 
 function Header({
@@ -17,6 +19,8 @@ function Header({
   leftIcon = true,
   rightIcon,
   useBorderBottom = true,
+  sticky = false,
+  bgColor = 'bg-white',
 }: HeaderType) {
   const px = leftIcon && rightIcon ? 'px-2' : 'px-4';
 
@@ -26,7 +30,14 @@ function Header({
     setToggleMenu((prev) => !prev);
   };
   return (
-    <div className={twMerge('py-2', useBorderBottom && 'border-b')}>
+    <div
+      className={twMerge(
+        'py-2',
+        bgColor,
+        useBorderBottom && 'border-b',
+        sticky && 'sticky top-0 z-50 shadow-sm',
+      )}
+    >
       <div
         className={`flex h-[40px] items-center justify-between ${px} border-[#E6E6E6]`}
       >
@@ -39,10 +50,10 @@ function Header({
           </span>
         )}
         <span className="text-center text-lg font-bold">{label}</span>
-          <div
-            className="relative flex h-[40px] w-[40px] items-center justify-center hover:cursor-pointer"
-            onClick={!label ? handleToggleMenu : undefined}
-          >
+        <div
+          className="relative flex h-[40px] w-[40px] items-center justify-center hover:cursor-pointer"
+          onClick={!label ? handleToggleMenu : undefined}
+        >
           {rightIcon}
           {toggleMenu && (
             <ToggleMenu

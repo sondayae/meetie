@@ -190,9 +190,9 @@ export default function Profile() {
         {!(step === 'initial' || step === 'job') && (
           <button
             onClick={handleSkipClick}
-            className="absolute right-0 top-0 mb-8 mr-4 mt-2 text-[#82829B]"
+            className="absolute right-0 top-0 mb-8 mr-4 mt-3 border-b text-sm text-[#82829B]"
           >
-            Skip
+            SKIP
           </button>
         )}
       </div>
@@ -201,7 +201,7 @@ export default function Profile() {
 
       <div className="fixed bottom-0 left-0 w-full bg-white p-4">
         <div className="mx-auto w-full max-w-[600px]">
-          <div className="mb-3 text-xs text-border">
+          <div className="mb-3 text-center text-xs text-[#ADB5BD]">
             내용은 다시 수정할 수 있어요!
           </div>
           <div className="flex w-full gap-x-3">
