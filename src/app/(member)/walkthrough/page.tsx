@@ -7,7 +7,7 @@ export default function Walkthrough() {
   return (
     <div className="flex-grow bg-gradient-custom">
       <div className="flex min-h-dvh flex-col">
-        <div className="relative flex flex-1 flex-col pt-4">
+        <div className="relative flex flex-1 flex-col pt-6">
           <Link
             className="ml-auto pr-4 text-sm font-medium text-muted-foreground"
             href={ROUTE_PATH.MEMBER.PROFILE.CREATE}
