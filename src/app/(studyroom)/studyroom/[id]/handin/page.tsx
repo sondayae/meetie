@@ -12,6 +12,7 @@ import AddFeedbackBtn from '@/components/handin/AddFeedbackBtn';
 import { getFeedbacks } from '@/actions/studyroom/feedbackActions';
 import { Feedback } from '@/types/feedbacks';
 import Link from 'next/link';
+import { dateWithDayFormatter } from '@/utils/common/dateFormatter';
 
 export default async function page({ params }: { params: { id: string } }) {
   const data: Feedback[] = await getFeedbacks(params.id);
@@ -66,7 +67,7 @@ export default async function page({ params }: { params: { id: string } }) {
         {/* 콘텐츠 영역 - 과제 인증 리스트 */}
         <div className="rounded-t-xl bg-white drop-shadow-md">
           <div className="flex flex-col gap-1 border-b p-8">
-            <h1 className="text-lg font-semibold">✏️ 9월 4일 화요일</h1>
+            <h1 className="text-lg font-semibold">✏️ {dateWithDayFormatter(new Date())}</h1>
             <p className="text-sm text-muted-foreground">
               과제를 인증한 팀원들을 확인해 보세요.
             </p>

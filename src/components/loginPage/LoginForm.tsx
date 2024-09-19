@@ -47,21 +47,24 @@ export default function LoginForm() {
   }, [setFocus]);
 
   return (
-    <form className="flex flex-col gap-[60px]">
-      <div className="flex flex-col gap-3">
+    <form className="flex flex-col gap-7">
+      <div className="flex flex-col">
         <Input<LoginFormData>
           id="email"
           name="email"
           type="email"
-          placeholder="이메일"
+          placeholder="hellomeetie@gmail.com"
           errors={errors}
           register={register}
           rules={{
             required: '이메일을 입력해주세요.',
             pattern: emailPattern,
           }}
+          label="이메일"
         />
-        {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+        <div className="relative min-h-4">
+          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+        </div>
         <Input<LoginFormData>
           id="password"
           name="password"
@@ -72,10 +75,13 @@ export default function LoginForm() {
           rules={{
             required: '비밀번호를 입력해주세요.',
           }}
+          label="비밀번호"
         />
-        {errors.password && (
-          <ErrorMessage>{errors.password.message}</ErrorMessage>
-        )}
+        <div className="relative min-h-4">
+          {errors.password && (
+            <ErrorMessage>{errors.password.message}</ErrorMessage>
+          )}
+        </div>
       </div>
       <div className="mt-5 flex justify-center">
         <Button
