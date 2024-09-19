@@ -47,9 +47,9 @@ export default function ProfileSuccess() {
   };
 
   return (
-    <div className="mx-auto flex h-screen max-w-[600px] flex-col items-center">
+    <div className="mx-auto flex h-screen w-full max-w-[600px] flex-col items-center">
       {/* Header and Description */}
-      <div className="mb-[76px] mt-12 px-4 text-left">
+      <div className="mb-20 mt-[100px] w-full px-4 text-left">
         <h1 className="text-2xl font-bold">
           {`${userName}님의`} <br />
           공개 프로필이 생성되었어요 🎉
@@ -87,7 +87,7 @@ export default function ProfileSuccess() {
       <SuccessShadow />
 
       {/* Button */}
-      <div className="w-full px-4 pb-4">
+      <div className="fixed bottom-0 w-full max-w-[600px] px-4 pb-4">
         <div className="mx-auto max-w-[600px]">
           <Button
             label="확인하러 가기"
