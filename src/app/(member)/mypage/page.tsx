@@ -1,4 +1,4 @@
-import { getUser, getJoinInfo } from '@/actions/mypage.action';
+import { getUser, getJoinInfo, getMyPost } from '@/actions/mypage.action';
 import SimpleCard from '@/components/mypage/SimpleCard';
 import StudyCard from '@/components/mypage/StudyCard';
 import BookmarkIcon from '@/components/icons/Bookmark';
@@ -18,6 +18,7 @@ export default async function page() {
   } = await supabase.auth.getUser();
   const userdata = await getUser({ id: user?.id });
   const joindata = await getJoinInfo({ id: user?.id });
+  const mypostdata = await getMyPost({ id: user?.id });
 
   type StudyCardItem = {
     label: string;
@@ -75,7 +76,7 @@ export default async function page() {
               ))}
             </div>
           </div>
-          <MypageSection {...joindata} />
+          <MypageSection {...joindata} mypost={mypostdata} />
         </div>
       )}
       {!userdata && (

@@ -16,12 +16,13 @@ interface MypageSectionProps {
   bookmark: any[];
   studymember: any[];
   friend: any[];
+  mypost: any[];
 }
 
 export default function MypageSection({
   bookmark,
   studymember,
-  friend,
+  mypost: mypost,
 }: MypageSectionProps) {
   const [badgeList, setBadgeList] = useState<any[]>();
   const listItem = [
@@ -41,7 +42,7 @@ export default function MypageSection({
     },
     {
       label: '내 작성글',
-      num: 0,
+      num: mypost.length,
       icon: <BookIcon className="h-4 w-4" />,
       path: '/myposts',
     },
@@ -70,7 +71,12 @@ export default function MypageSection({
         </Link>
         <div className="flex items-center gap-3">
           {badgeList?.map((userBadge: any) => (
-            <img key={userBadge.id} src={getBadgeImgUrl(userBadge.badge.image_path)} alt={userBadge.badge.name} className='w-[150px]'/>
+            <img
+              key={userBadge.id}
+              src={getBadgeImgUrl(userBadge.badge.image_path)}
+              alt={userBadge.badge.name}
+              className="w-[150px]"
+            />
           ))}
         </div>
       </section>

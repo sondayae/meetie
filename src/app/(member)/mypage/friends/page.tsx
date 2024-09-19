@@ -2,7 +2,7 @@ import { getFriends } from '@/actions/mypage.action';
 import Header from '@/components/handin/Header';
 import FriendCard from '@/components/mypage/FriendCard';
 import supabaseServer from '@/utils/supabase/server';
-import Link from 'next/link';
+
 
 export default async function page() {
   const supabase = supabaseServer();

@@ -2,7 +2,7 @@ import PostItem from '@/components/mypage/postItem';
 import { getBookMark, getJoinInfo, getUser } from '@/actions/mypage.action';
 import Header from '@/components/handin/Header';
 import supabaseServer from '@/utils/supabase/server';
-import Link from 'next/link';
+
 
 type Bookmark = {
   study: {

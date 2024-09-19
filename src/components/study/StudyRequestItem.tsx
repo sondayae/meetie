@@ -32,8 +32,7 @@ export default function StudyRequestItem({
   recruitNum: number;
   modApply: (studyId: number, userId: UUID, status: string) => void;
 }) {
-
-  console.log(item)
+  console.log(item);
   return (
     <>
       <li key={item.id}>
@@ -52,17 +51,23 @@ export default function StudyRequestItem({
               </div>
               <div className="flex flex-col items-start justify-start gap-1">
                 <div className="text-base font-semibold text-black">
-                  {item.user.nickname === '' ? item.user.name : item.user.nickname}
+                  {item.user.nickname === ''
+                    ? item.user.name
+                    : item.user.nickname}
                 </div>
                 <div className="text-xs font-medium text-gray-500">
                   {item.user.job}
                 </div>
                 <div className="flex gap-1">
-                  <span className={'text-xs whitespace-nowrap font-medium text-gray-500'}>
+                  <span
+                    className={
+                      'whitespace-nowrap text-xs font-medium text-gray-500'
+                    }
+                  >
                     스터디
                     {/* 예상 스터디 기간 */}
                   </span>
-                  <span className="text-xs whitespace-nowrap font-medium text-indigo-500">
+                  <span className="whitespace-nowrap text-xs font-medium text-indigo-500">
                     {/* 8회 */}
                     {item.user.expected_study_span}
                   </span>
