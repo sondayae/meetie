@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import StudyRequestItem from '@/components/study/StudyRequestItem';
 import Button from '../common/Button';
 import Link from 'next/link';
@@ -59,8 +59,8 @@ export default function Page({
   const waiting = applyDatas.data
     ?.filter((item) => item.status === 'waiting')
     .map((item) => item.user.id);
-  console.log(`waiting 유저수: ${waiting?.length}`);
-  console.log(waiting);
+  // console.log(`waiting 유저수: ${waiting?.length}`);
+  // console.log(waiting);
 
   const modallacceptedMutation = useMutation({
     mutationFn: async () => {
@@ -94,9 +94,9 @@ export default function Page({
   // 남은유저보사 대기중인 유저수가 더 많으면 초과
   const isOver = count < (waitingNum ?? 0);
 
-  const groupedDatas: Record<string, StudyRequestItem[]> = applyData
-    ? groupByDate(applyData)
-    : {};
+  const [groupedDatas, setGroupedDatas] = useState(
+    applyData ? groupByDate(applyData) : {},
+  );
 
   const [acceptedReqStudy, setacceptedReqStudy] = useState(acceptedStudy);
 
@@ -109,8 +109,11 @@ export default function Page({
       alert(`인원이 초과되었습니다.
 수락가능인원: ${count} 대기중인인원: ${waitingNum ?? 0}`);
     } else {
-      // alert('전체수락 가능');
+      // status: 'accepted'로 변경
       modallacceptedMutation.mutate();
+
+      // 
+      setGroupedDatas(groupByDate(applyData));
     }
     if (count === 0 && waitingNum === 0) {
       router.push(`/study/${params.studyId}/studyover`);
@@ -154,28 +157,35 @@ export default function Page({
       <div className="flex h-full min-h-dvh flex-col">
         {/* <section className="flex flex-col justify-center border-b-2 border-[#F1F2F6] px-4 pb-[14px] pt-6"></section> */}
         <div className="flex h-full flex-col px-4 py-7">
-          {Object.keys(groupedDatas).length > 0 && (
+          {!groupedDatas && <div>대기중인 요청이 없어요.</div>}
+          {groupedDatas && (
             <>
-              {Object.entries(groupedDatas).map(([date, items]) => (
-                <div key={date} className="flex flex-col gap-[18px]">
-                  <div className="text-sm font-medium text-[#434343]">
-                    {format(date, 'yyyy년 MM월 dd일')}
-                  </div>
-                  <ul className="mb-4 flex flex-col gap-4">
-                    {items.map((item: StudyRequestItem) => (
-                      <StudyRequestItem
-                        setacceptedReqStudy={setacceptedReqStudy}
-                        params={params.studyId}
-                        key={item.id}
-                        item={item}
-                        acceptedStudy={acceptedStudy}
-                        recruitNum={recruitNum}
-                        modApply={modApply}
-                      />
-                    ))}
-                  </ul>
-                </div>
-              ))}
+              {Object.keys(groupedDatas).length > 0 && (
+                <>
+                  {Object.entries(groupedDatas).map(([date, items]) => (
+                    <div key={date} className="flex flex-col gap-[18px]">
+                      <div className="text-sm font-medium text-[#434343]">
+                        {format(date, 'yyyy년 MM월 dd일')}
+                      </div>
+                      <ul className="mb-4 flex flex-col gap-4">
+                        {(items as StudyRequestItem[]).map(
+                          (item: StudyRequestItem) => (
+                            <StudyRequestItem
+                              setacceptedReqStudy={setacceptedReqStudy}
+                              params={params.studyId}
+                              key={item.id}
+                              item={item}
+                              acceptedStudy={acceptedStudy}
+                              recruitNum={recruitNum}
+                              modApply={modApply}
+                            />
+                          ),
+                        )}
+                      </ul>
+                    </div>
+                  ))}
+                </>
+              )}
             </>
           )}
         </div>
