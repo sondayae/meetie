@@ -12,7 +12,7 @@ export default function EditAccountLayout({
   const router = useRouter();
   return (
     <>
-      <header className="border-b-light-gray mx-4 flex items-center justify-between border-b py-2">
+      <header className="border-b-light-gray fixed flex w-full max-w-[600px] items-center justify-between border-b bg-white px-4 py-2">
         {/* <Link href={`..`}> */}
         {/* 뒤로가기 */}
         <StudyButton

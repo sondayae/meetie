@@ -96,9 +96,9 @@ export default function EditAccountForm({
   return (
     <>
       {loading && <LoadingModal label="이메일 변경 링크 전송 중" />}
-      <div className="mx-4 flex-1">
+      <div className="mx-4 mt-[67px] flex-1">
         <form
-          className="flex h-full min-h-dvh flex-col py-10"
+          className="flex h-full min-h-dvh flex-col py-10 pt-20"
           onSubmit={handleSubmit(handleFormSubmit)}
         >
           <div className={'flex-grow'}>
