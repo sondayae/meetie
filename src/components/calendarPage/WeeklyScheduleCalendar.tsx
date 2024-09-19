@@ -60,6 +60,26 @@ export default function WeeklyScheduleCalendar({
         wrapperClassName="w-full"
         withPortal
         minDate={new Date()}
+        dateFormatCalendar={'yyyy년 MMMM'}
+        className="h-0 opacity-0"
+        calendarClassName="rounded-lg border border-gray-300 shadow-lg *:!bg-white !font-['Pretendard'] [&:nth-child(4)]:!bg-primary 
+        
+        [&>*:last-child>:first-child]:!bg-white
+        [&>*:last-child>:first-child]:!pt-4
+        [&>*:last-child>:first-child]:!border-b-[#f1f1f1]
+        [&>*:last-child>:first-child>*]:!text-base !rounded-lg
+        [&>*:last-child>:first-child>*]:!font-normal
+
+
+        [&>button]:!font-normal
+         [&>button>*:before]:!border-t-2  
+         [&>button>*:before]:!border-r-2
+         [&>button>*:before]:!w-4 
+         [&>button>*:before]:!h-4
+         
+         [&>button]:!top-[10px]
+         [&>button:last-of-type]:!right-[16px] 
+         "
       />
       {currentWeekDates.length > 0 && (
         <div className="my-6 flex items-center justify-between">
@@ -71,12 +91,12 @@ export default function WeeklyScheduleCalendar({
               onClick={() => fetchScheduleForDate(date)}
             >
               <span
-                className={`text-sm font-medium ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary' : 'text-[#000417]'}`}
+                className={`text-sm ${selectedDate && isSameDay(selectedDate, date) ? 'text-primary' : 'text-[#000417]'}`}
               >
                 {format(date, 'EEE', { locale: ko })}
               </span>
               <div
-                className={`flex h-9 w-9 items-center justify-center rounded-full border bg-muted text-sm font-bold ${selectedDate && isSameDay(selectedDate, date) ? 'border-primary bg-accent' : ''}`}
+                className={`flex h-9 w-9 items-center justify-center rounded-full border bg-muted text-sm font-bold ${selectedDate && isSameDay(selectedDate, date) ? 'border-primary bg-accent text-primary' : ''}`}
               >
                 {format(date, 'dd')}
               </div>

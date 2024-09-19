@@ -38,7 +38,7 @@ export default function StudyButton({
   const getColor = () => {
     switch (style) {
       case 'primary':
-        return 'bg-primary border-primary text-white bg-secondary text-center transition-all hover:bg-primary ';
+        return 'border-primary text-white bg-primary text-center transition-all hover:bg-secondary ';
       case 'secondary':
         return 'border-primary text-primary';
       case 'disabled':

@@ -23,16 +23,16 @@ const page = ({ params }: { params: { id: string } }) => {
   const [selected, setSelected] = useState<any>();
   const studyRoomId = params.id;
   const formRef: any = useRef();
-  const fileInputRef:any = useRef();
+  const fileInputRef: any = useRef();
   const [showModal, setShowModal] = useState(false);
 
   const fetchData = async () => {
-    const { data }: { success: boolean; data?: any[]; error?: undefined; } = await getHomeworks(studyRoomId);
+    const { data }: { success: boolean; data?: any[]; error?: undefined } =
+      await getHomeworks(studyRoomId);
     setHomeworkList(data);
     if (data) {
       setSelected(data[0]);
     }
-
   };
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const page = ({ params }: { params: { id: string } }) => {
       {showModal && (
         <SelectModal selectList={homeworkList} setSelected={setSelected} />
       )}
-      <Header label="과제 인증" />
+      <Header label="과제 인증" rightIcon={<div></div>} />
       {/* <HandinForm homeworkList={homeworkList}/> */}
       <div className="p-[16px]">
         <NoticeBox />
@@ -131,7 +131,7 @@ const page = ({ params }: { params: { id: string } }) => {
               type="text"
               name="text"
               placeholder="과제를 하며 나누고 싶은 생각을 적어보세요."
-              className={`w-full rounded-lg border border-[#E9E9E9] bg-[#f3f3f3] px-[14px] py-[11.5px] text-sm placeholder-gray-purple focus:outline-none`}
+              className={`placeholder-gray-purple w-full rounded-lg border border-[#E9E9E9] bg-[#F9F9F9] p-[14px] text-sm focus:outline-none`}
               onChange={(e) => handleTextChange(e)}
               value={text}
             />

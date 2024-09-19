@@ -11,14 +11,14 @@ export default function UpcomingEvents({
   upcomingSchedule,
 }: UpcomingScheduleProps) {
   return (
-    <div className="mx-4 flex flex-col gap-3">
+    <div className="flex flex-col gap-3">
       {upcomingSchedule.length > 0 ? (
         upcomingSchedule?.map((schedule) => (
           <div
             key={schedule.id}
-            className="bg-light-gray flex items-center gap-3 rounded-lg border px-4 py-3"
+            className="flex items-center gap-3 rounded-lg border bg-[#fafafa] px-4 py-3"
           >
-            <div className="text-dark-gray relative flex-1 text-sm font-medium after:absolute after:right-0 after:top-0 after:h-full after:w-0.5 after:rounded-lg after:bg-[#7876E3] after:content-['']">
+            <div className="text-dark-gray relative pr-5 text-sm font-medium after:absolute after:right-0 after:top-0 after:h-full after:w-0.5 after:rounded-lg after:bg-[#7876E3] after:content-['']">
               {format(
                 parse(schedule.start_time, 'HH:mm:ss', new Date()),
                 'a h:mm',

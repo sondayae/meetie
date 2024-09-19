@@ -155,7 +155,7 @@ export default function StudyRequest({
             </div>
             <div>
               <span className="text-lg font-medium leading-normal text-[#6224fd]">
-                {count}
+                {count}명
               </span>
               <span className="text-lg font-medium leading-normal text-[#9d9d9d]">
                 {' '}

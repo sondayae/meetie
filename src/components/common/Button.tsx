@@ -20,20 +20,20 @@ function Button({
   const getSize = () => {
     switch (size) {
       case 'small':
-        return 'min-w-[124px] w-full';
+        return 'w-full';
       case 'medium':
-        return 'min-w-[254px] w-full';
+        return 'w-full';
       case 'large':
-        return 'min-w-[340px] w-full';
+        return 'w-full';
       default:
-        return 'min-w-[250px] w-full';
+        return 'w-full';
     }
   };
 
   const getColor = () => {
     switch (type) {
       case 'primary':
-        return 'bg-primary border-primary text-white';
+        return 'bg-primary hover:bg-secondary hover:border-secondary transition-all border-primary text-white';
       case 'secondary':
         return 'border-primary text-primary';
       case 'disabled':

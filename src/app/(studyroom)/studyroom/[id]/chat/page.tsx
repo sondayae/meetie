@@ -26,24 +26,24 @@ export default function page({ params }: { params: { id: string } }) {
     queryFn: async () => {
       const data = await getUser();
       return data;
-    }
-  })
+    },
+  });
 
   const getMemberList = useQuery({
     queryKey: ['members'],
     queryFn: async () => {
       const data = await getChatMembers(studyId);
       return data;
-    }
+    },
   });
 
-  const handleClick = (member: {id: string, participantId: string}) => {
+  const handleClick = (member: { id: string; participantId: string }) => {
     setSelectedUserId(member.participantId);
     router.push(`./chat/${member.id}`);
-  }
+  };
 
   useEffect(() => {
-    const channel = supabase.channel("online_users", {
+    const channel = supabase.channel('online_users', {
       config: {
         presence: {
           key: getUserQuery.data?.id,
@@ -51,14 +51,14 @@ export default function page({ params }: { params: { id: string } }) {
       },
     });
 
-    channel.on("presence", { event: "sync" }, () => {
+    channel.on('presence', { event: 'sync' }, () => {
       const newState = channel.presenceState();
       const newStateObj = JSON.parse(JSON.stringify(newState));
       setPresence(newStateObj);
     });
 
     channel.subscribe(async (status) => {
-      if (status !== "SUBSCRIBED") {
+      if (status !== 'SUBSCRIBED') {
         return;
       }
 
@@ -74,16 +74,16 @@ export default function page({ params }: { params: { id: string } }) {
 
   return (
     <>
-    {/* 헤더 영역 */}
-    <div className='bg-[#E3E3FA] p-4'>
+      {/* 헤더 영역 */}
+      <div className="bg-[#E3E3FA]">
         <Header
           label="스터디룸"
           leftIcon={false}
           rightIcon={<Plus />}
           useBorderBottom={false}
         />
-        {/* <div className="flex flex-col gap-5 mt-4">
-          <div className="flex items-center justify-end text-xs">
+        <div className="mt-4 flex flex-col gap-5">
+          <div className="mx-4 mb-3 flex items-center justify-end text-xs">
             <span className="rounded-l-lg border border-transparent bg-primary px-2 py-1 text-white">
               진행중 3
             </span>
@@ -91,29 +91,29 @@ export default function page({ params }: { params: { id: string } }) {
               진행완료
             </span>
           </div>
-          <SelectBox selected={''} handleClick={() => open()} />
-        </div> */}
-    </div>
-    <TabMenu />
-    <div className='flex-grow'>
-      <div className="flex flex-col gap-1 px-4 py-7 border-b">
-        <p className="text-lg font-bold">🗣️ 팀원과의 대화</p>
-        <span className="text-sm text-muted-foreground">
-          스터디원들과 대화를 나눠보세요!
-        </span>
+          {/* <SelectBox selected={''} handleClick={() => open()} /> */}
+        </div>
       </div>
-      <div className='py-4'>
-        {getMemberList.data?.map(member => (
-            <Person 
-              key={member.id} 
-              name={member.user.name} 
-              onlinedAt={presence?.[member.participantId]?.[0].onlinedAt} 
-              onClick={() => handleClick(member)} 
+      <TabMenu />
+      <div className="flex-grow">
+        <div className="flex flex-col gap-1 border-b px-4 py-7">
+          <p className="text-lg font-bold">🗣️ 팀원과의 대화</p>
+          <span className="text-sm text-muted-foreground">
+            스터디원들과 대화를 나눠보세요!
+          </span>
+        </div>
+        <div className="py-4">
+          {getMemberList.data?.map((member) => (
+            <Person
+              key={member.id}
+              name={member.user.name}
+              onlinedAt={presence?.[member.participantId]?.[0].onlinedAt}
+              onClick={() => handleClick(member)}
             />
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-    <Navigator />
+      <Navigator />
     </>
   );
 }

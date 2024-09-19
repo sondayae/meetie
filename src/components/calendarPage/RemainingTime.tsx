@@ -44,8 +44,8 @@ export default function RemainingTime({ endDate }: RemainingTimeProps) {
   }, [endDate]);
 
   return (
-    <div className="flex items-center gap-1 rounded bg-[#ff2c841f] px-1 py-2">
-      <AlramIcon />
+    <div className="flex items-center gap-1 rounded bg-[#ff2c841f] px-2 py-1">
+      <AlramIcon fill={'#D43477'} />
       <span className="text-[10px] font-semibold text-[#D43477]">
         인증 마감까지 · {timeLeft}
       </span>

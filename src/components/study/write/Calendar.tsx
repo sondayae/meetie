@@ -122,8 +122,6 @@ export default function Calendar({
            [&>button:last-of-type]:!right-[16px] 
          
            "
-          // header - [&>*:nth-child(4)>:first-child]
-
           dayClassName={(date: Date) => {
             let classes = '';
 

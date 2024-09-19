@@ -20,6 +20,7 @@ export default function StudyMain({
   startDate,
   created_at,
   viewCount,
+  topic,
   goal,
   info,
   tags,
@@ -47,17 +48,17 @@ export default function StudyMain({
 
   return (
     <>
-      <div className="flex h-full min-h-dvh flex-col">
+      <div className="flex h-full flex-grow flex-col">
         <section className="flex flex-col justify-center border-b-2 border-[#F1F2F6] px-4 pb-[14px] pt-6">
           {/* 1 */}
-          <div className="mb-5 flex items-center gap-[14px]">
+          <div className="mb-5 flex items-center gap-[14px] break-keep">
             {/* title */}
             <p className="overflow-hidden text-ellipsis whitespace-nowrap text-[24px] font-semibold">
               {title}
             </p>
 
             {/* d-day */}
-            <div className="flex h-6 w-14 items-center justify-center gap-2 rounded-full border border-[#8346ff] bg-white p-1.5">
+            <div className="flex h-6 w-auto items-center justify-center gap-2 rounded-full border border-[#8346ff] bg-white p-1.5 px-3 py-1">
               <div className="text-xs font-medium text-[#8346ff]">
                 {ddays > 0 ? `D-${ddays}` : `D+${Math.abs(ddays)}`}
               </div>
@@ -98,7 +99,7 @@ export default function StudyMain({
               <div className="flex justify-between text-xs font-normal text-[#81819b]">
                 <span className="flex gap-1">
                   <span>작성일</span>
-                  <span>{format(created_at, 'yyyy-MM-dd')}</span>
+                  <span>{format(created_at, 'yy.MM.dd')}</span>
                   <span>&#124;</span>
                   <span>{format(startDate, 'hh:mm')}</span>
                 </span>
@@ -111,11 +112,20 @@ export default function StudyMain({
           </div>
         </section>
 
-        <main className="flex h-full flex-col gap-8 p-4">
+        <main className="flex h-full flex-col gap-8 px-4 pb-16 pt-10">
           {/* <main className="flex flex-col gap-8"> */}
-          <div className="flex flex-col gap-4 text-[#434343]">
-            <p className="font-semibold">스터디 주제</p>
-            <div className="whitespace-pre-line text-[15px]">
+          <div className="flex flex-col gap-3 text-[#434343]">
+            <p className="font-bold">스터디 주제</p>
+            <div className="whitespace-pre-line text-[15px]">{topic}</div>
+          </div>
+          <div className="flex flex-col gap-3 text-[#434343]">
+            <p className="whitespace-break-spaces font-bold">스터디 목표</p>
+            <p className="text-[15px]">{goal}</p>
+          </div>
+          <div className="flex flex-col gap-3 text-[#434343]">
+            <p className="whitespace-break-spaces font-bold">스터디 소개</p>
+            <p className="text-[15px]">
+              {' '}
               {info.split('\n').map((line, idx) => (
                 <div key={idx}>
                   {line.includes('https') ? (
@@ -127,18 +137,14 @@ export default function StudyMain({
                   )}
                 </div>
               ))}
-            </div>
+            </p>
           </div>
-          <div className="flex flex-col gap-4 text-[#434343]">
-            <p className="whitespace-break-spaces font-semibold">스터디 목표</p>
-            <p className="text-[15px]">{goal}</p>
+          <div className="flex flex-col gap-3 text-[#434343]">
+            <p className="font-bold">스터디 인원</p>
+            <p className="text-[15px]">{recruitNum}명</p>
           </div>
-          <div className="flex flex-col gap-4 text-[#434343]">
-            <p className="font-semibold">스터디 인원</p>
-            <p className="text-[15px]">{recruitNum} 명</p>
-          </div>
-          <div className="flex flex-col gap-4 text-[#434343]">
-            <p className="font-semibold">스터디 기간</p>
+          <div className="flex flex-col gap-3 text-[#434343]">
+            <p className="font-bold">스터디 기간</p>
             <p className="text-[15px]">
               <span>{format(startDate, 'yyyy-MM-dd')}</span>
               <span>&nbsp;~ &nbsp;</span>
@@ -169,6 +175,7 @@ export default function StudyMain({
               <div>
                 <span className="text-lg font-medium leading-normal text-[#6224fd]">
                   {memberData?.length || 0}
+                  {'명'}
                 </span>
                 <span className="text-lg font-medium leading-normal text-[#9d9d9d]">
                   {' '}
