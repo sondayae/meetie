@@ -14,7 +14,7 @@ const PersonalityStep: React.FC<PersonalityStepProps> = ({
 }) => {
   return (
     <div>
-      <div className="mb-5 text-2xl font-semibold">
+      <div className="mb-5 text-2xl font-semibold leading-9">
         {userName}님은
         <br />
         어떤 스타일이신가요?

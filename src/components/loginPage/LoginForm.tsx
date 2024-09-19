@@ -9,7 +9,6 @@ import { postLogin } from '@/apis/auth';
 import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
-import ROUTE_PATH from '@/constants/route';
 import { emailPattern } from '@/constants/validationPatterns';
 import { useUser } from '@/stores/user/user';
 import { LoginFormData } from '@/types/auth';
@@ -28,7 +27,14 @@ export default function LoginForm() {
     try {
       const user = await postLogin(formData);
       useUser.setState({ user });
-      router.replace('/walkthrough');
+      if (user.onboarding) {
+        const path = user.participatingStudy
+          ? `/studyroom/${user.participatingStudy}/calendar`
+          : '/studyroom';
+        router.replace(path);
+      } else {
+        router.replace('/walkthrough');
+      }
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
@@ -41,21 +47,24 @@ export default function LoginForm() {
   }, [setFocus]);
 
   return (
-    <form className="flex flex-col gap-[60px]">
-      <div className='flex flex-col gap-3'>
+    <form className="flex flex-col gap-7">
+      <div className="flex flex-col">
         <Input<LoginFormData>
           id="email"
           name="email"
           type="email"
-          placeholder="이메일"
+          placeholder="hellomeetie@gmail.com"
           errors={errors}
           register={register}
           rules={{
             required: '이메일을 입력해주세요.',
             pattern: emailPattern,
           }}
+          label="이메일"
         />
-        {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+        <div className="relative min-h-4">
+          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+        </div>
         <Input<LoginFormData>
           id="password"
           name="password"
@@ -66,10 +75,13 @@ export default function LoginForm() {
           rules={{
             required: '비밀번호를 입력해주세요.',
           }}
+          label="비밀번호"
         />
-        {errors.password && (
-          <ErrorMessage>{errors.password.message}</ErrorMessage>
-        )}
+        <div className="relative min-h-4">
+          {errors.password && (
+            <ErrorMessage>{errors.password.message}</ErrorMessage>
+          )}
+        </div>
       </div>
       <div className="mt-5 flex justify-center">
         <Button
@@ -80,6 +92,5 @@ export default function LoginForm() {
         />
       </div>
     </form>
-    
   );
 }

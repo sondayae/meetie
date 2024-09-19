@@ -45,7 +45,7 @@ export default function StudyPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const studies = await fetchStudyList(3);
+        const { data: studies } = await fetchStudyList(3);
         setStudyList(studies);
         setLoading(false);
       } catch (error) {
@@ -58,23 +58,28 @@ export default function StudyPage() {
   return (
     <>
       {/* 헤더 영역 */}
-      <div className="bg-muted">
-        <Header label="스터디룸" leftIcon={false} rightIcon={<Question />} />
-      </div>
+      <Header
+        label="스터디룸"
+        leftIcon={false}
+        rightIcon={<Question />}
+        useBorderBottom={false}
+        sticky={true}
+        bgColor={'bg-muted'}
+      />
       {/* 콘텐츠 영역 */}
-      <div className="flex-1 bg-muted p-4">
+      <div className="flex-1 bg-muted p-4 pb-10">
         <div className="mb-8">
-          <h1 className="mb-2 text-lg font-bold">
+          <h1 className="mb-2 text-lg font-bold leading-6">
             아직 스터디룸이
             <br />
             존재하지 않아요!
           </h1>
           <p className="text-sm text-muted-foreground">
-            #원하는 스터디 룸을 탐색해볼까요?
+            #원하는 스터디를 탐색해볼까요?
           </p>
         </div>
         <div className="flex flex-col gap-3">
-          <div className="grid grid-cols-[1fr_80px] rounded-lg bg-white p-6">
+          <div className="grid grid-cols-[1fr_auto] items-end justify-between rounded-lg bg-white px-6 py-7">
             <div className="flex flex-col items-start justify-center gap-3">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">
@@ -89,36 +94,33 @@ export default function StudyPage() {
                 바로가기
               </Link>
             </div>
-            <div>
-              <Image
-                src="https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/thinking-face.gif"
-                width={80}
-                height={80}
-                alt="생각하는 이미지"
-                priority
-                unoptimized
-              />
-            </div>
+            <Image
+              src="https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/thinking-face.gif"
+              width={64}
+              height={64}
+              alt="생각하는 이미지"
+              priority
+              unoptimized
+              className={'sm:h-16 sm:w-16 md:h-[72px] md:w-[72px]'}
+            />
           </div>
           <Link href={'/study/write'}>
-            <div className="grid grid-cols-[1fr_80px] rounded-lg bg-accent p-6">
-              <div className="flex flex-col justify-center gap-1">
+            <div className="md: grid max-h-20 grid-cols-[1fr_auto] rounded-lg bg-[#ececff] px-6 py-3 md:py-2">
+              <div className="flex flex-col justify-center gap-y-0.5">
                 <span className="text-xs text-muted-foreground">
-                  찾으시는 스터디 룸이 없으신가요?
+                  찾으시는 스터디가 없으신가요?
                 </span>
                 <span className="text-sm font-semibold">
-                  쉽고 빠른 스터디룸 개설하기
+                  쉽고 빠른 스터디 개설하기
                 </span>
               </div>
-              <div>
-                <WavingHand />
-              </div>
+              <WavingHand className={'h-14 w-14 md:h-16 md:w-16'} />
             </div>
           </Link>
           {/* 스터디 리스트 영역 */}
           <h2 className="mb-2 mt-6 text-lg font-semibold leading-6">
-            지금 떠오르고 있는 <br />
-            스터디
+            지금 떠오르고 <br />
+            있는 스터디
           </h2>
           <div className={'flex flex-col gap-4'}>
             {loading

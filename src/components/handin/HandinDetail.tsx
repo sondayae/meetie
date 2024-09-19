@@ -44,7 +44,7 @@ export default function HandinDetail({
         {/* 사용자 이름 영역 */}
         <div className="flex justify-between p-5 bg-white">
           <div className="flex flex-shrink-0 flex-grow items-center">
-            <ProfileAvatar src={data.user.images.url}/>
+            <ProfileAvatar src={data.user.images?.url}/>
             <span className="ml-[8px] font-bold">{data.user.name}</span>
           </div>
           <div className="relative flex w-full items-center justify-end gap-6">

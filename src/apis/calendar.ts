@@ -7,7 +7,7 @@ export const getSchedule = async (date: Date, id: number) => {
 
   if (!response.ok) {
     const { error } = await response.json();
-    throw new Error(error.message);
+    return new Error(error.message);
   } else {
     const data = await response.json();
 
@@ -22,7 +22,7 @@ export const getUpcomingSchedule = async (id: number) => {
 
   if (!response.ok) {
     const { error } = await response.json();
-    throw new Error(error.message);
+    return new Error(error.message);
   } else {
     const data = await response.json();
 
@@ -37,7 +37,7 @@ export const getDueSoon = async (id: number) => {
 
   if (!response.ok) {
     const { error } = await response.json();
-    throw new Error(error.message);
+    return new Error(error.message);
   } else {
     const data = await response.json();
 

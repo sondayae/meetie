@@ -8,7 +8,6 @@ import {
   getStudy,
 } from '@/app/(study)/study/[studyId]/studyAction';
 import { useForm } from 'react-hook-form';
-import ErrorMessage from '../form/ErrorMessage';
 import Textarea from '../form/Textarea';
 import Calendar from './write/Calendar';
 import MinusIcon from '../icons/MinusIcon';
@@ -25,6 +24,8 @@ import LoadingModal from './write/LoadingModal';
 import CloseIcon from '../icons/CloseIcon';
 import CompleteModal from './write/CompleteModal';
 import EnterIcon from '../icons/EnterIcon';
+import { useToast } from '@/hooks/use-toast';
+import { Toaster } from '../ui/toaster';
 
 type studyFormProps = {
   isEditMode: boolean;
@@ -93,7 +94,7 @@ export default function StudyForm({
       // 관련 태그들
       tags: [],
     },
-    mode: 'onChange',
+    mode: 'onTouched',
   });
 
   // 폼 데이터 변경 감지
@@ -116,6 +117,8 @@ export default function StudyForm({
     redirect('/login');
     return null;
   }
+
+  const { toast } = useToast();
 
   // 스터디 데이터 가져오기 (수정 모드일 경우)
   useEffect(() => {
@@ -147,12 +150,15 @@ export default function StudyForm({
     if (selectType === 'purposes') {
       setValue('purposes', selectedItems);
     }
-
     // 유효성 검사 강제 트리거
     if (selectedItems.length > 0) {
       trigger(['purposes', 'roles']);
     }
   }, [selectedItems, selectType]);
+
+  const handleChange = async (fieldName: keyof Study) => {
+    await trigger(fieldName);
+  };
 
   // 태그 입력
   const handleTagsInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,7 +183,12 @@ export default function StudyForm({
 
       // 최대 10개까지만 입력 가능
       if (tags.length >= 10) {
-        alert('태그는 최대 10개까지 입력 가능합니다.');
+        toast({
+          // title: '태그는 최대 10개까지 입력 가능합니다.',
+          description: '태그는 최대 10개까지 입력 가능합니다.',
+          duration: 1000,
+        });
+
         return;
       }
 
@@ -311,7 +322,7 @@ export default function StudyForm({
       {/* Form */}
       <form
         action=""
-        className="flex h-full flex-col px-4 pb-20 pt-10"
+        className="flex h-full flex-1 flex-col px-4 pb-20 pt-10"
         onSubmit={handleSubmit(
           isEditMode ? handleEditFormSubmit : handleFormSubmit,
         )}
@@ -345,9 +356,9 @@ export default function StudyForm({
                 <DownArrowIcon className={'h-4 w-4'} />
               </div>
               {errors.roles && (
-                <ErrorMessage>
-                  {errors.roles?.message || 'purposes 오류'}
-                </ErrorMessage>
+                <p className={'mt-2 text-sm text-red-400'}>
+                  {errors.roles?.message}
+                </p>
               )}
             </div>
             {/* 스터디 제목 */}
@@ -374,19 +385,19 @@ export default function StudyForm({
                     },
                   }}
                   maxLength={30}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    handleChange('title');
+                  }}
                 />
                 <span
                   className={
-                    'absolute bottom-5 right-5 text-xs font-normal text-muted-foreground'
+                    'absolute right-5 top-5 text-xs font-normal text-muted-foreground'
                   }
                 >
                   {title.length}/30
                 </span>
               </div>
-              {errors.title && (
-                <ErrorMessage>{errors.title?.message}</ErrorMessage>
-              )}
             </div>
             {/* 스터디 주제 */}
             <div className="mb-[34px] mt-2.5">
@@ -412,19 +423,19 @@ export default function StudyForm({
                     },
                   }}
                   maxLength={30}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    handleChange('topic');
+                  }}
                 />
                 <span
                   className={
-                    'absolute bottom-5 right-5 text-xs font-normal text-muted-foreground'
+                    'absolute right-5 top-5 text-xs font-normal text-muted-foreground'
                   }
                 >
                   {topic.length}/30
                 </span>
               </div>
-              {errors.topic && (
-                <ErrorMessage>{errors.topic?.message}</ErrorMessage>
-              )}
             </div>
             {/* 스터디 목적 */}
             <div className="mb-[34px] mt-2.5">
@@ -451,6 +462,11 @@ export default function StudyForm({
                   purposes.join(', ')}
                 <DownArrowIcon className={'h-4 w-4'} />
               </div>
+              {errors.purposes && (
+                <p className={'mt-2 text-sm text-red-400'}>
+                  {errors.roles?.message}
+                </p>
+              )}
               <BottomSheet
                 title={dataTitle}
                 data={data}
@@ -460,10 +476,6 @@ export default function StudyForm({
                 setSelectedItems={setSelectedItems}
                 onSelect={handleSelect}
               />
-
-              {errors.purposes && (
-                <ErrorMessage>{errors.purposes?.message}</ErrorMessage>
-              )}
             </div>
             {/* 스터디 목표 */}
             <div className="mb-[34px] mt-2.5">
@@ -489,19 +501,19 @@ export default function StudyForm({
                     },
                   }}
                   maxLength={100}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    handleChange('goal');
+                  }}
                 />
                 <span
                   className={
-                    'absolute bottom-5 right-5 text-xs font-normal text-muted-foreground'
+                    'absolute right-5 top-5 text-xs font-normal text-muted-foreground'
                   }
                 >
                   {goal.length}/100
                 </span>
               </div>
-              {errors.goal && (
-                <ErrorMessage>{errors.goal?.message}</ErrorMessage>
-              )}
             </div>
           </>
         )}
@@ -537,15 +549,12 @@ export default function StudyForm({
                 />
                 <span
                   className={
-                    'absolute bottom-5 right-5 text-xs font-normal text-muted-foreground'
+                    'absolute right-5 top-5 text-xs font-normal text-muted-foreground'
                   }
                 >
                   {info.length}/1000
                 </span>
               </div>
-              {errors.info && (
-                <ErrorMessage>{errors.info?.message}</ErrorMessage>
-              )}
             </div>
             {/* 스터디 시작일, 종료일 */}
             <Calendar
@@ -595,9 +604,6 @@ export default function StudyForm({
                   <PlusIcon className="w-8 fill-muted-foreground" />
                 </StudyButton>
               </div>
-              {errors.recruitNum && (
-                <ErrorMessage>{errors.recruitNum?.message}</ErrorMessage>
-              )}
             </div>
             <p className="mb-[34px] mt-2.5 text-sm text-secondary">
               4~8명이 적당한 스터디 인원이에요
@@ -643,7 +649,7 @@ export default function StudyForm({
             </p>
             {/* 추천 태그 */}
             <p>{user?.name} 님, 이런 태그는 어떠세요?</p>
-            <ul className="mt-2.5 flex gap-2">
+            <ul className="mb-10 mt-2.5 flex flex-wrap gap-2">
               <li className="inline-flex w-auto rounded-lg bg-accent px-2 py-[5px] text-sm">
                 리액트
               </li>
@@ -700,6 +706,7 @@ export default function StudyForm({
           )}
         </div>
       </form>
+      <Toaster />
     </>
   );
 }

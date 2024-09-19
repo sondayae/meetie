@@ -1,13 +1,11 @@
 import supabaseServer from '@/utils/supabase/server';
-import StatusDisplay2 from '@/components/study/studyDetail/StatusDisplay2';
 import StudyRequest from '@/components/study/StudyRequest';
 
 import { getStudyDetails } from '@/actions/study.action';
 import Header from '@/components/handin/Header';
-import { createStudyRoom } from '@/actions/studyroom.action';
 import CreateStudyRoom from '@/components/studyRoom/CreateStudyRoom';
-import { getStudyMember } from '@/actions/studymember.action';
 import { getStudyApply } from '@/actions/studyrequest.action';
+import Navigator from '@/components/common/Navigator';
 
 export default async function Page({
   params,
@@ -23,12 +21,10 @@ export default async function Page({
 
   const applyData = await getStudyApply(params.studyId);
 
-  const memberData = await getStudyMember(params.studyId);
-
-  const detaildata = { memberData, applyData, params, ...data };
+  const detaildata = { applyData, params, ...data };
 
   return (
-    <div className="flex min-h-dvh max-w-[600px] flex-col pb-24">
+    <div className="flex h-full min-h-dvh max-w-[600px] flex-col pb-24">
       <Header label="대기중인요청" leftIcon rightIcon />
 
       <CreateStudyRoom params={params.studyId} />
@@ -49,6 +45,7 @@ export default async function Page({
           </div>
         </div>
       </div> */}
+      <Navigator />
     </div>
   );
 }

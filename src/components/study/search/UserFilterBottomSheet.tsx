@@ -3,6 +3,7 @@
 import Button from '@/components/common/Button';
 import Tag from '@/components/common/Tag';
 import CheckIcon from '@/components/icons/CheckIcon';
+import ResetIcon from '@/components/icons/ResetIcon';
 import { useState } from 'react';
 
 type BottomSheetProps = {
@@ -23,6 +24,7 @@ type BottomSheetProps = {
   onOptionClick: (option: string) => void;
   bottomSheet: boolean;
   onClick: () => void;
+  onResetFilters: () => void;
 };
 
 export default function UserFilterBottomSheet({
@@ -38,12 +40,18 @@ export default function UserFilterBottomSheet({
   onOptionClick,
   onClick,
   bottomSheet,
+  onResetFilters,
 }: BottomSheetProps) {
   const [activeOption, setActiveOption] = useState();
 
   const handleOptionClick = (option: any) => {
     setActiveOption(option);
     onOptionClick(option);
+  };
+
+  const handleResetFilters = () => {
+    onResetFilters();
+    setActiveOption(undefined);
   };
 
   return (
@@ -55,13 +63,15 @@ export default function UserFilterBottomSheet({
           bottomSheet ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >
-        {/* content */}
         <div
-          className={`duration-400 transform px-5 py-10 transition-transform ease-in-out ${
+          className={`duration-400 transform px-5 pb-10 pt-2 transition-transform ease-in-out ${
             bottomSheet ? 'translate-y-0' : 'translate-y-full'
-          } absolute bottom-0 h-auto w-full max-w-[600px] rounded-t-lg bg-white shadow-[0_2px_8px_0px_rgb(0,0,0,0.16)]`}
+          } absolute bottom-0 h-auto w-full max-w-[600px] rounded-t-lg bg-[#fefefe] shadow-[0_2px_8px_0px_rgb(0,0,0,0.16)]`}
           onClick={(e) => e.stopPropagation()}
         >
+          <div
+            className={'mx-auto mb-8 h-1 w-9 rounded-full bg-[#DDDDDD]'}
+          ></div>
           <div className="flex">
             {/* 왼쪽 필터 항목 */}
             <div className="w-2/5 min-w-28 border-r border-[#eeeeee] p-2">
@@ -140,6 +150,15 @@ export default function UserFilterBottomSheet({
                   </Tag>
                 ))}
             </div>
+            <button
+              className={
+                'ml-auto mt-2 flex items-center gap-1 text-sm text-[#999999]'
+              }
+              onClick={handleResetFilters}
+            >
+              <ResetIcon className={'h-4 w-4 fill-[#999999]'} />
+              초기화
+            </button>
           </div>
           {/* 확인 및 취소 버튼 */}
           <div className="mt-4 flex gap-4">

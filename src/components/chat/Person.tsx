@@ -14,7 +14,7 @@ export default function Person({name, onlinedAt, onClick}: {name: string, online
       <div className='flex-grow'>
         <p className='font-bold text-sm'>{name}</p>
         {onlinedAt ?
-          <p className='text-xs text-muted-foreground'>timeAgo.format(Date.parse(onlinedAt))</p>
+          <p className='text-xs text-muted-foreground'>{timeAgo.format(Date.parse(onlinedAt))}</p>
           : <p className='text-xs text-muted-foreground'>접속일자 없음</p>
         }
       </div>

@@ -2,9 +2,6 @@ import DeveloperIcon from '../icons/DeveloperIcon';
 import DesignIcon from '../icons/DesignIcon';
 import ManagerIcon from '../icons/ManagerIcon';
 
-
-
-
 interface JobStepProps {
   selectedJob: string;
   handleJobClick: (job: string) => void;
@@ -24,14 +21,13 @@ const JobStep: React.FC<JobStepProps> = ({
 }) => {
   return (
     <div>
-      <div className="mb-5 text-2xl font-semibold">
+      <div className="mb-5 text-2xl font-semibold leading-9">
         {userName}님이 관심있는
         <br />
         직무는 무엇인가요?
       </div>
 
       <div className="mb-[60px] text-[14px] text-[#82829B]">
-
         선택한 직무를 바탕으로 스터디를 추천해줄게요!
       </div>
       <div className="mb-[138px] flex flex-wrap gap-2">
@@ -40,9 +36,7 @@ const JobStep: React.FC<JobStepProps> = ({
             key={job.id}
             className={`flex h-[120px] w-full max-w-[calc(33.333%_-_0.5rem)] flex-1 cursor-pointer flex-col items-center rounded-lg p-[26px] text-center transition duration-300 ${
               selectedJob === job.label
-
                 ? 'border border-primary bg-[#EFE9FF]'
-
                 : 'border border-[#D9D9D9] bg-[#F5F5F5]'
             }`}
             onClick={() => handleJobClick(job.label)}

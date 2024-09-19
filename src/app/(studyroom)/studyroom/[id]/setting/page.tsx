@@ -19,6 +19,7 @@ export default function StudyRoomSetting({
 }: {
   params: { id: string };
 }) {
+  const id = params.id;
   const router = useRouter();
   const [data, setData] = useState<Member[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +33,7 @@ export default function StudyRoomSetting({
         if (response.ok) {
           setData(result);
         } else {
-          setError(result.error || '서버에서 오류가 발생했습니다.');
+          setError(result.error || '접근 권한이 없습니다');
         }
       } catch (error) {
         setError('스터디 멤버 조회 중 오류 발생');
@@ -40,7 +41,7 @@ export default function StudyRoomSetting({
     };
 
     fetchMembers();
-  }, []);
+  }, [id]);
 
   const handleDelegateAuthority = async (newLeaderId: string) => {
     try {
@@ -56,7 +57,7 @@ export default function StudyRoomSetting({
 
       if (response.ok) {
         alert('권한 위임이 성공적으로 완료되었습니다.');
-        router.push('/studyRoom');
+        router.push(`/studyroom/${params.id}/handin`);
 
         setData((prevData) =>
           prevData.map((member) =>
@@ -118,7 +119,7 @@ export default function StudyRoomSetting({
                   </div>
                   <div className="flex flex-col items-start justify-start gap-1">
                     <div className="text-base font-semibold text-black">
-                      {member.nickname || member.name}
+                      {member.name}
                     </div>
                     <div className="text-xs font-medium text-gray-500">
                       {member.job}
@@ -128,7 +129,7 @@ export default function StudyRoomSetting({
                 <div className="flex items-start justify-start gap-1.5">
                   <button
                     type="button"
-                    className="flex items-center justify-center gap-2 rounded-full bg-light-gray px-4 py-2 text-sm font-medium text-dark-gray"
+                    className="bg-light-gray text-dark-gray flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium"
                     onClick={() => handleRemoveMember(member.id)}
                   >
                     강퇴
@@ -146,7 +147,7 @@ export default function StudyRoomSetting({
                 </div>
               </div>
               <div className="flex w-full flex-col items-start justify-start gap-4">
-                <div className="h-10 w-full px-6 text-left text-sm font-normal leading-tight text-dark-gray">
+                <div className="text-dark-gray h-10 w-full px-6 text-left text-sm font-normal leading-tight">
                   {member.introduction}
                 </div>
                 <div className="flex items-start justify-start gap-2.5 px-6">
@@ -154,9 +155,9 @@ export default function StudyRoomSetting({
                     member.personality.map((trait) => (
                       <div
                         key={trait}
-                        className="flex w-auto items-center justify-center gap-2.5 rounded-lg bg-light-purple p-2.5 text-left"
+                        className="bg-light-purple flex w-auto items-center justify-center gap-2.5 rounded-lg p-2.5 text-left"
                       >
-                        <div className="text-xs font-normal text-dark-gray">
+                        <div className="text-dark-gray text-xs font-normal">
                           {trait}
                         </div>
                       </div>

@@ -43,3 +43,19 @@ export function timeFormatter(timestamp: string) {
 
   return formattedDate;
 }
+
+export function dateWithDayFormatter(timestamp: string|Date) {
+  if (!timestamp) {
+    return null;
+  }
+
+  const date = new Date(timestamp);
+  let formattedDate = date.toLocaleString('ko-KR', {
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long',
+  });
+
+  return formattedDate;
+}
+
