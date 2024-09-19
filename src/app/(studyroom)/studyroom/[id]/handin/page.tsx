@@ -31,7 +31,7 @@ export default async function page({ params }: { params: { id: string } }) {
           }
           useBorderBottom={false}
         />
-        <div className="mt-4 flex flex-col gap-5">
+        {/* <div className="mt-4 flex flex-col gap-5">
           <div className="flex items-center justify-end text-xs">
             <span className="rounded-l-lg border border-transparent bg-primary px-2 py-1 text-white">
               진행중 3
@@ -46,16 +46,17 @@ export default async function page({ params }: { params: { id: string } }) {
       <TabMenu />
       콘텐츠 영역 - 과제 일정 및 캘린더 부분
       <div className="bg-muted">
-        <div className="border-b-2 px-4 py-7">
+        <div className="px-4 py-7">
           <div className="mb-[20px] flex flex-col gap-1">
             <h1 className="text-lg font-bold">📚 과제 일정</h1>
             <p className="text-sm text-muted-foreground">
               주차별 과제 현황을 확인하고 소통해요.
             </p>
           </div>
-          <NoticeBox />
+          {/* <NoticeBox /> */}
         </div>
-        <div className="p-4">
+        {/* 캘린더 영역 */}
+        {/* <div className="p-4">
           <div className="mb-6 flex justify-between">
             <span className="font-semibold">9월</span>
             <span>

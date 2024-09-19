@@ -57,7 +57,7 @@ export default async function page({ params }: { params: any }) {
           <div className="flex w-full items-center justify-center">
             {/* <div className="fixed bottom-0 mx-auto w-full bg-white pt-8"> */}
             {/* <div className="flex items-center justify-center"> */}
-            <Link href={`/studyroom/${params.studyId}/handin/calendar`}>
+            <Link href={`/studyroom/${params.studyId}/calendar`}>
               <Button label="스터디룸 보러가기" />
             </Link>
             {/* </div> */}

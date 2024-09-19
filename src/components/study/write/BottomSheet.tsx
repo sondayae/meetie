@@ -36,11 +36,14 @@ export default function BottomSheet({
       >
         {/* content */}
         <div
-          className={`transform px-5 py-10 transition-transform duration-400 ease-in-out ${
+          className={`duration-400 transform px-5 pb-10 pt-2 transition-transform ease-in-out ${
             bottomSheet ? 'translate-y-0' : 'translate-y-full'
-          } absolute bottom-0 h-auto w-full max-w-[600px] rounded-t-lg bg-white shadow-[0_2px_8px_0px_rgb(0,0,0,0.16)]`}
+          } absolute bottom-0 h-auto w-full max-w-[600px] rounded-t-lg bg-[#fefefe] shadow-[0_2px_8px_0px_rgb(0,0,0,0.16)]`}
           onClick={(e) => e.stopPropagation()}
         >
+          <div
+            className={'mx-auto mb-8 h-1 w-9 rounded-full bg-[#DDDDDD]'}
+          ></div>
           <div className="flex items-start justify-between">
             <div>
               {/* title */}
@@ -57,7 +60,7 @@ export default function BottomSheet({
             </span>
           </div>
           {/* multi-select list */}
-          <ul className="rounded-lg border border-[#F3F3F3]">
+          <ul className="rounded-lg border border-[#F3F3F3] bg-white">
             {data.map((item, index) => (
               <li
                 key={index}

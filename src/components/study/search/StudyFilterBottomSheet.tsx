@@ -65,11 +65,14 @@ export default function StudyFilterBottomSheet({
       >
         {/* content */}
         <div
-          className={`duration-400 transform px-5 py-10 transition-transform ease-in-out ${
+          className={`duration-400 transform px-5 pb-10 pt-2 transition-transform ease-in-out ${
             bottomSheet ? 'translate-y-0' : 'translate-y-full'
-          } absolute bottom-0 h-auto w-full max-w-[600px] rounded-t-lg bg-white shadow-[0_2px_8px_0px_rgb(0,0,0,0.16)]`}
+          } absolute bottom-0 h-auto w-full max-w-[600px] rounded-t-lg bg-[#fefefe] shadow-[0_2px_8px_0px_rgb(0,0,0,0.16)]`}
           onClick={(e) => e.stopPropagation()}
         >
+          <div
+            className={'mx-auto mb-8 h-1 w-9 rounded-full bg-[#DDDDDD]'}
+          ></div>
           <div className="flex">
             {/* 왼쪽 필터 항목 */}
             <div className="w-2/5 min-w-28 border-r border-[#eeeeee] p-2">

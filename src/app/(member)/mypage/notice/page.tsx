@@ -1,3 +1,5 @@
+import Header from '@/components/handin/Header';
+
 const DUMMY = [
   {
     category: '업데이트',
@@ -60,10 +62,18 @@ const DUMMY = [
 export default function page() {
   return (
     <>
-      <div className="mb-5 flex flex-1 flex-col gap-5 px-4">
+      <Header
+        leftIcon
+        label={`공지사항`}
+        sticky={true}
+        useBorderBottom={false}
+        bgColor={'bg-white'}
+      />
+
+      <div className="mb-5 flex flex-1 flex-col gap-5 px-4 py-4">
         {/* 1 */}
         <div className="flex h-12 flex-col items-start justify-start gap-2">
-          <p className="text-lg font-bold text-dark-gray">
+          <p className="text-dark-gray text-lg font-bold">
             📣 공지사항이 있습니다!
           </p>
           <p className="text-sm font-normal text-muted-foreground">
@@ -71,14 +81,14 @@ export default function page() {
           </p>
         </div>
         {/* 2 */}
-        <div className="flex h-14 w-full items-center rounded-md border border-light-purple bg-light-purple px-4 py-3">
+        <div className="border-light-purple bg-light-purple flex h-14 w-full items-center rounded-md border px-4 py-3">
           <p className="text-dark-gray">⚠️ 채팅 활동 주의사항을 확인하세요</p>
         </div>
         {/* 3 */}
         {DUMMY.map((item) => (
           <div className="flex w-full flex-col items-center justify-center gap-4 rounded-lg border border-neutral-100 bg-neutral-100 px-4 py-3">
             <div className="flex w-full items-center justify-start gap-3">
-              <div className="flex-2 flex w-16 text-sm font-medium text-dark-gray">
+              <div className="flex-2 text-dark-gray flex w-16 text-sm font-medium">
                 {item.category}
               </div>
               <div className="h-5 w-px rounded-lg bg-[#7875e3]" />

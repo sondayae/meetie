@@ -10,7 +10,7 @@ export async function getStudyDetails(studyId: string) {
 
     if (error) throw error;
 
-    return data;
+  return data;
   } catch (error) {
     console.error('Error fetching study details:', error);
     throw new Error('Failed to fetch study details');
