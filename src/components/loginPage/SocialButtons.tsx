@@ -25,7 +25,7 @@ function SocialButtons() {
     <>
       {SOCIAL_ICONS.map((social) => (
         <button
-          className={`flex h-11 w-11 items-center justify-center rounded shadow ${bgColor[social.name]}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full shadow ${bgColor[social.name]}`}
           key={social.name}
           type="button"
           aria-label={social.name}

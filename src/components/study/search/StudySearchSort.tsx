@@ -1,5 +1,6 @@
 import { useFilterStore } from '@/stores/search/useFilterStore';
 import { Study } from '@/types/study';
+import { useEffect, useState } from 'react';
 
 type StudySearchSortProps = {
   loading: boolean;
@@ -11,6 +12,7 @@ export default function StudySearchSort({
   setSelectedFilter,
 }: StudySearchSortProps) {
   const { filteredList } = useFilterStore();
+
   return (
     <>
       <div className={'mx-4 my-5 flex justify-between text-xs text-[#555555]'}>

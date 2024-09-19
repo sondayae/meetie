@@ -10,6 +10,8 @@ type HeaderType = {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   useBorderBottom?: boolean;
+  sticky?: boolean;
+  bgColor?: string;
 };
 
 function Header({
@@ -17,6 +19,8 @@ function Header({
   leftIcon = true,
   rightIcon,
   useBorderBottom = true,
+  sticky = false,
+  bgColor,
 }: HeaderType) {
   const px = leftIcon && rightIcon ? 'px-2' : 'px-4';
 
@@ -28,8 +32,10 @@ function Header({
   return (
     <div
       className={twMerge(
-        'sticky top-0 z-50 bg-white py-2',
-        useBorderBottom && 'shadow-sm',
+        'py-2',
+        bgColor,
+        useBorderBottom && 'border-b',
+        sticky && 'sticky top-0 z-50 shadow-sm',
       )}
     >
       <div
