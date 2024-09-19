@@ -1,7 +1,7 @@
 'use client';
 
 import { getChatMembers, getUser } from '@/actions/chatActions';
-import { useChatPresenceStore, useChatUserStore } from '@/app/stores/chatStore';
+import { useChatPresenceStore, useChatUserStore } from '@/stores/chatStore';
 import Person from '@/components/chat/Person';
 import Navigator from '@/components/common/Navigator';
 import Header from '@/components/handin/Header';

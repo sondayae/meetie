@@ -3,7 +3,7 @@
 import { getChatRoomList } from '@/actions/chatActions';
 import Navigator from '@/components/common/Navigator';
 import Header from '@/components/handin/Header';
-import { useChatPresenceStore, useChatroomStore, useChatUserStore } from '../stores/chatStore';
+import { useChatPresenceStore, useChatroomStore, useChatUserStore } from '../../stores/chatStore';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Person from '@/components/chat/Person';

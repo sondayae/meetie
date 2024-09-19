@@ -11,10 +11,9 @@ import { getImgUrl } from '@/utils/supabase/storage';
 import CustomDropDownMenu from '../common/CustomDropdownMenu';
 import { useRouter } from 'next/navigation';
 import useConfirm from '@/hooks/use-confirm';
-import { Feedback } from '@/types/feedbacks';
 import { useUser } from '@/stores/user/user';
 
-export default function Handin({ data }: {data : Feedback}) {
+export default function Handin(data: Feedback) {
   const router = useRouter();
   const handleEdit = (e: any) => {
     e.stopPropagation();
