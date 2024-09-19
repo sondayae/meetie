@@ -1,9 +1,9 @@
 'use server';
 
-import { getServerUserId } from '@/lib/actions/getServerUserId';
 import supabaseServer from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
 
+const TABLE = 'handin';
 const FOLDER = 'handin';
 
 export async function getFeedbacks(studyId: string) {
@@ -14,9 +14,9 @@ export async function getFeedbacks(studyId: string) {
     }
 
     const { data, error } = await supabase
-      .from('feedback')
+      .from(TABLE)
       .select(
-        'id, text, created_at, homework(id, title), user(id, name, images(url)), images(url), comment(*, reactions(*)), feedback_reactions(*)',
+        'id, text, created_at, homework(id, title), user(id, name, images(url)), images(url), comments(*, reactions(*)), feedback_reactions(*)',
       )
       .order('created_at', { ascending: false })
       .eq('study_id', studyId);
@@ -39,13 +39,16 @@ export async function getFeedback(id: string) {
     }
 
     const { data, error } = await supabase
-      .from('feedback')
+      .from(TABLE)
       .select(
-        '*, homework(*), user(id, name, images(url)), images(url), comment(*, user(name, images(url)), reactions(*)), feedback_reactions(*, user(images(url)))',
+        '*, homework(*), user(id, name, images(url)), images(url), comments(*, user(name, images(url)), reactions(*)), feedback_reactions(*, user(images(url)))',
       )
-      .order('created_at', { referencedTable: 'comment', ascending: true })
+      .order('created_at', { referencedTable: 'comments', ascending: true })
       .eq('id', id)
       .single();
+
+    console.log(data);
+    
 
     if (error) {
       throw new Error(`There is an error, ${error.message}`);
@@ -91,14 +94,70 @@ export async function toggleReaction(targetId: string, emoji: string) {
   }
 }
 
-export async function updateFeedback(id: number, newData: any, imgData: FormData) {
+export async function createFeedback(previousState: any, formData: FormData) {
   const supabase = supabaseServer();
   const { data: { user } } = await supabase.auth.getUser();
   const userId = user?.id;
 
-  console.log(newData);
-  console.log(imgData);
-  
+  const text = formData.get('text');
+  const image = formData.get('file') as File;
+  const homeworkId = formData.get('homeworkId');
+  const studyId = formData.get('studyId');
+
+  try {
+    const {data, error }= await supabase
+        .from('handin')
+        .insert({ user_id: userId, homework_id: homeworkId, text: text, study_id: studyId})
+        .select();
+
+    if (error) {
+      throw error;
+    }
+
+    console.log(data);
+    
+    const feedbackId = data[0].id;
+
+    if (image.size > 0) {
+      // 스토리지 업로드
+      const fileName = `feedback_${crypto.randomUUID()}`;
+      const filePath = `${FOLDER}/${fileName}`;
+      const { data: storageData, error: storageError } = await supabase.storage
+        .from(`${process.env.NEXT_PUBLIC_STORAGE_BUCKET}`)
+        .upload(filePath, image, { upsert: true });
+
+      if (storageError) {
+        throw new Error(`Failed to upload storage: ${storageError.message}`);
+      }
+
+      // 이미지 테이블 업로드
+      const { data: imgData, error: imgError } = await supabase
+        .from('images')
+        .insert({
+          url: storageData?.path,
+          target: 'feedback',
+          target_id: feedbackId,
+        });
+
+      if (imgError) {
+        throw new Error(`Failed to upload images: ${imgError.message}`);
+      }
+    }
+    return { success: true };
+
+  } catch (err: any) {
+    return { error: {
+      message: err.message,
+    }}
+  }
+}
+
+export async function updateFeedback(id: number, formData: FormData) {
+  const supabase = supabaseServer();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id;
+
+  console.log(formData.get('file'));
 
   // const { data, error } = await supabase
   // .from('feedback')

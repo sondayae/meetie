@@ -2,13 +2,13 @@ import { useRef, useState } from 'react';
 import PlusIcon from '../icons/PlusIcon';
 import ImageFrame from './ImageFrame';
 
-export default function ImageInput({src, size = 'big', setSelected}: {src? :string, size?: string, setSelected: (args: any) => void}) {
+export default function ImageInput({src, size = 'big'}: {src? :string, size?: string}) {
   const [preview, setPreview] = useState(src);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const handleFileChange = () => {
     const files = fileInputRef.current?.files;
+    
     if (files) {
-      setSelected(files[0]);
       [].forEach.call(files, readAndPreview);
     }
   };
@@ -22,7 +22,7 @@ export default function ImageInput({src, size = 'big', setSelected}: {src? :stri
   };
 
   return (
-    <>
+    <div className='cursor-pointer'>
       {size === 'big' ? (
         <div onClick={() => fileInputRef.current?.click()}>
           {preview ? (
@@ -60,6 +60,6 @@ export default function ImageInput({src, size = 'big', setSelected}: {src? :stri
         </div>
       </div>
       )}
-    </>
+    </div>
   )
 }

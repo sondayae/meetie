@@ -1,6 +1,6 @@
 'use client';
 
-import { useChatPresenceStore, useChatUserStore, useMessageStore } from '@/app/stores/chatStore'
+import { useChatPresenceStore, useChatUserStore, useMessageStore } from '@/stores/chatStore';
 import Message from './Message';
 import Person from './Person';
 import { useMutation, useQuery } from '@tanstack/react-query';

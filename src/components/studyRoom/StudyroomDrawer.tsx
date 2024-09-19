@@ -15,11 +15,13 @@ import StudyAvatar from '../common/StudyAvatar'
 import { useEffect, useState } from 'react';
 
 
-export default function StudyroomDrawer({list, preSelected, handleSelect}: {list: any[], preSelected: any, handleSelect: (args: any) => void}) {
-  const [selected, setSelected] = useState(preSelected);
+export default function StudyroomDrawer({list, preSelected, handleSelect}: {list: any, preSelected?: any, handleSelect: (args: any) => void}) {
+
+  const [selected, setSelected] = useState(preSelected ? preSelected : list ? list[0]: null);
+
   useEffect(() => {
     if (selected) {
-      handleSelect(selected);
+      handleSelect(selected.id);
     }
   }, [selected])
   return (
@@ -45,7 +47,7 @@ export default function StudyroomDrawer({list, preSelected, handleSelect}: {list
         <DrawerDescription>제출할 과제를 선택해주세요.</DrawerDescription>
       </DrawerHeader>
         <div className='flex flex-col justify-center m-4 border rounded-lg bg-white'>
-            {list?.map(data => (
+            {list?.map((data: any) => (
               <DrawerClose key={data.id}>
                 <div className='flex items-center gap-3 border p-4' onClick={() => setSelected(data)}>
                   {data.image ? <StudyAvatar /> : null}

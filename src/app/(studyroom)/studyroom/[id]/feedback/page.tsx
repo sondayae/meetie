@@ -13,7 +13,7 @@ export default async function FeedbackListPage({
 }: {
   params: { id: string };
 }) {
-  const schedule = await getSchedule(new Date(), Number(params.id));
+  // const schedule = await getSchedule(new Date(), Number(params.id));
   const feedbacks: Feedback[] = await getFeedbacks(params.id);
 
   return (
@@ -29,12 +29,13 @@ export default async function FeedbackListPage({
           </div>
           <NoticeBox />
         </div>
-        <div>
+        {/* 캘린더 영역 */}
+        {/* <div>
           <WeeklyScheduleCalendar
             initialSchedule={schedule}
             studyRoomId={Number(params.id)}
           />
-        </div>
+        </div> */}
         <div className="rounded-t-2xl bg-white drop-shadow-[0_-1px_5px_rgba(0,0,0,0.06)]">
           <div className="flex flex-col gap-1 border-b px-7 pb-6 pt-9">
             <h1 className="text-lg font-semibold">
