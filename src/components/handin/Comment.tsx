@@ -42,39 +42,39 @@ export default function Comment({ comment }: CommentProps) {
     [],
   );
 
-  const handleDelete = async () => {
-    const result = await confirm();
-    if (result) {
-      deleteCommentMutation.mutate();
-    }
-  };
+  // const handleDelete = async () => {
+  //   const result = await confirm();
+  //   if (result) {
+  //     deleteCommentMutation.mutate();
+  //   }
+  // };
 
   const { ConfirmModal, confirm } = useConfirm({
     title: '삭제',
     message: '댓글을 삭제하시겠습니까?',
   });
 
-  const updateCommentMutation = useMutation({
-    mutationFn: () =>
-      updateComment({
-        comment: text,
-        id: comment.id,
-      }),
-    onSuccess: () => {
-      setIsEdit(false);
-      queryClient.invalidateQueries({ queryKey: ['comments'] });
-    },
-  });
+  // const updateCommentMutation = useMutation({
+  //   mutationFn: () =>
+  //     updateComment({
+  //       comment: text,
+  //       id: comment.id,
+  //     }),
+  //   onSuccess: () => {
+  //     setIsEdit(false);
+  //     queryClient.invalidateQueries({ queryKey: ['comments'] });
+  //   },
+  // });
 
-  const deleteCommentMutation = useMutation({
-    mutationFn: () =>
-      deleteComment({
-        id: comment.id,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['comments'] });
-    },
-  });
+  // const deleteCommentMutation = useMutation({
+  //   mutationFn: () =>
+  //     deleteComment({
+  //       id: comment.id,
+  //     }),
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ['comments'] });
+  //   },
+  // });
 
   const createReactionMutation = useMutation({
     mutationFn: (emoji: string) =>
@@ -100,7 +100,7 @@ export default function Comment({ comment }: CommentProps) {
 
   return (
     <>
-      <ConfirmModal />
+      {/* <ConfirmModal />
       <div
         key={comment.id}
         className="border-x border-b border-[#efefef] p-[18px]"
@@ -190,7 +190,7 @@ export default function Comment({ comment }: CommentProps) {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

@@ -16,7 +16,7 @@ export default async function FeedbackEditPage({params}: {params: {id: string, f
   return (
     <>
     <Header label='과제 인증 수정' rightIcon={<CalendarIcon />} />
-    <FeedForm feedback={feedback} homeworks={homeworks}/>
+    <FeedForm studyId={params.id} feedback={feedback} homeworks={homeworks}/>
     </>
   )
 }
