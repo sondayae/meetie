@@ -4,8 +4,9 @@ import SearchSkeleton from './SearchSkeleton';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Study } from '@/types/study';
 import { useFilterStore } from '@/stores/search/useFilterStore';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import StudyListItem from './StudyListItem';
+import { fetchStudyList } from '@/actions/studyList.action';
 
 type StudyListProps = {
   loading: boolean;
@@ -20,6 +21,52 @@ export default function StudyList({
 }: StudyListProps) {
   const { filteredList, isRecruiting, setIsRecruiting, setStudyList } =
     useFilterStore();
+  const [offset, setOffset] = useState(10);
+  const [more, setMore] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
+  const loaderRef = useRef<HTMLDivElement | null>(null);
+
+  const limit = 10;
+
+  // 무한스크롤
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && more && !loading && !isFetching) {
+        setOffset((prevOffset) => prevOffset + limit);
+      }
+    });
+
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+
+    return () => {
+      if (loaderRef.current) {
+        observer.unobserve(loaderRef.current);
+      }
+    };
+  }, [more, loading, isFetching]);
+
+  // offset이 변경 시 데이터 추가
+  useEffect(() => {
+    const fetchMoreStudies = async () => {
+      if (!more || isFetching) return;
+
+      setIsFetching(true);
+
+      const { data: newStudies } = await fetchStudyList(offset, limit); //
+
+      if (newStudies.length === 0) {
+        setMore(false);
+      } else {
+        setStudyList(newStudies);
+      }
+
+      setIsFetching(false);
+    };
+
+    fetchMoreStudies();
+  }, [offset]);
 
   useEffect(() => {
     if (studySearchTerm.length > 0) {
@@ -67,6 +114,8 @@ export default function StudyList({
           <p className="text-center text-[#777777]">검색 결과가 없습니다.</p>
         )}
       </div>
+      {/* 무한스크롤 */}
+      <div ref={loaderRef} style={{ height: '20px' }}></div>
     </>
   );
 }
