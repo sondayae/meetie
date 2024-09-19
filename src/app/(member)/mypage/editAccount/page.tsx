@@ -26,7 +26,7 @@ export default function ProfileEditPage() {
     watch,
   } = useForm({
     defaultValues: accountData,
-    // mode: 'onChange',
+    mode: 'onChange',
   });
 
   useEffect(() => {
