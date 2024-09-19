@@ -45,7 +45,7 @@ export default function StudyPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const studies = await fetchStudyList(3);
+        const { data: studies } = await fetchStudyList(3);
         setStudyList(studies);
         setLoading(false);
       } catch (error) {
