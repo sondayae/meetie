@@ -1,14 +1,16 @@
 import { getBadgeImgUrl } from '@/utils/supabase/storage'
+import { twMerge } from 'tailwind-merge'
+import BadgeCard from './BadgeCard';
 
-export default function BadgeList({badgeList}: {badgeList: any[]|undefined}) {
+export default function BadgeList({badgeList, userBadgeList}: {badgeList: any[]|undefined, userBadgeList: any[]|null}) {
   return (
     <div className='flex justify-between'>
-    {badgeList?.map((badge: any) => (
-      <div className='flex flex-col items-center gap-2' key={badge.id}>
-        <img src={getBadgeImgUrl(badge.image_path)} alt={badge.name} className='min-w-[150px]'/>
-        <p className='text-sm'>{badge.name}</p>
-      </div>
-    ))}
+    {badgeList?.map((badge: any) => {
+      const userBadge = userBadgeList?.find(userBadge => userBadge.badge_id === badge.id);
+      return (
+        <BadgeCard key={badge.id} badge={badge} isAwarded={userBadge ? true : false} awardedAt={userBadge?.created_at}/>
+      )
+    })}
     </div>
   )
 }

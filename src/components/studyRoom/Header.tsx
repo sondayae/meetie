@@ -1,14 +1,12 @@
 'use client';
 
-import Link from 'next/link';
-import Plus from '../icons/Header/Plus';
 import Header from '../handin/Header';
-import SelectBox from './SelectBox';
-import PlusMenu from './PlusMenu';
 import TabMenu from './TabMenu';
 import StudyroomDrawer from './StudyroomDrawer';
 import { useJoinedStudyStore } from '@/stores/studyStore';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import PlusIcon from '../icons/PlusIcon';
+import Plus from '../icons/Header/Plus';
 
 export default function StudyroomHeader({studyId}: {studyId: string}) {
   const router = useRouter();
@@ -27,12 +25,15 @@ export default function StudyroomHeader({studyId}: {studyId: string}) {
   })
 
   const preSelected = list.filter((item: any) => item.id == studyId);
+  const path = usePathname();
+  const handleClick = () => {
+    if (path.includes('feedback')) {
+      router.push('./write');
+    } else if (path.includes('calendar')) {
+      router.push('./calendar/add');
+    }
+  }
 
-
-  
-  
-  
-  
   return (
     <>
     <div className="bg-[#E3E3FA] p-4">
@@ -40,7 +41,9 @@ export default function StudyroomHeader({studyId}: {studyId: string}) {
           label="스터디룸"
           leftIcon={false}
           rightIcon={
-            <PlusMenu />
+            <button onClick={handleClick}>
+              <Plus />
+            </button>
           }
           useBorderBottom={false}
           />
