@@ -53,8 +53,9 @@ export default async function page({ params }: { params: { id: string } }) {
               주차별 과제 현황을 확인하고 소통해요.
             </p>
           </div>
-          {/* <NoticeBox /> */}
+          <NoticeBox /> 
         </div>
+          */}
         {/* 캘린더 영역 */}
         {/* <div className="p-4">
           <div className="mb-6 flex justify-between">
