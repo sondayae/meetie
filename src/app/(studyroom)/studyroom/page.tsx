@@ -4,7 +4,7 @@ import Wavinghand from '@/assets/Wavinghand.png';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import Header from '@/components/handin/Header';
 import WavingHand from '@/components/common/WavingHand';
 import Navigator from '@/components/common/Navigator';
@@ -12,10 +12,20 @@ import Question from '@/components/icons/Header/Question';
 import { fetchStudyList } from '@/actions/studyList.action';
 import { Study } from '@/types/study';
 import StudyListItem from '@/components/study/search/StudyListItem';
+import { useJoinedStudyStore } from '@/stores/studyStore';
 
 export default function StudyPage() {
   const router = useRouter();
+  const { joinedStudyList } = useJoinedStudyStore();
+  
+  // 리다이렉션 속도가 늦어 UX 개선이 필요함 -> 주석 처리
+  // useEffect(() => {
+  //   if (joinedStudyList.length > 0) {
+  //     router.push(`/studyroom/${joinedStudyList[0].id}/calendar`);
+  //   }
+  // }, [joinedStudyList]);
 
+  
   // 스터디룸 유무확인
   // TODO: display 개선
   // useEffect(() => {
@@ -68,16 +78,29 @@ export default function StudyPage() {
       />
       {/* 콘텐츠 영역 */}
       <div className="flex-1 bg-muted p-4 pb-10">
-        <div className="mb-8">
-          <h1 className="mb-2 text-lg font-bold leading-6">
-            아직 스터디룸이
-            <br />
-            존재하지 않아요!
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            #원하는 스터디를 탐색해볼까요?
-          </p>
-        </div>
+        {joinedStudyList.length === 0 ? (
+          <div className="mb-8">
+            <h1 className="mb-2 text-lg font-bold leading-6">
+              아직 스터디룸이
+              <br />
+              존재하지 않아요!
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              #원하는 스터디를 탐색해볼까요?
+            </p>
+          </div>
+        ) : (
+          <>
+          {joinedStudyList.length > 0 && 
+            <div>
+              <p>참여중인 스터디</p>
+              {joinedStudyList.map((study: any) => (
+                <li>{study.title}</li>
+              ))}
+            </div>
+          }
+          </>
+        )}
         <div className="flex flex-col gap-3">
           <div className="grid grid-cols-[1fr_auto] items-end justify-between rounded-lg bg-white px-6 py-7">
             <div className="flex flex-col items-start justify-center gap-3">

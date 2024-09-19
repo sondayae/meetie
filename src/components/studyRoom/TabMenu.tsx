@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
 export default function TabMenu() {
-  const menus = [{id: 'calendar', title:'캘린더', path: '/calendar'}, {id: 'handin', title:'피드백', path: '/handin'}, {id: 'chat', title:'채팅', path: '/chat'}];
+  const menus = [{id: 'calendar', title:'캘린더', path: '/calendar'}, {id: 'feedback', title:'피드백', path: '/feedback'}, {id: 'chat', title:'채팅', path: '/chat'}];
   const currentMenu = usePathname();
   
   

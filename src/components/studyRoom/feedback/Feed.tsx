@@ -11,8 +11,7 @@ import { getImgUrl } from '@/utils/supabase/storage';
 import Link from 'next/link';
 
 export default function Feed({feedback}: {feedback: Feedback}) {
-  console.log(feedback);
-  
+
   return (
     <Link href={`./feedback/${feedback.id}`}>
       <div className='flex border-b px-4 pt-[1.125rem] pb-8 gap-2'>

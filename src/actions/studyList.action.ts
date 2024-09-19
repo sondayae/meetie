@@ -10,8 +10,6 @@ export async function fetchStudyList(
 
   let query;
 
-  console.log('userId:', userId);
-
   if (!userId) {
     // 로그인 전
     query = supabase
