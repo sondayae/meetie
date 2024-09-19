@@ -20,7 +20,7 @@ function Header({
   rightIcon,
   useBorderBottom = true,
   sticky = false,
-  bgColor = 'bg-white',
+  bgColor,
 }: HeaderType) {
   const px = leftIcon && rightIcon ? 'px-2' : 'px-4';
 
