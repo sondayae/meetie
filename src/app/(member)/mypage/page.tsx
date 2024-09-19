@@ -50,7 +50,12 @@ export default async function page() {
   return (
     <>
       {/* 헤더 영역 */}
-      <Header leftIcon={false} label="마이페이지" />
+      <Header
+        leftIcon={false}
+        label="마이페이지"
+        sticky={true}
+        useBorderBottom={false}
+      />
       {/* 콘텐츠 영역 */}
       {userdata && (
         <div className="flex flex-1 flex-col gap-10 px-4 py-10">
