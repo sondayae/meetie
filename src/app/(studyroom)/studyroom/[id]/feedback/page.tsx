@@ -49,6 +49,11 @@ export default async function FeedbackListPage({
             {feedbacks.map((feedback: Feedback) => (
               <Feed key={feedback.id} feedback={feedback} />
             ))}
+            {feedbacks.length == 0 &&
+            <div className='w-full h-10 p-4'>
+              <p className='text-muted-foreground text-center'>인증된 과제가 없습니다.</p>
+            </div>
+            }
           </div>
           <AddFeedbackBtn />
         </div>
