@@ -68,7 +68,7 @@ export default function Page() {
       <div className="flex h-full min-h-screen w-full max-w-[600px] flex-1 flex-col items-center gap-4 px-4 py-2">
         <div className="flex h-12 w-full flex-col items-start justify-start gap-2">
           <p className="text-dark-gray text-lg font-bold">
-             무엇을 도와 드릴까요?
+            무엇을 도와 드릴까요?
           </p>
           <p className="text-sm font-normal text-muted-foreground">
             아래의 정보를 입력해주세요.
@@ -92,8 +92,7 @@ export default function Page() {
             아래의 정보를 입력해주세요.
           </div>
           <textarea
-            className="mt-2 h-40 w-full rounded-lg border border-[#c4c4c4] px-4 flex "
-            type="text"
+            className="mt-2 flex h-40 w-full rounded-lg border border-[#c4c4c4] px-4"
             id="context"
             placeholder="내용을 입력해주세요."
             {...register('context', { required: '부제목을 작성해주세요.' })}

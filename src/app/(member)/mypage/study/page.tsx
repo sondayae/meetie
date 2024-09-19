@@ -37,7 +37,7 @@ export default async function page() {
       <div className="m-auto flex w-full max-w-[600px] flex-col px-4 pt-7">
         <div className="border-middle-gray flex flex-col rounded-lg border-2">
           {data.studymember.map((item: Studymember) => (
-            <Link href={`/study/${item.study.id}`} key={item.id}>
+            <Link href={`/study/${item.study.id}`} key={item.study.id}>
               <div className="border-middle-gray flex items-center gap-2 border-b-2 p-2">
                 {/* <img
                 className="h-[38px] w-[38px] rounded-lg"
