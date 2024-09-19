@@ -33,7 +33,13 @@ export default async function page() {
 
   return (
     <div className="relative h-full">
-      <Header leftIcon label={`참여중인 스터디 ${data.studymember.length}`} />
+      <Header
+        leftIcon
+        label={`참여중인 스터디 ${data.studymember.length}`}
+        sticky={true}
+        useBorderBottom={false}
+        bgColor={'bg-white'}
+      />
       <div className="m-auto flex w-full max-w-[600px] flex-col px-4 pt-7">
         <div className="border-middle-gray flex flex-col rounded-lg border-2">
           {data.studymember.map((item: Studymember) => (

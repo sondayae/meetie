@@ -14,8 +14,7 @@ export async function incView({ studyId }: { studyId: string }) {
     .eq('id', studyId)
     .single();
 
-  console.log('run incView');
-  console.log(currentData);
+  // console.log('run incView');
 
   if (fetchError || !currentData) {
     console.error('Failed to fetch current view count:', fetchError);
@@ -27,7 +26,7 @@ export async function incView({ studyId }: { studyId: string }) {
   const { data, error } = await supabase
     .from('study')
     .update({ viewCount: newViewCount })
-    .eq('id', studyId)  // studyId에 해당하는 row만 업데이트
+    .eq('id', studyId) // studyId에 해당하는 row만 업데이트
     .select(); // 업데이트된 데이터를 반환
 
   if (error) {
@@ -35,6 +34,5 @@ export async function incView({ studyId }: { studyId: string }) {
     return { error: 'Failed to update view count' };
   }
 
-  console.log(`View count for studyId ${studyId} updated to ${newViewCount}`);
   return { data, newViewCount };
 }
