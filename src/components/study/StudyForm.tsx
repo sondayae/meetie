@@ -323,7 +323,7 @@ export default function StudyForm({
       <Header
         label={isEditMode ? '스터디 수정하기' : '스터디 만들기'}
         leftIcon={<LeftArrowIcon />}
-        rightIcon={<HomeIcon className="h-7 w-7 stroke-[#777777]" />}
+        rightIcon={<div></div>}
       />
       {/* Progress bar */}
       <ProgressBar value={progressValue} />
@@ -694,7 +694,7 @@ export default function StudyForm({
               buttonStyle="px-4"
             />
           ) : (
-            <div className="flex w-full max-w-[600px] gap-2 px-4">
+            <div className="flex w-full max-w-[600px] gap-2">
               <StudyButton
                 label="이전"
                 onClick={() => setStudyStep(1)}

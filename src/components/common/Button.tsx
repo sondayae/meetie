@@ -20,13 +20,13 @@ function Button({
   const getSize = () => {
     switch (size) {
       case 'small':
-        return 'w-full';
+        return 'min-w-[124px] w-full';
       case 'medium':
-        return 'w-full';
+        return 'min-w-[254px] w-full';
       case 'large':
-        return 'w-full';
+        return 'min-w-[340px] w-full';
       default:
-        return 'w-full';
+        return 'min-w-[250px] w-full';
     }
   };
 
