@@ -63,7 +63,7 @@ export async function createReaction({targetId, emoji}: {targetId: string, emoji
     }
     return data;
   } else {
-    const {data, error} = await supabase.from('reactions').delete().eq('target_id',targetId).eq('emoji', emoji).select();
+    const {data, error} = await supabase.from('reactions').delete().eq('id', isExist![0].id).select();
     if (error) {
       return null;
     }
