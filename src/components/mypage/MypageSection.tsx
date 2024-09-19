@@ -37,7 +37,7 @@ export default function MypageSection({
     },
     {
       label: '내 작성글',
-      num: friend.length,
+      num: '',
       icon: <BookIcon className="h-4 w-4" />,
       path: '/myposts',
     },

@@ -76,7 +76,6 @@ export default async function page() {
             </div>
           </div>
           <MypageSection {...joindata} />
-          <MypageSection {...joindata} />
         </div>
       )}
       {!userdata && (
