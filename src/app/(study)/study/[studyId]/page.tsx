@@ -32,8 +32,8 @@ export default async function Page({
 
   // 스터디 멤버 정보 가져오기
   const memberData = await getStudyMember(params.studyId);
-  console.log(memberData)
-  console.log(memberData.length)
+  // console.log(memberData)
+  // console.log(memberData.length)
 
   const detaildata = { memberData, userdata, isApply, params, ...studydata };
 
@@ -45,7 +45,13 @@ export default async function Page({
   return (
     <>
       <div className="flex h-full max-w-[600px] flex-col">
-        <Header leftIcon rightIcon={isAuthor ? <KebabMenuIcon /> : ''} />
+        <Header
+          leftIcon
+          rightIcon={isAuthor ? <KebabMenuIcon /> : ''}
+          sticky={true}
+          useBorderBottom={false}
+          bgColor={'bg-white'}
+        />
         <StudyMain {...detaildata} />
       </div>
       <Navigator />

@@ -47,7 +47,7 @@ function Button({
     <button
       type={buttonType}
       className={`rounded-lg border-2 p-3 ${getSize()} ${getColor()} ${borderStyle}`}
-      onClick={() => onClick?.()}
+      onClick={onClick}
     >
       {label}
     </button>

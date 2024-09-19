@@ -1,9 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import StudyRequestItem from '@/components/study/StudyRequestItem';
 import Button from '../common/Button';
 import Link from 'next/link';
-import { format } from 'date-fns';
+import { format, set } from 'date-fns';
 import {
   getStudyApply,
   updateStudyApplyStatus,
@@ -15,105 +15,68 @@ import { queryClient } from '@/config/ReactQueryClientProvider';
 import { useRouter } from 'next/navigation';
 import { createStudyRoom } from '@/actions/studyroom.action';
 
-export interface StudyRequestItem {
-  id: number;
-  created_at: string;
-  status: string;
-  studyId: number;
-  user: {
-    id: `${string}-${string}-${string}-${string}-${string}`;
-    name: string;
-    job: string;
-    introduce?: string;
-    personality?: string[];
-    images: {
-      url: string;
-    };
-  };
-}
-
-interface PageProps {
-  memberData: any;
-  params: {
-    studyId: string;
-  };
-  acceptedStudy: number;
-  recruitNum: number;
-  applyData: StudyRequestItem[];
-}
-
-export default function Page({
-  applyData,
+export default function StudyRequest({
   params,
   acceptedStudy,
   recruitNum,
 }: PageProps) {
-  //
-  //
-  //
-  const applyDatas = useQuery({
+  const [groupedDatas, getGroupedDatas] = useState({});
+
+  const router = useRouter();
+
+  const applyData = useQuery({
     queryKey: ['studyApply', params.studyId],
     queryFn: () => getStudyApply(params.studyId),
   });
 
-  const waiting = applyDatas.data
+  const waiting = applyData.data
     ?.filter((item) => item.status === 'waiting')
     .map((item) => item.user.id);
-  console.log(`waiting 유저수: ${waiting?.length}`);
-  console.log(waiting);
 
   const modallacceptedMutation = useMutation({
     mutationFn: async () => {
-      return allUpdateStudyApplyStatus(
+      const result = await allUpdateStudyApplyStatus(
         params.studyId,
         waiting ?? [],
         'accepted',
       );
+      return result;
     },
-
     onSuccess: () => {
-      console.log('success');
+      applyData.refetch();
       queryClient.invalidateQueries({ queryKey: ['studyApply'] });
     },
     onError: (error) => {
-      alert(`error: ${error}`);
+      alert(`Error: ${error}`);
     },
   });
 
-  const waitingNum = waiting?.length;
-  const router = useRouter();
-
-  const acceptedNum = applyDatas.data?.filter(
+  const acceptedNum = applyData.data?.filter(
     (item) => item.status === 'accepted',
   ).length;
-  console.log(`승인된 유저: ${acceptedNum}`);
 
   const count = recruitNum - (acceptedNum ?? 0);
-  console.log(`남은 허용된 유저 수: ${count}`);
 
   // 남은유저보사 대기중인 유저수가 더 많으면 초과
+  const waitingNum = waiting?.length;
   const isOver = count < (waitingNum ?? 0);
 
-  const groupedDatas: Record<string, StudyRequestItem[]> = applyData
-    ? groupByDate(applyData)
-    : {};
-
-  const [acceptedReqStudy, setacceptedReqStudy] = useState(acceptedStudy);
-
-  // 신청한 유저 아이디
-  // const alluser = applyData.map((item) => item.user.id);
-  // console.log(alluser);
-
+  // 전체수락
   const modall = async (studyid: string, userid: string[]) => {
     if (isOver) {
-      alert(`인원이 초과되었습니다.
-수락가능인원: ${count} 대기중인인원: ${waitingNum ?? 0}`);
+      alert(
+        `인원이 초과되었습니다.\n수락가능인원: ${count} 대기중인인원: ${waitingNum ?? 0}`,
+      );
     } else {
-      // alert('전체수락 가능');
-      modallacceptedMutation.mutate();
-    }
-    if (count === 0 && waitingNum === 0) {
-      router.push(`/study/${params.studyId}/studyover`);
+      try {
+        await modallacceptedMutation.mutateAsync();
+        applyData.refetch();
+        if (count < 1 && (waitingNum ?? 0) < 1) {
+          router.push(`/study/${params.studyId}/studyover`);
+        }
+      } catch (error) {
+        console.error('Error accepting all:', error);
+      }
     }
   };
 
@@ -124,55 +87,59 @@ export default function Page({
   ) => {
     try {
       await updateStudyApplyStatus(params.studyId, userId, status);
-      if (status === 'accepted') {
-        setacceptedReqStudy((prev) => prev + 1);
-      }
       queryClient.invalidateQueries({ queryKey: ['studyApply'] });
     } catch (error) {
       console.error('Error updating study apply status:', error);
     }
 
-    console.log(count);
     if (count <= 1) {
       createStudyRoom(params.studyId);
       router.push(`/study/${params.studyId}/studyover`);
     }
   };
 
+  const handleCreateStudyRoom = async () => {
+    createStudyRoom(params.studyId);
+    router.push(`/study/${params.studyId}/studyover`);
+  };
+
+  useEffect(() => {
+    if (applyData.data) {
+      const groupdata = groupByDate(applyData.data);
+      getGroupedDatas(groupdata);
+    }
+  }, [applyData.data]);
+
   return (
     <>
-      {count === recruitNum && waitingNum === 0 && (
-        <div className="flex h-full items-center justify-center">
-          <div className="flex flex-col items-center">
-            <div className="text-lg font-medium text-[#434343]">
-              대기중인 요청이 없습니다.
-            </div>
-          </div>
-        </div>
-      )}
-
       <div className="flex h-full min-h-dvh flex-col">
         {/* <section className="flex flex-col justify-center border-b-2 border-[#F1F2F6] px-4 pb-[14px] pt-6"></section> */}
         <div className="flex h-full flex-col px-4 py-7">
+          {applyData.data?.length === 0 && (
+            <>
+              <div className="flex justify-center">대기중인 요청이 없어요.</div>
+            </>
+          )}
           {Object.keys(groupedDatas).length > 0 && (
             <>
               {Object.entries(groupedDatas).map(([date, items]) => (
                 <div key={date} className="flex flex-col gap-[18px]">
                   <div className="text-sm font-medium text-[#434343]">
-                    {format(date, 'yyyy년 MM월 dd일')}
+                    {format(new Date(date), 'yyyy년 MM월 dd일')}
                   </div>
                   <ul className="mb-4 flex flex-col gap-4">
-                    {items.map((item: StudyRequestItem) => (
-                      <StudyRequestItem
-                        setacceptedReqStudy={setacceptedReqStudy}
-                        params={params.studyId}
-                        key={item.id}
-                        item={item}
-                        acceptedStudy={acceptedStudy}
-                        recruitNum={recruitNum}
-                        modApply={modApply}
-                      />
-                    ))}
+                    {(items as StudyRequestItem[]).map(
+                      (item: StudyRequestItem) => (
+                        <StudyRequestItem
+                          params={params.studyId}
+                          key={item.id}
+                          item={item}
+                          acceptedStudy={acceptedStudy}
+                          recruitNum={recruitNum}
+                          modApply={modApply}
+                        />
+                      ),
+                    )}
                   </ul>
                 </div>
               ))}
@@ -205,11 +172,20 @@ export default function Page({
             className="w-full"
             href={`/study/${params.studyId}/studyrequest`}
           >
-            <Button
-              type="primary"
-              label="전체 수락"
-              onClick={() => modall(params.studyId, waiting ?? [])}
-            />
+            {count !== 0 && (
+              <Button
+                type="primary"
+                label="전체 수락"
+                onClick={() => modall(params.studyId, waiting ?? [])}
+              />
+            )}
+            {count === 0 && (
+              <Button
+                type="primary"
+                label="스터디룸 생성"
+                onClick={() => handleCreateStudyRoom()}
+              />
+            )}
           </Link>
         </div>
       </div>
@@ -235,3 +211,31 @@ const groupByDate = (data: any[]) => {
     {} as Record<string, any[]>,
   );
 };
+
+export interface StudyRequestItem {
+  id: number;
+  created_at: string;
+  status: string;
+  studyId: number;
+  user: {
+    id: `${string}-${string}-${string}-${string}-${string}`;
+    name: string;
+    job: string;
+    introduce?: string;
+    personality?: string[];
+    introduction: string;
+    images: {
+      url: string;
+    };
+  };
+}
+
+interface PageProps {
+  memberData: any;
+  params: {
+    studyId: string;
+  };
+  acceptedStudy: number;
+  recruitNum: number;
+  applyData: StudyRequestItem[];
+}

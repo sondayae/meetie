@@ -13,7 +13,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import CommentList from '@/components/handin/CommentList';
 import AddReaction from '@/components/icons/AddReaction';
 import Separator from '@/components/common/Separator';
-import CommentForm from '@/components/handin/CommentForm';
 
 export default function FeedbackDetailPage({ params }: { params: { handinId: string } }) {
   const router = useRouter();
@@ -27,7 +26,6 @@ export default function FeedbackDetailPage({ params }: { params: { handinId: str
       return feedback;
   }});
 
-
   const handleEditHandin = () => {
     router.push(`./edit/${handinId}`);
   };
@@ -40,9 +38,9 @@ export default function FeedbackDetailPage({ params }: { params: { handinId: str
 
   return (
     <>
-    {/* 헤더 영역 */}
+    {/* 헤더 영역
     <Header label='과제 인증'/>
-    {/* 콘텐츠 영역 */}
+    콘텐츠 영역
     <div className='flex-1 overflow-y-scroll'>
       { getFeed.data && 
         <div key={getFeed.data.id}>
@@ -68,7 +66,7 @@ export default function FeedbackDetailPage({ params }: { params: { handinId: str
           <CommentForm targetId={getFeed.data.id}/>
         </div>
       }
-    </div>
+    </div> */}
     </>
   );
 }

@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import supabase from '@/utils/supabase/client';
 import { getServerUserId } from '@/lib/actions/getServerUserId';
+import supabaseServer from '@/utils/supabase/server';
 
 export async function createStudyRoom(studyId: string) {
   const userId = await getServerUserId();
@@ -35,4 +36,15 @@ export async function createStudyRoom(studyId: string) {
     console.error('Error creating study room:', error);
     throw new Error('Failed to create study room');
   }
+}
+
+export async function getJoinedStudyList() {
+  const supabase = supabaseServer();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id;
+  const { data, error } = await supabase.from('studymember').select('study(*)').eq('participantId', userId);
+  if (error) {
+    return null;
+  }
+  return data;
 }

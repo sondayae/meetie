@@ -8,6 +8,7 @@ import Navigator from '@/components/common/Navigator';
 import Header from '@/components/handin/Header';
 import Plus from '@/components/icons/Header/Plus';
 import TabMenu from '@/components/studyRoom/TabMenu';
+import StudyroomHeader from '@/components/studyRoom/Header';
 
 export default async function Calendar({ params }: { params: { id: number } }) {
   const schedule = await getSchedule(new Date(), params.id);
@@ -17,30 +18,7 @@ export default async function Calendar({ params }: { params: { id: number } }) {
   return (
     <>
       {/* 헤더 영역 */}
-      <div className="bg-[#E3E3FA] p-4">
-        <Header
-          label="스터디룸"
-          leftIcon={false}
-          rightIcon={
-            <Link href={`/studyroom/${params.id}/calendar/add`}>
-              <Plus />
-            </Link>
-          }
-          useBorderBottom={false}
-        />
-        <div className="mt-4 flex flex-col gap-5">
-          <div className="flex items-center justify-end text-xs">
-            <span className="rounded-l-lg border border-transparent bg-primary px-2 py-1 text-white">
-              진행중 3
-            </span>
-            <span className="rounded-r-lg border border-primary bg-white px-2 py-1 text-muted-foreground">
-              진행완료
-            </span>
-          </div>
-          {/* <SelectBox /> */}
-        </div>
-      </div>
-      <TabMenu />
+      <StudyroomHeader studyId={String(params.id)} />
       {/* 콘텐츠 영역 */}
       <div className="mb-28 flex-1">
         <div className="flex flex-col gap-1 px-4 py-7">

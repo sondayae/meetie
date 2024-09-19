@@ -4,8 +4,10 @@ import HomeSVG from '@/components/icons/HomeSVG';
 import AccountRecoveryLinks from '@/components/loginPage/AccountRecoveryLinks';
 import SocialButtons from '@/components/loginPage/SocialButtons';
 import ROUTE_PATH from '@/constants/route';
+import userEventEmitter from '@/lib/EventEmitter';
 
-export default async function Home() {
+export default function Home() {
+
   return (
     <div className="flex-1 bg-gradient-custom py-16">
       <div className="flex flex-col items-center justify-center gap-2">

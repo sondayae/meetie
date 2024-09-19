@@ -1,4 +1,4 @@
-import { getUser, getJoinInfo } from '@/actions/mypage.action';
+import { getUser, getJoinInfo, getMyPost } from '@/actions/mypage.action';
 import SimpleCard from '@/components/mypage/SimpleCard';
 import StudyCard from '@/components/mypage/StudyCard';
 import BookmarkIcon from '@/components/icons/Bookmark';
@@ -18,6 +18,7 @@ export default async function page() {
   } = await supabase.auth.getUser();
   const userdata = await getUser({ id: user?.id });
   const joindata = await getJoinInfo({ id: user?.id });
+  const mypostdata = await getMyPost({ id: user?.id });
 
   type StudyCardItem = {
     label: string;
@@ -29,19 +30,19 @@ export default async function page() {
   const studyCardItem: StudyCardItem[] = [
     {
       label: '관심 스터디',
-      num: joindata?.bookmark.length,
+      num: joindata?.bookmark?.length || 0,
       icon: <ScrapIcon stroke="#A180F4" className="fill-none" />,
       path: '/bookmark',
     },
     {
       label: '참여 스터디',
-      num: joindata?.studymember.length,
+      num: joindata?.studymember?.length || 0,
       icon: <BookmarkIcon className="fill-[#A180F4]" />,
       path: '/study',
     },
     {
       label: '스터디 친구',
-      num: joindata?.friend.length,
+      num: joindata?.friend?.length || 0,
       icon: <FriendsIcon className="fill-[#A180F4]" />,
       path: '/friends',
     },
@@ -55,6 +56,7 @@ export default async function page() {
         label="마이페이지"
         sticky={true}
         useBorderBottom={false}
+        bgColor={'bg-white'}
       />
       {/* 콘텐츠 영역 */}
       {userdata && (
@@ -74,7 +76,7 @@ export default async function page() {
               ))}
             </div>
           </div>
-          <MypageSection {...joindata} />
+          <MypageSection {...joindata} mypost={mypostdata} />
         </div>
       )}
       {!userdata && (

@@ -1,9 +1,12 @@
-import localFont from 'next/font/local';
 
+import localFont from 'next/font/local';
 import '@/css/globals.css';
 import ReactQueryClientProvider from '@/config/ReactQueryClientProvider';
 import InitUser from '@/stores/user/InitUser';
 import supabaseServer from '@/utils/supabase/server';
+import BadgeNotiCard from '@/components/notification/BadgeNotiCard';
+import { getJoinedStudyList } from '@/actions/studyroom.action';
+import JoinedStudyList from '@/components/studyRoom/JoinedStudyList';
 
 const pretendard = localFont({
   src: [
@@ -43,12 +46,17 @@ export default async function RootLayout({
 }) {
   const supabase = supabaseServer();
   const { data } = await supabase.auth.getUser();
+  const studyroomList = await getJoinedStudyList();
 
   return (
     <ReactQueryClientProvider>
       <html lang="ko">
         <head>
-        <link rel="icon" href="https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/logo.png" sizes='any' />
+          <link
+            rel="icon"
+            href="https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/logo.png"
+            sizes="any"
+          />
         </head>
         <body className={`${pretendard.className}`}>
           <div
@@ -58,6 +66,8 @@ export default async function RootLayout({
             {children}
             <InitUser user={data.user} />
           </div>
+          <BadgeNotiCard />
+          <JoinedStudyList list={studyroomList?.map((item: any) => item.study)}/>
         </body>
       </html>
     </ReactQueryClientProvider>

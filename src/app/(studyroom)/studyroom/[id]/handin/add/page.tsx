@@ -93,7 +93,6 @@ const page = ({ params }: { params: { id: string } }) => {
           <Mark label={'진행중'} />
         </div>
         <div className="pb-[24px]">
-          <SelectBox selected={selected} handleClick={setShowModal} />
         </div>
         <div onClick={handleFileClick} className="mb-[40px]">
           {previews ? (

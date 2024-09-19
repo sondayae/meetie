@@ -13,38 +13,26 @@ type ItemType = {
     id: UUID;
     name: string;
     job: string;
+    nickname?: string;
     introduce?: string;
     personality?: string[];
     images: { url: string };
+    introduction: string;
+    expected_study_span?: string;
   };
 };
 
 export default function StudyRequestItem({
   item,
-  acceptedStudy,
   modApply,
-  setacceptedReqStudy,
 }: {
   params: string;
   item: ItemType;
   acceptedStudy: number;
   recruitNum: number;
-  setacceptedReqStudy: (value: number) => void;
   modApply: (studyId: number, userId: UUID, status: string) => void;
 }) {
-  const [currentStatus, setCurrentStatus] = useState(item.status);
-
-  const handleApply = (status: string) => {
-    modApply(item.studyId, item.user.id, status);
-    // 버튼 상태
-    setCurrentStatus(status);
-
-    // 수락인 경우 수락된 스터디 수 증가
-    if (status === 'accepted') {
-      setacceptedReqStudy(acceptedStudy + 1);
-    }
-  };
-
+  console.log(item);
   return (
     <>
       <li key={item.id}>
@@ -63,33 +51,43 @@ export default function StudyRequestItem({
               </div>
               <div className="flex flex-col items-start justify-start gap-1">
                 <div className="text-base font-semibold text-black">
-                  {item.user.name}
+                  {item.user.nickname === ''
+                    ? item.user.name
+                    : item.user.nickname}
                 </div>
                 <div className="text-xs font-medium text-gray-500">
                   {item.user.job}
                 </div>
                 <div className="flex gap-1">
-                  <span className={'text-xs font-medium text-gray-500'}>
+                  <span
+                    className={
+                      'whitespace-nowrap text-xs font-medium text-gray-500'
+                    }
+                  >
                     스터디
+                    {/* 예상 스터디 기간 */}
                   </span>
-                  <span className="text-xs font-medium text-indigo-500">
-                    8회
+                  <span className="whitespace-nowrap text-xs font-medium text-indigo-500">
+                    {/* 8회 */}
+                    {item.user.expected_study_span}
                   </span>
-                  <span className="text-xs font-medium text-gray-500">
+                  {/* <span className="text-xs font-medium text-gray-500">
                     | 출석률
                   </span>
                   <span className="text-xs font-medium text-indigo-500">
                     98%
-                  </span>
+                  </span> */}
                 </div>
               </div>
             </div>
             <div className="flex items-start justify-start gap-1.5">
-              {currentStatus === 'waiting' && (
+              {item.status === 'waiting' && (
                 <>
                   <button
                     type="button"
-                    onClick={() => handleApply('refused')}
+                    onClick={() =>
+                      modApply(item.studyId, item.user.id, 'refused')
+                    }
                     className="flex h-8 items-center justify-center gap-2 rounded-full bg-[#f1f1f1] px-4 py-2"
                   >
                     <div className="text-sm font-medium text-[#434343]">
@@ -98,7 +96,9 @@ export default function StudyRequestItem({
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleApply('accepted')}
+                    onClick={() =>
+                      modApply(item.studyId, item.user.id, 'accepted')
+                    }
                     className="flex h-8 items-center justify-center gap-2 rounded-full bg-[#7f4cff] px-4 py-2"
                   >
                     <div className="text-sm font-medium text-white">수락</div>
@@ -106,7 +106,7 @@ export default function StudyRequestItem({
                 </>
               )}
 
-              {currentStatus !== 'waiting' && (
+              {item.status !== 'waiting' && (
                 <>
                   <button
                     type="button"
@@ -114,7 +114,7 @@ export default function StudyRequestItem({
                     // onClick={() => modApply(item.id, 'refused')}
                     className="text-dark-gray flex items-center justify-center gap-2 rounded-full bg-muted px-4 py-2 text-sm font-medium"
                   >
-                    {currentStatus === 'accepted' ? '수락됨' : '거절됨'}
+                    {item.status === 'accepted' ? '수락됨' : '거절됨'}
                   </button>
                 </>
               )}
@@ -122,16 +122,17 @@ export default function StudyRequestItem({
           </div>
           <div className="flex w-full flex-col items-start justify-start gap-[13px] px-[26px] pb-5">
             <div className="w-72 text-sm font-normal leading-tight text-[#434343]">
-              {item.user.introduce
-                ? item.user.introduce
+              {item.user.introduction
+                ? item.user.introduction
                 : '자기소개가 없습니다.'}
             </div>
 
-            <div className="flex items-start justify-start gap-2.5">
+            <div className="flex w-full items-start justify-start gap-2.5 overflow-scroll overflow-x-auto whitespace-nowrap">
+              {/* 여기서 범위를 벗어남 */}
               {item.user.personality?.map((tag: string, idx: number) => (
                 <span
                   key={idx}
-                  className="mr-2 rounded-lg bg-[#f5f1ff] px-2 py-2 text-[14px] text-[#434343]"
+                  className="mr-2 whitespace-nowrap rounded-lg bg-[#f5f1ff] px-2 py-2 text-[14px] text-[#434343]"
                 >
                   {tag}
                 </span>

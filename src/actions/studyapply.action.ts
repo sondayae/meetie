@@ -3,7 +3,6 @@
 import supabase from '@/utils/supabase/client';
 
 export const postApply = async (params: string, userId: string) => {
-  console.log(params, userId);
   try {
     const { data, error } = await supabase
       .from('study_apply')
@@ -28,10 +27,6 @@ export const postApply = async (params: string, userId: string) => {
     if (error2) {
       throw error2;
     }
-
-    // console.log(`data`, data);
-    // console.log(`data2`, data2);
-    // return
   } catch (error) {
     alert('예상치 못한 문제가 발생하였습니다. 다시 시도하여 주십시오.');
   }

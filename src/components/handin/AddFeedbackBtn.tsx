@@ -8,10 +8,10 @@ export default function AddFeedbackBtn() {
   return (
     <div className="bg-white p-8">
     <button
-      className="flex w-full justify-center gap-2 rounded-lg border-2 border-dotted border-border px-4 py-3.5 text-muted-foreground"
-      onClick={() => router.push('./handin/add')}
+      className="flex w-full justify-center items-center gap-2 rounded-lg border-2 border-dotted border-border px-4 py-3 text-muted-foreground"
+      onClick={() => router.push('./feedback/add')}
     >
-      <PlusCircleIcon />
+      <PlusCircleIcon className='w-5 h-5'/>
       과제 인증하기
     </button>
   </div>

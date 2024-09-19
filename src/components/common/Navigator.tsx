@@ -36,7 +36,7 @@ export default function Navigator() {
     },
   ];
   return (
-    <div className="m-w-[600px] sticky bottom-0 flex justify-between bg-white px-6 py-2.5 drop-shadow">
+    <div className="m-w-[600px] sticky bottom-0 flex justify-between bg-white px-6 py-2.5 drop-shadow-navbarShadow">
       {menus.map((menu) => {
         return (
           <Link key={menu.name} href={menu.path} className={'flex-1'}>

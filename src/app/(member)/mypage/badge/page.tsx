@@ -1,87 +1,62 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-
-import BadgeCard from '@/components/badge/BadgeCard';
 import Header from '@/components/handin/Header';
-import AlramIcon from '@/components/icons/AlramIcon';
-import { getBadges } from '@/lib/actions/badge';
-import { getBadgeImgUrl } from '@/utils/supabase/storage';
+import VerifiedIcon from '@/components/icons/VerifiedIcon';
+import BadgeList from '@/components/mypage/badge/BadgeList';
+import supabaseServer from '@/utils/supabase/server';
+import Image from 'next/image';
 
-export default function page() {
-  const [badgeList, setBadgeList] = useState<any>();
+const megaphone =
+'https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/assets/megaphone.svg';
 
-  const fetchData = async () => {
-    const { data } = await getBadges();
-    setBadgeList(data);
-  };
+export default async function BadgePage() {
+  const supabase = supabaseServer();
+  const { data: { user } } = await supabase.auth.getUser();
+  const userId = user?.id;
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const badgeTypes = [
+    {type: 'comment', title: '댓글 뱃지'},
+    {type: 'feedback', title: '피드 뱃지'},
+    {type: 'study', title: '스터디 뱃지'},
+    {type: 'meett', title: '밋티 뱃지'},
+  ];
+  const { data: badgeList } = await supabase.from('badge').select('*', {count: 'exact'});
+  const { data: userBadgeList } = await supabase.from('user_badge').select('*').eq('user_id', userId);
+  
+  const badgeListByType = badgeTypes.map(typeObj => ({
+    type: typeObj.type,
+    title: typeObj.title,
+    list: badgeList?.filter(badge => badge.type === typeObj.type)
+  }));
 
   return (
     <>
-      <Header label="내 능력 현황" />
-      <div className='px-[20px]'>
-        <div className="flex items-center justify-between py-[12px]">
-          <h1 className="text-lg font-semibold">내 뱃지</h1>
-          <div className="flex items-center justify-center gap-1">
-            <span>
-              <AlramIcon />
-            </span>
-            <span className="text-xs text-muted-foreground">업데이트 매일 오전</span>
+      <Header label='내 뱃지 현황'/>
+      <div className='px-4 py-8'>
+        <div className='flex justify-between items-center bg-[#E3E3FA] rounded-lg p-5 text-sm'>
+          <div>
+            <p>축하합니다!</p>
+            <p className='font-semibold'>그동안 밋티에서 활동하며 획득한 뱃지를 확인해보세요.</p>
           </div>
+          <Image
+            width={50}
+            height={50}
+            src={megaphone}
+            alt="손 흔드는 이미지"
+            priority
+          />
         </div>
-          <div>
-            <h1 className='font-medium'>댓글 뱃지</h1>
-            <div className='flex items-center gap-3'>
-              {badgeList?.comment.map((item: any) => {
-                return (
-                  <div key={item.id}>
-                    {/* <BadgeCard badge={item} type='댓'/> */}
-                  </div>
-                );
-              })}
+        <h1 className='font-semibold text-lg mt-10 mb-5'>내 뱃지</h1>
+        <div className='px-4 flex flex-col gap-5'>
+          {badgeListByType.map((item) => (
+            <div key={item.type} className='flex flex-col gap-2'>
+              <p className='flex gap-1 items-center'>
+                <span className='font-semibold'>{item.title}</span>
+                <VerifiedIcon />
+              </p>
+              <BadgeList badgeList={item.list} userBadgeList={userBadgeList}/>
             </div>
-          </div>
-          <div>
-            <h1 className='font-medium'>피드 뱃지</h1>
-            <div className='flex items-center gap-3'>
-              {badgeList?.feedback.map((item: any) => {
-                return (
-                  <div key={item.id}>
-                    {/* <BadgeCard badge={item} type='피드'/> */}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <h1 className='font-medium'>스터디 뱃지</h1>
-            <div className='flex items-center gap-3'>
-              {badgeList?.study.map((item: any) => {
-                return (
-                  <div key={item.id}>
-                    {/* <BadgeCard badge={item} type='스터디'/> */}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <h1 className='font-medium'>밋티 뱃지</h1>
-            <div className='flex items-center gap-3'>
-              {badgeList?.meett.map((item: any) => {
-                return (
-                  <div key={item.id}>
-                    {/* <BadgeCard badge={item} type='밋티'/> */}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          ))}
+        </div>
       </div>
     </>
-  );
+  )
 }

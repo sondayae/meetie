@@ -8,18 +8,23 @@ import Link from 'next/link';
 import Button from '../common/Button';
 import Image from 'next/image';
 import Logout from './Logout';
+import { useEffect, useState } from 'react';
+import { getUserBadgeList } from '@/actions/mypage.action';
+import { getBadgeImgUrl } from '@/utils/supabase/storage';
 
 interface MypageSectionProps {
   bookmark: any[];
   studymember: any[];
   friend: any[];
+  mypost: any[];
 }
 
 export default function MypageSection({
   bookmark,
   studymember,
-  friend,
+  mypost: mypost,
 }: MypageSectionProps) {
+  const [badgeList, setBadgeList] = useState<any[]>();
   const listItem = [
     {
       label: '관심 스터디',
@@ -37,30 +42,23 @@ export default function MypageSection({
     },
     {
       label: '내 작성글',
-      num: friend.length,
+      num: mypost.length,
       icon: <BookIcon className="h-4 w-4" />,
       path: '/myposts',
     },
   ];
 
-  const dummyBadges = [
-    {
-      title: '지식뉴비',
-      src: 'https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/badge/study/1-beginner.svg',
-    },
-    {
-      title: '피드러너',
-      src: 'https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/badge/feedback/2-runner.svg',
-    },
-    {
-      title: '댓뉴비',
-      src: 'https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/badge/comment/1-beginner.svg',
-    },
-    {
-      title: '밋티러너',
-      src: 'https://wyzkmcctbltzehszxyvt.supabase.co/storage/v1/object/public/admin/badge/meett/2-runner.svg',
-    },
-  ];
+  useEffect(() => {
+    async function getBadges() {
+      const data = await getUserBadgeList();
+      if (data) {
+        console.log(data);
+        setBadgeList(data);
+      }
+    }
+    getBadges();
+  }, []);
+
   return (
     <div className="flex flex-col gap-10">
       {/* 내 능력 현황 */}
@@ -71,18 +69,14 @@ export default function MypageSection({
             <RightArrowIcon className="h-4 w-4" />
           </div>
         </Link>
-        <div className="flex justify-start gap-3">
-          {dummyBadges.map((badge) => (
-            <div key={badge.title} className="flex flex-col items-center gap-3">
-              <Image
-                src={badge.src}
-                alt={badge.title}
-                width={80}
-                height={80}
-                priority
-              />
-              <span className="text-xs font-semibold">{badge.title}</span>
-            </div>
+        <div className="flex items-center gap-3">
+          {badgeList?.map((userBadge: any) => (
+            <img
+              key={userBadge.id}
+              src={getBadgeImgUrl(userBadge.badge.image_path)}
+              alt={userBadge.badge.name}
+              className="w-[150px]"
+            />
           ))}
         </div>
       </section>
@@ -119,12 +113,12 @@ export default function MypageSection({
           <li>
             <Link href="/mypage/editAccount">회원 정보 수정</Link>
           </li>
-          <li>
+          {/* <li>
             <Link href="">비밀번호 설정</Link>
           </li>
           <li>
             <Link href="">마케팅 개인정보 제 3자 제공 동의</Link>
-          </li>
+          </li> */}
         </ul>
       </section>
 

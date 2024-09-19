@@ -1,3 +1,5 @@
+/* eslint-disable simple-import-sort/imports */
+
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -14,7 +16,6 @@ export default function ProfileAvatar({
   return (
     <Avatar className={className} onClick={onClick}>
       <AvatarImage src={src} alt={alt} />
-      {/* 폴백으로 이미지 또는 이름 사용 가능 */}
       {!src && <AvatarFallback>{fallback}</AvatarFallback>}
     </Avatar>
   );
