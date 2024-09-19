@@ -11,10 +11,24 @@ export async function POST(request: NextRequest) {
       email,
       password,
     });
+    const { data: studyAndOnboarding } = await supabase
+      .from('user')
+      .select('participating_study, onboarding')
+      .eq('id', data.user?.id)
+      .single();
+
+    const userWithStudy = {
+      ...data.user,
+      participatingStudy: studyAndOnboarding?.participating_study,
+      onboarding: studyAndOnboarding?.onboarding,
+    };
 
     if (error) throw new Error();
 
-    return NextResponse.json({ data }, { status: 200 });
+    return NextResponse.json(
+      { data: { user: userWithStudy } },
+      { status: 200 },
+    );
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(

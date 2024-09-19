@@ -9,7 +9,6 @@ import { postLogin } from '@/apis/auth';
 import Button from '@/components/common/Button';
 import ErrorMessage from '@/components/form/ErrorMessage';
 import Input from '@/components/form/Input';
-import ROUTE_PATH from '@/constants/route';
 import { emailPattern } from '@/constants/validationPatterns';
 import { useUser } from '@/stores/user/user';
 import { LoginFormData } from '@/types/auth';
@@ -28,7 +27,14 @@ export default function LoginForm() {
     try {
       const user = await postLogin(formData);
       useUser.setState({ user });
-      router.replace('/walkthrough');
+      if (user.onboarding) {
+        const path = user.participatingStudy
+          ? `/studyroom/${user.participatingStudy}/calendar`
+          : '/studyroom';
+        router.replace(path);
+      } else {
+        router.replace('/walkthrough');
+      }
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
@@ -42,7 +48,7 @@ export default function LoginForm() {
 
   return (
     <form className="flex flex-col gap-[60px]">
-      <div className='flex flex-col gap-3'>
+      <div className="flex flex-col gap-3">
         <Input<LoginFormData>
           id="email"
           name="email"
@@ -80,6 +86,5 @@ export default function LoginForm() {
         />
       </div>
     </form>
-    
   );
 }
