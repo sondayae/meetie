@@ -35,44 +35,40 @@ export async function requireAuth(request: NextRequest) {
   const isRestrictedPath =
     request.nextUrl.pathname === '/login/update/password';
 
-  if (isRestrictedPath) {
-    if (user) {
-      // 로그인한 사용자가 `/login/update/password`경로로 접근 시 participating_study에 따라 리다이렉트
-      const { data } = await supabase
-        .from('user')
-        .select('participating_study')
-        .eq('id', user.id)
-        .single();
-
-      const url = request.nextUrl.clone();
-      url.pathname = data?.participating_study
-        ? `/studyroom/${data.participating_study}/calendar`
-        : '/studyroom';
-      return NextResponse.redirect(url);
-    }
-    // 비로그인 사용자가 `/login/update/password` 경로로 접근 시 루트로 리다이렉트
-    const url = request.nextUrl.clone();
-    url.pathname = '/';
-    return NextResponse.redirect(url);
-  }
-
   if (user) {
-    if (isPublicPath) {
-      // 로그인한 사용자가 publicPaths에 포함된 경로로 접근 시 participating_study에 따라 리다이렉트
-      const { data } = await supabase
-        .from('user')
-        .select('participating_study')
-        .eq('id', user.id)
-        .single();
+    const { data } = await supabase
+      .from('user')
+      .select('participating_study, onboarding')
+      .eq('id', user.id)
+      .single();
 
+    // 로그인한 사용자 온보딩 상태에 따라 isRestrictedPath 및 publicPaths에 포함된 경로로 접근 시 participating_study에 따라 리다이렉트
+    if (data?.onboarding) {
+      if (
+        isRestrictedPath ||
+        isPublicPath ||
+        request.nextUrl.pathname === '/profile/create'
+      ) {
+        const url = request.nextUrl.clone();
+        url.pathname = data?.participating_study
+          ? `/studyroom/${data.participating_study}/calendar`
+          : '/studyroom';
+        return NextResponse.redirect(url);
+      }
+    } else if (
+      request.nextUrl.pathname !== '/walkthrough' &&
+      request.nextUrl.pathname !== '/profile/create'
+    ) {
       const url = request.nextUrl.clone();
-      url.pathname = data?.participating_study
-        ? `/studyroom/${data.participating_study}/calendar`
-        : '/studyroom';
+      url.pathname = '/walkthrough';
       return NextResponse.redirect(url);
     }
-  } else if (!isPublicPath) {
-    // 비로그인 사용자가 publicPaths 외의 경로로 접근 시 루트로 리다이렉트
+  } else if (
+    isRestrictedPath ||
+    !isPublicPath ||
+    request.nextUrl.pathname === '/walkthrough'
+  ) {
+    // 비로그인 사용자가 isRestrictedPath 및 publicPaths에 포함된 경로로 접근 시 participating_study에 따라 리다이렉트
     const url = request.nextUrl.clone();
     url.pathname = '/';
     return NextResponse.redirect(url);
