@@ -58,3 +58,49 @@ export async function getUserBadgeList() {
   }
   return data;
 }
+export async function getMyPost({ id }: { id: any }) {
+  // console.log(id)
+  const { data, count, error } = await supabase
+    .from('study')
+    .select(`*`)
+    .eq('author', id);
+
+  return data;
+}
+
+export async function getFriends({ id }: { id: any }) {
+  // 내친구
+  const { data: friends, error: friendsError } = await supabase
+    .from('friend')
+    .select('*')
+    .eq('requester', id);
+
+  if (friendsError) {
+    console.error('Error fetching friends:', friendsError);
+    return null;
+  }
+
+  const receiverIds = friends.map((friend) => friend.receiver);
+
+  // user 정보
+  const { data: users, error: usersError } = await supabase
+    .from('user')
+    .select('*, images (url)')
+    .in('id', receiverIds);
+  // .range(0, 4);
+
+  if (usersError) {
+    console.error('Error fetching users:', usersError);
+    return null;
+  }
+
+  const friendsWithDetails = friends.map((friend) => {
+    const user = users.find((user) => user.id === friend.receiver);
+    return {
+      ...friend,
+      receiverDetails: user,
+    };
+  });
+
+  return friendsWithDetails;
+}

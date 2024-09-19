@@ -34,7 +34,6 @@ export async function getStudyMemberImage(studyId: string) {
       throw new Error('Failed to fetch study details');
     }
 
-    
     return data;
   } catch (error) {
     console.error('Error in server action:', error);

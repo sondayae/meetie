@@ -2,8 +2,19 @@ import BookmarkFlag from '@/components/icons/BookmarkFlag';
 import CalendarSmallIcon from '@/components/icons/CalendarSmallIcon';
 import EyeIcon from '@/components/icons/EyeIcon';
 import Link from 'next/link';
+import { format } from 'date-fns';
 
 export default function PostItem({ item }: { item: any }) {
+  const calddays = (data: string) => {
+    const ddays = Math.round(
+      (Number(new Date(data)) - Number(new Date())) / 1000 / 60 / 60 / 24,
+    );
+
+    const result =
+      ddays === 0 ? 'D-Day' : ddays > 0 ? `D-${ddays}` : `D+${Math.abs(ddays)}`;
+    return result;
+  };
+
   return (
     <>
       <Link href={`/study/${item.study.id}`}>
@@ -15,10 +26,10 @@ export default function PostItem({ item }: { item: any }) {
                 <BookmarkFlag marked="true" />
               </div>
             </div>
-            <div className="flex flex-col items-start justify-start gap-6 overflow-hidden  whitespace-nowrap">
+            <div className="flex flex-col items-start justify-start gap-6 overflow-hidden whitespace-nowrap">
               <div className="flex flex-col items-start justify-start gap-3">
                 <div className="w-auto items-center justify-start gap-2">
-                  <div className=" text-base font-semibold text-[#434343] text-ellipsis">
+                  <div className="text-ellipsis text-base font-semibold text-[#434343]">
                     {item.study.title}
                   </div>
                 </div>
@@ -39,13 +50,16 @@ export default function PostItem({ item }: { item: any }) {
               </div>
               <div className="flex w-full items-center justify-start gap-1">
                 <div className="flex h-6 shrink grow basis-0 items-center justify-start gap-3">
-                  <div className="text-xs font-bold text-[#6224fd]">D-9</div>
+                  <div className="text-xs font-bold text-[#6224fd]">
+                    {calddays(item.study.startDate)}
+                  </div>
                   <div className="flex h-6 shrink grow basis-0 items-center justify-start gap-1">
                     <div className="relative h-3.5 w-3.5">
                       <CalendarSmallIcon fill={'#82829b'} />
                     </div>
                     <div className="shrink grow basis-0 text-xs font-medium leading-normal text-[#555555]">
-                      2024.05.29 (토) - 06.29 (금)
+                      {format(new Date(item.study.startDate), 'yyyy.MM.dd')} -{' '}
+                      {format(new Date(item.study.endDate), 'yyyy.MM.dd')}
                     </div>
                   </div>
                 </div>
