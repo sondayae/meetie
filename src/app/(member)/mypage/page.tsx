@@ -55,6 +55,7 @@ export default async function page() {
         label="마이페이지"
         sticky={true}
         useBorderBottom={false}
+        bgColor={'bg-white'}
       />
       {/* 콘텐츠 영역 */}
       {userdata && (
