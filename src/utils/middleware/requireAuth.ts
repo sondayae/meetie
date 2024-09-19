@@ -50,7 +50,7 @@ export async function requireAuth(request: NextRequest) {
         : '/studyroom';
       return NextResponse.redirect(url);
     }
-    // 로그인한 사용자가 `/login/update/password` 경로로 접근 시 루트로 리다이렉트
+    // 비로그인 사용자가 `/login/update/password` 경로로 접근 시 루트로 리다이렉트
     const url = request.nextUrl.clone();
     url.pathname = '/';
     return NextResponse.redirect(url);
@@ -72,7 +72,7 @@ export async function requireAuth(request: NextRequest) {
       return NextResponse.redirect(url);
     }
   } else if (!isPublicPath) {
-    // 로그인한 사용자가 publicPaths 외의 경로로 접근 시 루트로 리다이렉트
+    // 비로그인 사용자가 publicPaths 외의 경로로 접근 시 루트로 리다이렉트
     const url = request.nextUrl.clone();
     url.pathname = '/';
     return NextResponse.redirect(url);
