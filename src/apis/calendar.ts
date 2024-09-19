@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { revalidatePath } from 'next/cache';
 
 export const getSchedule = async (date: Date, id: number) => {
   const response = await fetch(
@@ -25,6 +26,7 @@ export const getUpcomingSchedule = async (id: number) => {
     return new Error(error.message);
   } else {
     const data = await response.json();
+    revalidatePath(`/studyroom/${id}/calendar`);
 
     return data;
   }
