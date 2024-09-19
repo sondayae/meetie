@@ -32,7 +32,7 @@ export default async function page({ params }: { params: { id: string } }) {
           }
           useBorderBottom={false}
         />
-        <div className="mt-4 flex flex-col gap-5">
+        {/* <div className="mt-4 flex flex-col gap-5">
           <div className="flex items-center justify-end text-xs">
             <span className="rounded-l-lg border border-transparent bg-primary px-2 py-1 text-white">
               진행중 3
@@ -41,8 +41,8 @@ export default async function page({ params }: { params: { id: string } }) {
               진행완료
             </span>
           </div>
-          {/* <SelectBox /> */}
-        </div>
+          <SelectBox />
+        </div> */}
       </div>
       <TabMenu />
       {/* 콘텐츠 영역 - 과제 일정 및 캘린더 부분*/}
@@ -56,14 +56,15 @@ export default async function page({ params }: { params: { id: string } }) {
           </div>
           <NoticeBox />
         </div>
-        <div className="p-4">
+        {/* 캘린더 영역 */}
+        {/* <div className="p-4">
           <div className="mb-6 flex justify-between">
             <span className="font-semibold">9월</span>
             <span>
               <EventCalendarIcon />
             </span>
           </div>
-        </div>
+        </div> */}
         {/* 콘텐츠 영역 - 과제 인증 리스트 */}
         <div className="rounded-t-xl bg-white drop-shadow-md">
           <div className="flex flex-col gap-1 border-b p-8">

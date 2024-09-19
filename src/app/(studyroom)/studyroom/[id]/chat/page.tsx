@@ -82,7 +82,7 @@ export default function page({ params }: { params: { id: string } }) {
           rightIcon={<Plus />}
           useBorderBottom={false}
         />
-        <div className="flex flex-col gap-5 mt-4">
+        {/* <div className="flex flex-col gap-5 mt-4">
           <div className="flex items-center justify-end text-xs">
             <span className="rounded-l-lg border border-transparent bg-primary px-2 py-1 text-white">
               진행중 3
@@ -91,8 +91,8 @@ export default function page({ params }: { params: { id: string } }) {
               진행완료
             </span>
           </div>
-          {/* <SelectBox selected={''} handleClick={() => open()} /> */}
-        </div>
+          <SelectBox selected={''} handleClick={() => open()} />
+        </div> */}
     </div>
     <TabMenu />
     <div className='flex-grow'>
