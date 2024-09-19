@@ -1,4 +1,5 @@
 import { getJoinStudy } from '@/actions/mypage.action';
+import StudyAvatar from '@/components/common/StudyAvatar';
 import Header from '@/components/handin/Header';
 import supabaseServer from '@/utils/supabase/server';
 import Link from 'next/link';
@@ -43,13 +44,9 @@ export default async function page() {
       <div className="m-auto flex w-full max-w-[600px] flex-col px-4 pt-7">
         <div className="border-middle-gray flex flex-col rounded-lg border-2">
           {data.studymember.map((item: Studymember) => (
-            <Link href={`/study/${item.study.id}`} key={item.study.id}>
+            <Link href={`/studyroom/${item.study.id}/calendar`} key={item.study.id}>
               <div className="border-middle-gray flex items-center gap-2 border-b-2 p-2">
-                {/* <img
-                className="h-[38px] w-[38px] rounded-lg"
-                src="https://th.bing.com/th/id/OIG3.6Q6JSjGGulke2mGv6MPj?pid=ImgGn"
-                alt="Profile"
-              /> */}
+                <StudyAvatar/>
                 <div className="flex-col items-start justify-start gap-6">
                   <div className="flex flex-col items-start justify-start gap-3">
                     <div className="flex w-full flex-col justify-start gap-1">

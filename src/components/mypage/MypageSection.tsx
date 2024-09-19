@@ -107,12 +107,12 @@ export default function MypageSection({
           <li>
             <Link href="/mypage/editAccount">회원 정보 수정</Link>
           </li>
-          <li>
+          {/* <li>
             <Link href="">비밀번호 설정</Link>
           </li>
           <li>
             <Link href="">마케팅 개인정보 제 3자 제공 동의</Link>
-          </li>
+          </li> */}
         </ul>
       </section>
 
