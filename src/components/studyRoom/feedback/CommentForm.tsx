@@ -35,7 +35,6 @@ export default function CommentForm({targetId, scrollRef}: {targetId: string, sc
         <button
           type="submit"
           aria-label="commentSend"
-          className=""
         >
           <SendIcon />
         </button>

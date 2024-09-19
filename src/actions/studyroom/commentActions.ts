@@ -19,6 +19,8 @@ export async function getComments(targetId: string) {
 export async function insertComment(formData: FormData) {
   const targetId = formData.get('targetId');
   const comment = formData.get('comment');
+  console.log(comment);
+  
 
   const supabase = supabaseServer();
   const { data: { user } } = await supabase.auth.getUser();
@@ -30,7 +32,7 @@ export async function insertComment(formData: FormData) {
     }
 
     const { data, error } = await supabase
-    .from('comment')
+    .from('comments')
     .insert({ user_id: userId, target_id: targetId, comment: comment, created_at: new Date() })
     .select()
     if (error) {
@@ -56,7 +58,7 @@ export async function updateComment(id: number, comment: string) {
     }
 
     const { data, error } = await supabase
-    .from('comment')
+    .from('comments')
     .update({ comment: comment })
     .eq('id', id)
     .eq('user_id', userId)
@@ -139,7 +141,7 @@ export async function deleteComment(id: number) {
       throw new Error('There is an error');
     }
     const { error } = await supabase
-      .from('comment')
+      .from('comments')
       .delete()
       .eq('id', id);
 

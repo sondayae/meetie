@@ -22,10 +22,10 @@ export default async function feedbackDetailPage({
         <FeedReaction
           targetId={params.feedId}
           feedReactions={feedback.feedback_reactions}
-          commentLength={feedback.comment?.length}
+          commentLength={feedback.comments?.length}
           />
       </div>
-      <CommentList targetId={params.feedId} comments={feedback.comment}/>
+      <CommentList targetId={params.feedId} comments={feedback.comments}/>
     </div>
   );
 }

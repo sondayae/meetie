@@ -3,12 +3,16 @@
 import CustomDropDownMenu from '@/components/common/CustomDropdownMenu';
 import ProfileAvatar from '@/components/common/ProfileAvatar';
 import ImageFrame from '@/components/handin/ImageFrame';
+import CommentIcon from '@/components/icons/CommentIcon';
+import EmojiIcon from '@/components/icons/EmojiIcon';
 import MoreIcon from '@/components/icons/MoreIcon';
 import NewCheckSignIcon from '@/components/icons/NewCheckSignIcon';
 import { getImgUrl } from '@/utils/supabase/storage';
 import Link from 'next/link';
 
 export default function Feed({feedback}: {feedback: Feedback}) {
+  console.log(feedback);
+  
   return (
     <Link href={`./feedback/${feedback.id}`}>
       <div className='flex border-b px-4 pt-[1.125rem] pb-8 gap-2'>
@@ -25,6 +29,12 @@ export default function Feed({feedback}: {feedback: Feedback}) {
               src={getImgUrl(feedback.images[0]?.url)}
               alt="data_image"
             />
+            <div className='flex justify-end gap-1 pt-2'>
+              <EmojiIcon />
+              <span className='text-xs text-muted-foreground'>{feedback.feedback_reactions?.length}</span>
+              <CommentIcon />
+              <span className='text-xs text-muted-foreground'>{feedback.comments?.length}</span>
+            </div>
           </div>
         </div>
         <MoreIcon className='stroke-black'/>

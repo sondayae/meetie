@@ -52,6 +52,6 @@ type Feedback = {
   homework: Homework;
   user: User;
   images: Image[];
-  comment: FeedComment[] | null;
+  comments: FeedComment[] | null;
   feedback_reactions: FeedReaction[]; // feedback_reactions는 비어있으므로 타입을 any[]로 설정
 };
