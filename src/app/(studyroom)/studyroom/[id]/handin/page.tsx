@@ -47,14 +47,14 @@ export default async function page({ params }: { params: { id: string } }) {
       <TabMenu />
       {/* 콘텐츠 영역 - 과제 일정 및 캘린더 부분*/}
       <div className="bg-muted">
-        <div className="border-b-2 px-4 py-7">
+        <div className="px-4 py-7">
           <div className="mb-[20px] flex flex-col gap-1">
             <h1 className="text-lg font-bold">📚 과제 일정</h1>
             <p className="text-sm text-muted-foreground">
               주차별 과제 현황을 확인하고 소통해요.
             </p>
           </div>
-          <NoticeBox />
+          {/* <NoticeBox /> */}
         </div>
         {/* 캘린더 영역 */}
         {/* <div className="p-4">
