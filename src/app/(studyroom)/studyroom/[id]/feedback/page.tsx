@@ -18,7 +18,7 @@ export default async function FeedbackListPage({
 
   return (
     <>
-      <StudyroomHeader />
+      <StudyroomHeader studyId={params.id}/>
       <div className="h-screen flex-grow overflow-y-scroll bg-[#FAFAFA] px-4 scrollbar-hide">
         <div className="py-7">
           <div className="mb-[20px] flex flex-col gap-1">

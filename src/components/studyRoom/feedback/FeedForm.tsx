@@ -33,12 +33,13 @@ export default function FeedForm({studyId, feedback, homeworks}: {studyId: strin
     <>
     {/* <NoticeBox /> */}
     <form className='flex flex-col gap-8 p-4 flex-grow' action={formAction}>
-      <StudyroomDrawer list={homeworks} handleSelect={setSelectedHomework}/>
+      <StudyroomDrawer list={homeworks} preSelected={homeworks![0]} handleSelect={setSelectedHomework} title='진행중인 과제' subtitle='제출할 과제를 선택하세요.'/>
       <ImageInput />
       <p className='flex flex-col gap-2'>
         <label htmlFor="feedbackText" className='font-semibold'>기록</label>
         <textarea name="text" id='feedbackText' 
-          className='bg-muted resize-none rounded-lg outline-none p-2' 
+          className='bg-muted resize-none rounded-lg outline-none p-2 border border-border content-center'
+          placeholder='과제를 하며 나누고 싶은 생각을 적어보세요.'
           maxLength={MAX} 
           onChange={(e) => handleTextChange(e.target.value)}
         />

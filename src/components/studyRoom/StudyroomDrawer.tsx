@@ -15,18 +15,20 @@ import StudyAvatar from '../common/StudyAvatar'
 import { useEffect, useState } from 'react';
 
 
-export default function StudyroomDrawer({list, preSelected, handleSelect}: {list: any, preSelected?: any, handleSelect: (args: any) => void}) {
+export default function StudyroomDrawer({list, preSelected, handleSelect, title, subtitle}: {list: any, preSelected: any, handleSelect: (args: any) => void, title: string, subtitle?: string}) {
 
-  const [selected, setSelected] = useState(preSelected ? preSelected : list ? list[0]: null);
+  const [selected, setSelected] = useState(preSelected);
+  
+  const handleClick = (selectedItem: any) => {
+    console.log(selectedItem);
+    
+    setSelected(selectedItem);
+    handleSelect(selectedItem.id);
+  }
 
-  useEffect(() => {
-    if (selected) {
-      handleSelect(selected.id);
-    }
-  }, [selected])
   return (
     <Drawer>
-    <DrawerTrigger>
+    <DrawerTrigger className='w-full'>
       <div
         className="b-[#E9E9E9] rounded-lg border bg-white p-[16px] shadow delay-75 hover:cursor-pointer hover:bg-[#efefef]"
       >
@@ -34,7 +36,7 @@ export default function StudyroomDrawer({list, preSelected, handleSelect}: {list
           <span className="rounded-xl border border-[#E9E9E9] bg-[#F7F3FF] py-[11.5px]">
             <UpdownArrowIcon />
           </span>
-          <div className="flex flex-col">
+          <div className="flex flex-col text-start">
             <span className="font-medium">{selected.title}</span>
             <span className="text-xs text-muted-foreground">{selected.subtitle}</span>
           </div>
@@ -43,15 +45,15 @@ export default function StudyroomDrawer({list, preSelected, handleSelect}: {list
     </DrawerTrigger>
     <DrawerContent className='h-[50vh]'>
       <DrawerHeader>
-        <DrawerTitle>진행 중인 과제 {list.length}</DrawerTitle>
-        <DrawerDescription>제출할 과제를 선택해주세요.</DrawerDescription>
+        <DrawerTitle>{title} {list.length}</DrawerTitle>
+        <DrawerDescription>{subtitle}</DrawerDescription>
       </DrawerHeader>
         <div className='flex flex-col justify-center m-4 border rounded-lg bg-white'>
             {list?.map((data: any) => (
               <DrawerClose key={data.id}>
-                <div className='flex items-center gap-3 border p-4' onClick={() => setSelected(data)}>
+                <div className='flex items-center gap-3 border p-4' onClick={() => handleClick(data)}>
                   {data.image ? <StudyAvatar /> : null}
-                  <p className='flex flex-col'>
+                  <p className='flex flex-col text-start'>
                     <span className='font-semibold'>{data.title}</span>
                     <span className='font-medium text-xs'>{data.subtitle}</span>
                   </p>
