@@ -14,7 +14,6 @@ export async function getUser({ id }: { id: any }) {
 }
 
 export async function getJoinInfo({ id }: { id: any }) {
-  // console.log(id);
   const { data, count, error } = await supabase
     .from('user')
     .select(`*, bookmark (*), friend!friend_requester_fkey(*), studymember (*)`)
@@ -25,7 +24,6 @@ export async function getJoinInfo({ id }: { id: any }) {
 }
 
 export async function getBookMark({ id }: { id: any }) {
-  // console.log(id);
   const { data, count, error } = await supabase
     .from('user')
     .select(`*, bookmark (*, study (*))`)
@@ -35,9 +33,7 @@ export async function getBookMark({ id }: { id: any }) {
   return data;
 }
 
-
 export async function getJoinStudy({ id }: { id: any }) {
-  // console.log(id);
   const { data, count, error } = await supabase
     .from('user')
     .select(`*, studymember (*, study (*))`)
@@ -49,9 +45,14 @@ export async function getJoinStudy({ id }: { id: any }) {
 
 export async function getUserBadgeList() {
   const supabase = supabaseServer();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const userId = user?.id;
-  const {data, error} = await supabase.from('user_badge').select('*, badge(*)').eq('user_id', userId);
+  const { data, error } = await supabase
+    .from('user_badge')
+    .select('*, badge(*)')
+    .eq('user_id', userId);
   if (error) {
     return null;
   }

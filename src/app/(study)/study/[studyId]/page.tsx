@@ -45,7 +45,13 @@ export default async function Page({
   return (
     <>
       <div className="flex h-full max-w-[600px] flex-col">
-        <Header leftIcon rightIcon={isAuthor ? <KebabMenuIcon /> : ''} />
+        <Header
+          leftIcon
+          rightIcon={isAuthor ? <KebabMenuIcon /> : ''}
+          sticky={true}
+          useBorderBottom={false}
+          bgColor={'bg-white'}
+        />
         <StudyMain {...detaildata} />
       </div>
       <Navigator />

@@ -35,36 +35,42 @@ export default async function page() {
 
   return (
     <div className="relative h-full">
-      <Header leftIcon label={`북마크한 스터디 ${data.bookmark.length}`} />
-      <div className="m-auto flex w-full max-w-[600px] flex-col px-4 pt-7 gap-2 mb-4">
+      <Header
+        leftIcon
+        label={`북마크한 스터디 ${data.bookmark.length}`}
+        sticky={true}
+        useBorderBottom={false}
+        bgColor={'bg-white'}
+      />
+      <div className="m-auto mb-4 flex w-full max-w-[600px] flex-col gap-2 px-4 pt-7">
         {/* <div className="border-middle-gray flex flex-col rounded-lg border-2"> */}
-          {data.bookmark.map((item: Bookmark) => (
-            <PostItem item={item}/>
-            // <Link href={`/study/${item.study.id}`}>
-            //   <div className="border-middle-gray flex items-center gap-2 border-b-2 p-2">
-            //     {/* <img
-            //     className="h-[38px] w-[38px] rounded-lg"
-            //     src="https://th.bing.com/th/id/OIG3.6Q6JSjGGulke2mGv6MPj?pid=ImgGn"
-            //     alt="Profile"
-            //   /> */}
-            //     <div className="flex-col items-start justify-start gap-6">
-            //       <div className="flex flex-col items-start justify-start gap-3">
-            //         <div className="flex w-full flex-col justify-start gap-1">
-            //           <p className="text- text-[16px] font-semibold text-black">
-            //             {item.study.title}
-            //           </p>
-            //           <div className="h-5 grow basis-0 text-xs font-medium text-muted-foreground">
-            //             {item.study.roles} | 멤버 {item.study.recruitNum} |{' '}
-            //             {calddays(item.study.endDate)}
-            //           </div>
-            //           <div className="w-72 items-center justify-start"></div>
-            //         </div>
-            //       </div>
-            //     </div>
-            //   </div>
-            // </Link>
-          ))}
-        </div>
+        {data.bookmark.map((item: Bookmark) => (
+          <PostItem item={item} />
+          // <Link href={`/study/${item.study.id}`}>
+          //   <div className="border-middle-gray flex items-center gap-2 border-b-2 p-2">
+          //     {/* <img
+          //     className="h-[38px] w-[38px] rounded-lg"
+          //     src="https://th.bing.com/th/id/OIG3.6Q6JSjGGulke2mGv6MPj?pid=ImgGn"
+          //     alt="Profile"
+          //   /> */}
+          //     <div className="flex-col items-start justify-start gap-6">
+          //       <div className="flex flex-col items-start justify-start gap-3">
+          //         <div className="flex w-full flex-col justify-start gap-1">
+          //           <p className="text- text-[16px] font-semibold text-black">
+          //             {item.study.title}
+          //           </p>
+          //           <div className="h-5 grow basis-0 text-xs font-medium text-muted-foreground">
+          //             {item.study.roles} | 멤버 {item.study.recruitNum} |{' '}
+          //             {calddays(item.study.endDate)}
+          //           </div>
+          //           <div className="w-72 items-center justify-start"></div>
+          //         </div>
+          //       </div>
+          //     </div>
+          //   </div>
+          // </Link>
+        ))}
+      </div>
       {/* </div> */}
     </div>
   );
