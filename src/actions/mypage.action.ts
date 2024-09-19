@@ -22,3 +22,26 @@ export async function getJoinInfo({ id }: { id: any }) {
 
   return data;
 }
+
+export async function getBookMark({ id }: { id: any }) {
+  // console.log(id);
+  const { data, count, error } = await supabase
+    .from('user')
+    .select(`*, bookmark (*, study (*))`)
+    .eq('id', id)
+    .maybeSingle();
+
+  return data;
+}
+
+
+export async function getJoinStudy({ id }: { id: any }) {
+  // console.log(id);
+  const { data, count, error } = await supabase
+    .from('user')
+    .select(`*, studymember (*, study (*))`)
+    .eq('id', id)
+    .maybeSingle();
+
+  return data;
+}
