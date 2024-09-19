@@ -29,13 +29,13 @@ export default function BadgeCard({badge, isAwarded, awardedAt}: {badge: any, is
     {isAwarded ? (
     <DrawerTrigger>
       <div className='flex flex-col items-center gap-2 cursor-pointer'>
-        <img src={getBadgeImgUrl(badge.image_path)} alt={badge.name} className={twMerge('min-w-[150px]', isAwarded ? '' : 'grayscale')}/>
+        <img src={getBadgeImgUrl(badge.image_path)} alt={badge.name} className={twMerge('w-[150px]', isAwarded ? '' : 'grayscale')}/>
         <p className='text-sm font-medium'>{badge.name}</p>
       </div>
     </DrawerTrigger>
     ) : (
       <div className='flex flex-col items-center gap-2'>
-        <img src={getBadgeImgUrl(badge.image_path)} alt={badge.name} className={twMerge('min-w-[150px]', isAwarded ? '' : 'grayscale')}/>
+        <img src={getBadgeImgUrl(badge.image_path)} alt={badge.name} className={twMerge('w-[150px]', isAwarded ? '' : 'grayscale')}/>
         <p className='text-sm font-medium'>{badge.name}</p>
       </div>
     )}
