@@ -12,10 +12,11 @@ import StudyListItem from '@/components/study/search/StudyListItem';
 import { useJoinedStudyStore } from '@/stores/studyStore';
 import StudyAvatar from '@/components/common/StudyAvatar';
 import { QuestionTooltip } from '@/components/common/QuestionTooltip';
+import { getJoinedStudyList } from '@/actions/studyroom.action';
 
 export default function StudyPage() {
   const router = useRouter();
-  const { joinedStudyList } = useJoinedStudyStore();
+  const { joinedStudyList, setJoinedStudyList } = useJoinedStudyStore();
 
   // 리다이렉션 속도가 늦어 UX 개선이 필요함 -> 주석 처리
   // useEffect(() => {
@@ -62,6 +63,16 @@ export default function StudyPage() {
     };
     fetchData();
   }, [setStudyList]);
+
+  useEffect(() => {
+    async function getJoinedStudies() {
+      const data = await getJoinedStudyList();
+      if (data) {
+        setJoinedStudyList(data.map((item: any) => item.study));
+      }
+    }
+    getJoinedStudies();
+  }, []);
 
   return (
     <>

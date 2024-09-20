@@ -46,7 +46,6 @@ export default async function RootLayout({
 }) {
   const supabase = supabaseServer();
   const { data } = await supabase.auth.getUser();
-  const studyroomList = await getJoinedStudyList();
 
   return (
     <ReactQueryClientProvider>
@@ -67,7 +66,6 @@ export default async function RootLayout({
             <InitUser user={data.user} />
           </div>
           <BadgeNotiCard />
-          <JoinedStudyList list={studyroomList?.map((item: any) => item.study)}/>
         </body>
       </html>
     </ReactQueryClientProvider>
