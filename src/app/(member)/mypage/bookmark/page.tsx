@@ -3,7 +3,6 @@ import { getBookMark, getJoinInfo, getUser } from '@/actions/mypage.action';
 import Header from '@/components/handin/Header';
 import supabaseServer from '@/utils/supabase/server';
 
-
 type Bookmark = {
   study: {
     id: string;
@@ -38,6 +37,7 @@ export default async function page() {
       <Header
         leftIcon
         label={`북마크한 스터디 ${data.bookmark.length}`}
+        rightIcon={<div></div>}
         sticky={true}
         useBorderBottom={false}
         bgColor={'bg-white'}
