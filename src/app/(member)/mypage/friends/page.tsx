@@ -3,7 +3,6 @@ import Header from '@/components/handin/Header';
 import FriendCard from '@/components/mypage/FriendCard';
 import supabaseServer from '@/utils/supabase/server';
 
-
 export default async function page() {
   const supabase = supabaseServer();
   const {
@@ -17,6 +16,7 @@ export default async function page() {
         leftIcon
         // label={`내 친구`}
         label={`내 친구 ${data?.length ?? 0}`}
+        rightIcon={<div></div>}
         sticky={true}
         useBorderBottom={false}
         bgColor={'bg-white'}

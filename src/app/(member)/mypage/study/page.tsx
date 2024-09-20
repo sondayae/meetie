@@ -37,16 +37,20 @@ export default async function page() {
       <Header
         leftIcon
         label={`참여중인 스터디 ${data.studymember.length}`}
+        rightIcon={<div></div>}
         sticky={true}
         useBorderBottom={false}
         bgColor={'bg-white'}
       />
       <div className="m-auto flex w-full max-w-[600px] flex-col px-4 pt-7">
-        <div className="border-middle-gray flex flex-col rounded-lg border-2">
+        <div className="flex flex-col gap-2 rounded-lg">
           {data.studymember.map((item: Studymember) => (
-            <Link href={`/studyroom/${item.study.id}/calendar`} key={item.study.id}>
-              <div className="border-middle-gray flex items-center gap-2 border-b-2 p-2">
-                <StudyAvatar/>
+            <Link
+              href={`/studyroom/${item.study.id}/calendar`}
+              key={item.study.id}
+            >
+              <div className="flex items-center gap-2 rounded-lg border border-[#dddddd] p-2">
+                <StudyAvatar />
                 <div className="flex-col items-start justify-start gap-6">
                   <div className="flex flex-col items-start justify-start gap-3">
                     <div className="flex w-full flex-col justify-start gap-1">

@@ -5,7 +5,7 @@ import SocialButtons from '@/components/loginPage/SocialButtons';
 
 export default function Login() {
   return (
-    <div className="flex-1 p-4">
+    <div className="flex-1 p-4 bg-gradient-custom">
       <div className="mt-[74px]">
         <div className="mb-5 flex flex-col gap-3">
           <WavingHand />

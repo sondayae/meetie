@@ -65,6 +65,7 @@ export default function page() {
       <Header
         leftIcon
         label={`공지사항`}
+        rightIcon={<div></div>}
         sticky={true}
         useBorderBottom={false}
         bgColor={'bg-white'}
