@@ -52,7 +52,6 @@ export default function MypageSection({
     async function getBadges() {
       const data = await getUserBadgeList();
       if (data) {
-        console.log(data);
         setBadgeList(data);
       }
     }
@@ -78,6 +77,7 @@ export default function MypageSection({
               className="w-[150px]"
             />
           ))}
+          {badgeList?.length == 0 && <p className='text-sm text-muted-foreground'>획득한 뱃지가 없습니다!</p>}
         </div>
       </section>
       {/* 내 스터디 */}

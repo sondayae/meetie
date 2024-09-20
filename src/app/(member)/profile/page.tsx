@@ -10,6 +10,8 @@ import ProfileAvatar from '@/components/common/ProfileAvatar';
 import Header from '@/components/handin/Header';
 import Link from 'next/link';
 import Image from 'next/image';
+import { getBadgeImgUrl } from '@/utils/supabase/storage';
+import { getUserBadgeList } from '@/actions/mypage.action';
 
 interface UserProfileData {
   name: string;
@@ -27,6 +29,7 @@ export default function UserProfile() {
   const { user } = useUser();
   console.log(user?.user_metadata.name);
   const [profile, setProfile] = useState<UserProfileData | null>(null);
+  const [userBadgeList, setUserBadgeList] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -42,7 +45,15 @@ export default function UserProfile() {
       }
     };
 
+    async function fetchUserBadge() {
+      const data = await getUserBadgeList();
+      if (data) {
+        setUserBadgeList(data);
+      }
+    }
+
     fetchProfile();
+    fetchUserBadge();
   }, []);
 
   const handleGoHome = () => {
@@ -101,26 +112,26 @@ export default function UserProfile() {
           <hr className="w-full" />
           <div className="mt-5">
             <div className="mb-2 text-base font-bold">하이라이트 뱃지</div>
-            <div className="mb-6">
+            {/* <div className="mb-6">
               마스터 레벨을 2개 보유하고 있는 열정 밋티!
-            </div>
+            </div> */}
 
             <div className="flex justify-between gap-3">
-              {dummyBadges.map((badge) => (
+            {userBadgeList?.map((userBadge: any) => (
                 <div
-                  key={badge.title}
-                  className="flex flex-col items-center gap-3 rounded-lg border-2 border-[#8D79DE] bg-[#FEFBFF] px-[11px] pb-[9px]"
+                  key={userBadge.title}
+                  className="flex flex-col items-center gap-3 rounded-lg border-2 border-[#8D79DE] bg-[#FEFBFF] px-[28px] py-[11px]"
                 >
-                  <Image
-                    src={badge.src}
-                    alt={badge.title}
-                    width={100}
-                    height={100}
-                    priority
+                  <img
+                    key={userBadge.id}
+                    src={getBadgeImgUrl(userBadge.badge.image_path)}
+                    alt={userBadge.badge.name}
+                    className="w-[150px]"
                   />
-                  <span className="text-xs font-semibold">{badge.title}</span>
+                  <span className="text-xs font-semibold">{userBadge.title}</span>
                 </div>
               ))}
+              {userBadgeList?.length == 0 && <p className='text-sm text-muted-foreground'>아직 획득한 뱃지가 없습니다!</p>}
             </div>
           </div>
           <div className="mt-8">

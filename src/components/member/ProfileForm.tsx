@@ -17,7 +17,6 @@ export default function ProfileForm({
 }: ProfileFormProps) {
   const user = useUser();
   const userName = user.user?.user_metadata.name;
-  console.log(user);
 
   const [nickname, setNickname] = useState<string>('');
   const [introduction, setIntroduction] = useState<string>('');
