@@ -29,6 +29,7 @@ function Header({
   const handleToggleMenu = () => {
     setToggleMenu((prev) => !prev);
   };
+
   return (
     <div
       className={twMerge(
@@ -44,7 +45,9 @@ function Header({
         {leftIcon && (
           <span
             className="flex h-[40px] w-[40px] items-center justify-center hover:cursor-pointer"
-            onClick={() => window.history.back()}
+            onClick={() => {
+              window.history.back(), { scroll: false };
+            }}
           >
             <BackArrowIcon />
           </span>

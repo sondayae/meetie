@@ -15,7 +15,7 @@ export async function incrementViewCount(studyId: string) {
   }
 
   // const updatedViewCount = currentStudy.viewCount;
-  const updatedViewCount = currentStudy.viewCount + 1;
+  const updatedViewCount = currentStudy.viewCount;
   console.log('currentStudy.viewCount', currentStudy.viewCount);
 
   const { data, error: updateError } = await supabase

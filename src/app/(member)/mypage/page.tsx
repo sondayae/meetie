@@ -66,7 +66,11 @@ export default async function page() {
             <p className="mb-3 text-lg font-bold">내 정보</p>
             <div className="flex items-center justify-center gap-20 rounded-lg border border-[#E0D8FF] bg-[#FDFBFF] p-6 text-muted-foreground">
               {studyCardItem.map((item) => (
-                <Link key={item.path} href={`/mypage${item.path}`}>
+                <Link
+                  key={item.path}
+                  href={`/mypage${item.path}`}
+                  className={'break-keep'}
+                >
                   <StudyCard
                     icon={item.icon}
                     label={item.label}

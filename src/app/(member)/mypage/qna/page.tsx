@@ -60,13 +60,14 @@ export default function Page() {
       <Header
         leftIcon
         label={`문의사항`}
+        rightIcon={<div></div>}
         sticky={true}
         useBorderBottom={false}
         bgColor={'bg-white'}
       />
 
-      <div className="flex h-full min-h-screen w-full max-w-[600px] flex-1 flex-col items-center gap-4 px-4 py-2">
-        <div className="flex h-12 w-full flex-col items-start justify-start gap-2">
+      <div className="flex h-full min-h-screen w-full max-w-[600px] flex-1 flex-col items-center gap-4 px-4 py-2 pt-10">
+        <div className="mb-5 flex h-12 w-full flex-col items-start justify-start gap-2">
           <p className="text-dark-gray text-lg font-bold">
             무엇을 도와 드릴까요?
           </p>
@@ -82,7 +83,7 @@ export default function Page() {
             📣 답변 받을 이메일을 입력해주세요.
           </div>
           <input
-            className="mt-2 h-12 w-full rounded-lg border border-[#c4c4c4] px-4"
+            className="mb-5 mt-2 h-12 w-full rounded-lg border border-[#c4c4c4] px-4"
             type="text"
             id="title"
             placeholder="example@example.com"
@@ -92,7 +93,7 @@ export default function Page() {
             아래의 정보를 입력해주세요.
           </div>
           <textarea
-            className="mt-2 flex h-40 w-full rounded-lg border border-[#c4c4c4] px-4"
+            className="mt-2 flex h-40 w-full rounded-lg border border-[#c4c4c4] p-4"
             id="context"
             placeholder="내용을 입력해주세요."
             {...register('context', { required: '부제목을 작성해주세요.' })}

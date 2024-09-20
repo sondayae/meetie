@@ -14,7 +14,11 @@ export default async function page() {
 
   return (
     <>
-      <Header leftIcon label={`내 작성글 ${data?.length}`} />
+      <Header
+        leftIcon
+        label={`내 작성글 ${data?.length}`}
+        rightIcon={<div></div>}
+      />
       <div className="flex flex-col gap-2 py-4">
         {data?.map((item) => (
           <PostItem key={item.id} item={{ study: { ...item } }} />

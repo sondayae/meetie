@@ -50,6 +50,7 @@ export default function page() {
       <Header
         leftIcon
         label={`FAQ`}
+        rightIcon={<div></div>}
         sticky={true}
         useBorderBottom={false}
         bgColor={'bg-white'}
