@@ -35,18 +35,20 @@ export default function BadgeNotiCard() {
     },
     (payload) => {
       console.log('Change received!', payload);
-      const getBadgeInfo = async () => {
-        console.log('get badge info');
-        const {data, error} = await supabase.from('badge').select().eq('id', payload.new.badge_id);
-        if (error) {
-          console.log('뱃지 알림 팝업 뱃지 정보 조회 실패', error.message);
-          return null;
-        }
-        if (data) {
-          setBadge(data[0]);
-        }
-      };
-      getBadgeInfo();
+      if (payload.new.user_id === userId) {
+        const getBadgeInfo = async () => {
+          console.log('get badge info');
+          const {data, error} = await supabase.from('badge').select().eq('id', payload.new.badge_id);
+          if (error) {
+            console.log('뱃지 알림 팝업 뱃지 정보 조회 실패', error.message);
+            return null;
+          }
+          if (data) {
+            setBadge(data[0]);
+          }
+        };
+        getBadgeInfo();
+      }
     }
   )
   .subscribe();
