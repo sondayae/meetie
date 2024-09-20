@@ -65,7 +65,7 @@ export default function UserList({
   const handleAddFriend = async (receiverId: string) => {
     const data = await addFriend(receiverId);
     if (data) {
-      const newUsers = users.map((item: any) => {
+      const newUsers = users?.map((item: any) => {
         let newUser = item;
         if (item.id === receiverId) {
           if (item.friend.length === 0) {
