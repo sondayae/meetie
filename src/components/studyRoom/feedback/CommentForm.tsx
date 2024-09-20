@@ -6,7 +6,7 @@ import supabase from '@/utils/supabase/client';
 import { RefObject, useEffect, useRef, useState } from 'react';
 
 export default function CommentForm({targetId, scrollRef}: {targetId: string, scrollRef: RefObject<HTMLDivElement>}) {
-  const [user, setUser] = useState<any>();
+  const [userAvatar, setUserAvatar] = useState<any>();
   const formRef = useRef<HTMLFormElement>(null);
 
   const scrollToBottom = () => {
@@ -18,7 +18,11 @@ export default function CommentForm({targetId, scrollRef}: {targetId: string, sc
   useEffect(() => {
     async function getUserData() {
       const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+      if (user?.user_metadata.avatar_url) {
+        setUserAvatar(user.user_metadata.avatar_url);
+      } else {
+        setUserAvatar('');
+      }
     };
     getUserData();
   }, []);
@@ -31,7 +35,7 @@ export default function CommentForm({targetId, scrollRef}: {targetId: string, sc
       return () => clearTimeout(timeoutId);
     }}>
       <div className="flex items-center gap-3 border border-[#efefef] bg-white px-4 py-5">
-        <ProfileAvatar src={user?.user_metadata.avatar_url} alt='유저 이미지'/>
+        <ProfileAvatar src={userAvatar} alt='유저 이미지'/>
         <input type="text"
           name='targetId'
           defaultValue={targetId}
