@@ -77,7 +77,7 @@ export default function StudyPage() {
       {/* 콘텐츠 영역 */}
       <div className="flex-1 bg-muted p-4 pb-10">
         <div className="flex flex-col gap-3">
-          {joinedStudyList.length === 0 ? (
+          {!joinedStudyList || joinedStudyList?.length === 0 ? (
             <>
               <div className="mb-8">
                 <h1 className="mb-2 text-lg font-bold leading-6">
