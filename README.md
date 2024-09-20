@@ -27,7 +27,7 @@ IT 꿈나무들의 협업 공간</p>
 ### 🔍 스터디원 검색/추가
 
 ### 💬 스터디룸 채팅
- 
+
 ### ⭐ 뱃지 기능
 
 ### 🗓️ 일정 관리
@@ -35,6 +35,7 @@ IT 꿈나무들의 협업 공간</p>
 ### 📝 스터디룸 과제 CRUD
 
 ### 👤 마이페이지
+
 
 
 ## 사용 기술 스택
@@ -45,4 +46,8 @@ IT 꿈나무들의 협업 공간</p>
 
 
 ## ppt 소개
+
 https://docs.google.com/presentation/d/12-DLmP1g23VBcLe64XSrW3a9KNuOckJEVA-NSrioTqE/edit#slide=id.g3011ba6a15a_0_146
+
+<img width="909" alt="image" src="https://github.com/user-attachments/assets/38000c6e-045f-41cc-8bc4-c008c8b3287e">
+
