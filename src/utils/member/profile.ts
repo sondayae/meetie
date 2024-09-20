@@ -1,3 +1,5 @@
+import supabase from '../supabase/client';
+
 export const uploadImage = async (file: File): Promise<string | null> => {
   const formData = new FormData();
   formData.append('file', file);
@@ -33,6 +35,10 @@ export const saveImageUrl = async (imageUrl: string) => {
 
   // return response.json();
   const imageData = await response.json();
+  
+  const { data, error } = await supabase.auth.updateUser({
+    data: { avatar_url: imageUrl }
+  });
   console.log('Image ID:', imageData[0].id);
   return imageData[0].id; // 반환된 이미지 ID
 };
@@ -54,6 +60,9 @@ export const addProfile = async (profileData: any, imageId: any) => {
 
     const result = await response.json();
     console.log('Profile update result:', result); // Add this for debugging
+    
+    
+    
     return result;
   } catch (error) {
     console.error('프로필 추가 또는 업데이트 오류:', error);

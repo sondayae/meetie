@@ -17,6 +17,7 @@ export default function Comment({ comment }: { comment: FeedComment }) {
 
   // TODO user 스토어에 avatar url 추가할 것 -> updateuser, user_meta
   const { user } = useUser();
+  
   const reactionListWithCount = comment.reactions.reduce(
     (acc: any, current: any, idx) => {
       const existingEntry = acc.find(

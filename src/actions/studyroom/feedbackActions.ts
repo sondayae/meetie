@@ -237,3 +237,10 @@ export async function deleteFeedback(id: number) {
     return {success: false, err: err.message};
   }
 }
+
+
+export async function getUser() {
+  const supabase = supabaseServer();
+  const { data: { user }} = await supabase.auth.getUser();
+  return user;
+}
