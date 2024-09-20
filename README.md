@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">✨밋티 - 타라미수케익✨</h1>
 
-## Getting Started
+<p align="center">지식을 나누며 함께하는 IT 스터디
+IT 꿈나무들의 협업 공간</p>
 
-First, run the development server:
+## 프로젝트 소개
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+지식을 나누고 체계적인 스터디로 함께 성장하고 지속적인 네트워크로 협업하는 공간입니다.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 주요 기능
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 🔑 로그인/회원가입/소셜로그인
 
-## Learn More
+### 📝 스터디룸 과제 인증
 
-To learn more about Next.js, take a look at the following resources:
+### 🔖 스터디 스크랩
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 👭🏻 친구 추가 기능
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### ✏️ 스터디 CRUD
 
-## Deploy on Vercel
+### ⚙️ 회원정보 수정
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 👤 공개프로필
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 🔍 스터디원 검색/추가
+
+### 💬 스터디룸 채팅
+ 
+### ⭐ 뱃지 기능
+
+### 🗓️ 일정 관리
+
+### 📝 스터디룸 과제 CRUD
+
+### 👤 마이페이지
+
+
+## 사용 기술 스택
+
+
+
+
+
+## ppt 소개
+https://docs.google.com/presentation/d/12-DLmP1g23VBcLe64XSrW3a9KNuOckJEVA-NSrioTqE/edit#slide=id.g3011ba6a15a_0_146
