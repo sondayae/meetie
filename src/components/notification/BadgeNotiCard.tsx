@@ -15,11 +15,13 @@ import {
 import Button from '../common/Button';
 import { getBadgeImgUrl } from '@/utils/supabase/storage';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/stores/user/user';
 
 export default function BadgeNotiCard() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [badge, setBadge] = useState<any>();
   const router = useRouter();
+  const { user } = useUser();
 
   useEffect(() => {
     buttonRef.current?.click();
@@ -35,7 +37,7 @@ export default function BadgeNotiCard() {
     },
     (payload) => {
       console.log('Change received!', payload);
-      if (payload.new.user_id === userId) {
+      if (payload.new.user_id === user?.id) {
         const getBadgeInfo = async () => {
           console.log('get badge info');
           const {data, error} = await supabase.from('badge').select().eq('id', payload.new.badge_id);
