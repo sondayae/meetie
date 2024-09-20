@@ -1,11 +1,7 @@
 import { getServerUserId } from '@/lib/actions/getServerUserId';
 import supabase from '@/utils/supabase/client';
 
-export async function fetchStudyList(
-  num?: number,
-  limit: number = 10,
-  offset: number = 0,
-) {
+export async function fetchStudyList(num?: number) {
   const userId = await getServerUserId();
 
   let query;
@@ -15,14 +11,12 @@ export async function fetchStudyList(
     query = supabase
       .from('study')
       .select('*', { count: 'exact' })
-      .range(offset, offset + limit - 1)
       .order('created_at', { ascending: false });
     // throw new Error('사용자 정보 data가 없습니다.');
   } else {
     query = supabase
       .from('study')
       .select('*, bookmark(user_id)', { count: 'exact' })
-      .range(offset, offset + limit - 1)
       .or(`user_id.eq.${userId}`, { referencedTable: 'bookmark' })
       .order('created_at', { ascending: false });
   }

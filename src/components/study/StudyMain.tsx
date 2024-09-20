@@ -7,7 +7,7 @@ import EyeIcon from '../icons/EyeIcon';
 import Button from '@/components/common/Button';
 
 import { StudyDetail } from '@/types/studydetail';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { postApply, deleteApply } from '@/actions/studyapply.action';
 
 export default function StudyMain({
@@ -19,7 +19,7 @@ export default function StudyMain({
   endDate,
   startDate,
   created_at,
-  viewCount,
+  viewCount: initViewCount,
   topic,
   goal,
   info,
@@ -29,6 +29,7 @@ export default function StudyMain({
   isRecruiting,
 }: StudyDetail) {
   const [btnisApply, setbtnisApply] = useState(isApply);
+  const [viewCount, setViewCount] = useState(initViewCount);
 
   const ddays = Math.round(
     (Number(new Date(endDate)) - Number(new Date())) / 1000 / 60 / 60 / 24,
@@ -45,6 +46,28 @@ export default function StudyMain({
       setbtnisApply((prev) => !prev);
     }
   };
+  useEffect(() => {
+    const incrementView = async () => {
+      try {
+        const response = await fetch('/api/studyRoom/increment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ studyId: params.studyId }),
+        });
+
+        if (!response.ok) {
+          console.error('카운트 증가 실패', await response.json());
+        }
+        const { viewCount } = await response.json();
+        // console.log('viewCount', viewCount);
+        setViewCount(viewCount);
+      } catch (error) {
+        console.error('API 호출 중 오류가 발생했습니다.', error);
+      }
+    };
+
+    incrementView();
+  }, []);
 
   return (
     <>
