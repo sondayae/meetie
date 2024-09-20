@@ -39,6 +39,7 @@ IT 꿈나무들의 협업 공간</p>
 
 ## 사용 기술 스택
 
+<img width="911" alt="image" src="https://github.com/user-attachments/assets/1cb808ed-6771-4ce8-8781-cd8c4541b385">
 
 
 
