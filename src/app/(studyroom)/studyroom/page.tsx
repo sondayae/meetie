@@ -130,7 +130,7 @@ export default function StudyPage() {
             </>
           ) : (
             <>
-              {joinedStudyList.length > 0 && (
+              {joinedStudyList && joinedStudyList.length > 0 && (
                 <div>
                   <p className="pb-3 text-lg font-semibold">참여중인 스터디</p>
                   <div className="flex flex-col rounded-lg border bg-white [&>*:first-child]:border-none">
