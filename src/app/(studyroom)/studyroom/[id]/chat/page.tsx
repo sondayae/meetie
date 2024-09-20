@@ -13,6 +13,7 @@ import supabase from '@/utils/supabase/client';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import StudyroomHeader from '@/components/studyRoom/Header';
 
 export default function page({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -75,26 +76,7 @@ export default function page({ params }: { params: { id: string } }) {
   return (
     <>
       {/* 헤더 영역 */}
-      <div className="bg-[#E3E3FA]">
-        <Header
-          label="스터디룸"
-          leftIcon={false}
-          rightIcon={<Plus />}
-          useBorderBottom={false}
-        />
-        <div className="mt-4 flex flex-col gap-5">
-          <div className="mx-4 mb-3 flex items-center justify-end text-xs">
-            <span className="rounded-l-lg border border-transparent bg-primary px-2 py-1 text-white">
-              진행중 3
-            </span>
-            <span className="rounded-r-lg border border-primary bg-white px-2 py-1 text-muted-foreground">
-              진행완료
-            </span>
-          </div>
-          {/* <SelectBox selected={''} handleClick={() => open()} /> */}
-        </div>
-      </div>
-      <TabMenu />
+      <StudyroomHeader studyId={params.id} />
       <div className="flex-grow">
         <div className="flex flex-col gap-1 border-b px-4 py-7">
           <p className="text-lg font-bold">🗣️ 팀원과의 대화</p>
