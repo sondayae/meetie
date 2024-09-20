@@ -136,7 +136,7 @@ export default function StudyPage() {
                   <div className="flex flex-col rounded-lg border bg-white [&>*:first-child]:border-none">
                     {joinedStudyList.map((study: any) => (
                       <Link
-                        href={`./studyroom/${study.id}/calendar`}
+                        href={`./studyroom/${study.id}/feedback`}
                         className="border-t"
                         key={study.id}
                       >
