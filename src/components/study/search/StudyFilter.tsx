@@ -3,6 +3,7 @@ import { useFilterStore } from '@/stores/search/useFilterStore';
 import { useState } from 'react';
 import { purposes, studySpans } from '@/lib/profileConstants';
 import StudyFilterBottomSheet from './StudyFilterBottomSheet';
+import { Study } from '@/types/study';
 
 export default function StudyFilter({ allTags }: { allTags: string[] }) {
   const { activeTag, setActiveTag } = useFilterStore();
@@ -116,6 +117,10 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
     });
   };
 
+  type StudyResponse = {
+    studies: Study[];
+  };
+
   const fetchStudies = async (filters: FilterTags) => {
     try {
       const tags = [
@@ -139,8 +144,38 @@ export default function StudyFilter({ allTags }: { allTags: string[] }) {
         throw new Error('네트워크 응답이 올바르지 않습니다.');
       }
 
-      const data = await response.json();
-      setStudyList(data.studies);
+      const data: StudyResponse = await response.json(); // 타입 명시
+      const studies = data.studies;
+
+      // 모집 중 필터 적용
+      let filteredStudies = studies;
+      if (useFilterStore.getState().isRecruiting) {
+        filteredStudies = filteredStudies.filter(
+          (study: Study) => study.isRecruiting,
+        );
+      }
+
+      // 태그 필터 적용
+      if (useFilterStore.getState().activeTag !== '전체') {
+        filteredStudies = filteredStudies.filter((study: Study) =>
+          study.tags.includes(useFilterStore.getState().activeTag),
+        );
+      }
+
+      // 정렬 및 필터 적용
+      const sortedStudies =
+        useFilterStore.getState().selectedFilter === 'viewCount'
+          ? filteredStudies.sort(
+              (a: Study, b: Study) => Number(b.viewCount) - Number(a.viewCount),
+            )
+          : filteredStudies.sort(
+              (a: Study, b: Study) =>
+                new Date(String(b.created_at)).getTime() -
+                new Date(String(a.created_at)).getTime(),
+            );
+
+      setStudyList(sortedStudies);
+
       // console.log('페치 스터디:', data.studies);
     } catch (error) {
       console.error('사용자 검색 중 오류 발생:', error);

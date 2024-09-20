@@ -33,7 +33,7 @@ function Button({
   const getColor = () => {
     switch (type) {
       case 'primary':
-        return 'bg-primary border-primary text-white';
+        return 'bg-primary hover:bg-secondary hover:border-secondary transition-all border-primary text-white';
       case 'secondary':
         return 'border-primary text-primary';
       case 'disabled':

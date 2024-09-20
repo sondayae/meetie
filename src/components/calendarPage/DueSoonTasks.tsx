@@ -98,7 +98,7 @@ export default function DueSoonTasks({ dueSoonSchedule }: DueSoonTasksProps) {
                     </div>
                   </div>
                 </div>
-                <Link href={`/studyRoom/${task.study_id}/handin/add`}>
+                <Link href={`/studyroom/${task.study_id}/handin/add`}>
                   <Button type="primary" label="인증하기" />
                 </Link>
               </div>

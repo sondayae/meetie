@@ -20,17 +20,49 @@ export async function POST(req: Request) {
         { status: 400 },
       );
     }
+    // console.log('session ::::', session.user.email);
+
+    const { data: existingUser, error: checkError } = await supabase
+      .from('user')
+      .select('*')
+      .eq('email', newEmail);
+
+    console.log('existingUser ::::', existingUser);
+
+    if (checkError) {
+      console.error('이메일 확인 중 오류 발생:', checkError.message);
+      return new Response(
+        JSON.stringify({
+          error: '이메일 확인 중 오류가 발생했습니다.',
+        }),
+        { status: 500 },
+      );
+    }
+
+    if (existingUser.length > 0) {
+      console.log('이미 등록된 이메일입니다.');
+      return new Response(
+        JSON.stringify({
+          error: '이미 등록된 이메일입니다.',
+        }),
+        { status: 400 },
+      );
+    }
 
     // 이메일 업데이트
     const { data, error } = await supabase.auth.updateUser(
       { email: newEmail },
-      { emailRedirectTo: 'http://localhost:3000/api/verifyEmail' },
+      // { emailRedirectTo: 'http://localhost:3000/api/verifyEmail' },
+      {
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+      },
     );
 
     console.log('data', data);
 
     if (error) {
       console.error('이메일 업데이트 실패:', error.message);
+      console.log('이메일 업데이트 실패:', error.message);
       return new Response(
         JSON.stringify({
           error: '이메일을 업데이트하는 중 오류가 발생했습니다.',

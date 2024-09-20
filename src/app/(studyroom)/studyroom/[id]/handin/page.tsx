@@ -29,7 +29,7 @@ export default async function page({ params }: { params: { id: string } }) {
               <Plus />
             </Link>
           }
-          useBorderBottom={false}
+          useBorderBottom={true}
         />
         {/* <div className="mt-4 flex flex-col gap-5">
           <div className="flex items-center justify-end text-xs">
@@ -56,8 +56,8 @@ export default async function page({ params }: { params: { id: string } }) {
           <NoticeBox /> 
         </div>
           */}
-        {/* 캘린더 영역 */}
-        {/* <div className="p-4">
+      {/* 캘린더 영역 */}
+      {/* <div className="p-4">
           <div className="mb-6 flex justify-between">
             <span className="font-semibold">9월</span>
             <span>

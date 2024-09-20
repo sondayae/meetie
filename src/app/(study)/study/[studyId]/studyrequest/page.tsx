@@ -22,15 +22,15 @@ export default async function Page({
   const detaildata = { params, ...data };
 
   return (
-    <div className="flex h-full max-w-[600px] flex-col">
+    <div className="flex h-full min-h-dvh max-w-[600px] flex-col">
       <Header
-        label="대기중인요청"
+        label="대기중인 요청"
+        sticky={true}
+        bgColor={'bg-white'}
         leftIcon
         rightIcon
-        sticky={true}
-        useBorderBottom={false}
-        bgColor={'bg-white'}
       />
+
       <CreateStudyRoom params={params.studyId} />
       {/* <StudyRequest {...detaildata} /> */}
       <StudyRequest {...detaildata} />

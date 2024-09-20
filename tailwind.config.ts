@@ -102,12 +102,12 @@ const config: Config = {
             transform: 'rotate(10deg)',
           },
         },
-        motionScroll: {
-          '0%': {
-            transform: 'translateX(0)',
+        moveCard: {
+          '0%, 100%': {
+            transform: 'translateY(0) rotate(0deg)',
           },
-          '100%': {
-            transform: 'translateX(-100%)',
+          '50%': {
+            transform: 'translateY(10px) rotate(3deg)',
           },
         },
       },
@@ -115,7 +115,7 @@ const config: Config = {
         rocketMove: 'rocketMove 3.5s linear infinite',
         messageMove: 'messageMove 2s infinite',
         wavingHand: 'wavingHand 2.5s infinite',
-        motionScroll: 'motionScroll 20s linear infinite',
+        moveCard: 'moveCard 3s ease-in-out infinite',
       },
       borderRadius: {
         lg: 'var(--radius)',

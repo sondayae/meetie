@@ -1,5 +1,5 @@
 'use client';
-import Button from '@/components/common/Button'
+import Button from '@/components/common/Button';
 import FireWork from '@/components/common/Firework';
 import GradientCheckSign from '@/components/icons/GradientCheckSign';
 import Link from 'next/link';
@@ -9,23 +9,23 @@ const page = () => {
   const background = 'bg-gradient-to-bl from-[#7273FF] to-[#B8B9FF]';
 
   return (
-      <div className='flex flex-col items-center justify-center gap-[100px] my-[180px]'>
-        <div className='relative'>
-          <FireWork />
-          <div className='flex flex-col relative gap-10 items-center'>
-            <GradientCheckSign />
-            <span className='text-3xl font-bold'>과제 인증 완료!</span>
-          </div>
-        </div>
-        <div className='flex flex-col gap-3'>
-          <Link href={'./add'}>
-            <Button type='primary' label='계속하기' size='large' />
-          </Link>
-          <Link href={'./'}>
-            <Button label='돌아가기' size='large' />
-          </Link>
+    <div className="my-[180px] flex flex-col items-center justify-center gap-[100px]">
+      <div className="relative">
+        <FireWork />
+        <div className="relative flex flex-col items-center gap-10">
+          <GradientCheckSign />
+          <span className="text-3xl font-bold">과제 인증 완료!</span>
         </div>
       </div>
-  )
-}
-export default page
+      <div className="flex w-full max-w-[340px] flex-col gap-3">
+        <Link href={'./add'}>
+          <Button type="primary" label="계속하기" size="large" />
+        </Link>
+        <Link href={'./'}>
+          <Button label="과제 페이지로 가기" size="large" />
+        </Link>
+      </div>
+    </div>
+  );
+};
+export default page;

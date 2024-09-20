@@ -1,5 +1,5 @@
 export interface StudyDetail {
-  memberData: any,
+  memberData: any;
   userdata: any;
 
   isApply: boolean;
@@ -11,6 +11,7 @@ export interface StudyDetail {
   startDate: string;
   created_at: string;
   viewCount: number;
+  topic: string;
   goal: string;
   info: string;
   recruitNum: number;

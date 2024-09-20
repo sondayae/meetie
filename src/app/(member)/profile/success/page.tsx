@@ -87,7 +87,7 @@ export default function ProfileSuccess() {
       <SuccessShadow />
 
       {/* Button */}
-      <div className="fixed bottom-0 w-full max-w-[600px] px-4 pb-4">
+      <div className="fixed bottom-0 w-full max-w-[600px] px-4 pb-8">
         <div className="mx-auto max-w-[600px]">
           <Button
             label="확인하러 가기"

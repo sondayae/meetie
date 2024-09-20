@@ -9,7 +9,7 @@ import My from '../icons/Navigator/My';
 export default function ProfileAvatar({
   src,
   alt,
-  fallback = <My />,
+  fallback = <My className="stroke-current" />,
   className,
   onClick,
 }: AvatarProps) {

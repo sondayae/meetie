@@ -37,8 +37,8 @@ export default function StudyRequestItem({
     <>
       <li key={item.id}>
         {/* {item.status === 'waiting' && ( */}
-        <div className="flex h-[191px] w-full flex-col items-center justify-center gap-2 rounded-lg border border-gray-200">
-          <div className="flex w-full items-start justify-between gap-4 px-[19px] pb-[9px] pt-5">
+        <div className="flex h-auto w-full flex-col items-center justify-center rounded-lg border border-gray-200">
+          <div className="flex w-full flex-wrap items-start justify-between gap-4 px-5 pt-5">
             <div className="flex items-start justify-start gap-2.5">
               <div className="flex flex-col items-end justify-start">
                 <Link href={`/profile/read/${item.user.id}`}>
@@ -49,7 +49,7 @@ export default function StudyRequestItem({
                   />
                 </Link>
               </div>
-              <div className="flex flex-col items-start justify-start gap-1">
+              <div className="flex flex-col items-start justify-start gap-[2px]">
                 <div className="text-base font-semibold text-black">
                   {item.user.nickname === ''
                     ? item.user.name

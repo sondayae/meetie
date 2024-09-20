@@ -261,12 +261,20 @@ export default function StudyForm({
       await editStudy(studyId, getValues());
 
       setLoading(false);
-      alert('스터디 수정이 완료되었습니다.');
+      // alert('스터디 수정이 완료되었습니다.');
+      toast({
+        description: '스터디 수정이 완료되었습니다.',
+        duration: 1000,
+      });
       router.push(`/study/${studyId}`);
     } catch (e) {
       setLoading(false);
       console.error(e);
-      alert('스터디 수정 중 오류가 발생했습니다.');
+      // alert('스터디 수정 중 오류가 발생했습니다.');
+      toast({
+        description: '스터디 수정 중 오류가 발생했습니다.',
+        duration: 1000,
+      });
     }
   };
 
@@ -315,7 +323,7 @@ export default function StudyForm({
       <Header
         label={isEditMode ? '스터디 수정하기' : '스터디 만들기'}
         leftIcon={<LeftArrowIcon />}
-        rightIcon={<HomeIcon className="h-7 w-7 stroke-[#777777]" />}
+        rightIcon={<div></div>}
       />
       {/* Progress bar */}
       <ProgressBar value={progressValue} />
@@ -686,7 +694,7 @@ export default function StudyForm({
               buttonStyle="px-4"
             />
           ) : (
-            <div className="flex w-full max-w-[600px] gap-2 px-4">
+            <div className="flex w-full max-w-[600px] gap-2">
               <StudyButton
                 label="이전"
                 onClick={() => setStudyStep(1)}

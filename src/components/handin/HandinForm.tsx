@@ -12,10 +12,9 @@ import { redirect } from 'next/navigation';
 
 const MAX_LENGTH = 500;
 
-export default function HandinForm({data}: {data: any}) {
+export default function HandinForm({ data }: { data: any }) {
   const src = getImgUrl(data.images?.[0].url);
   console.log(data);
-  
 
   const [text, setText] = useState<string>(data.text);
   const [previews, setPreviews] = useState<string>(src);
@@ -105,5 +104,5 @@ export default function HandinForm({data}: {data: any}) {
     //       <Button type="primary" buttonType="submit" label="인증하기" />
     //     </form>
     // </div>
-  )
+  );
 }

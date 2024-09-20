@@ -11,7 +11,7 @@ export default function StudySearchSort({
   loading,
   setSelectedFilter,
 }: StudySearchSortProps) {
-  const { filteredList } = useFilterStore();
+  const { filteredList, originalList } = useFilterStore();
 
   return (
     <>

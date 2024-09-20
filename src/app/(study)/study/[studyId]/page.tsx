@@ -44,14 +44,14 @@ export default async function Page({
 
   return (
     <>
-      <div className="flex h-full max-w-[600px] flex-col">
+      <div className="flex h-full max-w-[600px] flex-1 flex-col">
         <Header
           leftIcon
-          rightIcon={isAuthor ? <KebabMenuIcon /> : ''}
           sticky={true}
-          useBorderBottom={false}
           bgColor={'bg-white'}
+          rightIcon={isAuthor ? <KebabMenuIcon /> : ''}
         />
+
         <StudyMain {...detaildata} />
       </div>
       <Navigator />

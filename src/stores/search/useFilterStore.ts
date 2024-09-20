@@ -24,9 +24,9 @@ export const useFilterStore = create<FilterState>((set, get) => ({
   setStudyList: (studies, searchTerm = '') =>
     set((state) => {
       const originalStudies =
-        state.originalList.length === 0 ? studies : [...studies];
+        state.originalList.length === 0 ? studies : state.originalList;
 
-      let filteredStudies = [...originalStudies];
+      let filteredStudies = studies;
 
       // 검색어 필터 적용
       if (searchTerm.length > 0) {
@@ -66,12 +66,12 @@ export const useFilterStore = create<FilterState>((set, get) => ({
   // 모집 중
   setIsRecruiting: (value) =>
     set((state) => {
-      const { originalList, activeTag, selectedFilter } = state;
+      const { filteredList, originalList, activeTag, selectedFilter } = state;
 
       // 모집 중 필터 적용
       let filteredStudies = value
         ? originalList.filter((study) => study.isRecruiting)
-        : originalList; // 필터 해제 시 원상 복구
+        : originalList;
 
       if (activeTag !== '전체') {
         filteredStudies = filteredStudies.filter((study) =>
@@ -124,10 +124,12 @@ export const useFilterStore = create<FilterState>((set, get) => ({
           ? state.originalList
           : state.originalList.filter((study) => study.tags.includes(tag));
 
+      // 모집 중 필터 적용
       const filteredByRecruiting = state.isRecruiting
         ? filteredByTag.filter((study) => study.isRecruiting)
         : filteredByTag;
 
+      // 정렬 적용
       const sortedStudies =
         state.selectedFilter === 'viewCount'
           ? filteredByRecruiting.sort(

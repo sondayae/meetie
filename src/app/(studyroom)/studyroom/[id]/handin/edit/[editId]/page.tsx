@@ -12,11 +12,14 @@ import { getImgUrl } from '@/utils/supabase/storage';
 import { getFeedback, updateHandin } from '@/actions/studyroom/handinActions';
 import HandinForm from '@/components/handin/HandinForm';
 
-export default async function FeedbackEditPage({ params }: { params: { id: string; editId: string } }) {
+export default async function FeedbackEditPage({
+  params,
+}: {
+  params: { id: string; editId: string };
+}) {
   const data = await getFeedback(params.editId);
   console.log(data);
-  
-  
+
   // const router = useRouter();
   // const [homeworkList, setHomeworkList] = useState<[]>();
   // const [text, setText] = useState<string>('');
@@ -51,14 +54,12 @@ export default async function FeedbackEditPage({ params }: { params: { id: strin
   return (
     <>
       {/* 헤더 영역 */}
-      <Header label='과제 인증 수정' />
+      <Header label="과제 인증 수정" rightIcon={<div></div>} />
       {/* 콘텐츠 영역 */}
-      <div className='flex flex-col gap-10 p-4'>
+      <div className="flex flex-col gap-10 p-4">
         <NoticeBox />
-        {data &&
-          <HandinForm data={data}/>
-        }
+        {data && <HandinForm data={data} />}
       </div>
     </>
   );
-};
+}
