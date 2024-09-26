@@ -5,8 +5,9 @@ IT 꿈나무들의 협업 공간
 
 ### 프로젝트 소개
 
-Udemy x 웅진씽크빅 Next.js 프로젝트 캠프 2기 기업 프로젝트인 유데미 국내 서비스 사용자 편의성을 위한 서비스 개발 프로젝트입니다.      
-지식을 나누고 체계적인 스터디로 함께 성장하고 지속적인 네트워크로 협업하는 스터디 플랫폼입니다.
+Udemy x 웅진씽크빅 Next.js 프로젝트 캠프 2기 기업 프로젝트인 유데미 국내 서비스 사용자 편의성을 위한 서비스 개발 프로젝트입니다.       
+
+지식을 나누어 체계적인 스터디로 함께 성장하고 지속적인 네트워크로 협업할 수 있는 스터디 플랫폼 밋티입니다.
 
 
 ### 주요 기능
@@ -36,5 +37,5 @@ Udemy x 웅진씽크빅 Next.js 프로젝트 캠프 2기 기업 프로젝트인 
 ## PPT
 <p>$\small{{\color{#808080}이미지 \ 클릭시 \ PPT로 \ 이동합니다.}}$</p>
 
-[<img width="909" alt="image" src="https://github.com/user-attachments/assets/38000c6e-045f-41cc-8bc4-c008c8b3287e">](https://docs.google.com/presentation/d/12-DLmP1g23VBcLe64XSrW3a9KNuOckJEVA-NSrioTqE/edit#slide=id.g3011ba6a15a_0_146)
+[<img width="909" alt="image" src="https://github.com/user-attachments/assets/38000c6e-045f-41cc-8bc4-c008c8b3287e">](https://docs.google.com/presentation/d/1sNOltLOiAMMp-DDtnyURgbSzuGcjn7KIz6kRV62q8dg/edit?usp=sharing)
 
