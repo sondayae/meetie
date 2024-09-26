@@ -1,4 +1,4 @@
-<h1 align="center">✨밋티 - 타라미수케익✨</h1>
+<h1 align="center">✨밋티✨</h1>
 
 <p align="center">지식을 나누며 함께하는 IT 스터디
 IT 꿈나무들의 협업 공간</p>
@@ -9,32 +9,18 @@ IT 꿈나무들의 협업 공간</p>
 
 
 ## 주요 기능
-
-### 🔑 로그인/회원가입/소셜로그인
-
-### 📝 스터디룸 과제 인증
-
-### 🔖 스터디 스크랩
-
-### 👭🏻 친구 추가 기능
-
-### ✏️ 스터디 CRUD
-
-### ⚙️ 회원정보 수정
-
-### 👤 공개프로필
-
-### 🔍 스터디원 검색/추가
-
-### 💬 스터디룸 채팅
-
-### ⭐ 뱃지 기능
-
-### 🗓️ 일정 관리
-
-### 📝 스터디룸 과제 CRUD
-
-### 👤 마이페이지
+|기능|설명|
+|------|---|
+|🔑 회원가입/로그인/소셜로그인||
+|✏️ 스터디 모집||
+|🔍 스터디/스터디원 검색||
+|📝 스터디룸 과제 관리||
+|🗓️ 스터디룸 일정 관리||
+|🔖 스터디 북마크||
+|👭🏻 친구||
+|💬 채팅||
+|⭐ 뱃지||
+|👤 마이페이지||
 
 
 
@@ -45,9 +31,9 @@ IT 꿈나무들의 협업 공간</p>
 
 
 
-## ppt 소개
+## PPT
 
-https://docs.google.com/presentation/d/12-DLmP1g23VBcLe64XSrW3a9KNuOckJEVA-NSrioTqE/edit#slide=id.g3011ba6a15a_0_146
-
-<img width="909" alt="image" src="https://github.com/user-attachments/assets/38000c6e-045f-41cc-8bc4-c008c8b3287e">
+<a href="https://docs.google.com/presentation/d/12-DLmP1g23VBcLe64XSrW3a9KNuOckJEVA-NSrioTqE/edit#slide=id.g3011ba6a15a_0_146">
+  <img width="909" alt="image" src="https://github.com/user-attachments/assets/38000c6e-045f-41cc-8bc4-c008c8b3287e">
+</a>
 
