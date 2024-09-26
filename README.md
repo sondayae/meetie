@@ -29,7 +29,7 @@ Udemy x 웅진씽크빅 Next.js 프로젝트 캠프 2기 기업 프로젝트인 
 
 ## 사용 기술 스택
 
-<img width="911" alt="image" src="https://github.com/user-attachments/assets/1cb808ed-6771-4ce8-8781-cd8c4541b385">
+<img width="1710" alt="meetie_skill_stack" src="https://github.com/user-attachments/assets/bb126a59-e5a5-4f1c-a5d9-3d5d55a08752">
 
 
 
@@ -37,5 +37,5 @@ Udemy x 웅진씽크빅 Next.js 프로젝트 캠프 2기 기업 프로젝트인 
 ## PPT
 <p>$\small{{\color{#808080}이미지 \ 클릭시 \ PPT로 \ 이동합니다.}}$</p>
 
-[<img width="909" alt="image" src="https://github.com/user-attachments/assets/38000c6e-045f-41cc-8bc4-c008c8b3287e">](https://docs.google.com/presentation/d/1sNOltLOiAMMp-DDtnyURgbSzuGcjn7KIz6kRV62q8dg/edit?usp=sharing)
+[<img width="1710" alt="ppt_thumbnail" src="https://github.com/user-attachments/assets/01eb56f0-6cd8-4a4f-b60f-adfd039e4213">](https://docs.google.com/presentation/d/1sNOltLOiAMMp-DDtnyURgbSzuGcjn7KIz6kRV62q8dg/edit?usp=sharing)
 
